@@ -657,122 +657,83 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-slate-950/50" />
             </div>
 
-            {/* Foreground Content: Clean, Ultra-Readable, Exactly Two Buttons */}
+            {/* Foreground Content: Clean, Ultra-Spacious, Centered Footer-Inspired Aesthetic */}
             <motion.div 
               style={{ opacity: heroTextOpacity, y: heroTextY }}
-              className="relative z-20 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 w-full h-full flex flex-col justify-center"
+              className="relative z-20 max-w-6xl mx-auto px-4 sm:px-8 lg:px-12 w-full h-full flex flex-col justify-center items-center text-center text-white"
             >
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-                
-                {/* Left Column */}
-                <div className="lg:col-span-8 text-white">
-                  
-                  {/* Badges */}
-                  <div className="flex flex-wrap items-center gap-2 mb-4 sm:mb-6">
-                    <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#27CFC3] text-[11px] sm:text-xs font-bold tracking-wide">
-                      <Sparkles className="w-3.5 h-3.5 text-[#27CFC3]" />
-                      <span>EST. 1999 • ST. JAMES HOSPITAL NETWORK</span>
-                    </div>
-                    <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-amber-300 text-[11px] sm:text-xs font-bold">
-                      <Star className="w-3.5 h-3.5 fill-amber-300" />
-                      <span>4.9 / 5.0 (200+ Verified Reviews)</span>
-                    </div>
-                  </div>
+              {/* Subtle Ambient Light Orb behind text */}
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] max-w-[800px] h-[50vh] bg-gradient-to-r from-[#27CFC3]/15 via-[#004A9C]/20 to-transparent blur-[90px] rounded-full pointer-events-none -z-10" />
 
-                  {/* 3-Line Statement in Editorial Typography */}
-                  <h1 className="text-5xl sm:text-7xl lg:text-[5.5vw] font-normal tracking-tight leading-[1.05] mb-6 drop-shadow-md font-editorial text-white">
-                    Precision <br />
-                    Dentistry. <br />
-                    <span className="text-[#27CFC3]">In Motion.</span>
-                  </h1>
-
-                  <p className="text-base sm:text-xl lg:text-2xl text-slate-200 font-normal leading-relaxed max-w-2xl mb-8 drop-shadow font-body">
-                    Founded by <strong className="font-semibold text-white">Dr. Mark & Susanna Diacono</strong>. Same-day CEREC 3D ceramics, precision bone reconstruction, and 100% anxiety-free certified IV sedation inside St. James Hospital.
-                  </p>
-
-                  {/* EXACTLY TWO CLEAN ACTION BUTTONS (As explicitly requested by user) */}
-                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-6">
-                    
-                    {/* BUTTON 1: Primary High-Converting WhatsApp CTA */}
-                    <button
-                      onClick={() => openWhatsAppBooking()}
-                      className="group relative flex items-center justify-center gap-3 px-8 py-4.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-sm uppercase tracking-wider transition-all duration-300 shadow-2xl shadow-emerald-500/40 hover:scale-[1.03] cursor-pointer border-none"
-                    >
-                      <WhatsAppIcon className="w-5 h-5 text-slate-950" />
-                      <span>Book via WhatsApp</span>
-                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                    </button>
-
-                    {/* BUTTON 2: Secondary Exploration Button (Scroll Down) */}
-                    <button
-                      onClick={() => scrollToSection('smile-results')}
-                      className="flex items-center justify-center gap-2 px-7 py-4.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold text-xs sm:text-sm uppercase tracking-wider border border-white/25 hover:border-white transition-all cursor-pointer"
-                    >
-                      <Layers className="w-4 h-4 text-[#27CFC3]" />
-                      <span>Explore Restorations ↓</span>
-                    </button>
-                  </div>
-
-                  {/* Reassurance Micro-Copy */}
-                  <div className="flex flex-wrap items-center gap-3 text-xs text-white/70">
-                    <div className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#25D366]" />
-                      <span>Immediate 15-min response</span>
-                    </div>
-                    <span className="text-white/30 hidden sm:inline">•</span>
-                    <div className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#27CFC3]" />
-                      <span>Zero obligation</span>
-                    </div>
-                    <span className="text-white/30 hidden sm:inline">•</span>
-                    <div className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#27CFC3]" />
-                      <span>Sliema & San Pawl il-Baħar</span>
-                    </div>
-                  </div>
-
-                </div>
-
-                {/* Right Column: Stacked Editorial Metadata */}
-                <div className="hidden lg:flex lg:col-span-4 flex-col justify-between items-end text-right h-full py-4 text-white">
-                  <div>
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-[#27CFC3] block mb-1">
-                      Hospital Network
-                    </span>
-                    <div className="text-base font-editorial text-white/90">
-                      St. James Hospital
-                    </div>
-                    <div className="text-xs text-white/60">
-                      Sliema & San Pawl il-Baħar
-                    </div>
-                  </div>
-
-                  <div className="my-8">
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-[#27CFC3] block mb-1">
-                      Clinical Excellence
-                    </span>
-                    <div className="text-base font-editorial text-white/90">
-                      Est. 1999 • 27+ Years
-                    </div>
-                    <div className="text-xs text-white/60">
-                      10,000+ Restored Smiles
-                    </div>
-                  </div>
-
-                  <div>
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-[#27CFC3] block mb-1">
-                      Surgical Advancement
-                    </span>
-                    <div className="text-base font-editorial text-white/90">
-                      CEREC 3D & IV Sedation
-                    </div>
-                    <div className="text-xs text-white/60">
-                      Zero Anxiety Certified Care
-                    </div>
-                  </div>
-                </div>
-
+              {/* Giant Subtle Watermark Mask */}
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[16vw] font-black tracking-tighter text-white/[0.03] select-none pointer-events-none font-editorial -z-10">
+                DIU MALTA
               </div>
+
+              {/* Top Glass Badge */}
+              <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-[#27CFC3] text-xs sm:text-sm font-bold uppercase tracking-widest mb-6 sm:mb-8 shadow-2xl">
+                <Sparkles className="w-4 h-4 text-[#27CFC3]" />
+                <span>St. James Hospital Network • Est. 1999 • 4.9 ★ (200+ Reviews)</span>
+              </div>
+
+              {/* Giant Headline in Editorial Typography */}
+              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.4vw] font-normal tracking-tight leading-[1.06] mb-6 sm:mb-8 drop-shadow-2xl font-editorial text-white max-w-5xl mx-auto">
+                Precision Dentistry. <br />
+                <span className="text-[#27CFC3]">Redefined in Motion.</span>
+              </h1>
+
+              {/* Clean Authoritative Subtitle */}
+              <p className="text-base sm:text-xl lg:text-2xl text-slate-200 font-normal leading-relaxed max-w-3xl mx-auto mb-10 sm:mb-12 drop-shadow font-body">
+                Malta's premier implantology & aesthetic surgery centre inside <strong className="font-semibold text-white">St. James Hospital</strong>. Same-day CEREC 3D ceramics, precision bone reconstruction, and 100% anxiety-free certified IV sedation.
+              </p>
+
+              {/* EXACTLY TWO CLEAN ACTION BUTTONS (Vibrant Emerald Pill + Frosted Glass Pill) */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-10 sm:mb-12 w-full max-w-md sm:max-w-none mx-auto">
+                
+                {/* BUTTON 1: Primary High-Converting WhatsApp CTA */}
+                <button
+                  onClick={() => openWhatsAppBooking()}
+                  className="w-full sm:w-auto px-10 py-5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-sm uppercase tracking-wider transition-all duration-300 shadow-2xl shadow-emerald-500/40 hover:scale-[1.03] cursor-pointer border-none flex items-center justify-center gap-3"
+                >
+                  <WhatsAppIcon className="w-5 h-5 text-slate-950" />
+                  <span>Book via WhatsApp</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </button>
+
+                {/* BUTTON 2: Secondary Exploration Button (Scroll Down) */}
+                <button
+                  onClick={() => scrollToSection('smile-results')}
+                  className="w-full sm:w-auto px-9 py-5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-xl text-white font-bold text-sm uppercase tracking-wider border border-white/25 hover:border-white transition-all cursor-pointer flex items-center justify-center gap-2.5"
+                >
+                  <Layers className="w-4 h-4 text-[#27CFC3]" />
+                  <span>Explore Restorations ↓</span>
+                </button>
+              </div>
+
+              {/* Bottom Credential Grid: Expansive, Clean, Occupies Whitespace Beautifully */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 max-w-5xl mx-auto w-full pt-6 border-t border-white/10">
+                <div className="p-3.5 sm:p-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-center hover:border-[#27CFC3]/40 transition-colors">
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#27CFC3] block mb-1">Hospital Care</span>
+                  <div className="text-xs sm:text-sm font-bold text-white">St. James Hospital</div>
+                  <div className="text-[11px] text-slate-300">Sliema & San Pawl</div>
+                </div>
+                <div className="p-3.5 sm:p-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-center hover:border-[#27CFC3]/40 transition-colors">
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#27CFC3] block mb-1">Clinical Heritage</span>
+                  <div className="text-xs sm:text-sm font-bold text-white">Est. 1999 • 27+ Yrs</div>
+                  <div className="text-[11px] text-slate-300">10,000+ Restored Smiles</div>
+                </div>
+                <div className="p-3.5 sm:p-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-center hover:border-[#27CFC3]/40 transition-colors">
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#27CFC3] block mb-1">Same-Day Tech</span>
+                  <div className="text-xs sm:text-sm font-bold text-white">CEREC 3D Ceramics</div>
+                  <div className="text-[11px] text-slate-300">60-Min In-House Milling</div>
+                </div>
+                <div className="p-3.5 sm:p-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-center hover:border-[#27CFC3]/40 transition-colors">
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#27CFC3] block mb-1">Zero Anxiety</span>
+                  <div className="text-xs sm:text-sm font-bold text-white">Certified IV Sedation</div>
+                  <div className="text-[11px] text-slate-300">Hospital Anaesthetist</div>
+                </div>
+              </div>
+
             </motion.div>
 
             {/* Bottom Video HUD Bar */}
@@ -823,52 +784,53 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
               Award-Winning Restorations
             </h2>
             <p className="text-slate-400 text-sm sm:text-lg max-w-2xl mx-auto font-body">
-              Drag the interactive slider below to inspect full tooth restoration: from missing tooth absence to permanent Swiss implant & CEREC 3D ceramic crown.
+              Drag the interactive slider below to inspect full clinical restoration: from severe 3-tooth absence to permanent Swiss implants & CEREC 3D ceramic crowns.
             </p>
           </motion.div>
 
           {/* Interactive Full Width Before & After Slider */}
           <div className="max-w-5xl mx-auto">
-            <div className="bg-slate-900/90 p-5 sm:p-8 rounded-[36px] border border-white/10 shadow-2xl backdrop-blur-md">
+            <div className="bg-slate-900/90 p-4 sm:p-8 rounded-[32px] sm:rounded-[36px] border border-white/10 shadow-2xl backdrop-blur-md">
               
               {/* Inspection Header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-white/10">
                 <div>
                   <div className="text-[11px] font-bold uppercase tracking-wider text-[#27CFC3] font-heading">
-                    Single-Tooth Implant & CEREC Ceramic Crown
+                    Multiple Tooth Absence & Swiss Dental Implants
                   </div>
-                  <div className="text-2xl sm:text-3xl font-bold text-white font-editorial">
-                    Tooth Absence Restored in 1 Hospital Visit
+                  <div className="text-xl sm:text-3xl font-bold text-white font-editorial">
+                    3-Tooth Absence Restored to Fixed Perfection
                   </div>
                 </div>
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#27CFC3]/20 text-[#27CFC3] text-xs font-bold border border-[#27CFC3]/30 self-start sm:self-auto">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#27CFC3]/20 text-[#27CFC3] text-xs font-bold border border-[#27CFC3]/30 self-start sm:self-auto">
                   <span className="w-2 h-2 rounded-full bg-[#27CFC3] animate-pulse" />
                   <span>Immediate Ceramic Integration</span>
                 </div>
               </div>
 
-              {/* Slider Container: Genuine Single Dental Case (Before on Left / After on Right) */}
+              {/* Slider Container: 3-Tooth Absence Before vs Fully Restored After */}
               <div
                 ref={sliderContainerRef}
                 onMouseMove={(e) => handleSliderMove(e.clientX)}
                 onTouchMove={(e) => handleSliderMove(e.touches[0].clientX)}
-                className="relative rounded-3xl overflow-hidden aspect-[16/9] border-2 border-white/15 shadow-2xl cursor-ew-resize select-none bg-slate-950"
+                onTouchStart={(e) => handleSliderMove(e.touches[0].clientX)}
+                className="relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[4/3] sm:aspect-[16/9] border-2 border-white/15 shadow-2xl cursor-ew-resize select-none bg-slate-950 touch-none"
               >
-                {/* AFTER IMAGE: Full Background (Complete Restored Tooth) */}
+                {/* AFTER IMAGE: Full Background (Complete Restored Smile) */}
                 <img
                   src={getAssetUrl('dental_case_after.jpg')}
                   alt="After: Permanent Ceramic Dental Implant Restoration"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
 
-                {/* BEFORE IMAGE: Clipped Left Layer (Missing Tooth Case) */}
+                {/* BEFORE IMAGE: Clipped Left Layer (3-Tooth Absence Case) */}
                 <div
                   className="absolute inset-0 overflow-hidden"
                   style={{ width: `${sliderPosition}%` }}
                 >
                   <img
                     src={getAssetUrl('dental_case_before.jpg')}
-                    alt="Before: Missing Tooth Absence Case"
+                    alt="Before: 3-Tooth Absence Case"
                     className="absolute inset-0 w-full h-full object-cover max-w-none"
                     style={{ width: sliderContainerRef.current ? `${sliderContainerRef.current.clientWidth}px` : '100%' }}
                   />
@@ -879,22 +841,22 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                   className="absolute top-0 bottom-0 w-1 bg-white shadow-2xl cursor-ew-resize flex items-center justify-center z-20"
                   style={{ left: `${sliderPosition}%` }}
                 >
-                  <div className="w-12 h-12 rounded-full bg-[#27CFC3] text-slate-950 flex items-center justify-center shadow-2xl border-2 border-white text-sm font-black">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#27CFC3] text-slate-950 flex items-center justify-center shadow-2xl border-2 border-white text-xs sm:text-sm font-black">
                     ⇄
                   </div>
                 </div>
 
                 {/* Floating Clear Badges */}
-                <div className="absolute top-4 left-4 z-10 px-4 py-2 rounded-full bg-black/80 backdrop-blur-md text-white text-xs font-bold border border-white/20">
-                  BEFORE: Missing Tooth Absence
+                <div className="absolute top-3 sm:top-4 left-3 sm:left-4 z-10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-black/80 backdrop-blur-md text-white text-[10px] sm:text-xs font-bold border border-white/20">
+                  BEFORE: 3-Tooth Absence
                 </div>
-                <div className="absolute top-4 right-4 z-10 px-4 py-2 rounded-full bg-[#004A9C]/90 backdrop-blur-md text-white text-xs font-bold border border-white/20">
-                  AFTER: Restored Permanent Crown
+                <div className="absolute top-3 sm:top-4 right-3 sm:right-4 z-10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#004A9C]/90 backdrop-blur-md text-white text-[10px] sm:text-xs font-bold border border-white/20">
+                  AFTER: Fixed Ceramic Implants
                 </div>
 
                 {/* Bottom Interactive Hint */}
-                <div className="absolute bottom-4 inset-x-0 text-center pointer-events-none z-10">
-                  <span className="px-5 py-2 rounded-full bg-black/75 backdrop-blur-md text-white text-xs font-semibold border border-white/10">
+                <div className="absolute bottom-3 sm:bottom-4 inset-x-0 text-center pointer-events-none z-10">
+                  <span className="px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-black/75 backdrop-blur-md text-white text-[10px] sm:text-xs font-semibold border border-white/10">
                     ↔ Drag left to see AFTER • Drag right to see BEFORE
                   </span>
                 </div>
