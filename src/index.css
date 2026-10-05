@@ -30,8 +30,13 @@
 }
 
 /* Typography Classes */
+.font-editorial {
+  font-family: 'Host Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.03em;
+}
+
 .font-heading {
-  font-family: 'Sora', sans-serif;
+  font-family: 'Host Grotesk', 'Sora', sans-serif;
   letter-spacing: -0.02em;
 }
 

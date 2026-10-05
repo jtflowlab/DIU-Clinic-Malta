@@ -48,19 +48,22 @@ const LogoMark = ({ className = "w-7 h-7" }: { className?: string }) => (
   </svg>
 );
 
-const FullLogo = ({ className = "h-9 w-auto" }: { className?: string }) => (
-  <svg viewBox="0 0 128 51" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g fill="none" fillRule="evenodd">
-      <path d="M45.328 48.8262V12.2065H57.6901C62.7123 12.2065 66.7042 12.9775 69.5372 14.3909C72.499 15.9327 74.8169 18.1171 76.491 20.9439C78.165 23.7706 79.0664 26.9829 79.0664 30.4521C79.0664 32.8934 78.5513 35.2062 77.6499 37.519C76.7485 39.7034 75.332 41.7592 73.658 43.4296C71.8551 45.2284 69.7948 46.5133 67.4769 47.4128C66.0604 47.9267 64.7726 48.3122 63.6137 48.4407C62.4547 48.8262 60.2656 48.8262 57.0463 48.8262H45.328ZM57.1751 16.9607H50.6076V44.2005H57.3038C59.8793 44.2005 61.9396 44.072 63.4849 43.6866C64.9014 43.3011 66.1891 42.9156 67.0905 42.2732C68.1207 41.7592 68.8934 40.9883 69.7948 40.2173C72.3702 37.6475 73.658 34.3068 73.658 30.1951C73.658 26.2119 72.3702 22.9997 69.666 20.5584C68.6358 19.659 67.6056 18.888 66.3179 18.2456C65.0302 17.6031 63.8712 17.2176 62.7123 17.0892C61.5533 16.9607 59.7505 16.9607 57.1751 16.9607Z" fill="#004A9C"/>
-      <path d="M84.7324 19.9159H90.0121V48.9546H84.7324V19.9159Z" fill="#004A9C"/>
-      <path d="M122.72 12.2065H128V33.0219C128 35.8487 127.742 38.033 127.356 39.4464C126.97 40.8598 126.455 42.0162 125.811 43.0441C125.167 43.9435 124.523 44.843 123.622 45.6139C120.66 48.0552 116.926 49.3401 112.161 49.3401C107.396 49.3401 103.533 48.0552 100.571 45.6139C99.67 44.843 98.8974 43.9435 98.3823 43.0441C97.7385 42.1447 97.2234 40.8598 96.837 39.5749C96.4507 38.1615 96.1932 35.9772 96.1932 33.0219V12.2065H101.473V33.0219C101.473 36.4911 101.859 38.9324 102.632 40.2173C103.404 41.5022 104.563 42.6586 106.237 43.4296C107.911 44.2005 109.714 44.7145 111.903 44.7145C114.994 44.7145 117.569 43.9435 119.501 42.2732C120.531 41.3737 121.304 40.3458 121.69 39.1894C122.205 38.033 122.334 35.9772 122.334 33.0219V12.2065H122.72Z" fill="#004A9C"/>
-      <path d="M90.012 12.2065H84.7324V17.0892H90.012V12.2065Z" fill="#27CFC3"/>
-      <path d="M19.4447 2.18433L33.4809 10.0222L24.8531 0L19.4447 2.18433Z" fill="#27CFC3"/>
-      <path d="M0 10.0222L5.92354 50.882L15.1952 37.1336L0 10.0222Z" fill="#27CFC3"/>
-      <path d="M0 10.0222L8.75654 0L33.4809 10.0222L27.5573 50.882L0 10.0222Z" fill="#004A9C"/>
-    </g>
-  </svg>
-);
+const FullLogo = ({ className = "h-9 w-auto", light = false }: { className?: string; light?: boolean }) => {
+  const primaryColor = light ? "#FFFFFF" : "#004A9C";
+  return (
+    <svg viewBox="0 0 128 51" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" fillRule="evenodd">
+        <path d="M45.328 48.8262V12.2065H57.6901C62.7123 12.2065 66.7042 12.9775 69.5372 14.3909C72.499 15.9327 74.8169 18.1171 76.491 20.9439C78.165 23.7706 79.0664 26.9829 79.0664 30.4521C79.0664 32.8934 78.5513 35.2062 77.6499 37.519C76.7485 39.7034 75.332 41.7592 73.658 43.4296C71.8551 45.2284 69.7948 46.5133 67.4769 47.4128C66.0604 47.9267 64.7726 48.3122 63.6137 48.4407C62.4547 48.8262 60.2656 48.8262 57.0463 48.8262H45.328ZM57.1751 16.9607H50.6076V44.2005H57.3038C59.8793 44.2005 61.9396 44.072 63.4849 43.6866C64.9014 43.3011 66.1891 42.9156 67.0905 42.2732C68.1207 41.7592 68.8934 40.9883 69.7948 40.2173C72.3702 37.6475 73.658 34.3068 73.658 30.1951C73.658 26.2119 72.3702 22.9997 69.666 20.5584C68.6358 19.659 67.6056 18.888 66.3179 18.2456C65.0302 17.6031 63.8712 17.2176 62.7123 17.0892C61.5533 16.9607 59.7505 16.9607 57.1751 16.9607Z" fill={primaryColor}/>
+        <path d="M84.7324 19.9159H90.0121V48.9546H84.7324V19.9159Z" fill={primaryColor}/>
+        <path d="M122.72 12.2065H128V33.0219C128 35.8487 127.742 38.033 127.356 39.4464C126.97 40.8598 126.455 42.0162 125.811 43.0441C125.167 43.9435 124.523 44.843 123.622 45.6139C120.66 48.0552 116.926 49.3401 112.161 49.3401C107.396 49.3401 103.533 48.0552 100.571 45.6139C99.67 44.843 98.8974 43.9435 98.3823 43.0441C97.7385 42.1447 97.2234 40.8598 96.837 39.5749C96.4507 38.1615 96.1932 35.9772 96.1932 33.0219V12.2065H101.473V33.0219C101.473 36.4911 101.859 38.9324 102.632 40.2173C103.404 41.5022 104.563 42.6586 106.237 43.4296C107.911 44.2005 109.714 44.7145 111.903 44.7145C114.994 44.7145 117.569 43.9435 119.501 42.2732C120.531 41.3737 121.304 40.3458 121.69 39.1894C122.205 38.033 122.334 35.9772 122.334 33.0219V12.2065H122.72Z" fill={primaryColor}/>
+        <path d="M90.012 12.2065H84.7324V17.0892H90.012V12.2065Z" fill="#27CFC3"/>
+        <path d="M19.4447 2.18433L33.4809 10.0222L24.8531 0L19.4447 2.18433Z" fill="#27CFC3"/>
+        <path d="M0 10.0222L5.92354 50.882L15.1952 37.1336L0 10.0222Z" fill="#27CFC3"/>
+        <path d="M0 10.0222L8.75654 0L33.4809 10.0222L27.5573 50.882L0 10.0222Z" fill={primaryColor}/>
+      </g>
+    </svg>
+  );
+};
 
 // Services / Treatments Data (Luxury Westside Dental Style)
 const servicesData = [
@@ -319,6 +322,7 @@ export default function App() {
   const [activeCaseIndex, setActiveCaseIndex] = useState(0);
   const [sliderPosition, setSliderPosition] = useState(50); // For Before/After slider
   const [showBottomBar, setShowBottomBar] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [leadSubmitted, setLeadSubmitted] = useState(false);
   const [leadForm, setLeadForm] = useState({ name: '', phone: '', clinic: 'Sliema', service: 'Implants' });
 
@@ -333,11 +337,11 @@ export default function App() {
     offset: ["start start", "end end"]
   });
 
-  const heroCardScale = useTransform(heroProgress, [0, 0.75], [1, 0.78]);
-  const heroCardRadius = useTransform(heroProgress, [0, 0.55], ["0px", "36px"]);
-  const marqueeOpacity = useTransform(heroProgress, [0.08, 0.5], [0, 0.85]);
+  const heroCardScale = useTransform(heroProgress, [0, 0.75], [1, 0.58]);
+  const heroCardRadius = useTransform(heroProgress, [0, 0.55], ["0px", "32px"]);
+  const marqueeOpacity = useTransform(heroProgress, [0.05, 0.45], [0, 1]);
   const heroTextOpacity = useTransform(heroProgress, [0.15, 0.65], [1, 0.25]);
-  const heroTextY = useTransform(heroProgress, [0.15, 0.65], [0, -40]);
+  const heroTextY = useTransform(heroProgress, [0.15, 0.65], [0, -30]);
 
   // Handle Video Autoplay & Loop
   useEffect(() => {
@@ -405,9 +409,10 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // Show floating bar only after scrolling past hero
+  // Show floating bar and adjust header on scroll
   useEffect(() => {
     const onScroll = () => {
+      setIsScrolled(window.scrollY > 40);
       setShowBottomBar(window.scrollY > 450);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -417,87 +422,66 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#F4F6F9] text-slate-900 font-sans selection:bg-[#27CFC3] selection:text-slate-950 overflow-x-clip">
 
-      {/* 1. TOP ANNOUNCEMENT BAR (Real Hospital Coordinates) */}
-      <div className="bg-[#004A9C] text-white text-[11px] sm:text-xs py-2 px-4 sm:px-8 border-b border-blue-900/40">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
-          <div className="flex items-center gap-2.5">
-            <span className="w-2 h-2 rounded-full bg-[#27CFC3] animate-pulse" />
-            <span className="font-medium tracking-wide">
-              St. James Hospital Network • Sliema & San Pawl il-Baħar Clinics, Malta
-            </span>
-          </div>
-          <div className="flex items-center gap-6">
-            <span className="hidden md:flex items-center gap-1.5 text-blue-100">
-              <Clock className="w-3.5 h-3.5 text-[#27CFC3]" />
-              Mon–Thu 09:00–18:00 | Fri 09:00–13:00
-            </span>
-            <button 
-              onClick={() => scrollToSection('clinics')}
-              className="flex items-center gap-1.5 font-bold text-[#27CFC3] hover:text-white transition-colors cursor-pointer bg-transparent border-none"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              <span>(+356) 2329 1029</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. MAIN FLOATING LUXURY NAVBAR (Westside Dental Inspired) */}
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.04)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      {/* 1. ULTRA-LUXURY FLOATING NAVBAR (21st.dev / Elena Voss Inspired) */}
+      <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+        isScrolled 
+          ? 'bg-slate-950/85 backdrop-blur-md border-b border-white/10 shadow-2xl py-3.5 px-4 sm:px-8' 
+          : 'bg-transparent py-5 px-4 sm:px-8 lg:px-12'
+      }`}>
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
           
           {/* Brand Logo */}
           <div 
             onClick={() => scrollToSection('hero')}
             className="flex items-center gap-3 cursor-pointer group"
           >
-            <FullLogo className="h-9 sm:h-10 w-auto group-hover:scale-[1.02] transition-transform duration-300" />
+            <FullLogo light={true} className="h-8 sm:h-9 w-auto group-hover:scale-105 transition-transform duration-300 drop-shadow" />
           </div>
 
           {/* Nav Items */}
-          <nav className="hidden lg:flex items-center gap-8 text-[13px] font-semibold text-slate-700 tracking-wide uppercase">
-            <button onClick={() => scrollToSection('hero')} className="hover:text-[#004A9C] transition-colors bg-transparent border-none cursor-pointer">
+          <nav className="hidden lg:flex items-center gap-8 text-[12px] font-semibold text-white/80 tracking-widest uppercase">
+            <button onClick={() => scrollToSection('hero')} className="hover:text-[#27CFC3] transition-colors bg-transparent border-none cursor-pointer">
               Overview
             </button>
-            <button onClick={() => scrollToSection('video-tour')} className="hover:text-[#004A9C] transition-colors bg-transparent border-none cursor-pointer flex items-center gap-1">
-              <span>4K Tour</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#27CFC3]" />
+            <button onClick={() => scrollToSection('smile-results')} className="hover:text-[#27CFC3] transition-colors bg-transparent border-none cursor-pointer">
+              Restorations
             </button>
-            <button onClick={() => scrollToSection('services-section')} className="hover:text-[#004A9C] transition-colors bg-transparent border-none cursor-pointer">
-              Services [01–06]
+            <button onClick={() => scrollToSection('why-diu')} className="hover:text-[#27CFC3] transition-colors bg-transparent border-none cursor-pointer">
+              Why DiU
             </button>
-            <button onClick={() => scrollToSection('smile-results')} className="hover:text-[#004A9C] transition-colors bg-transparent border-none cursor-pointer">
-              Transformations
+            <button onClick={() => scrollToSection('services-section')} className="hover:text-[#27CFC3] transition-colors bg-transparent border-none cursor-pointer">
+              Specialties
             </button>
-            <button onClick={() => scrollToSection('clinics')} className="hover:text-[#004A9C] transition-colors bg-transparent border-none cursor-pointer">
-              The 2 Clinics
+            <button onClick={() => scrollToSection('clinics')} className="hover:text-[#27CFC3] transition-colors bg-transparent border-none cursor-pointer">
+              Hospital Clinics
             </button>
-            <button onClick={() => scrollToSection('faqs')} className="hover:text-[#004A9C] transition-colors bg-transparent border-none cursor-pointer">
+            <button onClick={() => scrollToSection('faqs')} className="hover:text-[#27CFC3] transition-colors bg-transparent border-none cursor-pointer">
               FAQ
             </button>
           </nav>
 
-          {/* Right Action CTA */}
-          <div className="flex items-center gap-4">
+          {/* Right Action CTA (21st.dev Elena Voss Pill Button) */}
+          <div className="flex items-center gap-2 sm:gap-4">
             <button
               onClick={() => scrollToSection('booking')}
-              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#27CFC3] hover:bg-[#20b5aa] text-slate-950 font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-md shadow-teal-500/20 hover:scale-105 cursor-pointer border-none"
+              className="group relative flex items-center justify-center gap-2 h-9 sm:h-11 px-3.5 sm:px-6 rounded-full overflow-hidden text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-300 bg-white hover:bg-[#27CFC3] text-slate-950 shadow-xl shadow-black/20 hover:scale-105 cursor-pointer border-none shrink-0"
             >
-              <span>Get Appointment</span>
-              <ArrowUpRight className="w-4 h-4" />
+              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#27CFC3] group-hover:bg-slate-950 transition-colors animate-pulse" />
+              <span>Book Consultation</span>
+              <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </button>
 
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors bg-transparent border-none cursor-pointer"
+              className="lg:hidden p-2 rounded-xl text-white hover:bg-white/10 transition-colors bg-transparent border-none cursor-pointer"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : (
                 <div className="flex flex-col gap-1.5 w-6">
-                  <span className="h-0.5 w-full bg-slate-800 rounded" />
-                  <span className="h-0.5 w-4/5 bg-slate-800 rounded" />
-                  <span className="h-0.5 w-full bg-slate-800 rounded" />
+                  <span className="h-0.5 w-full bg-white rounded" />
+                  <span className="h-0.5 w-4/5 bg-white rounded" />
+                  <span className="h-0.5 w-full bg-white rounded" />
                 </div>
               )}
             </button>
@@ -511,17 +495,17 @@ export default function App() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden bg-white border-b border-slate-200 px-6 py-6 flex flex-col gap-4 text-sm font-semibold text-slate-800"
+              className="lg:hidden bg-slate-950/95 backdrop-blur-xl border border-white/10 px-6 py-6 flex flex-col gap-4 text-sm font-semibold text-white mt-3 rounded-2xl shadow-2xl"
             >
-              <button onClick={() => scrollToSection('hero')} className="text-left py-2 border-b border-slate-100 bg-transparent border-none">Overview</button>
-              <button onClick={() => scrollToSection('video-tour')} className="text-left py-2 border-b border-slate-100 bg-transparent border-none">4K Virtual Tour</button>
-              <button onClick={() => scrollToSection('services-section')} className="text-left py-2 border-b border-slate-100 bg-transparent border-none">Services & Treatments</button>
-              <button onClick={() => scrollToSection('smile-results')} className="text-left py-2 border-b border-slate-100 bg-transparent border-none">Smile Makeover Results</button>
-              <button onClick={() => scrollToSection('clinics')} className="text-left py-2 border-b border-slate-100 bg-transparent border-none">The 2 Hospital Clinics</button>
-              <button onClick={() => scrollToSection('faqs')} className="text-left py-2 border-b border-slate-100 bg-transparent border-none">Questions & Answers</button>
+              <button onClick={() => scrollToSection('hero')} className="text-left py-2 border-b border-white/10 bg-transparent border-none text-white cursor-pointer">Overview</button>
+              <button onClick={() => scrollToSection('smile-results')} className="text-left py-2 border-b border-white/10 bg-transparent border-none text-white cursor-pointer">Award-Winning Restorations</button>
+              <button onClick={() => scrollToSection('why-diu')} className="text-left py-2 border-b border-white/10 bg-transparent border-none text-white cursor-pointer">Why DiU Clinic?</button>
+              <button onClick={() => scrollToSection('services-section')} className="text-left py-2 border-b border-white/10 bg-transparent border-none text-white cursor-pointer">Specialties & Treatments</button>
+              <button onClick={() => scrollToSection('clinics')} className="text-left py-2 border-b border-white/10 bg-transparent border-none text-white cursor-pointer">The 2 Hospital Clinics</button>
+              <button onClick={() => scrollToSection('faqs')} className="text-left py-2 border-b border-white/10 bg-transparent border-none text-white cursor-pointer">Questions & Answers</button>
               <button
                 onClick={() => scrollToSection('booking')}
-                className="w-full mt-2 py-3 rounded-full bg-[#27CFC3] text-slate-950 font-bold text-center text-xs uppercase tracking-wider border-none cursor-pointer"
+                className="w-full mt-2 py-3.5 rounded-full bg-[#27CFC3] text-slate-950 font-extrabold text-center text-xs uppercase tracking-wider border-none cursor-pointer shadow-lg"
               >
                 Book Free Consultation
               </button>
@@ -632,26 +616,12 @@ export default function App() {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-slate-950/50" />
             </div>
 
-            {/* Top Video HUD Information (Desktop/Tablet) */}
-            <div className="absolute top-5 left-4 sm:left-8 right-4 sm:right-8 z-20 hidden sm:flex justify-between items-center pointer-events-none">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white text-[11px] sm:text-xs font-semibold">
-                <span className="w-2 h-2 rounded-full bg-[#27CFC3] animate-ping" />
-                <span>4K CLINICAL SUITE • ST. JAMES HOSPITAL</span>
-              </div>
-              <button
-                onClick={toggleVideoPlayback}
-                aria-label={isVideoPlaying ? "Pause video" : "Play video"}
-                className="pointer-events-auto px-3.5 py-1.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white text-[11px] sm:text-xs font-medium flex items-center gap-2 cursor-pointer transition-colors"
-              >
-                {isVideoPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-white" />}
-                <span className="hidden sm:inline">{isVideoPlaying ? "Pause 4K Tour" : "Play 4K Tour"}</span>
-              </button>
-            </div>
 
-            {/* Foreground Content Layer */}
+
+            {/* Foreground Content Layer (21st.dev / Elena Voss Editorial Hero) */}
             <motion.div 
               style={{ opacity: heroTextOpacity, y: heroTextY }}
-              className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8 sm:py-20 w-full"
+              className="relative z-20 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-16 pb-12 sm:py-24 w-full h-full flex flex-col justify-center"
             >
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 
@@ -659,48 +629,49 @@ export default function App() {
                 <div className="lg:col-span-8 text-white">
                   
                   {/* Badges */}
-                  <div className="flex flex-wrap items-center gap-2 mb-3 sm:mb-5">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#27CFC3] text-[11px] sm:text-xs font-bold tracking-wide">
-                      <Sparkles className="w-3 h-3 text-[#27CFC3]" />
-                      <span>EST. 1999 • 27 YEARS EXCELLENCE</span>
+                  <div className="flex flex-wrap items-center gap-2 mb-4 sm:mb-6">
+                    <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#27CFC3] text-[11px] sm:text-xs font-bold tracking-wide">
+                      <Sparkles className="w-3.5 h-3.5 text-[#27CFC3]" />
+                      <span>EST. 1999 • ST. JAMES HOSPITAL NETWORK</span>
                     </div>
-                    <div className="inline-flex items-center gap-1 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-amber-300 text-[11px] sm:text-xs font-bold">
-                      <Star className="w-3 h-3 fill-amber-300" />
+                    <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-amber-300 text-[11px] sm:text-xs font-bold">
+                      <Star className="w-3.5 h-3.5 fill-amber-300" />
                       <span>4.9 / 5.0 (200+ Reviews)</span>
                     </div>
                   </div>
 
-                  {/* High-Impact Headline */}
-                  <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-[4rem] font-extrabold tracking-tight leading-[1.1] sm:leading-[1.08] mb-4 sm:mb-6 drop-shadow-md font-heading">
-                    Step Inside Malta’s Leading <br />
-                    <span className="text-[#27CFC3]">Dental & Implantology</span> Hospital.
+                  {/* 3-Line Statement in Editorial Typography (Host Grotesk) */}
+                  <h1 className="text-5xl sm:text-7xl lg:text-[5.5vw] font-normal tracking-tight leading-[1.05] mb-6 drop-shadow-md font-editorial text-white">
+                    Precision <br />
+                    Dentistry. <br />
+                    <span className="text-[#27CFC3]">In Motion.</span>
                   </h1>
 
-                  <p className="text-sm sm:text-xl md:text-2xl text-slate-200 font-normal leading-relaxed max-w-2xl mb-6 sm:mb-8 drop-shadow font-body">
+                  <p className="text-base sm:text-xl lg:text-2xl text-slate-200 font-normal leading-relaxed max-w-2xl mb-8 drop-shadow font-body">
                     Founded by <strong className="font-semibold text-white">Dr. Mark & Susanna Diacono</strong>. Same-day CEREC 3D ceramics, precision bone reconstruction, and 100% anxiety-free certified IV sedation inside St. James Hospital.
                   </p>
 
                   {/* CTAs with Contrast */}
-                  <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                  <div className="flex flex-wrap items-center gap-4">
                     <button
                       onClick={() => scrollToSection('booking')}
-                      className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-[#27CFC3] hover:bg-[#20b5aa] text-slate-950 font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-xl shadow-teal-500/30 hover:scale-105 cursor-pointer border-none flex items-center gap-2"
+                      className="group flex items-center gap-2.5 px-7 py-4 rounded-full bg-[#27CFC3] hover:bg-[#20b5aa] text-slate-950 font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-xl shadow-teal-500/30 hover:scale-105 cursor-pointer border-none"
                     >
                       <span>Book Free Consultation</span>
-                      <ArrowUpRight className="w-4 h-4" />
+                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </button>
 
                     <button
-                      onClick={() => scrollToSection('clinics')}
-                      className="px-5 sm:px-7 py-3.5 sm:py-4 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold text-xs sm:text-sm uppercase tracking-wider border border-white/25 hover:border-white transition-all cursor-pointer flex items-center gap-2"
+                      onClick={() => scrollToSection('services-section')}
+                      className="flex items-center gap-2 px-6 py-4 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold text-xs sm:text-sm uppercase tracking-wider border border-white/25 hover:border-white transition-all cursor-pointer"
                     >
-                      <Building2 className="w-4 h-4 text-[#27CFC3]" />
-                      <span>2 Hospital Clinics</span>
+                      <Layers className="w-4 h-4 text-[#27CFC3]" />
+                      <span>Explore Treatments</span>
                     </button>
 
                     <button
                       onClick={() => scrollToSection('clinics')}
-                      className="px-4 sm:px-5 py-3.5 sm:py-4 rounded-full bg-transparent hover:bg-white/10 text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-colors cursor-pointer border-none"
+                      className="flex items-center gap-2 px-5 py-4 rounded-full bg-transparent hover:bg-white/10 text-white font-semibold text-xs sm:text-sm transition-colors cursor-pointer border-none"
                     >
                       <Phone className="w-4 h-4 text-[#27CFC3]" />
                       <span>(+356) 2329 1029</span>
@@ -709,75 +680,328 @@ export default function App() {
 
                 </div>
 
-                {/* Right Column: Floating Rapid Lead-Capture Card */}
-                <div className="lg:col-span-4">
-                  <div className="bg-white/95 backdrop-blur-xl p-6 sm:p-7 rounded-3xl border border-white/80 shadow-2xl shadow-black/50 text-slate-900">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="text-sm font-extrabold text-slate-950 flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-                        <span>Rapid Callback Guarantee</span>
-                      </div>
-                      <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
-                        &lt; 10 Mins
-                      </span>
+                {/* Right Column: Stacked Editorial Metadata (Elena Voss Inspired) */}
+                <div className="hidden lg:flex lg:col-span-4 flex-col justify-between items-end text-right h-full py-4 text-white">
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-widest text-[#27CFC3] block mb-1">
+                      Hospital Network
+                    </span>
+                    <div className="text-base font-editorial text-white/90">
+                      St. James Hospital
                     </div>
-                    <p className="text-xs text-slate-600 mb-4">
-                      Speak directly with our senior clinical coordinator at St. James Hospital.
-                    </p>
+                    <div className="text-xs text-white/60">
+                      Sliema & San Pawl il-Baħar
+                    </div>
+                  </div>
 
-                    {leadSubmitted ? (
-                      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
-                        <CheckCircle2 className="w-6 h-6 text-emerald-600 mx-auto mb-1" />
-                        <div className="text-xs font-bold text-emerald-950">Thank you! Your callback is booked.</div>
-                        <div className="text-[11px] text-emerald-700">A coordinator will call you shortly.</div>
-                      </div>
-                    ) : (
-                      <form onSubmit={handleLeadSubmit} className="space-y-3">
-                        <input
-                          type="text"
-                          placeholder="Your Full Name"
-                          required
-                          value={leadForm.name}
-                          onChange={(e) => setLeadForm({ ...leadForm, name: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#27CFC3]"
-                        />
-                        <input
-                          type="tel"
-                          placeholder="Phone Number (+356...)"
-                          required
-                          value={leadForm.phone}
-                          onChange={(e) => setLeadForm({ ...leadForm, phone: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#27CFC3]"
-                        />
-                        <button
-                          type="submit"
-                          className="w-full py-3 rounded-xl bg-[#004A9C] hover:bg-[#003875] text-white font-bold text-xs uppercase tracking-wider transition-all cursor-pointer border-none shadow-md"
-                        >
-                          Request Rapid Callback
-                        </button>
-                        <div className="text-[10px] text-center text-slate-400 flex items-center justify-center gap-1">
-                          <ShieldCheck className="w-3 h-3 text-emerald-600" />
-                          <span>100% Private Hospital Confidentiality</span>
-                        </div>
-                      </form>
-                    )}
+                  <div className="my-8">
+                    <span className="text-[11px] font-bold uppercase tracking-widest text-[#27CFC3] block mb-1">
+                      Clinical Excellence
+                    </span>
+                    <div className="text-base font-editorial text-white/90">
+                      Est. 1999 • 27+ Years
+                    </div>
+                    <div className="text-xs text-white/60">
+                      10,000+ Restored Smiles
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-widest text-[#27CFC3] block mb-1">
+                      Surgical Advancement
+                    </span>
+                    <div className="text-base font-editorial text-white/90">
+                      CEREC 3D & IV Sedation
+                    </div>
+                    <div className="text-xs text-white/60">
+                      Zero Anxiety Certified Care
+                    </div>
                   </div>
                 </div>
 
               </div>
             </motion.div>
 
-            {/* Scroll Indicator */}
-            <div className="absolute bottom-4 inset-x-0 z-20 flex justify-center pointer-events-none">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white/90 text-[11px] font-medium">
-                <span>Scroll to explore clinical suites & treatments</span>
+            {/* Bottom Video HUD Bar & Controls (Completely clear of fixed header) */}
+            <div className="absolute bottom-5 inset-x-4 sm:inset-x-8 lg:inset-x-12 z-20 flex justify-between items-center pointer-events-none">
+              <div className="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white text-[11px] font-semibold">
+                <span className="w-2 h-2 rounded-full bg-[#27CFC3] animate-ping" />
+                <span>4K CLINICAL SUITE • ST. JAMES HOSPITAL</span>
+              </div>
+
+              {/* Central Scroll Indicator */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white/90 text-[11px] font-medium mx-auto sm:mx-0">
+                <span>Scroll to explore clinical suites</span>
                 <ChevronDown className="w-3.5 h-3.5 text-[#27CFC3] animate-bounce" />
               </div>
+
+              {/* Right Play / Pause Toggle */}
+              <button
+                onClick={toggleVideoPlayback}
+                aria-label={isVideoPlaying ? "Pause video" : "Play video"}
+                className="pointer-events-auto hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white text-[11px] font-medium cursor-pointer transition-colors"
+              >
+                {isVideoPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-white" />}
+                <span>{isVideoPlaying ? "Pause 4K Tour" : "Play 4K Tour"}</span>
+              </button>
             </div>
 
           </motion.div>
         </div>
       </div>
+
+      {/* 2. ARCHED ROLLING TRANSITION: AWARD-WINNING RESTORATIONS (21st.dev Portfolio / Cover-Up Style) */}
+      <section 
+        id="smile-results" 
+        className="-mt-24 sm:-mt-32 rounded-t-[60px] sm:rounded-t-[80px] md:rounded-t-[100px] bg-[#070B12] text-white pt-24 pb-28 sm:pb-36 border-t border-white/10 relative z-20 shadow-[0_-25px_60px_-15px_rgba(0,0,0,0.8)]"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-[#27CFC3] text-xs font-bold uppercase tracking-wider mb-4 border border-white/10">
+              <Smile className="w-4 h-4 text-[#27CFC3]" />
+              <span>Verified Clinical Results [ 01 – 04 ]</span>
+            </div>
+            <h2 className="text-4xl sm:text-6xl md:text-[5.5vw] font-normal tracking-tight font-editorial text-white mb-4 leading-[1.1]">
+              Award-Winning Restorations
+            </h2>
+            <p className="text-slate-400 text-sm sm:text-lg max-w-2xl mx-auto font-body">
+              Precision transformations engineered with Swiss Straumann implants and in-house CEREC 3D ceramics inside St. James Hospital.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+            
+            {/* Left Column: Interactive Timeline List of Cases */}
+            <div className="lg:col-span-5 space-y-4">
+              {transformationCases.map((c, idx) => {
+                const isActive = activeCaseIndex === idx;
+                return (
+                  <div
+                    key={c.id}
+                    onClick={() => setActiveCaseIndex(idx)}
+                    className={`p-6 rounded-2xl border transition-all duration-300 cursor-pointer relative overflow-hidden group ${
+                      isActive 
+                        ? 'bg-white/10 text-white border-[#27CFC3]/50 shadow-2xl backdrop-blur-md' 
+                        : 'bg-white/[0.03] text-slate-300 border-white/10 hover:border-white/25 hover:bg-white/[0.06]'
+                    }`}
+                  >
+                    {/* Active Accent Indicator */}
+                    {isActive && (
+                      <div className="absolute top-0 left-0 bottom-0 w-1.5 bg-[#27CFC3]" />
+                    )}
+
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={`text-xs font-extrabold tracking-wider font-heading ${isActive ? 'text-[#27CFC3]' : 'text-slate-500'}`}>
+                        [ 0{c.id} ]
+                      </span>
+                      <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${
+                        isActive ? 'bg-[#27CFC3]/20 text-[#27CFC3]' : 'bg-white/5 text-slate-400'
+                      }`}>
+                        {c.timeframe}
+                      </span>
+                    </div>
+
+                    <h3 className={`text-lg sm:text-xl font-bold tracking-tight mb-1 font-editorial ${isActive ? 'text-white' : 'text-slate-200'}`}>
+                      {c.title}
+                    </h3>
+                    <div className={`text-xs font-semibold mb-2 ${isActive ? 'text-[#27CFC3]' : 'text-slate-400'}`}>
+                      {c.subtitle}
+                    </div>
+
+                    <p className={`text-xs leading-relaxed line-clamp-2 ${isActive ? 'text-slate-200' : 'text-slate-400'}`}>
+                      {c.summary}
+                    </p>
+
+                    <div className="mt-3 pt-3 border-t border-white/10 flex items-center justify-between text-[11px]">
+                      <span className={isActive ? 'text-slate-300' : 'text-slate-500'}>
+                        {c.sedation}
+                      </span>
+                      <span className={`font-bold flex items-center gap-1 ${isActive ? 'text-[#27CFC3]' : 'text-white/70 group-hover:text-white'}`}>
+                        Inspect Case <ArrowUpRight className="w-3.5 h-3.5" />
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Right Column: Dynamic Interactive Before & After Slider */}
+            <div className="lg:col-span-7">
+              <div className="bg-slate-900/90 p-5 sm:p-7 rounded-3xl border border-white/10 shadow-2xl backdrop-blur-md">
+                
+                {/* Active Case Header */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 pb-4 border-b border-white/10">
+                  <div>
+                    <div className="text-[11px] font-bold uppercase tracking-wider text-[#27CFC3] font-heading">
+                      Current Inspection • Case 0{transformationCases[activeCaseIndex].id}
+                    </div>
+                    <div className="text-xl sm:text-2xl font-bold text-white font-editorial">
+                      {transformationCases[activeCaseIndex].title}
+                    </div>
+                  </div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold border border-white/10 self-start sm:self-auto">
+                    <span className="w-2 h-2 rounded-full bg-[#27CFC3] animate-pulse" />
+                    <span>{transformationCases[activeCaseIndex].timeframe}</span>
+                  </div>
+                </div>
+
+                {/* Slider Container */}
+                <div
+                  ref={sliderContainerRef}
+                  onMouseMove={(e) => handleSliderMove(e.clientX)}
+                  onTouchMove={(e) => handleSliderMove(e.touches[0].clientX)}
+                  className="relative rounded-2xl overflow-hidden aspect-[16/10] sm:aspect-[16/9] border border-white/15 shadow-2xl cursor-ew-resize select-none bg-slate-950"
+                >
+                  {/* After Image (Full Background) */}
+                  <img
+                    src={getAssetUrl(transformationCases[activeCaseIndex].afterImage)}
+                    alt={transformationCases[activeCaseIndex].afterLabel}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+
+                  {/* Before Image (Clipped Left Layer) */}
+                  <div
+                    className="absolute inset-0 overflow-hidden"
+                    style={{ width: `${sliderPosition}%` }}
+                  >
+                    <img
+                      src={getAssetUrl(transformationCases[activeCaseIndex].beforeImage)}
+                      alt={transformationCases[activeCaseIndex].beforeLabel}
+                      className="absolute inset-0 w-full h-full object-cover max-w-none"
+                      style={{ width: sliderContainerRef.current ? `${sliderContainerRef.current.clientWidth}px` : '100%' }}
+                    />
+                    <div className="absolute inset-0 bg-slate-950/20" />
+                  </div>
+
+                  {/* Central Draggable Divider Line */}
+                  <div
+                    className="absolute top-0 bottom-0 w-1 bg-white shadow-xl cursor-ew-resize flex items-center justify-center z-20"
+                    style={{ left: `${sliderPosition}%` }}
+                  >
+                    <div className="w-10 h-10 rounded-full bg-[#27CFC3] text-slate-950 flex items-center justify-center shadow-2xl border-2 border-white text-xs font-bold">
+                      ⇄
+                    </div>
+                  </div>
+
+                  {/* Floating Labels */}
+                  <div className="absolute top-4 left-4 z-10 px-3.5 py-1.5 rounded-full bg-black/75 backdrop-blur-md text-white text-xs font-bold border border-white/20">
+                    {transformationCases[activeCaseIndex].beforeLabel}
+                  </div>
+                  <div className="absolute top-4 right-4 z-10 px-3.5 py-1.5 rounded-full bg-[#004A9C]/90 backdrop-blur-md text-white text-xs font-bold border border-white/20">
+                    {transformationCases[activeCaseIndex].afterLabel}
+                  </div>
+
+                  {/* Bottom Instruction */}
+                  <div className="absolute bottom-4 inset-x-0 text-center pointer-events-none z-10">
+                    <span className="px-4 py-1.5 rounded-full bg-black/70 backdrop-blur-md text-white text-xs font-bold border border-white/10">
+                      Drag left & right to inspect restoration
+                    </span>
+                  </div>
+                </div>
+
+                {/* Bottom Callout & Quick Booking Trigger */}
+                <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-2xl bg-white/5 border border-white/10 text-white">
+                  <div className="text-xs text-slate-300">
+                    <strong className="text-white">Protocol:</strong> {transformationCases[activeCaseIndex].sedation} • {transformationCases[activeCaseIndex].summary}
+                  </div>
+                  <button
+                    onClick={() => scrollToSection('booking')}
+                    className="px-6 py-2.5 rounded-full bg-[#27CFC3] hover:bg-[#20b5aa] text-slate-950 font-extrabold text-xs uppercase tracking-wider shrink-0 transition-all hover:scale-105 cursor-pointer border-none shadow-lg"
+                  >
+                    Book This Procedure
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* 3. WHY CHOOSE DIU CLINIC? (21st.dev "Why Work With Me?" 3-Bento Structure) */}
+      <section id="why-diu" className="py-24 md:py-32 bg-[#F8FAFC] text-slate-900 border-b border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold uppercase tracking-wider mb-4">
+              <Sparkles className="w-4 h-4 text-teal-600" />
+              <span>Surgical Excellence Inside St. James Hospital</span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-normal text-slate-950 tracking-tight font-editorial mb-4">
+              Why Choose DiU Clinic?
+            </h2>
+            <p className="text-slate-600 text-base sm:text-lg font-body">
+              Fast-track your dental restoration with Swiss & German surgical precision.
+            </p>
+          </div>
+
+          {/* 3 Large Architectural Bento Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <div className="p-8 sm:p-10 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col justify-between">
+              <div>
+                <div className="text-xs font-bold text-slate-400 tracking-wider mb-6">[ 01 ]</div>
+                <div className="text-xs font-bold uppercase tracking-wider text-[#004A9C] mb-2 font-heading">
+                  CEREC CAD/CAM 3D Lab
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-normal text-slate-950 mb-4 tracking-tight font-editorial">
+                  Rapid Same-Day Restorations
+                </h3>
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-body">
+                  Walk in with damaged, fractured, or missing teeth. Leave with permanent, custom-shaded German ceramic crowns and bridges diamond-milled on-site within hours.
+                </p>
+              </div>
+              <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-900">
+                <span>Single Visit Delivery</span>
+                <span className="text-[#27CFC3]">Zero Temporary Crowns</span>
+              </div>
+            </div>
+
+            <div className="p-8 sm:p-10 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col justify-between">
+              <div>
+                <div className="text-xs font-bold text-slate-400 tracking-wider mb-6">[ 02 ]</div>
+                <div className="text-xs font-bold uppercase tracking-wider text-[#004A9C] mb-2 font-heading">
+                  St. James Hospital Network
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-normal text-slate-950 mb-4 tracking-tight font-editorial">
+                  Precision & Surgical Safety
+                </h3>
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-body">
+                  Led by Dr. Mark & Susanna Diacono, every surgical procedure operates under stringent hospital operating theatre sterilization, HEPA filtration, and 3D CBCT guided protocols.
+                </p>
+              </div>
+              <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-900">
+                <span>Sub-mm Guided Accuracy</span>
+                <span className="text-[#27CFC3]">Full Hospital Sterility</span>
+              </div>
+            </div>
+
+            <div className="p-8 sm:p-10 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col justify-between">
+              <div>
+                <div className="text-xs font-bold text-slate-400 tracking-wider mb-6">[ 03 ]</div>
+                <div className="text-xs font-bold uppercase tracking-wider text-[#004A9C] mb-2 font-heading">
+                  Board-Certified Anesthetist
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-normal text-slate-950 mb-4 tracking-tight font-editorial">
+                  100% Zero-Anxiety IV Sedation
+                </h3>
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-body">
+                  Complete complex bone grafting, multiple implants, or full-arch smile rehabilitations while comfortably asleep. Zero pain, zero stress, wake up with your smile restored.
+                </p>
+              </div>
+              <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-900">
+                <span>Twilight Sleep Protocol</span>
+                <span className="text-[#27CFC3]">Zero Dental Memory</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
 
       {/* Hospital Anchors Bar */}
       <div className="bg-[#EBF1F6] border-b border-slate-200/80 py-5 px-4 sm:px-8">
@@ -998,173 +1222,7 @@ export default function App() {
 
       </section>
 
-      {/* 6. INTERACTIVE CLINICAL TRANSFORMATIONS TIMELINE (21ST.DEV PORTFOLIO STYLE) */}
-      <section id="smile-results" className="py-24 md:py-32 bg-white border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold uppercase tracking-wider mb-3">
-              <Smile className="w-4 h-4 text-teal-600" />
-              <span>Verified Clinical Results [ 01 – 04 ]</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight font-heading">
-              Award-Winning Smile Restorations
-            </h2>
-            <p className="text-slate-600 text-base sm:text-lg mt-3 font-body">
-              Select a clinical procedure to inspect the high-precision before and after transformations completed inside St. James Hospital.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-            
-            {/* Left Column: Interactive Timeline List of Cases */}
-            <div className="lg:col-span-5 space-y-4">
-              {transformationCases.map((c, idx) => {
-                const isActive = activeCaseIndex === idx;
-                return (
-                  <div
-                    key={c.id}
-                    onClick={() => setActiveCaseIndex(idx)}
-                    className={`p-6 rounded-2xl border transition-all duration-300 cursor-pointer relative overflow-hidden group ${
-                      isActive 
-                        ? 'bg-slate-900 text-white border-slate-800 shadow-xl' 
-                        : 'bg-[#F8FAFC] text-slate-800 border-slate-200/90 hover:border-[#27CFC3] hover:bg-white'
-                    }`}
-                  >
-                    {/* Active Accent Indicator */}
-                    {isActive && (
-                      <div className="absolute top-0 left-0 bottom-0 w-1.5 bg-[#27CFC3]" />
-                    )}
-
-                    <div className="flex items-center justify-between mb-2">
-                      <span className={`text-xs font-extrabold tracking-wider font-heading ${isActive ? 'text-[#27CFC3]' : 'text-slate-400'}`}>
-                        [ 0{c.id} ]
-                      </span>
-                      <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${
-                        isActive ? 'bg-white/10 text-[#27CFC3]' : 'bg-slate-200/80 text-slate-600'
-                      }`}>
-                        {c.timeframe}
-                      </span>
-                    </div>
-
-                    <h3 className={`text-lg sm:text-xl font-extrabold tracking-tight mb-1 font-heading ${isActive ? 'text-white' : 'text-slate-950'}`}>
-                      {c.title}
-                    </h3>
-                    <div className={`text-xs font-semibold mb-2 ${isActive ? 'text-[#27CFC3]' : 'text-[#004A9C]'}`}>
-                      {c.subtitle}
-                    </div>
-
-                    <p className={`text-xs leading-relaxed line-clamp-2 ${isActive ? 'text-slate-300' : 'text-slate-600'}`}>
-                      {c.summary}
-                    </p>
-
-                    <div className="mt-3 pt-3 border-t border-slate-700/40 flex items-center justify-between text-[11px]">
-                      <span className={isActive ? 'text-slate-400' : 'text-slate-500'}>
-                        {c.sedation}
-                      </span>
-                      <span className={`font-bold flex items-center gap-1 ${isActive ? 'text-[#27CFC3]' : 'text-slate-900 group-hover:text-[#004A9C]'}`}>
-                        Inspect Case <ArrowUpRight className="w-3.5 h-3.5" />
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Right Column: Dynamic Interactive Before & After Slider */}
-            <div className="lg:col-span-7">
-              <div className="bg-[#070B12] p-5 sm:p-7 rounded-3xl border border-slate-800 shadow-2xl">
-                
-                {/* Active Case Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 pb-4 border-b border-slate-800">
-                  <div>
-                    <div className="text-[11px] font-bold uppercase tracking-wider text-[#27CFC3] font-heading">
-                      Current Inspection • Case 0{transformationCases[activeCaseIndex].id}
-                    </div>
-                    <div className="text-xl font-extrabold text-white font-heading">
-                      {transformationCases[activeCaseIndex].title}
-                    </div>
-                  </div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold border border-white/10 self-start sm:self-auto">
-                    <span className="w-2 h-2 rounded-full bg-[#27CFC3] animate-pulse" />
-                    <span>{transformationCases[activeCaseIndex].timeframe}</span>
-                  </div>
-                </div>
-
-                {/* Slider Container */}
-                <div
-                  ref={sliderContainerRef}
-                  onMouseMove={(e) => handleSliderMove(e.clientX)}
-                  onTouchMove={(e) => handleSliderMove(e.touches[0].clientX)}
-                  className="relative rounded-2xl overflow-hidden aspect-[16/10] sm:aspect-[16/9] border border-white/15 shadow-2xl cursor-ew-resize select-none bg-slate-950"
-                >
-                  {/* After Image (Full Background) */}
-                  <img
-                    src={getAssetUrl(transformationCases[activeCaseIndex].afterImage)}
-                    alt={transformationCases[activeCaseIndex].afterLabel}
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-
-                  {/* Before Image (Clipped Left Layer) */}
-                  <div
-                    className="absolute inset-0 overflow-hidden"
-                    style={{ width: `${sliderPosition}%` }}
-                  >
-                    <img
-                      src={getAssetUrl(transformationCases[activeCaseIndex].beforeImage)}
-                      alt={transformationCases[activeCaseIndex].beforeLabel}
-                      className="absolute inset-0 w-full h-full object-cover max-w-none"
-                      style={{ width: sliderContainerRef.current ? `${sliderContainerRef.current.clientWidth}px` : '100%' }}
-                    />
-                    <div className="absolute inset-0 bg-slate-950/20" />
-                  </div>
-
-                  {/* Central Draggable Divider Line */}
-                  <div
-                    className="absolute top-0 bottom-0 w-1 bg-white shadow-xl cursor-ew-resize flex items-center justify-center z-20"
-                    style={{ left: `${sliderPosition}%` }}
-                  >
-                    <div className="w-10 h-10 rounded-full bg-[#27CFC3] text-slate-950 flex items-center justify-center shadow-2xl border-2 border-white text-xs font-bold">
-                      ⇄
-                    </div>
-                  </div>
-
-                  {/* Floating Labels */}
-                  <div className="absolute top-4 left-4 z-10 px-3.5 py-1.5 rounded-full bg-black/75 backdrop-blur-md text-white text-xs font-bold border border-white/20">
-                    {transformationCases[activeCaseIndex].beforeLabel}
-                  </div>
-                  <div className="absolute top-4 right-4 z-10 px-3.5 py-1.5 rounded-full bg-[#004A9C]/90 backdrop-blur-md text-white text-xs font-bold border border-white/20">
-                    {transformationCases[activeCaseIndex].afterLabel}
-                  </div>
-
-                  {/* Bottom Instruction */}
-                  <div className="absolute bottom-4 inset-x-0 text-center pointer-events-none z-10">
-                    <span className="px-4 py-1.5 rounded-full bg-black/70 backdrop-blur-md text-white text-xs font-bold border border-white/10">
-                      Drag left & right to inspect restoration
-                    </span>
-                  </div>
-                </div>
-
-                {/* Bottom Callout & Quick Booking Trigger */}
-                <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-2xl bg-white/5 border border-white/10 text-white">
-                  <div className="text-xs text-slate-300">
-                    <strong className="text-white">Protocol:</strong> {transformationCases[activeCaseIndex].sedation} • {transformationCases[activeCaseIndex].summary}
-                  </div>
-                  <button
-                    onClick={() => scrollToSection('booking')}
-                    className="px-6 py-2.5 rounded-full bg-[#27CFC3] hover:bg-[#20b5aa] text-slate-950 font-extrabold text-xs uppercase tracking-wider shrink-0 transition-all hover:scale-105 cursor-pointer border-none shadow-lg"
-                  >
-                    Book This Procedure
-                  </button>
-                </div>
-
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </section>
 
       {/* 7. HOSPITAL ACCREDITATIONS & SURGICAL STANDARDS (21ST.DEV AWARDS STYLE) */}
       <section className="py-20 md:py-28 bg-[#070B12] text-white border-b border-slate-900">
