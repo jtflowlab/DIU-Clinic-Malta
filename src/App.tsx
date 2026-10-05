@@ -329,7 +329,7 @@ export default function App() {
   });
 
   const heroCardScale = useTransform(heroProgress, [0, 0.75], [1, 0.58]);
-  const heroCardRadius = useTransform(heroProgress, [0, 0.55], ["0px", "32px"]);
+  const heroCardRadius = useTransform(heroProgress, [0, 0.55], ["0px", "0px"]);
   const marqueeOpacity = useTransform(heroProgress, [0.05, 0.45], [0, 1]);
   const heroTextOpacity = useTransform(heroProgress, [0.15, 0.65], [1, 0.25]);
   const heroTextY = useTransform(heroProgress, [0.15, 0.65], [0, -30]);
@@ -458,12 +458,12 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#070B12] text-slate-900 font-sans selection:bg-[#27CFC3] selection:text-slate-950 overflow-x-clip">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-[#27CFC3] selection:text-slate-950 overflow-x-clip">
 
-      {/* 1. LUXURY FLOATING NAVBAR: ONLY APPEARS ON SCROLL (As Requested: Pure Clean Landing) */}
+      {/* 1. LUXURY FLOATING NAVBAR: ONLY APPEARS ON SCROLL (Pure Clean Landing in Light Theme) */}
       <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         isScrolled 
-          ? 'opacity-100 translate-y-0 bg-slate-950/85 backdrop-blur-md border-b border-white/10 shadow-2xl py-3.5 px-4 sm:px-8' 
+          ? 'opacity-100 translate-y-0 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-md py-3.5 px-4 sm:px-8' 
           : 'opacity-0 -translate-y-8 pointer-events-none'
       }`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -473,30 +473,30 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             onClick={() => scrollToSection('hero')}
             className="flex items-center gap-3 cursor-pointer group"
           >
-            <FullLogo light={true} className="h-8 sm:h-9 w-auto group-hover:scale-105 transition-transform duration-300 drop-shadow" />
+            <FullLogo light={false} className="h-8 sm:h-9 w-auto group-hover:scale-105 transition-transform duration-300" />
           </div>
 
           {/* Nav Items in English */}
-          <nav className="hidden lg:flex items-center gap-8 text-[12px] font-semibold text-white/80 tracking-widest uppercase">
-            <button onClick={() => scrollToSection('hero')} className="hover:text-[#27CFC3] transition-colors bg-transparent border-none cursor-pointer">
+          <nav className="hidden lg:flex items-center gap-8 text-[12px] font-semibold text-slate-700 tracking-widest uppercase">
+            <button onClick={() => scrollToSection('hero')} className="hover:text-[#00A896] transition-colors bg-transparent border-none cursor-pointer">
               Overview
             </button>
-            <button onClick={() => scrollToSection('smile-results')} className="hover:text-[#27CFC3] transition-colors bg-transparent border-none cursor-pointer">
+            <button onClick={() => scrollToSection('smile-results')} className="hover:text-[#00A896] transition-colors bg-transparent border-none cursor-pointer">
               Restorations
             </button>
-            <button onClick={() => scrollToSection('why-diu-container')} className="hover:text-[#27CFC3] transition-colors bg-transparent border-none cursor-pointer">
+            <button onClick={() => scrollToSection('why-diu-container')} className="hover:text-[#00A896] transition-colors bg-transparent border-none cursor-pointer">
               Why DiU
             </button>
-            <button onClick={() => scrollToSection('services-section')} className="hover:text-[#27CFC3] transition-colors bg-transparent border-none cursor-pointer">
+            <button onClick={() => scrollToSection('services-section')} className="hover:text-[#00A896] transition-colors bg-transparent border-none cursor-pointer">
               Specialties
             </button>
-            <button onClick={() => scrollToSection('clinics')} className="hover:text-[#27CFC3] transition-colors bg-transparent border-none cursor-pointer">
+            <button onClick={() => scrollToSection('clinics')} className="hover:text-[#00A896] transition-colors bg-transparent border-none cursor-pointer">
               Hospitals
             </button>
-            <button onClick={() => scrollToSection('reviews')} className="hover:text-[#27CFC3] transition-colors bg-transparent border-none cursor-pointer">
+            <button onClick={() => scrollToSection('reviews')} className="hover:text-[#00A896] transition-colors bg-transparent border-none cursor-pointer">
               Reviews
             </button>
-            <button onClick={() => scrollToSection('faqs')} className="hover:text-[#27CFC3] transition-colors bg-transparent border-none cursor-pointer">
+            <button onClick={() => scrollToSection('faqs')} className="hover:text-[#00A896] transition-colors bg-transparent border-none cursor-pointer">
               FAQ
             </button>
           </nav>
@@ -505,7 +505,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
           <div className="flex items-center gap-2 sm:gap-4">
             <button
               onClick={() => openWhatsAppBooking()}
-              className="group relative flex items-center justify-center gap-2 h-9 sm:h-11 px-4 sm:px-6 rounded-full overflow-hidden text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all duration-300 bg-[#25D366] hover:bg-[#20ba59] text-slate-950 shadow-xl shadow-emerald-500/25 hover:scale-105 cursor-pointer border-none shrink-0"
+              className="group relative flex items-center justify-center gap-2 h-9 sm:h-11 px-4 sm:px-6 rounded-none sm:rounded-sm overflow-hidden text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all duration-300 bg-[#25D366] hover:bg-[#20ba59] text-slate-950 shadow-md shadow-emerald-500/20 hover:scale-[1.02] cursor-pointer border border-emerald-600/30 shrink-0"
             >
               <WhatsAppIcon className="w-4 h-4 text-slate-950" />
               <span>Book via WhatsApp</span>
@@ -515,14 +515,14 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl text-white hover:bg-white/10 transition-colors bg-transparent border-none cursor-pointer"
+              className="lg:hidden p-2 rounded-none sm:rounded-sm text-slate-900 hover:bg-slate-100 transition-colors bg-transparent border border-slate-200 cursor-pointer"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : (
                 <div className="flex flex-col gap-1.5 w-6">
-                  <span className="h-0.5 w-full bg-white rounded" />
-                  <span className="h-0.5 w-4/5 bg-white rounded" />
-                  <span className="h-0.5 w-full bg-white rounded" />
+                  <span className="h-0.5 w-full bg-slate-900" />
+                  <span className="h-0.5 w-4/5 bg-slate-900" />
+                  <span className="h-0.5 w-full bg-slate-900" />
                 </div>
               )}
             </button>
@@ -536,22 +536,22 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden bg-slate-950/95 backdrop-blur-xl border border-white/10 px-6 py-6 flex flex-col gap-4 text-sm font-semibold text-white mt-3 rounded-2xl shadow-2xl"
+              className="lg:hidden bg-white/95 backdrop-blur-xl border border-slate-200 px-6 py-6 flex flex-col gap-4 text-sm font-semibold text-slate-900 mt-3 rounded-none sm:rounded-sm shadow-2xl"
             >
-              <button onClick={() => scrollToSection('hero')} className="text-left py-2 border-b border-white/10 bg-transparent border-none text-white cursor-pointer">Overview</button>
-              <button onClick={() => scrollToSection('smile-results')} className="text-left py-2 border-b border-white/10 bg-transparent border-none text-white cursor-pointer">Award-Winning Restorations</button>
-              <button onClick={() => scrollToSection('why-diu-container')} className="text-left py-2 border-b border-white/10 bg-transparent border-none text-white cursor-pointer">Why DiU Clinic?</button>
-              <button onClick={() => scrollToSection('services-section')} className="text-left py-2 border-b border-white/10 bg-transparent border-none text-white cursor-pointer">Specialties & Treatments</button>
-              <button onClick={() => scrollToSection('clinics')} className="text-left py-2 border-b border-white/10 bg-transparent border-none text-white cursor-pointer">The 2 Hospital Clinics</button>
-              <button onClick={() => scrollToSection('reviews')} className="text-left py-2 border-b border-white/10 bg-transparent border-none text-white cursor-pointer">Patient Reviews</button>
-              <button onClick={() => scrollToSection('faqs')} className="text-left py-2 border-b border-white/10 bg-transparent border-none text-white cursor-pointer">Questions & Answers</button>
+              <button onClick={() => scrollToSection('hero')} className="text-left py-2 border-b border-slate-100 bg-transparent border-none text-slate-800 hover:text-[#00A896] cursor-pointer">Overview</button>
+              <button onClick={() => scrollToSection('smile-results')} className="text-left py-2 border-b border-slate-100 bg-transparent border-none text-slate-800 hover:text-[#00A896] cursor-pointer">Award-Winning Restorations</button>
+              <button onClick={() => scrollToSection('why-diu-container')} className="text-left py-2 border-b border-slate-100 bg-transparent border-none text-slate-800 hover:text-[#00A896] cursor-pointer">Why DiU Clinic?</button>
+              <button onClick={() => scrollToSection('services-section')} className="text-left py-2 border-b border-slate-100 bg-transparent border-none text-slate-800 hover:text-[#00A896] cursor-pointer">Specialties & Treatments</button>
+              <button onClick={() => scrollToSection('clinics')} className="text-left py-2 border-b border-slate-100 bg-transparent border-none text-slate-800 hover:text-[#00A896] cursor-pointer">The 2 Hospital Clinics</button>
+              <button onClick={() => scrollToSection('reviews')} className="text-left py-2 border-b border-slate-100 bg-transparent border-none text-slate-800 hover:text-[#00A896] cursor-pointer">Patient Reviews</button>
+              <button onClick={() => scrollToSection('faqs')} className="text-left py-2 border-b border-slate-100 bg-transparent border-none text-slate-800 hover:text-[#00A896] cursor-pointer">Questions & Answers</button>
               
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
                   openWhatsAppBooking();
                 }}
-                className="w-full mt-2 py-3.5 rounded-full bg-[#25D366] text-slate-950 font-black text-center text-xs uppercase tracking-wider border-none cursor-pointer shadow-lg flex items-center justify-center gap-2"
+                className="w-full mt-2 py-3.5 rounded-none sm:rounded-sm bg-[#25D366] text-slate-950 font-black text-center text-xs uppercase tracking-wider border border-emerald-600/30 cursor-pointer shadow-md flex items-center justify-center gap-2"
               >
                 <WhatsAppIcon className="w-4 h-4 text-slate-950" />
                 <span>Book via WhatsApp</span>
@@ -562,26 +562,26 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
       </header>
 
       {/* MAIN CONTENT AREA: Sits on top of the fixed Cinematic Footer with high z-index */}
-      <main className="relative z-10 bg-[#F4F6F9] shadow-[0_30px_70px_rgba(0,0,0,0.7)]">
+      <main className="relative z-10 bg-[#F8FAFC] shadow-[0_30px_70px_rgba(15,23,42,0.08)]">
 
-      {/* 2. HERO SECTION: PURE, CLEAN, FULL SCREEN 4K VIDEO + EXACTLY TWO ACTION BUTTONS */}
+      {/* 2. HERO SECTION: PURE, CLEAN, FULL SCREEN 4K VIDEO + EXACTLY TWO ACTION BUTTONS (LIGHT LUXURY) */}
       <div 
         id="hero" 
         ref={heroSectionRef} 
-        className="relative w-full h-[250vh] bg-[#070B12]"
+        className="relative w-full h-[250vh] bg-[#F8FAFC]"
       >
-        <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-[#070B12]">
+        <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-[#F8FAFC]">
           
           {/* Layer 0: Dual Vertical Marquee Stream */}
           <motion.div 
             style={{ opacity: marqueeOpacity }}
             className="absolute inset-0 pointer-events-none z-0 flex justify-between px-4 sm:px-12 lg:px-20 overflow-hidden"
           >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,rgba(39,207,195,0.12)_0%,transparent_75%)]" />
-            <div className="absolute inset-y-0 left-0 w-24 sm:w-36 bg-gradient-to-r from-[#070B12] to-transparent z-10" />
-            <div className="absolute inset-y-0 right-0 w-24 sm:w-36 bg-gradient-to-l from-[#070B12] to-transparent z-10" />
-            <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#070B12] to-transparent z-10" />
-            <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#070B12] to-transparent z-10" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,rgba(0,168,150,0.06)_0%,transparent_75%)]" />
+            <div className="absolute inset-y-0 left-0 w-24 sm:w-36 bg-gradient-to-r from-[#F8FAFC] to-transparent z-10" />
+            <div className="absolute inset-y-0 right-0 w-24 sm:w-36 bg-gradient-to-l from-[#F8FAFC] to-transparent z-10" />
+            <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#F8FAFC] to-transparent z-10" />
+            <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#F8FAFC] to-transparent z-10" />
 
             {/* Column 1 */}
             <div className="w-[46%] sm:w-[28%] flex flex-col gap-6 marquee-col-1">
@@ -593,12 +593,12 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 { title: 'Sliema Hospital Surgical Suite', tag: 'Flagship Centre', img: 'sliema_clinic.png' },
                 { title: 'Executive Patient Reception', tag: 'St. James Hospital', img: 'frame_reception.jpg' }
               ].map((item, idx) => (
-                <div key={idx} className="rounded-2xl overflow-hidden border border-white/10 bg-slate-900/80 shadow-2xl shrink-0">
+                <div key={idx} className="rounded-none sm:rounded-sm overflow-hidden border border-slate-200/90 bg-white shadow-md shrink-0">
                   <div className="aspect-[4/3] overflow-hidden relative">
-                    <img src={getAssetUrl(item.img)} alt={item.title} className="w-full h-full object-cover brightness-95" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent" />
-                    <div className="absolute bottom-2.5 left-3 right-3 text-white">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#27CFC3]">{item.tag}</span>
+                    <img src={getAssetUrl(item.img)} alt={item.title} className="w-full h-full object-cover brightness-100" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-transparent to-transparent" />
+                    <div className="absolute bottom-2.5 left-3 right-3 text-slate-900">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#00A896]">{item.tag}</span>
                       <div className="text-xs font-semibold truncate">{item.title}</div>
                     </div>
                   </div>
@@ -616,12 +616,12 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 { title: 'San Pawl il-Baħar Medical Centre', tag: 'North Malta Suite', img: 'burmarrad_clinic.png' },
                 { title: 'Sterile Operating Suite', tag: 'St. James Hospital', img: 'frame_hallway.jpg' }
               ].map((item, idx) => (
-                <div key={idx} className="rounded-2xl overflow-hidden border border-white/10 bg-slate-900/80 shadow-2xl shrink-0">
+                <div key={idx} className="rounded-none sm:rounded-sm overflow-hidden border border-slate-200/90 bg-white shadow-md shrink-0">
                   <div className="aspect-[4/3] overflow-hidden relative">
-                    <img src={getAssetUrl(item.img)} alt={item.title} className="w-full h-full object-cover brightness-95" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent" />
-                    <div className="absolute bottom-2.5 left-3 right-3 text-white">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#27CFC3]">{item.tag}</span>
+                    <img src={getAssetUrl(item.img)} alt={item.title} className="w-full h-full object-cover brightness-100" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-transparent to-transparent" />
+                    <div className="absolute bottom-2.5 left-3 right-3 text-slate-900">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#00A896]">{item.tag}</span>
                       <div className="text-xs font-semibold truncate">{item.title}</div>
                     </div>
                   </div>
@@ -630,15 +630,15 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             </div>
           </motion.div>
 
-          {/* Layer 1: Pinned Shrinking Hero Card */}
+          {/* Layer 1: Pinned Shrinking Hero Card (Square Corners) */}
           <motion.div 
             style={{ 
               scale: heroCardScale, 
               borderRadius: heroCardRadius 
             }}
-            className="relative w-full h-full overflow-hidden shadow-2xl border border-white/10 flex items-center justify-center bg-[#070B12] z-10 transition-shadow duration-300"
+            className="relative w-full h-full overflow-hidden shadow-xl border border-slate-200/80 flex items-center justify-center bg-[#F8FAFC] z-10 transition-shadow duration-300 rounded-none"
           >
-            {/* Background 4K Video */}
+            {/* Background 4K Video: High Visibility & Clarity */}
             <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
               <video
                 ref={videoRef}
@@ -649,51 +649,52 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 playsInline
                 loop
                 preload="auto"
-                className="w-full h-full object-cover object-center"
+                className="w-full h-full object-cover object-center brightness-105 contrast-[102%] saturate-[110%]"
               />
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_80%_20%,rgba(39,207,195,0.25)_0%,transparent_65%)]" />
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_65%_at_20%_80%,rgba(0,74,156,0.45)_0%,transparent_70%)]" />
-              <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/70 to-slate-950/35" />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-slate-950/50" />
+              
+              {/* High-visibility Light Scrim: lets the 4K video shine vividly while ensuring sharp typography contrast */}
+              <div className="absolute inset-0 bg-gradient-to-t from-white/92 via-white/35 to-white/75 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-r from-white/75 via-transparent to-white/75 pointer-events-none" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_85%_65%_at_50%_50%,rgba(255,255,255,0.45)_0%,transparent_85%)] pointer-events-none" />
             </div>
 
-            {/* Foreground Content: Clean, Ultra-Spacious, Centered Footer-Inspired Aesthetic */}
+            {/* Foreground Content: Clean, Ultra-Spacious, Centered Architectural Luxury */}
             <motion.div 
               style={{ opacity: heroTextOpacity, y: heroTextY }}
-              className="relative z-20 max-w-6xl mx-auto px-4 sm:px-8 lg:px-12 w-full h-full flex flex-col justify-center items-center text-center text-white"
+              className="relative z-20 max-w-6xl mx-auto px-4 sm:px-8 lg:px-12 w-full h-full flex flex-col justify-center items-center text-center text-slate-900"
             >
               {/* Subtle Ambient Light Orb behind text */}
-              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] max-w-[800px] h-[50vh] bg-gradient-to-r from-[#27CFC3]/15 via-[#004A9C]/20 to-transparent blur-[90px] rounded-full pointer-events-none -z-10" />
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] max-w-[800px] h-[50vh] bg-gradient-to-r from-[#27CFC3]/10 via-[#004A9C]/10 to-transparent blur-[100px] pointer-events-none -z-10" />
 
               {/* Giant Subtle Watermark Mask */}
-              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[16vw] font-black tracking-tighter text-white/[0.03] select-none pointer-events-none font-editorial -z-10">
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[16vw] font-black tracking-tighter text-slate-900/[0.04] select-none pointer-events-none font-editorial -z-10">
                 DIU MALTA
               </div>
 
-              {/* Top Glass Badge */}
-              <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-[#27CFC3] text-xs sm:text-sm font-bold uppercase tracking-widest mb-6 sm:mb-8 shadow-2xl">
-                <Sparkles className="w-4 h-4 text-[#27CFC3]" />
+              {/* Top Glass Badge (Square Border) */}
+              <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-none sm:rounded-sm bg-white/90 backdrop-blur-md border border-slate-200/90 text-teal-800 text-xs sm:text-sm font-bold uppercase tracking-widest mb-6 sm:mb-8 shadow-sm">
+                <Sparkles className="w-4 h-4 text-[#00A896]" />
                 <span>St. James Hospital Network • Est. 1999 • 4.9 ★ (200+ Reviews)</span>
               </div>
 
               {/* Giant Headline in Editorial Typography */}
-              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.4vw] font-normal tracking-tight leading-[1.06] mb-6 sm:mb-8 drop-shadow-2xl font-editorial text-white max-w-5xl mx-auto">
+              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.4vw] font-normal tracking-tight leading-[1.06] mb-6 sm:mb-8 font-editorial text-slate-950 max-w-5xl mx-auto drop-shadow-sm">
                 Precision Dentistry. <br />
-                <span className="text-[#27CFC3]">Redefined in Motion.</span>
+                <span className="text-[#00A896]">Redefined in Motion.</span>
               </h1>
 
               {/* Clean Authoritative Subtitle */}
-              <p className="text-base sm:text-xl lg:text-2xl text-slate-200 font-normal leading-relaxed max-w-3xl mx-auto mb-10 sm:mb-12 drop-shadow font-body">
-                Malta's premier implantology & aesthetic surgery centre inside <strong className="font-semibold text-white">St. James Hospital</strong>. Same-day CEREC 3D ceramics, precision bone reconstruction, and 100% anxiety-free certified IV sedation.
+              <p className="text-base sm:text-xl lg:text-2xl text-slate-700 font-normal leading-relaxed max-w-3xl mx-auto mb-10 sm:mb-12 font-body">
+                Malta's premier implantology & aesthetic surgery centre inside <strong className="font-semibold text-slate-950">St. James Hospital</strong>. Same-day CEREC 3D ceramics, precision bone reconstruction, and 100% anxiety-free certified IV sedation.
               </p>
 
-              {/* EXACTLY TWO CLEAN ACTION BUTTONS (Vibrant Emerald Pill + Frosted Glass Pill) */}
+              {/* EXACTLY TWO CLEAN ACTION BUTTONS (Square Architectural Styling) */}
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-10 sm:mb-12 w-full max-w-md sm:max-w-none mx-auto">
                 
                 {/* BUTTON 1: Primary High-Converting WhatsApp CTA */}
                 <button
                   onClick={() => openWhatsAppBooking()}
-                  className="w-full sm:w-auto px-10 py-5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-sm uppercase tracking-wider transition-all duration-300 shadow-2xl shadow-emerald-500/40 hover:scale-[1.03] cursor-pointer border-none flex items-center justify-center gap-3"
+                  className="w-full sm:w-auto px-10 py-5 rounded-none sm:rounded-sm bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-sm uppercase tracking-wider transition-all duration-300 shadow-xl shadow-emerald-500/25 hover:scale-[1.02] cursor-pointer border border-emerald-600/30 flex items-center justify-center gap-3"
                 >
                   <WhatsAppIcon className="w-5 h-5 text-slate-950" />
                   <span>Book via WhatsApp</span>
@@ -703,57 +704,57 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 {/* BUTTON 2: Secondary Exploration Button (Scroll Down) */}
                 <button
                   onClick={() => scrollToSection('smile-results')}
-                  className="w-full sm:w-auto px-9 py-5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-xl text-white font-bold text-sm uppercase tracking-wider border border-white/25 hover:border-white transition-all cursor-pointer flex items-center justify-center gap-2.5"
+                  className="w-full sm:w-auto px-9 py-5 rounded-none sm:rounded-sm bg-white/95 hover:bg-white backdrop-blur-md text-slate-900 font-bold text-sm uppercase tracking-wider border border-slate-300 hover:border-slate-400 shadow-md transition-all cursor-pointer flex items-center justify-center gap-2.5"
                 >
-                  <Layers className="w-4 h-4 text-[#27CFC3]" />
+                  <Layers className="w-4 h-4 text-[#00A896]" />
                   <span>Explore Restorations ↓</span>
                 </button>
               </div>
 
-              {/* Bottom Credential Grid: Expansive, Clean, Occupies Whitespace Beautifully */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 max-w-5xl mx-auto w-full pt-6 border-t border-white/10">
-                <div className="p-3.5 sm:p-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-center hover:border-[#27CFC3]/40 transition-colors">
-                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#27CFC3] block mb-1">Hospital Care</span>
-                  <div className="text-xs sm:text-sm font-bold text-white">St. James Hospital</div>
-                  <div className="text-[11px] text-slate-300">Sliema & San Pawl</div>
+              {/* Bottom Credential Grid: Expansive, Clean, Square Borders */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 max-w-5xl mx-auto w-full pt-6 border-t border-slate-300/80">
+                <div className="p-3.5 sm:p-4 rounded-none sm:rounded-sm bg-white/90 backdrop-blur-md border border-slate-200/90 text-center shadow-sm hover:border-[#00A896] transition-colors">
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#00A896] block mb-1">Hospital Care</span>
+                  <div className="text-xs sm:text-sm font-bold text-slate-950">St. James Hospital</div>
+                  <div className="text-[11px] text-slate-600">Sliema & San Pawl</div>
                 </div>
-                <div className="p-3.5 sm:p-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-center hover:border-[#27CFC3]/40 transition-colors">
-                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#27CFC3] block mb-1">Clinical Heritage</span>
-                  <div className="text-xs sm:text-sm font-bold text-white">Est. 1999 • 27+ Yrs</div>
-                  <div className="text-[11px] text-slate-300">10,000+ Restored Smiles</div>
+                <div className="p-3.5 sm:p-4 rounded-none sm:rounded-sm bg-white/90 backdrop-blur-md border border-slate-200/90 text-center shadow-sm hover:border-[#00A896] transition-colors">
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#00A896] block mb-1">Clinical Heritage</span>
+                  <div className="text-xs sm:text-sm font-bold text-slate-950">Est. 1999 • 27+ Yrs</div>
+                  <div className="text-[11px] text-slate-600">10,000+ Restored Smiles</div>
                 </div>
-                <div className="p-3.5 sm:p-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-center hover:border-[#27CFC3]/40 transition-colors">
-                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#27CFC3] block mb-1">Same-Day Tech</span>
-                  <div className="text-xs sm:text-sm font-bold text-white">CEREC 3D Ceramics</div>
-                  <div className="text-[11px] text-slate-300">60-Min In-House Milling</div>
+                <div className="p-3.5 sm:p-4 rounded-none sm:rounded-sm bg-white/90 backdrop-blur-md border border-slate-200/90 text-center shadow-sm hover:border-[#00A896] transition-colors">
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#00A896] block mb-1">Same-Day Tech</span>
+                  <div className="text-xs sm:text-sm font-bold text-slate-950">CEREC 3D Ceramics</div>
+                  <div className="text-[11px] text-slate-600">60-Min In-House Milling</div>
                 </div>
-                <div className="p-3.5 sm:p-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-center hover:border-[#27CFC3]/40 transition-colors">
-                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#27CFC3] block mb-1">Zero Anxiety</span>
-                  <div className="text-xs sm:text-sm font-bold text-white">Certified IV Sedation</div>
-                  <div className="text-[11px] text-slate-300">Hospital Anaesthetist</div>
+                <div className="p-3.5 sm:p-4 rounded-none sm:rounded-sm bg-white/90 backdrop-blur-md border border-slate-200/90 text-center shadow-sm hover:border-[#00A896] transition-colors">
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-[#00A896] block mb-1">Zero Anxiety</span>
+                  <div className="text-xs sm:text-sm font-bold text-slate-950">Certified IV Sedation</div>
+                  <div className="text-[11px] text-slate-600">Hospital Anaesthetist</div>
                 </div>
               </div>
 
             </motion.div>
 
-            {/* Bottom Video HUD Bar */}
+            {/* Bottom Video HUD Bar (Square Borders) */}
             <div className="absolute bottom-5 inset-x-4 sm:inset-x-8 lg:inset-x-12 z-20 flex justify-between items-center pointer-events-none">
-              <div className="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white text-[11px] font-semibold">
-                <span className="w-2 h-2 rounded-full bg-[#27CFC3] animate-ping" />
+              <div className="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md border border-slate-200 text-slate-800 text-[11px] font-semibold shadow-sm">
+                <span className="w-2 h-2 rounded-full bg-[#00A896] animate-ping" />
                 <span>4K CLINICAL SUITE • ST. JAMES HOSPITAL</span>
               </div>
 
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white/90 text-[11px] font-medium mx-auto sm:mx-0">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md border border-slate-200 text-slate-800 text-[11px] font-medium mx-auto sm:mx-0 shadow-sm">
                 <span>Scroll down to explore</span>
-                <ChevronDown className="w-3.5 h-3.5 text-[#27CFC3] animate-bounce" />
+                <ChevronDown className="w-3.5 h-3.5 text-[#00A896] animate-bounce" />
               </div>
 
               <button
                 onClick={toggleVideoPlayback}
                 aria-label={isVideoPlaying ? "Pause video" : "Play video"}
-                className="pointer-events-auto hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white text-[11px] font-medium cursor-pointer transition-colors"
+                className="pointer-events-auto hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-white/95 hover:bg-white backdrop-blur-md border border-slate-200 text-slate-800 text-[11px] font-medium cursor-pointer transition-colors shadow-sm"
               >
-                {isVideoPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-white" />}
+                {isVideoPlaying ? <Pause className="w-3.5 h-3.5 text-[#00A896]" /> : <Play className="w-3.5 h-3.5 fill-[#00A896] text-[#00A896]" />}
                 <span>{isVideoPlaying ? "Pause 4K Tour" : "Play 4K Tour"}</span>
               </button>
             </div>
@@ -762,10 +763,10 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
         </div>
       </div>
 
-      {/* 3. AWARD-WINNING RESTORATIONS: REAL DENTAL CASE (BEFORE TOOTH ABSENCE VS AFTER IMPLANT RESTORATION) */}
+      {/* 3. AWARD-WINNING RESTORATIONS: REAL DENTAL CASE (BEFORE 3-TOOTH ABSENCE VS AFTER CERAMIC IMPLANTS) */}
       <section 
         id="smile-results" 
-        className="-mt-24 sm:-mt-32 rounded-t-[60px] sm:rounded-t-[80px] md:rounded-t-[100px] bg-[#070B12] text-white pt-24 pb-28 sm:pb-36 border-t border-white/10 relative z-20 shadow-[0_-25px_60px_-15px_rgba(0,0,0,0.8)]"
+        className="-mt-24 sm:-mt-32 rounded-none bg-[#F8FAFC] text-slate-950 pt-24 pb-28 sm:pb-36 border-t border-slate-200/90 relative z-20 shadow-none"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -776,34 +777,34 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="text-center max-w-3xl mx-auto mb-16 sm:mb-20"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-[#27CFC3] text-xs font-bold uppercase tracking-wider mb-4 border border-white/10">
-              <Smile className="w-4 h-4 text-[#27CFC3]" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold uppercase tracking-wider mb-4">
+              <Smile className="w-4 h-4 text-[#00A896]" />
               <span>Verified Clinical Cases [ Before vs After ]</span>
             </div>
-            <h2 className="text-4xl sm:text-6xl md:text-[5.5vw] font-normal tracking-tight font-editorial text-white mb-4 leading-[1.1]">
+            <h2 className="text-4xl sm:text-6xl md:text-[5.5vw] font-normal tracking-tight font-editorial text-slate-950 mb-4 leading-[1.1]">
               Award-Winning Restorations
             </h2>
-            <p className="text-slate-400 text-sm sm:text-lg max-w-2xl mx-auto font-body">
+            <p className="text-slate-600 text-sm sm:text-lg max-w-2xl mx-auto font-body">
               Drag the interactive slider below to inspect full clinical restoration: from severe 3-tooth absence to permanent Swiss implants & CEREC 3D ceramic crowns.
             </p>
           </motion.div>
 
-          {/* Interactive Full Width Before & After Slider */}
+          {/* Interactive Full Width Before & After Slider (Square Architectural Styling) */}
           <div className="max-w-5xl mx-auto">
-            <div className="bg-slate-900/90 p-4 sm:p-8 rounded-[32px] sm:rounded-[36px] border border-white/10 shadow-2xl backdrop-blur-md">
+            <div className="bg-white p-4 sm:p-8 rounded-none sm:rounded-sm border border-slate-200/90 shadow-xl backdrop-blur-md">
               
               {/* Inspection Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-white/10">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-100">
                 <div>
-                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#27CFC3] font-heading">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#00A896] font-heading">
                     Multiple Tooth Absence & Swiss Dental Implants
                   </div>
-                  <div className="text-xl sm:text-3xl font-bold text-white font-editorial">
+                  <div className="text-xl sm:text-3xl font-bold text-slate-950 font-editorial">
                     3-Tooth Absence Restored to Fixed Perfection
                   </div>
                 </div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#27CFC3]/20 text-[#27CFC3] text-xs font-bold border border-[#27CFC3]/30 self-start sm:self-auto">
-                  <span className="w-2 h-2 rounded-full bg-[#27CFC3] animate-pulse" />
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 text-teal-900 text-xs font-bold border border-teal-200 self-start sm:self-auto">
+                  <span className="w-2 h-2 rounded-full bg-[#00A896] animate-pulse" />
                   <span>Immediate Ceramic Integration</span>
                 </div>
               </div>
@@ -814,7 +815,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 onMouseMove={(e) => handleSliderMove(e.clientX)}
                 onTouchMove={(e) => handleSliderMove(e.touches[0].clientX)}
                 onTouchStart={(e) => handleSliderMove(e.touches[0].clientX)}
-                className="relative rounded-2xl sm:rounded-3xl overflow-hidden aspect-[4/3] sm:aspect-[16/9] border-2 border-white/15 shadow-2xl cursor-ew-resize select-none bg-slate-950 touch-none"
+                className="relative rounded-none sm:rounded-sm overflow-hidden aspect-[4/3] sm:aspect-[16/9] border-2 border-slate-200 shadow-xl cursor-ew-resize select-none bg-slate-100 touch-none"
               >
                 {/* AFTER IMAGE: Full Background (Complete Restored Smile) */}
                 <img
@@ -841,37 +842,37 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                   className="absolute top-0 bottom-0 w-1 bg-white shadow-2xl cursor-ew-resize flex items-center justify-center z-20"
                   style={{ left: `${sliderPosition}%` }}
                 >
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#27CFC3] text-slate-950 flex items-center justify-center shadow-2xl border-2 border-white text-xs sm:text-sm font-black">
+                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-none sm:rounded-sm bg-[#00A896] text-white flex items-center justify-center shadow-xl border-2 border-white text-xs sm:text-sm font-black">
                     ⇄
                   </div>
                 </div>
 
-                {/* Floating Clear Badges */}
-                <div className="absolute top-3 sm:top-4 left-3 sm:left-4 z-10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-black/80 backdrop-blur-md text-white text-[10px] sm:text-xs font-bold border border-white/20">
+                {/* Floating Clear Badges (Square Borders) */}
+                <div className="absolute top-3 sm:top-4 left-3 sm:left-4 z-10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md text-slate-900 text-[10px] sm:text-xs font-bold border border-slate-200 shadow-md">
                   BEFORE: 3-Tooth Absence
                 </div>
-                <div className="absolute top-3 sm:top-4 right-3 sm:right-4 z-10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#004A9C]/90 backdrop-blur-md text-white text-[10px] sm:text-xs font-bold border border-white/20">
+                <div className="absolute top-3 sm:top-4 right-3 sm:right-4 z-10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-none sm:rounded-sm bg-[#004A9C] backdrop-blur-md text-white text-[10px] sm:text-xs font-bold border border-blue-400/40 shadow-md">
                   AFTER: Fixed Ceramic Implants
                 </div>
 
                 {/* Bottom Interactive Hint */}
                 <div className="absolute bottom-3 sm:bottom-4 inset-x-0 text-center pointer-events-none z-10">
-                  <span className="px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-black/75 backdrop-blur-md text-white text-[10px] sm:text-xs font-semibold border border-white/10">
+                  <span className="px-4 py-1.5 sm:px-5 sm:py-2 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md text-slate-800 text-[10px] sm:text-xs font-semibold border border-slate-200 shadow-sm">
                     ↔ Drag left to see AFTER • Drag right to see BEFORE
                   </span>
                 </div>
               </div>
 
               {/* Bottom Quick Booking Trigger */}
-              <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-2xl bg-white/5 border border-white/10 text-white">
-                <div className="text-xs sm:text-sm text-slate-300">
-                  <strong className="text-white">Clinical Protocol:</strong> 3D CBCT guided implantology • German CEREC single-visit milling • St. James Hospital
+              <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-none sm:rounded-sm bg-slate-50 border border-slate-200 text-slate-800">
+                <div className="text-xs sm:text-sm text-slate-700">
+                  <strong className="text-slate-950">Clinical Protocol:</strong> 3D CBCT guided implantology • German CEREC single-visit milling • St. James Hospital
                 </div>
                 <button
                   onClick={() => openWhatsAppBooking({
                     treatment: "Dental Implants & All-on-4 (Same-Day Fixed Teeth)"
                   })}
-                  className="flex items-center gap-2 px-7 py-3 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs uppercase tracking-wider shrink-0 transition-all hover:scale-105 cursor-pointer border-none shadow-lg shadow-emerald-500/20"
+                  className="flex items-center gap-2 px-7 py-3 rounded-none sm:rounded-sm bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs uppercase tracking-wider shrink-0 transition-all hover:scale-[1.02] cursor-pointer border border-emerald-600/30 shadow-md"
                 >
                   <WhatsAppIcon className="w-4 h-4 text-slate-950" />
                   <span>Inquire About This Case</span>
@@ -894,8 +895,8 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
           
           {/* Section Header */}
           <div className="max-w-4xl mb-8 sm:mb-12">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold uppercase tracking-wider mb-3">
-              <Sparkles className="w-4 h-4 text-teal-600" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold uppercase tracking-wider mb-3">
+              <Sparkles className="w-4 h-4 text-[#00A896]" />
               <span>Surgical Excellence Inside St. James Hospital</span>
             </div>
             <h2 className="text-3xl sm:text-5xl md:text-6xl font-normal text-slate-950 tracking-tight font-editorial leading-tight">
@@ -951,16 +952,16 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             ].map((card) => (
               <div
                 key={card.num}
-                className="w-[320px] sm:w-[420px] lg:w-[480px] p-8 sm:p-10 rounded-3xl bg-white border border-slate-200/90 shadow-xl flex flex-col justify-between shrink-0 group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
+                className="w-[320px] sm:w-[420px] lg:w-[480px] p-8 sm:p-10 rounded-none sm:rounded-sm bg-white border border-slate-200/90 shadow-lg flex flex-col justify-between shrink-0 group relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
               >
-                <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#27CFC3] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                <div className="absolute top-0 left-0 right-0 h-1 bg-[#00A896] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
 
                 <div>
                   <div className="flex items-center justify-between mb-6">
                     <span className="text-xs font-bold text-slate-400 tracking-wider">[ {card.num} ]</span>
                     <button
                       onClick={() => openWhatsAppBooking({ treatment: card.treatmentSelect })}
-                      className="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 cursor-pointer bg-transparent border-none"
+                      className="text-xs font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1 cursor-pointer bg-transparent border-none"
                     >
                       <span>Inquire</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />
@@ -980,7 +981,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
                 <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-900">
                   <span>{card.f1}</span>
-                  <span className="text-[#27CFC3]">{card.f2}</span>
+                  <span className="text-[#00A896]">{card.f2}</span>
                 </div>
               </div>
             ))}
@@ -989,9 +990,9 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
         </div>
       </div>
 
-      {/* 5. EDITORIAL PINNED HOSPITAL STATEMENT */}
-      <section className="py-28 md:py-36 bg-[#070B12] text-white relative overflow-hidden border-b border-white/10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(39,207,195,0.12)_0%,transparent_70%)] pointer-events-none" />
+      {/* 5. EDITORIAL PINNED HOSPITAL STATEMENT (PURE LIGHT THEME) */}
+      <section className="py-28 md:py-36 bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-950 relative overflow-hidden border-b border-slate-200/80">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(0,168,150,0.06)_0%,transparent_70%)] pointer-events-none" />
         
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <motion.div
@@ -999,9 +1000,9 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-[#27CFC3] text-xs font-bold uppercase tracking-widest mb-8 border border-white/15"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold uppercase tracking-widest mb-8"
           >
-            <ShieldCheck className="w-4 h-4 text-[#27CFC3]" />
+            <ShieldCheck className="w-4 h-4 text-[#00A896]" />
             <span>St. James Hospital Network Standards</span>
           </motion.div>
 
@@ -1010,10 +1011,10 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-tight font-editorial leading-[1.08] max-w-5xl mx-auto mb-10 text-white"
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-tight font-editorial leading-[1.08] max-w-5xl mx-auto mb-10 text-slate-950"
           >
             Where Surgical Mastery <br className="hidden sm:inline" />
-            <span className="text-[#27CFC3]">Meets Absolute Peace of Mind.</span>
+            <span className="text-[#00A896]">Meets Absolute Peace of Mind.</span>
           </motion.h2>
 
           <motion.p
@@ -1021,7 +1022,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-slate-300 text-base sm:text-xl max-w-3xl mx-auto font-body leading-relaxed mb-12"
+            className="text-slate-600 text-base sm:text-xl max-w-3xl mx-auto font-body leading-relaxed mb-12"
           >
             Operating directly inside Malta’s premier private hospital, our surgical theatres, on-site CEREC 3D milling lab, and certified IV sedation protocol eliminate pain, guesswork, and weeks of waiting.
           </motion.p>
@@ -1035,16 +1036,16 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
           >
             <button
               onClick={() => openWhatsAppBooking()}
-              className="flex items-center gap-2.5 px-8 py-4 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-xl shadow-emerald-500/30 hover:scale-105 cursor-pointer border-none"
+              className="flex items-center gap-2.5 px-8 py-4 rounded-none sm:rounded-sm bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-xl shadow-emerald-500/20 hover:scale-[1.02] cursor-pointer border border-emerald-600/30"
             >
               <WhatsAppIcon className="w-4 h-4 text-slate-950" />
               <span>Book Consultation via WhatsApp</span>
             </button>
             <button
               onClick={() => scrollToSection('clinics')}
-              className="flex items-center gap-2 px-7 py-4 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold text-xs sm:text-sm uppercase tracking-wider border border-white/20 transition-all cursor-pointer"
+              className="flex items-center gap-2 px-7 py-4 rounded-none sm:rounded-sm bg-white hover:bg-slate-50 text-slate-900 font-bold text-xs sm:text-sm uppercase tracking-wider border border-slate-300 shadow-sm transition-all cursor-pointer"
             >
-              <Building2 className="w-4 h-4 text-[#27CFC3]" />
+              <Building2 className="w-4 h-4 text-[#004A9C]" />
               <span>Explore St. James Hospital Suites</span>
             </button>
           </motion.div>
@@ -1062,7 +1063,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             transition={{ duration: 0.7 }}
             className="text-center max-w-3xl mx-auto mb-16"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#004A9C] text-xs font-bold uppercase tracking-wider mb-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-blue-50 text-[#004A9C] text-xs font-bold uppercase tracking-wider mb-3 border border-blue-200">
               <Award className="w-4 h-4" />
               <span>Redefining Dental Excellence Since 1999</span>
             </div>
@@ -1107,11 +1108,11 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.55, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:border-[#27CFC3] transition-all hover:shadow-xl hover:-translate-y-1 group relative overflow-hidden"
+                className="p-8 rounded-none sm:rounded-sm bg-[#F8FAFC] border border-slate-200/90 shadow-sm hover:border-[#00A896] transition-all hover:shadow-xl hover:-translate-y-1 group relative overflow-hidden"
               >
-                <div className="absolute top-0 left-0 right-0 h-1 bg-[#27CFC3] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                <div className="absolute top-0 left-0 right-0 h-1 bg-[#00A896] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 <div className="text-xs font-bold text-slate-400 tracking-wider mb-4">[ {stat.num} ]</div>
-                <div className="text-5xl sm:text-6xl font-extrabold text-[#004A9C] tracking-tight mb-2 group-hover:text-[#27CFC3] transition-colors font-heading">
+                <div className="text-5xl sm:text-6xl font-extrabold text-[#004A9C] tracking-tight mb-2 group-hover:text-[#00A896] transition-colors font-heading">
                   {stat.stat}
                 </div>
                 <div className="text-lg font-bold text-slate-900 mb-2 font-heading">{stat.title}</div>
@@ -1127,24 +1128,24 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="mt-14 p-8 rounded-3xl bg-slate-900 text-white flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl"
+            className="mt-14 p-8 rounded-none sm:rounded-sm bg-white border border-slate-200/90 text-slate-900 flex flex-col md:flex-row items-center justify-between gap-8 shadow-md"
           >
             <div className="flex items-center gap-6">
-              <div className="w-16 h-16 rounded-2xl bg-[#004A9C] flex items-center justify-center shrink-0 border border-white/20">
+              <div className="w-16 h-16 rounded-none sm:rounded-sm bg-[#004A9C] flex items-center justify-center shrink-0 border border-blue-200 text-white shadow-sm">
                 <LogoMark className="w-8 h-8" />
               </div>
               <div>
-                <div className="text-lg sm:text-xl font-bold tracking-tight">
+                <div className="text-lg sm:text-xl font-bold tracking-tight text-slate-950 font-editorial">
                   “We treat you like family, because your smile and health matter most.”
                 </div>
-                <div className="text-xs text-slate-400 mt-1">
+                <div className="text-xs text-slate-500 mt-1">
                   Dr. Mark Diacono (B.Ch.D) & Susanna Diacono (M.Sc) • Co-Founders, DiU Malta
                 </div>
               </div>
             </div>
             <button
               onClick={() => scrollToSection('clinics')}
-              className="px-6 py-3 rounded-full bg-[#27CFC3] hover:bg-[#20b5aa] text-slate-950 font-bold text-xs uppercase tracking-wider shrink-0 transition-all hover:scale-105 cursor-pointer border-none"
+              className="px-6 py-3 rounded-none sm:rounded-sm bg-[#00A896] hover:bg-[#009282] text-white font-bold text-xs uppercase tracking-wider shrink-0 transition-all hover:scale-[1.02] cursor-pointer border-none shadow-sm"
             >
               Meet The Clinical Team
             </button>
@@ -1165,8 +1166,8 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             className="flex flex-col md:flex-row md:items-end justify-between gap-6"
           >
             <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold uppercase tracking-wider mb-3">
-                <Layers className="w-4 h-4 text-teal-600" />
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold uppercase tracking-wider mb-3">
+                <Layers className="w-4 h-4 text-[#00A896]" />
                 <span>Advanced Clinical Specialties [ 01 – 06 ]</span>
               </div>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight font-heading">
@@ -1180,12 +1181,12 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
         </div>
 
-        {/* Services Grid (Occupies Screen Immersively) */}
+        {/* Services Grid (Square Architectural Cards) */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {servicesData.map((svc) => (
             <div
               key={svc.id}
-              className={`rounded-3xl p-8 border border-slate-200/90 shadow-md flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 cursor-pointer ${svc.bgClass}`}
+              className={`rounded-none sm:rounded-sm p-8 border border-slate-200/90 shadow-sm flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 cursor-pointer ${svc.bgClass}`}
               onClick={() => setSelectedService(svc)}
             >
               <div>
@@ -1194,7 +1195,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                     [ {svc.num} ]
                   </span>
                   <span 
-                    className="text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider bg-white/80 border border-slate-200/60"
+                    className="text-[11px] font-bold px-3 py-1 rounded-none sm:rounded-sm uppercase tracking-wider bg-white/90 border border-slate-200/80 shadow-2xs"
                     style={{ color: svc.accentColor }}
                   >
                     {svc.tagline}
@@ -1211,7 +1212,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 <ul className="space-y-2 mb-8">
                   {svc.bullets.map((b, idx) => (
                     <li key={idx} className="flex items-start gap-2 text-xs text-slate-700 font-medium">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-teal-600 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#00A896] shrink-0 mt-0.5" />
                       <span>{b}</span>
                     </li>
                   ))}
@@ -1224,7 +1225,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                     e.stopPropagation();
                     openWhatsAppBooking({ treatment: svc.title });
                   }}
-                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-[#25D366] text-slate-950 font-black text-xs uppercase tracking-wider border-none cursor-pointer hover:bg-[#20ba59] shadow-md transition-transform hover:scale-105"
+                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-none sm:rounded-sm bg-[#25D366] text-slate-950 font-black text-xs uppercase tracking-wider border border-emerald-600/30 cursor-pointer hover:bg-[#20ba59] shadow-sm transition-transform hover:scale-[1.02]"
                 >
                   <WhatsAppIcon className="w-3.5 h-3.5" />
                   <span>Book via WhatsApp</span>
@@ -1232,7 +1233,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
                 <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-800">
                   <span>Details</span>
-                  <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-sm text-slate-900 group-hover:scale-110 transition-transform">
+                  <div className="w-8 h-8 rounded-none sm:rounded-sm bg-white border border-slate-200 flex items-center justify-center shadow-2xs text-slate-900 group-hover:scale-105 transition-transform">
                     <ArrowUpRight className="w-4 h-4 text-[#004A9C]" />
                   </div>
                 </div>
@@ -1243,8 +1244,8 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
       </section>
 
-      {/* 8. HOSPITAL ACCREDITATIONS & SURGICAL STANDARDS */}
-      <section className="py-20 md:py-28 bg-[#070B12] text-white border-b border-slate-900">
+      {/* 8. HOSPITAL ACCREDITATIONS & SURGICAL STANDARDS (PURE LIGHT THEME) */}
+      <section className="py-20 md:py-28 bg-[#F8FAFC] text-slate-900 border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <motion.div 
@@ -1255,20 +1256,20 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16"
           >
             <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-[#27CFC3] text-xs font-bold uppercase tracking-wider mb-3 border border-white/10">
-                <Award className="w-4 h-4 text-[#27CFC3]" />
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold uppercase tracking-wider mb-3">
+                <Award className="w-4 h-4 text-[#00A896]" />
                 <span>Hospital Standards & Certifications</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight font-heading">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight font-heading text-slate-950">
                 Accreditations of Excellence
               </h2>
             </div>
-            <p className="text-slate-400 text-sm sm:text-base max-w-md font-body">
+            <p className="text-slate-600 text-sm sm:text-base max-w-md font-body">
               Our clinical operating theatres and sterilization protocols meet the strictest European hospital standards.
             </p>
           </motion.div>
 
-          <div className="divide-y divide-white/10 border-y border-white/10">
+          <div className="divide-y divide-slate-200 border-y border-slate-200">
             {hospitalAccreditations.map((item, idx) => (
               <motion.div 
                 key={item.num}
@@ -1276,27 +1277,27 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-30px" }}
                 transition={{ duration: 0.55, delay: idx * 0.12 }}
-                className="py-8 sm:py-10 group relative transition-all duration-300 hover:bg-white/[0.02] px-4 -mx-4 rounded-xl cursor-default"
+                className="py-8 sm:py-10 group relative transition-all duration-300 hover:bg-white/80 px-4 -mx-4 rounded-none sm:rounded-sm cursor-default"
               >
-                <div className="absolute left-0 bottom-0 right-0 h-0.5 bg-[#27CFC3] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                <div className="absolute left-0 bottom-0 right-0 h-0.5 bg-[#00A896] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center">
-                  <div className="lg:col-span-1 text-sm font-extrabold text-[#27CFC3] font-heading">
+                  <div className="lg:col-span-1 text-sm font-extrabold text-[#00A896] font-heading">
                     [ {item.num} ]
                   </div>
                   <div className="lg:col-span-5">
-                    <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white group-hover:text-[#27CFC3] transition-colors font-heading">
+                    <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-950 group-hover:text-[#00A896] transition-colors font-heading">
                       {item.name}
                     </h3>
-                    <div className="text-xs text-slate-400 mt-1">
+                    <div className="text-xs text-slate-500 mt-1">
                       {item.category}
                     </div>
                   </div>
-                  <div className="lg:col-span-4 text-xs sm:text-sm text-slate-300 font-body">
+                  <div className="lg:col-span-4 text-xs sm:text-sm text-slate-600 font-body">
                     {item.detail}
                   </div>
                   <div className="lg:col-span-2 text-left lg:text-right">
-                    <span className="inline-block text-[11px] font-semibold text-slate-400 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+                    <span className="inline-block text-[11px] font-semibold text-slate-600 px-3 py-1 rounded-none sm:rounded-sm bg-white border border-slate-200 shadow-2xs">
                       {item.year}
                     </span>
                   </div>
@@ -1319,7 +1320,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             transition={{ duration: 0.7 }}
             className="text-center max-w-3xl mx-auto mb-16"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#004A9C] text-xs font-bold uppercase tracking-wider mb-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-blue-50 text-[#004A9C] text-xs font-bold uppercase tracking-wider mb-3 border border-blue-200">
               <Building2 className="w-4 h-4" />
               <span>Two Flagship Hospital Centres</span>
             </div>
@@ -1331,7 +1332,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             </p>
           </motion.div>
 
-          {/* BOTH CLINICS SIDE BY SIDE IN A SINGLE EXPANSIVE VIEW (As requested) */}
+          {/* BOTH CLINICS SIDE BY SIDE IN A SINGLE EXPANSIVE VIEW (Square Borders) */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
             {clinicLocations.map((clinic, idx) => (
               <motion.div
@@ -1340,17 +1341,17 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: idx * 0.15 }}
-                className="rounded-3xl bg-white border border-slate-200/90 shadow-xl overflow-hidden flex flex-col justify-between group hover:shadow-2xl transition-all duration-300"
+                className="rounded-none sm:rounded-sm bg-white border border-slate-200/90 shadow-md overflow-hidden flex flex-col justify-between group hover:shadow-2xl transition-all duration-300"
               >
                 <div>
                   {/* Clinic Photo */}
-                  <div className="relative aspect-[16/10] overflow-hidden bg-slate-950">
+                  <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
                     <img
                       src={getAssetUrl(clinic.image)}
                       alt={clinic.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute top-4 left-4 px-3.5 py-1.5 rounded-full bg-slate-950/80 backdrop-blur-md text-[#27CFC3] text-xs font-bold uppercase tracking-wider border border-white/20">
+                    <div className="absolute top-4 left-4 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md text-[#004A9C] text-xs font-bold uppercase tracking-wider border border-slate-200 shadow-sm">
                       {clinic.tag}
                     </div>
                   </div>
@@ -1371,7 +1372,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                       </div>
 
                       <div className="flex items-start gap-3 text-slate-700 text-sm">
-                        <Phone className="w-5 h-5 text-[#27CFC3] shrink-0 mt-0.5" />
+                        <Phone className="w-5 h-5 text-[#00A896] shrink-0 mt-0.5" />
                         <div>
                           <div className="font-bold text-slate-900">Direct Telephone</div>
                           <div className="text-lg font-extrabold text-[#004A9C]">{clinic.phone}</div>
@@ -1392,12 +1393,12 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                     </div>
 
                     {/* Facility Specifications */}
-                    <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 mb-8">
+                    <div className="bg-slate-50 p-5 rounded-none sm:rounded-sm border border-slate-200/80 mb-8">
                       <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Facility Specifications:</div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700 font-medium">
                         {clinic.features.map((f, i) => (
                           <div key={i} className="flex items-center gap-2">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                            <CheckCircle2 className="w-3.5 h-3.5 text-[#00A896] shrink-0" />
                             <span>{f}</span>
                           </div>
                         ))}
@@ -1412,14 +1413,14 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                     onClick={() => openWhatsAppBooking({
                       clinic: clinic.id === 'sliema' ? 'Sliema' : 'San Pawl il-Baħar'
                     })}
-                    className="flex-1 flex items-center justify-center gap-2 py-4 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs uppercase tracking-wider transition-all hover:scale-[1.02] cursor-pointer border-none shadow-md shadow-emerald-500/25"
+                    className="flex-1 flex items-center justify-center gap-2 py-4 rounded-none sm:rounded-sm bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs uppercase tracking-wider transition-all hover:scale-[1.02] cursor-pointer border border-emerald-600/30 shadow-sm"
                   >
                     <WhatsAppIcon className="w-4 h-4 text-slate-950" />
                     <span>Book at {clinic.id === 'sliema' ? 'Sliema' : 'San Pawl'}</span>
                   </button>
                   <a
                     href={`tel:+${clinic.phoneClean}`}
-                    className="px-6 py-4 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer border-none no-underline flex items-center justify-center gap-1.5"
+                    className="px-6 py-4 rounded-none sm:rounded-sm bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer border border-slate-300 no-underline flex items-center justify-center gap-1.5"
                   >
                     <Phone className="w-3.5 h-3.5" />
                     <span>Call Clinic</span>
@@ -1443,7 +1444,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             transition={{ duration: 0.7 }}
             className="text-center max-w-3xl mx-auto mb-16"
           >
-            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-amber-50 text-amber-900 text-xs font-bold uppercase tracking-wider mb-3 border border-amber-200">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-amber-50 text-amber-900 text-xs font-bold uppercase tracking-wider mb-3 border border-amber-200">
               <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
               <span>Verified Google Patient Reviews</span>
             </div>
@@ -1464,7 +1465,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: idx * 0.15 }}
-                className="bg-[#F8FAFC] p-8 sm:p-10 rounded-3xl border border-slate-200/90 shadow-md flex flex-col justify-between hover:shadow-2xl transition-all duration-300"
+                className="bg-[#F8FAFC] p-8 sm:p-10 rounded-none sm:rounded-sm border border-slate-200/90 shadow-sm flex flex-col justify-between hover:shadow-xl transition-all duration-300"
               >
                 <div>
                   {/* Rating Stars */}
@@ -1486,7 +1487,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                   <img
                     src={getAssetUrl(rev.photo)}
                     alt={rev.author}
-                    className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-md shrink-0"
+                    className="w-14 h-14 rounded-none sm:rounded-sm object-cover border border-slate-300 shadow-2xs shrink-0"
                   />
                   <div>
                     <div className="font-extrabold text-slate-950 text-base font-heading">
@@ -1518,7 +1519,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             transition={{ duration: 0.7 }}
             className="text-center mb-16"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#004A9C] text-xs font-bold uppercase tracking-wider mb-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-blue-50 text-[#004A9C] text-xs font-bold uppercase tracking-wider mb-3 border border-blue-200">
               <span>Transparent Clinical Answers</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-950 tracking-tight font-heading">
@@ -1529,7 +1530,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             </p>
           </motion.div>
 
-          <div className="space-y-5">
+          <div className="space-y-4">
             {faqsData.map((faq, index) => {
               const isOpen = activeFaq === index;
               return (
@@ -1539,17 +1540,17 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-20px" }}
                   transition={{ duration: 0.5, delay: index * 0.08 }}
-                  className="rounded-3xl border border-slate-200/90 bg-white overflow-hidden shadow-sm hover:shadow-md transition-all"
+                  className="rounded-none sm:rounded-sm border border-slate-200/90 bg-white overflow-hidden shadow-2xs hover:shadow-sm transition-all"
                 >
                   <button
                     onClick={() => setActiveFaq(isOpen ? null : index)}
                     className="w-full p-7 text-left font-bold text-slate-900 text-base sm:text-xl flex justify-between items-center gap-4 cursor-pointer bg-transparent border-none"
                   >
                     <div className="flex items-center gap-4">
-                      <span className="text-xs font-black text-[#27CFC3] font-heading">[ {faq.num} ]</span>
+                      <span className="text-xs font-black text-[#00A896] font-heading">[ {faq.num} ]</span>
                       <span>{faq.q}</span>
                     </div>
-                    <div className={`w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center shrink-0 transition-transform ${isOpen ? 'rotate-180 bg-teal-50 text-teal-700' : ''}`}>
+                    <div className={`w-9 h-9 rounded-none sm:rounded-sm bg-slate-100 flex items-center justify-center shrink-0 transition-transform ${isOpen ? 'rotate-180 bg-teal-50 text-[#00A896]' : ''}`}>
                       <ChevronDown className="w-4 h-4" />
                     </div>
                   </button>
@@ -1576,7 +1577,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
         </div>
       </section>
 
-      {/* 12. HIGH-CONVERSION CONSULTATION DESK */}
+      {/* 12. HIGH-CONVERSION CONSULTATION DESK (PURE LIGHT THEME) */}
       <section id="booking" className="py-24 md:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -1585,58 +1586,55 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="max-w-5xl mx-auto rounded-[36px] bg-slate-950 text-white p-8 sm:p-14 shadow-2xl relative overflow-hidden"
+            className="max-w-5xl mx-auto rounded-none sm:rounded-sm bg-gradient-to-br from-white via-slate-50 to-teal-50/20 text-slate-900 p-8 sm:p-14 shadow-xl border border-slate-200/90 relative overflow-hidden"
           >
-            <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#27CFC3]/20 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-[#004A9C]/30 rounded-full blur-3xl pointer-events-none" />
-
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               
               <div className="lg:col-span-6">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-[#27CFC3] text-xs font-bold uppercase tracking-wider mb-4 border border-white/10">
-                  <Calendar className="w-3.5 h-3.5" />
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 text-teal-900 text-xs font-bold uppercase tracking-wider mb-4 border border-teal-200">
+                  <Calendar className="w-3.5 h-3.5 text-[#00A896]" />
                   <span>Direct Clinical Consultation Desk</span>
                 </div>
 
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-6 font-heading">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-6 font-heading text-slate-950">
                   Ready to Restore Your Smile in One Visit?
                 </h2>
 
-                <p className="text-slate-300 text-base leading-relaxed mb-8">
+                <p className="text-slate-600 text-base leading-relaxed mb-8 font-body">
                   Book an evaluation with our specialist surgical and implantology team at St. James Hospital. Prefer an instant WhatsApp chat? Launch our real-time booking flow below.
                 </p>
 
                 <button
                   onClick={() => openWhatsAppBooking()}
-                  className="w-full sm:w-auto mb-8 flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-sm uppercase tracking-wider transition-all duration-300 shadow-xl shadow-emerald-500/30 hover:scale-105 cursor-pointer border-none"
+                  className="w-full sm:w-auto mb-8 flex items-center justify-center gap-3 px-8 py-4 rounded-none sm:rounded-sm bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-sm uppercase tracking-wider transition-all duration-300 shadow-xl shadow-emerald-500/20 hover:scale-[1.02] cursor-pointer border border-emerald-600/30"
                 >
                   <WhatsAppIcon className="w-5 h-5 text-slate-950" />
                   <span>Open WhatsApp Booking Flow</span>
                 </button>
 
                 <div className="space-y-4">
-                  <div className="flex items-center gap-3 text-sm text-slate-300">
-                    <Phone className="w-5 h-5 text-[#27CFC3]" />
-                    <span>Sliema Hospital: <strong className="text-white">(+356) 2329 1029</strong></span>
+                  <div className="flex items-center gap-3 text-sm text-slate-700">
+                    <Phone className="w-5 h-5 text-[#00A896]" />
+                    <span>Sliema Hospital: <strong className="text-slate-950">(+356) 2329 1029</strong></span>
                   </div>
-                  <div className="flex items-center gap-3 text-sm text-slate-300">
-                    <Phone className="w-5 h-5 text-[#27CFC3]" />
-                    <span>San Pawl il-Baħar: <strong className="text-white">(+356) 2329 3710</strong></span>
+                  <div className="flex items-center gap-3 text-sm text-slate-700">
+                    <Phone className="w-5 h-5 text-[#00A896]" />
+                    <span>San Pawl il-Baħar: <strong className="text-slate-950">(+356) 2329 3710</strong></span>
                   </div>
-                  <div className="flex items-center gap-3 text-sm text-slate-300">
-                    <Mail className="w-5 h-5 text-[#27CFC3]" />
-                    <span>info@dentalunitmalta.com</span>
+                  <div className="flex items-center gap-3 text-sm text-slate-700">
+                    <Mail className="w-5 h-5 text-[#00A896]" />
+                    <span className="text-slate-950 font-semibold">info@dentalunitmalta.com</span>
                   </div>
                 </div>
               </div>
 
               {/* Consultation Callback Form */}
-              <div className="lg:col-span-6 bg-white p-8 sm:p-10 rounded-3xl text-slate-900 shadow-xl">
+              <div className="lg:col-span-6 bg-white p-8 sm:p-10 rounded-none sm:rounded-sm text-slate-900 border border-slate-200 shadow-md">
                 <div className="text-xl font-bold text-slate-950 mb-1">Schedule Consultation Callback</div>
                 <div className="text-xs text-slate-500 mb-6">Fill in your details for hospital telephone confirmation.</div>
 
                 {leadSubmitted ? (
-                  <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center">
+                  <div className="bg-emerald-50 border border-emerald-200 rounded-none sm:rounded-sm p-6 text-center">
                     <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto mb-2" />
                     <div className="text-base font-bold text-emerald-950">Appointment Request Received</div>
                     <div className="text-xs text-emerald-700 mt-1">Our hospital coordinator will call you shortly to confirm your slot.</div>
@@ -1651,7 +1649,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                         placeholder="e.g. Christopher Borg"
                         value={leadForm.name}
                         onChange={(e) => setLeadForm({ ...leadForm, name: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#27CFC3]"
+                        className="w-full px-4 py-3 rounded-none sm:rounded-sm bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#00A896]"
                       />
                     </div>
 
@@ -1663,7 +1661,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                         placeholder="+356 ..."
                         value={leadForm.phone}
                         onChange={(e) => setLeadForm({ ...leadForm, phone: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#27CFC3]"
+                        className="w-full px-4 py-3 rounded-none sm:rounded-sm bg-slate-50 border border-slate-300 text-sm text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#00A896]"
                       />
                     </div>
 
@@ -1673,7 +1671,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                         <select
                           value={leadForm.clinic}
                           onChange={(e) => setLeadForm({ ...leadForm, clinic: e.target.value })}
-                          className="w-full px-3 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 font-semibold focus:outline-none"
+                          className="w-full px-3 py-3 rounded-none sm:rounded-sm bg-slate-50 border border-slate-300 text-xs text-slate-900 font-semibold focus:bg-white focus:outline-none"
                         >
                           <option value="Sliema">Sliema (Hospital)</option>
                           <option value="San Pawl">San Pawl il-Baħar</option>
@@ -1685,7 +1683,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                         <select
                           value={leadForm.service}
                           onChange={(e) => setLeadForm({ ...leadForm, service: e.target.value })}
-                          className="w-full px-3 py-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 font-semibold focus:outline-none"
+                          className="w-full px-3 py-3 rounded-none sm:rounded-sm bg-slate-50 border border-slate-300 text-xs text-slate-900 font-semibold focus:bg-white focus:outline-none"
                         >
                           <option value="Implants">Dental Implants / All-on-4</option>
                           <option value="CEREC">Same-Day CEREC Crown</option>
@@ -1698,7 +1696,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
                     <button
                       type="submit"
-                      className="w-full py-4 rounded-xl bg-[#27CFC3] hover:bg-[#20b5aa] text-slate-950 font-extrabold text-xs uppercase tracking-wider transition-all duration-300 shadow-lg shadow-teal-500/25 hover:scale-[1.02] cursor-pointer border-none mt-2"
+                      className="w-full py-4 rounded-none sm:rounded-sm bg-[#00A896] hover:bg-[#009282] text-white font-extrabold text-xs uppercase tracking-wider transition-all duration-300 shadow-md shadow-teal-500/20 hover:scale-[1.01] cursor-pointer border-none mt-2"
                     >
                       Confirm Free Consultation
                     </button>
@@ -1728,11 +1726,11 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 30 }}
-            className="fixed bottom-4 inset-x-4 max-w-lg mx-auto z-40 bg-slate-950/95 backdrop-blur-md p-2 rounded-full border border-slate-800 shadow-2xl flex items-center justify-between gap-2 sm:gap-3 text-white"
+            className="fixed bottom-4 inset-x-4 max-w-lg mx-auto z-40 bg-white/95 backdrop-blur-md p-2.5 rounded-none sm:rounded-sm border border-slate-200/90 shadow-2xl flex items-center justify-between gap-2 sm:gap-3 text-slate-900"
           >
             <button
               onClick={() => scrollToSection('clinics')}
-              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 text-xs font-bold text-[#27CFC3] bg-transparent border-none cursor-pointer"
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 text-xs font-bold text-[#004A9C] hover:text-[#00A896] bg-transparent border-none cursor-pointer"
             >
               <Phone className="w-3.5 h-3.5" />
               <span>(+356) 2329 1029</span>
@@ -1740,7 +1738,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
             <button
               onClick={() => openWhatsAppBooking()}
-              className="px-4 sm:px-6 py-2.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs uppercase tracking-wider transition-all hover:scale-105 cursor-pointer border-none flex items-center gap-2 shadow-lg shadow-emerald-500/25"
+              className="px-4 sm:px-6 py-2.5 rounded-none sm:rounded-sm bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs uppercase tracking-wider transition-all hover:scale-105 cursor-pointer border border-emerald-600/30 flex items-center gap-2 shadow-md"
             >
               <WhatsAppIcon className="w-4 h-4 text-slate-950" />
               <span>Book via WhatsApp</span>
@@ -1752,16 +1750,16 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
       {/* 15. INTERACTIVE SERVICE DETAIL MODAL */}
       <AnimatePresence>
         {selectedService && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative"
+              className="bg-white rounded-none sm:rounded-sm p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 relative"
             >
               <button
                 onClick={() => setSelectedService(null)}
-                className="absolute top-6 right-6 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-center cursor-pointer border-none transition-colors"
+                className="absolute top-6 right-6 w-10 h-10 rounded-none sm:rounded-sm bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-center cursor-pointer border border-slate-200 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -1769,22 +1767,22 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
               <div className="text-xs font-extrabold text-slate-400 mb-2">[ {selectedService.num} ]</div>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-950 mb-3 font-heading">{selectedService.title}</h3>
               <div 
-                className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 bg-slate-100"
+                className="inline-block px-3 py-1 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider mb-6 bg-slate-100 border border-slate-200"
                 style={{ color: selectedService.accentColor }}
               >
                 {selectedService.tagline}
               </div>
 
-              <p className="text-slate-700 text-base leading-relaxed mb-6">
+              <p className="text-slate-700 text-base leading-relaxed mb-6 font-body">
                 {selectedService.desc}
               </p>
 
-              <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 mb-8">
+              <div className="bg-slate-50 p-5 rounded-none sm:rounded-sm border border-slate-200/80 mb-8">
                 <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Clinical Highlights:</div>
                 <ul className="space-y-2">
                   {selectedService.bullets.map((b, i) => (
                     <li key={i} className="flex items-center gap-2 text-xs text-slate-800 font-medium">
-                      <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0" />
+                      <CheckCircle2 className="w-4 h-4 text-[#00A896] shrink-0" />
                       <span>{b}</span>
                     </li>
                   ))}
@@ -1794,7 +1792,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
               <div className="flex justify-end gap-3">
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="px-6 py-3 rounded-full bg-slate-100 text-slate-700 font-bold text-xs uppercase tracking-wider cursor-pointer border-none hover:bg-slate-200"
+                  className="px-6 py-3 rounded-none sm:rounded-sm bg-slate-100 text-slate-700 font-bold text-xs uppercase tracking-wider cursor-pointer border border-slate-300 hover:bg-slate-200"
                 >
                   Close
                 </button>
@@ -1804,7 +1802,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                     setSelectedService(null);
                     openWhatsAppBooking({ treatment: svcName });
                   }}
-                  className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#25D366] text-slate-950 font-black text-xs uppercase tracking-wider cursor-pointer border-none shadow-md hover:bg-[#20ba59]"
+                  className="flex items-center gap-2 px-6 py-3 rounded-none sm:rounded-sm bg-[#25D366] text-slate-950 font-black text-xs uppercase tracking-wider cursor-pointer border border-emerald-600/30 shadow-md hover:bg-[#20ba59]"
                 >
                   <WhatsAppIcon className="w-4 h-4 text-slate-950" />
                   <span>Book via WhatsApp</span>
@@ -1815,21 +1813,21 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
         )}
       </AnimatePresence>
 
-      {/* 16. EXPANSIVE REAL-TIME WHATSAPP BOOKING MODAL (100% IN ENGLISH, LARGE & HIGH IMPACT) */}
+      {/* 16. EXPANSIVE REAL-TIME WHATSAPP BOOKING MODAL (100% IN ENGLISH, LIGHT LUXURY & SQUARE BORDERS) */}
       <AnimatePresence>
         {whatsappModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/60 backdrop-blur-md overflow-y-auto">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 25 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 25 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-[#0B1017] text-white rounded-[32px] sm:rounded-[36px] border border-white/15 w-full max-w-5xl max-h-[94vh] overflow-y-auto shadow-2xl relative p-5 sm:p-8 lg:p-9 my-auto"
+              className="bg-white text-slate-900 rounded-none sm:rounded-sm border border-slate-200/90 w-full max-w-5xl max-h-[94vh] overflow-y-auto shadow-2xl relative p-5 sm:p-8 lg:p-9 my-auto"
             >
               {/* Close Button */}
               <button
                 onClick={() => setWhatsappModalOpen(false)}
-                className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center cursor-pointer border-none transition-colors z-30"
+                className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 rounded-none sm:rounded-sm bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-center cursor-pointer border border-slate-200 transition-colors z-30"
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
@@ -1837,14 +1835,14 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
               {/* Modal Header */}
               <div className="mb-6 pr-10">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[#25D366] text-[11px] sm:text-xs font-black uppercase tracking-wider mb-2">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none sm:rounded-sm bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] sm:text-xs font-bold uppercase tracking-wider mb-2">
                   <WhatsAppIcon className="w-3.5 h-3.5" />
                   <span>Direct WhatsApp Clinical Booking • St. James Hospital Network</span>
                 </div>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-normal font-editorial tracking-tight text-white">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-normal font-editorial tracking-tight text-slate-950">
                   Schedule Your Consultation via WhatsApp
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1.5">
+                <p className="text-xs sm:text-sm text-slate-600 mt-1.5 font-body">
                   Complete your details below. Watch your official message format in real-time on the right.
                 </p>
               </div>
@@ -1857,8 +1855,8 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                   
                   {/* Full Name Input */}
                   <div>
-                    <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-200 mb-1.5">
-                      <User className="w-3.5 h-3.5 text-[#27CFC3]" />
+                    <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-800 mb-1.5">
+                      <User className="w-3.5 h-3.5 text-[#00A896]" />
                       <span>Full Name *</span>
                     </label>
                     <input
@@ -1869,15 +1867,15 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                         setBookingForm({ ...bookingForm, name: e.target.value });
                         if (formValidationWarning) setFormValidationWarning(false);
                       }}
-                      className={`w-full px-4 py-3 rounded-xl bg-slate-900 border text-sm sm:text-base text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#25D366] transition-colors ${
-                        formValidationWarning && !bookingForm.name.trim() ? 'border-rose-500 ring-1 ring-rose-500' : 'border-white/15'
+                      className={`w-full px-4 py-3 rounded-none sm:rounded-sm bg-slate-50 border text-sm sm:text-base text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#00A896] transition-colors ${
+                        formValidationWarning && !bookingForm.name.trim() ? 'border-rose-500 ring-1 ring-rose-500' : 'border-slate-300'
                       }`}
                     />
                   </div>
 
                   {/* WhatsApp Phone Number */}
                   <div>
-                    <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-200 mb-1.5">
+                    <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-800 mb-1.5">
                       <Phone className="w-3.5 h-3.5 text-[#25D366]" />
                       <span>WhatsApp Phone Number *</span>
                     </label>
@@ -1889,66 +1887,66 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                         setBookingForm({ ...bookingForm, phone: e.target.value });
                         if (formValidationWarning) setFormValidationWarning(false);
                       }}
-                      className={`w-full px-4 py-3 rounded-xl bg-slate-900 border text-sm sm:text-base text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#25D366] transition-colors ${
-                        formValidationWarning && !bookingForm.phone.trim() ? 'border-rose-500 ring-1 ring-rose-500' : 'border-white/15'
+                      className={`w-full px-4 py-3 rounded-none sm:rounded-sm bg-slate-50 border text-sm sm:text-base text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#00A896] transition-colors ${
+                        formValidationWarning && !bookingForm.phone.trim() ? 'border-rose-500 ring-1 ring-rose-500' : 'border-slate-300'
                       }`}
                     />
                   </div>
 
                   {/* Sede Hospital Preference */}
                   <div>
-                    <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-200 mb-1.5">
-                      <Building2 className="w-3.5 h-3.5 text-[#27CFC3]" />
+                    <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-800 mb-1.5">
+                      <Building2 className="w-3.5 h-3.5 text-[#00A896]" />
                       <span>Hospital Location Preference</span>
                     </label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                       <button
                         type="button"
                         onClick={() => setBookingForm({ ...bookingForm, clinic: 'Sliema' })}
-                        className={`p-3 rounded-xl border text-left cursor-pointer transition-all ${
+                        className={`p-3 rounded-none sm:rounded-sm border text-left cursor-pointer transition-all ${
                           bookingForm.clinic === 'Sliema'
-                            ? 'bg-[#004A9C]/40 border-[#27CFC3] text-white shadow-lg'
-                            : 'bg-slate-900/60 border-white/10 text-slate-400 hover:border-white/25'
+                            ? 'bg-teal-50/70 border-teal-500 text-slate-950 shadow-sm'
+                            : 'bg-slate-50 border-slate-300 text-slate-700 hover:border-slate-400'
                         }`}
                       >
-                        <div className="text-xs sm:text-sm font-bold text-white flex items-center justify-between">
+                        <div className="text-xs sm:text-sm font-bold text-slate-950 flex items-center justify-between">
                           <span>Sliema Flagship</span>
-                          {bookingForm.clinic === 'Sliema' && <CheckCircle2 className="w-3.5 h-3.5 text-[#27CFC3]" />}
+                          {bookingForm.clinic === 'Sliema' && <CheckCircle2 className="w-3.5 h-3.5 text-[#00A896]" />}
                         </div>
-                        <div className="text-[11px] text-slate-300 mt-0.5">St. James Surgical Hospital</div>
+                        <div className="text-[11px] text-slate-500 mt-0.5">St. James Surgical Hospital</div>
                       </button>
 
                       <button
                         type="button"
                         onClick={() => setBookingForm({ ...bookingForm, clinic: 'San Pawl il-Baħar' })}
-                        className={`p-3 rounded-xl border text-left cursor-pointer transition-all ${
+                        className={`p-3 rounded-none sm:rounded-sm border text-left cursor-pointer transition-all ${
                           bookingForm.clinic === 'San Pawl il-Baħar'
-                            ? 'bg-[#004A9C]/40 border-[#27CFC3] text-white shadow-lg'
-                            : 'bg-slate-900/60 border-white/10 text-slate-400 hover:border-white/25'
+                            ? 'bg-teal-50/70 border-teal-500 text-slate-950 shadow-sm'
+                            : 'bg-slate-50 border-slate-300 text-slate-700 hover:border-slate-400'
                         }`}
                       >
-                        <div className="text-xs sm:text-sm font-bold text-white flex items-center justify-between">
+                        <div className="text-xs sm:text-sm font-bold text-slate-950 flex items-center justify-between">
                           <span>San Pawl il-Baħar</span>
-                          {bookingForm.clinic === 'San Pawl il-Baħar' && <CheckCircle2 className="w-3.5 h-3.5 text-[#27CFC3]" />}
+                          {bookingForm.clinic === 'San Pawl il-Baħar' && <CheckCircle2 className="w-3.5 h-3.5 text-[#00A896]" />}
                         </div>
-                        <div className="text-[11px] text-slate-300 mt-0.5">St. James North Medical Centre</div>
+                        <div className="text-[11px] text-slate-500 mt-0.5">St. James North Medical Centre</div>
                       </button>
                     </div>
                   </div>
 
                   {/* Treatment of Interest */}
                   <div>
-                    <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-200 mb-1.5">
-                      <Smile className="w-3.5 h-3.5 text-[#27CFC3]" />
+                    <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-800 mb-1.5">
+                      <Smile className="w-3.5 h-3.5 text-[#00A896]" />
                       <span>Procedure of Interest</span>
                     </label>
                     <select
                       value={bookingForm.treatment}
                       onChange={(e) => setBookingForm({ ...bookingForm, treatment: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-white/15 text-xs sm:text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#25D366]"
+                      className="w-full px-4 py-3 rounded-none sm:rounded-sm bg-slate-50 border border-slate-300 text-xs sm:text-sm text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#00A896]"
                     >
                       {treatmentOptions.map((opt, i) => (
-                        <option key={i} value={opt} className="bg-slate-900 text-white">
+                        <option key={i} value={opt} className="bg-white text-slate-900">
                           {opt}
                         </option>
                       ))}
@@ -1957,14 +1955,14 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
                   {/* Preferred Time / Urgency */}
                   <div>
-                    <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-200 mb-1.5">
-                      <Clock className="w-3.5 h-3.5 text-[#27CFC3]" />
+                    <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-800 mb-1.5">
+                      <Clock className="w-3.5 h-3.5 text-[#00A896]" />
                       <span>Timeline or Urgency</span>
                     </label>
                     <select
                       value={bookingForm.urgency}
                       onChange={(e) => setBookingForm({ ...bookingForm, urgency: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-white/15 text-xs sm:text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#25D366]"
+                      className="w-full px-4 py-3 rounded-none sm:rounded-sm bg-slate-50 border border-slate-300 text-xs sm:text-sm text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#00A896]"
                     >
                       <option value="Urgent Clinical Case (Within 24 Hours)">🚨 Urgent Clinical Case (Within 24 Hours)</option>
                       <option value="This week (Monday – Friday)">📅 This week (Monday – Friday)</option>
@@ -1977,8 +1975,8 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
                   {/* Optional Notes */}
                   <div>
-                    <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-200 mb-1.5">
-                      <MessageSquare className="w-3.5 h-3.5 text-[#27CFC3]" />
+                    <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-800 mb-1.5">
+                      <MessageSquare className="w-3.5 h-3.5 text-[#00A896]" />
                       <span>Additional Notes or Symptoms (Optional)</span>
                     </label>
                     <textarea
@@ -1986,13 +1984,13 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                       placeholder="e.g. Dental anxiety, missing molar, chipped front veneer, need IV sedation..."
                       value={bookingForm.notes}
                       onChange={(e) => setBookingForm({ ...bookingForm, notes: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/15 text-xs sm:text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#25D366]"
+                      className="w-full px-4 py-2.5 rounded-none sm:rounded-sm bg-slate-50 border border-slate-300 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#00A896]"
                     />
                   </div>
 
                   {/* Warning Notice if fields are missing */}
                   {formValidationWarning && (
-                    <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+                    <div className="p-3 rounded-none sm:rounded-sm bg-rose-50 border border-rose-300 text-rose-700 text-xs flex items-center gap-2">
                       <span className="font-bold">⚠️ Notice:</span>
                       <span>Please enter your Name and WhatsApp phone number to prepare your booking.</span>
                     </div>
@@ -2002,7 +2000,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                   <div className="pt-1 flex flex-col sm:flex-row items-center gap-2.5">
                     <button
                       onClick={handleSendWhatsApp}
-                      className="w-full flex-1 py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-xl shadow-emerald-500/30 hover:scale-[1.02] cursor-pointer border-none flex items-center justify-center gap-2"
+                      className="w-full flex-1 py-3.5 rounded-none sm:rounded-sm bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-md shadow-emerald-500/20 hover:scale-[1.01] cursor-pointer border border-emerald-600/30 flex items-center justify-center gap-2"
                     >
                       <WhatsAppIcon className="w-4 h-4 sm:w-5 sm:h-5 text-slate-950" />
                       <span>Send to Official WhatsApp</span>
@@ -2010,15 +2008,15 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
                     <button
                       onClick={handleCopyWhatsAppMessage}
-                      className="w-full sm:w-auto px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer border border-white/15 flex items-center justify-center gap-1.5 shrink-0"
+                      className="w-full sm:w-auto px-5 py-3.5 rounded-none sm:rounded-sm bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer border border-slate-300 flex items-center justify-center gap-1.5 shrink-0"
                     >
-                      {copySuccess ? <Check className="w-4 h-4 text-[#25D366]" /> : <Copy className="w-4 h-4" />}
+                      {copySuccess ? <Check className="w-4 h-4 text-[#00A896]" /> : <Copy className="w-4 h-4" />}
                       <span>{copySuccess ? "Copied!" : "Copy Text"}</span>
                     </button>
                   </div>
 
-                  <div className="text-[11px] text-slate-400 flex items-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-[#27CFC3]" />
+                  <div className="text-[11px] text-slate-500 flex items-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#00A896]" />
                     <span>Direct connection with St. James Hospital clinical coordinators.</span>
                   </div>
 
@@ -2027,9 +2025,9 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 {/* RIGHT COLUMN: Realistic WhatsApp Smartphone Mockup */}
                 <div className="lg:col-span-6 flex flex-col items-center">
                   
-                  <div className="w-full max-w-[360px] sm:max-w-[390px] rounded-[48px] p-3.5 bg-gradient-to-b from-slate-700 via-slate-800 to-slate-950 border-4 border-slate-700/80 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] relative select-none">
+                  <div className="w-full max-w-[360px] sm:max-w-[390px] rounded-none sm:rounded-sm p-3.5 bg-gradient-to-b from-slate-100 via-slate-200 to-slate-300 border-2 border-slate-300 shadow-xl relative select-none">
                     
-                    <div className="w-full rounded-[38px] overflow-hidden bg-[#0B141A] flex flex-col border border-white/10 relative">
+                    <div className="w-full rounded-none sm:rounded-sm overflow-hidden bg-[#0B141A] flex flex-col border border-slate-400/30 relative">
                       
                       {/* Dynamic Island / Status Bar */}
                       <div className="bg-[#1F2C34] pt-2 px-6 pb-1 flex items-center justify-between text-[11px] font-semibold text-slate-300">
@@ -2072,20 +2070,18 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                         
                         <div className="absolute inset-0 opacity-5 pointer-events-none bg-[radial-gradient(#27CFC3_1px,transparent_1px)] [background-size:16px_16px]" />
 
-                        <div className="mx-auto my-1 px-3 py-1 rounded-lg bg-[#182229] border border-white/5 text-[9px] text-[#8696A0] text-center max-w-[90%] flex items-center gap-1 justify-center">
+                        <div className="mx-auto my-1 px-3 py-1 rounded-sm bg-[#182229] border border-white/5 text-[9px] text-[#8696A0] text-center max-w-[90%] flex items-center gap-1 justify-center">
                           <ShieldCheck className="w-3 h-3 text-amber-400/80 shrink-0" />
                           <span>Messages are end-to-end encrypted.</span>
                         </div>
 
-                        <div className="mx-auto px-2.5 py-0.5 rounded-md bg-[#182229] text-[10px] font-semibold text-[#8696A0]">
+                        <div className="mx-auto px-2.5 py-0.5 rounded-sm bg-[#182229] text-[10px] font-semibold text-[#8696A0]">
                           TODAY
                         </div>
 
                         {/* Outgoing WhatsApp Bubble in English */}
-                        <div className="self-end max-w-[92%] bg-[#005C4B] text-white p-3.5 rounded-2xl rounded-tr-none shadow-md relative border border-emerald-400/20">
+                        <div className="self-end max-w-[92%] bg-[#005C4B] text-white p-3.5 rounded-none sm:rounded-sm shadow-md relative border border-emerald-400/20">
                           
-                          <div className="absolute top-0 -right-1.5 w-2 h-2 bg-[#005C4B]" style={{ clipPath: 'polygon(0 0, 0 100%, 100% 0)' }} />
-
                           <div className="font-bold text-[11px] text-emerald-200 border-b border-emerald-400/20 pb-1 mb-2">
                             👋 CLINICAL APPOINTMENT REQUEST
                           </div>
@@ -2130,13 +2126,13 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
                       {/* WhatsApp Bottom Bar */}
                       <div className="bg-[#1F2C34] p-2.5 flex items-center gap-2 border-t border-white/5">
-                        <div className="flex-1 bg-[#2A3942] rounded-full px-3.5 py-2 text-[11px] text-[#8696A0] flex items-center justify-between">
+                        <div className="flex-1 bg-[#2A3942] rounded-none sm:rounded-sm px-3.5 py-2 text-[11px] text-[#8696A0] flex items-center justify-between">
                           <span>Type a message...</span>
                           <span className="text-white/50">📎</span>
                         </div>
                         <div 
                           onClick={handleSendWhatsApp}
-                          className="w-9 h-9 rounded-full bg-[#00A884] hover:bg-[#008f70] text-slate-950 flex items-center justify-center cursor-pointer shadow-md transition-transform hover:scale-110"
+                          className="w-9 h-9 rounded-none sm:rounded-sm bg-[#00A884] hover:bg-[#008f70] text-slate-950 flex items-center justify-center cursor-pointer shadow-md transition-transform hover:scale-105"
                         >
                           <Send className="w-4 h-4 text-slate-950" />
                         </div>
@@ -2146,11 +2142,11 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                   </div>
 
                   <div className="mt-4 text-center">
-                    <span className="text-xs font-semibold text-emerald-400 flex items-center gap-1.5 justify-center">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                    <span className="text-xs font-semibold text-emerald-700 flex items-center gap-1.5 justify-center">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                       <span>Live Interactive WhatsApp Preview</span>
                     </span>
-                    <p className="text-[11px] text-slate-400 mt-1">
+                    <p className="text-[11px] text-slate-500 mt-1">
                       Clicking send opens WhatsApp with this exact message pre-formatted.
                     </p>
                   </div>
