@@ -3,7 +3,6 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { 
   ArrowUpRight, 
   X, 
-  ArrowUp, 
   ChevronDown, 
   Star, 
   Phone, 
@@ -14,17 +13,21 @@ import {
   Pause, 
   CheckCircle2, 
   Sparkles, 
-  ShieldCheck, 
   Building2, 
   Smile, 
-  Cpu,
   ChevronRight,
   ChevronLeft,
   Calendar,
-  MoveRight,
-  Activity,
   Layers,
-  Award
+  Award,
+  CheckCheck,
+  Copy,
+  Check,
+  User,
+  MessageSquare,
+  ShieldCheck,
+  Send,
+  Smartphone
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
@@ -65,7 +68,14 @@ const FullLogo = ({ className = "h-9 w-auto", light = false }: { className?: str
   );
 };
 
-// Services / Treatments Data (Luxury Westside Dental Style)
+// Official WhatsApp Vector Icon
+const WhatsAppIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
+    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.16 12.05 20.16C10.66 20.16 9.3 19.8 8.1 19.09L7.81 18.92L4.7 19.73L5.53 16.7L5.34 16.39C4.55 15.14 4.13 13.55 4.13 11.91C4.13 7.37 7.82 3.67 12.05 3.67ZM9.08 7.39C8.91 7.39 8.68 7.46 8.48 7.68C8.28 7.9 7.72 8.42 7.72 9.48C7.72 10.55 8.5 11.58 8.61 11.72C8.72 11.87 10.13 14.04 12.3 14.98C12.82 15.2 13.22 15.34 13.54 15.44C14.06 15.61 14.54 15.58 14.91 15.53C15.33 15.46 16.19 15.01 16.37 14.51C16.55 14.01 16.55 13.58 16.5 13.49C16.44 13.4 16.3 13.34 16.08 13.23C15.86 13.12 14.79 12.59 14.59 12.52C14.39 12.45 14.25 12.41 14.11 12.63C13.97 12.85 13.57 13.34 13.45 13.48C13.33 13.62 13.21 13.64 12.99 13.53C12.77 13.42 12.06 13.18 11.22 12.43C10.56 11.84 10.12 11.12 9.99 10.9C9.86 10.68 9.98 10.56 10.09 10.45C10.19 10.35 10.31 10.19 10.42 10.06C10.53 9.93 10.57 9.83 10.64 9.68C10.71 9.53 10.68 9.41 10.62 9.3C10.56 9.19 10.12 8.11 9.94 7.67C9.76 7.24 9.58 7.3 9.44 7.29C9.31 7.29 9.18 7.39 9.08 7.39Z" />
+  </svg>
+);
+
+// Services / Treatments Data (Luxury Dental Architecture)
 const servicesData = [
   {
     num: "01",
@@ -135,6 +145,17 @@ const servicesData = [
   }
 ];
 
+// Available Treatments for WhatsApp Booking Form
+const treatmentOptions = [
+  "Dental Implants & All-on-4 (Same-Day Fixed Teeth)",
+  "CEREC 3D Ceramics & Veneers (60-Minute Milling)",
+  "Certified IV Sedation (100% Anxiety & Pain Free)",
+  "Maxillofacial & Surgical Wisdom Extraction",
+  "Digital Smile Design (DSD Mockup)",
+  "Invisalign & Clear Aligners",
+  "General Consultation & 3D CBCT Bone Scan"
+];
+
 // Clinic Locations Data
 const clinicLocations = [
   {
@@ -143,6 +164,7 @@ const clinicLocations = [
     tag: 'Flagship Hospital Suite',
     address: 'George Borg Olivier Street, Sliema SLM 1807, Malta',
     phone: '(+356) 2329 1029',
+    phoneClean: '35623291029',
     email: 'info@dentalunitmalta.com',
     hours: [
       { days: 'Monday, Tuesday & Thursday', time: '09:00 – 18:00' },
@@ -162,7 +184,8 @@ const clinicLocations = [
     name: 'St. James Clinic (San Pawl il-Baħar)',
     tag: 'North Malta Medical Centre',
     address: 'Triq Il-Wardija, San Pawl il-Baħar, Malta',
-    phone: '(+356)-2329-3710',
+    phone: '(+356) 2329 3710',
+    phoneClean: '35623293710',
     email: 'info@dentalunitmalta.com',
     hours: [
       { days: 'Monday, Tuesday & Thursday', time: '09:00 – 18:00' },
@@ -224,11 +247,11 @@ const faqsData = [
   },
   {
     q: "Are consultations free and how do I schedule an appointment?",
-    a: "Initial consultations can be requested directly through our fast callback form below or by calling (+356) 2329 1029 (Sliema) or (+356)-2329-3710 (San Pawl). Our clinical coordinators will schedule an evaluation with a specialist within 24–48 hours."
+    a: "Initial evaluations can be booked directly through our fast WhatsApp consultation flow with live chat preview or by calling (+356) 2329 1029 (Sliema) or (+356) 2329 3710 (San Pawl). Our hospital patient coordinators will confirm a specialist slot within minutes."
   }
 ];
 
-// Clinical Transformations Cases Data (21st.dev Timeline Style)
+// Clinical Transformations Cases Data (Cover-Up Portfolio Style)
 const transformationCases = [
   {
     id: 1,
@@ -320,9 +343,24 @@ export default function App() {
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [activeCaseIndex, setActiveCaseIndex] = useState(0);
-  const [sliderPosition, setSliderPosition] = useState(50); // For Before/After slider
+  const [sliderPosition, setSliderPosition] = useState(50);
   const [showBottomBar, setShowBottomBar] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  // WhatsApp Intake Modal State & Interactive Live Preview
+  const [whatsappModalOpen, setWhatsappModalOpen] = useState(false);
+  const [bookingForm, setBookingForm] = useState({
+    name: '',
+    phone: '',
+    clinic: 'Sliema', // 'Sliema' | 'San Pawl il-Baħar'
+    treatment: 'Dental Implants & All-on-4 (Same-Day Fixed Teeth)',
+    urgency: 'Esta semana (Lunes a Viernes)',
+    notes: ''
+  });
+  const [formValidationWarning, setFormValidationWarning] = useState(false);
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  // Standard Lead desk state
   const [leadSubmitted, setLeadSubmitted] = useState(false);
   const [leadForm, setLeadForm] = useState({ name: '', phone: '', clinic: 'Sliema', service: 'Implants' });
 
@@ -343,13 +381,12 @@ export default function App() {
   const heroTextOpacity = useTransform(heroProgress, [0.15, 0.65], [1, 0.25]);
   const heroTextY = useTransform(heroProgress, [0.15, 0.65], [0, -30]);
 
-  // Handle Video Autoplay & Loop
+  // Video Autoplay & Loop
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     video.play().catch(() => {
-      // Browser autoplay policy might require muted
       video.muted = true;
       video.play().catch(() => {});
     });
@@ -380,7 +417,7 @@ export default function App() {
     setMobileMenuOpen(false);
   };
 
-  // Horizontal Scroll Handler for Services (Arrows)
+  // Horizontal Scroll Handler for Services
   const scrollHorizontal = (direction: 'left' | 'right') => {
     if (!horizontalTrackRef.current) return;
     const scrollAmount = direction === 'left' ? -380 : 380;
@@ -393,6 +430,60 @@ export default function App() {
     const rect = sliderContainerRef.current.getBoundingClientRect();
     const position = ((clientX - rect.left) / rect.width) * 100;
     setSliderPosition(Math.max(5, Math.min(95, position)));
+  };
+
+  // Open WhatsApp Intake Modal with customizable defaults
+  const openWhatsAppBooking = (initialDefaults?: Partial<typeof bookingForm>) => {
+    if (initialDefaults) {
+      setBookingForm(prev => ({ ...prev, ...initialDefaults }));
+    }
+    setFormValidationWarning(false);
+    setCopySuccess(false);
+    setWhatsappModalOpen(true);
+  };
+
+  // Generates real-time WhatsApp message string
+  const generateWhatsAppMessage = () => {
+    const nameText = bookingForm.name.trim() || '[Nombre del Paciente]';
+    const phoneText = bookingForm.phone.trim() || '[Teléfono WhatsApp]';
+    const clinicName = bookingForm.clinic === 'Sliema' 
+      ? 'St. James Hospital (Sliema Flagship)' 
+      : 'St. James Medical Centre (San Pawl il-Baħar)';
+    const treatmentText = bookingForm.treatment || 'Consulta Quirúrgica';
+    const urgencyText = bookingForm.urgency || 'Esta semana';
+    const notesText = bookingForm.notes.trim() ? `\n📝 *Detalles o Síntomas:* ${bookingForm.notes.trim()}` : '';
+
+    return `👋 *SOLICITUD DE AGENDAMIENTO • DiU CLINIC MALTA*
+━━━━━━━━━━━━━━━━━━
+👤 *Paciente:* ${nameText}
+📱 *Teléfono WhatsApp:* ${phoneText}
+🏛️ *Sede de Preferencia:* ${clinicName}
+🦷 *Tratamiento:* ${treatmentText}
+⏰ *Disponibilidad / Urgencia:* ${urgencyText}${notesText}
+━━━━━━━━━━━━━━━━━━
+_Solicitud generada a través de la web oficial de DiU Clinic Malta (St. James Hospital Network). Deseo confirmar disponibilidad para consulta._`;
+  };
+
+  // Direct Send to WhatsApp Link
+  const handleSendWhatsApp = () => {
+    if (!bookingForm.name.trim() || !bookingForm.phone.trim()) {
+      setFormValidationWarning(true);
+      return;
+    }
+    const phoneTarget = bookingForm.clinic === 'San Pawl' || bookingForm.clinic.toLowerCase().includes('pawl')
+      ? '35623293710'
+      : '35623291029';
+    const message = generateWhatsAppMessage();
+    const whatsappUrl = `https://wa.me/${phoneTarget}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  // Copy message to clipboard helper
+  const handleCopyWhatsAppMessage = () => {
+    const message = generateWhatsAppMessage();
+    navigator.clipboard.writeText(message);
+    setCopySuccess(true);
+    setTimeout(() => setCopySuccess(false), 2500);
   };
 
   const handleLeadSubmit = (e: React.FormEvent) => {
@@ -422,7 +513,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#F4F6F9] text-slate-900 font-sans selection:bg-[#27CFC3] selection:text-slate-950 overflow-x-clip">
 
-      {/* 1. ULTRA-LUXURY FLOATING NAVBAR (21st.dev / Elena Voss Inspired) */}
+      {/* 1. ULTRA-LUXURY FLOATING NAVBAR */}
       <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         isScrolled 
           ? 'bg-slate-950/85 backdrop-blur-md border-b border-white/10 shadow-2xl py-3.5 px-4 sm:px-8' 
@@ -460,15 +551,16 @@ export default function App() {
             </button>
           </nav>
 
-          {/* Right Action CTA (21st.dev Elena Voss Pill Button) */}
+          {/* Right Action CTAs */}
           <div className="flex items-center gap-2 sm:gap-4">
+            {/* Primary Instant WhatsApp Pill */}
             <button
-              onClick={() => scrollToSection('booking')}
-              className="group relative flex items-center justify-center gap-2 h-9 sm:h-11 px-3.5 sm:px-6 rounded-full overflow-hidden text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-300 bg-white hover:bg-[#27CFC3] text-slate-950 shadow-xl shadow-black/20 hover:scale-105 cursor-pointer border-none shrink-0"
+              onClick={() => openWhatsAppBooking()}
+              className="group relative flex items-center justify-center gap-2 h-9 sm:h-11 px-3.5 sm:px-5 rounded-full overflow-hidden text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all duration-300 bg-[#25D366] hover:bg-[#20ba59] text-slate-950 shadow-xl shadow-emerald-500/25 hover:scale-105 cursor-pointer border-none shrink-0"
             >
-              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#27CFC3] group-hover:bg-slate-950 transition-colors animate-pulse" />
-              <span>Book Consultation</span>
-              <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <WhatsAppIcon className="w-4 h-4 text-slate-950" />
+              <span>Agendar WhatsApp</span>
+              <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </button>
 
             {/* Mobile Menu Toggle */}
@@ -503,18 +595,23 @@ export default function App() {
               <button onClick={() => scrollToSection('services-section')} className="text-left py-2 border-b border-white/10 bg-transparent border-none text-white cursor-pointer">Specialties & Treatments</button>
               <button onClick={() => scrollToSection('clinics')} className="text-left py-2 border-b border-white/10 bg-transparent border-none text-white cursor-pointer">The 2 Hospital Clinics</button>
               <button onClick={() => scrollToSection('faqs')} className="text-left py-2 border-b border-white/10 bg-transparent border-none text-white cursor-pointer">Questions & Answers</button>
+              
               <button
-                onClick={() => scrollToSection('booking')}
-                className="w-full mt-2 py-3.5 rounded-full bg-[#27CFC3] text-slate-950 font-extrabold text-center text-xs uppercase tracking-wider border-none cursor-pointer shadow-lg"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openWhatsAppBooking();
+                }}
+                className="w-full mt-2 py-3.5 rounded-full bg-[#25D366] text-slate-950 font-black text-center text-xs uppercase tracking-wider border-none cursor-pointer shadow-lg flex items-center justify-center gap-2"
               >
-                Book Free Consultation
+                <WhatsAppIcon className="w-4 h-4 text-slate-950" />
+                <span>Agendar Cita en WhatsApp</span>
               </button>
             </motion.div>
           )}
         </AnimatePresence>
       </header>
 
-      {/* 3. HERO SECTION: 21ST.DEV / ELENA VOSS STYLE SCROLL-SHRINK CARD + DUAL VERTICAL MARQUEE UNVEIL */}
+      {/* 2. HERO SECTION: 21ST.DEV SCROLL-SHRINK CARD + DUAL VERTICAL MARQUEE UNVEIL */}
       <div 
         id="hero" 
         ref={heroSectionRef} 
@@ -541,7 +638,6 @@ export default function App() {
                 { title: 'Executive Patient Intake & Reception', tag: 'St. James Hospital', img: 'frame_reception.jpg' },
                 { title: 'CEREC CAD/CAM 3D Milling Lab', tag: 'In-House Ceramics', img: 'tech_preview.png' },
                 { title: 'Consultant IV Sedation Suite', tag: 'Zero Anxiety Care', img: 'frame_chair.jpg' },
-                // Loop duplicates
                 { title: 'Sliema Hospital Surgical Theatre', tag: 'Flagship Centre', img: 'sliema_clinic.png' },
                 { title: 'Executive Patient Intake & Reception', tag: 'St. James Hospital', img: 'frame_reception.jpg' },
                 { title: 'CEREC CAD/CAM 3D Milling Lab', tag: 'In-House Ceramics', img: 'tech_preview.png' },
@@ -567,7 +663,6 @@ export default function App() {
                 { title: 'St. James Sterile Hospital Hallway', tag: 'Accredited Facility', img: 'frame_hallway.jpg' },
                 { title: 'Digital Smile Design & 3D CBCT', tag: 'Diagnostic Precision', img: 'tech_preview.png' },
                 { title: 'Restorative All-on-4 Treatment Room', tag: 'Same-Day Surgery', img: 'frame_chair.jpg' },
-                // Loop duplicates
                 { title: 'San Pawl il-Baħar Medical Centre', tag: 'North Malta Suite', img: 'burmarrad_clinic.png' },
                 { title: 'St. James Sterile Hospital Hallway', tag: 'Accredited Facility', img: 'frame_hallway.jpg' },
                 { title: 'Digital Smile Design & 3D CBCT', tag: 'Diagnostic Precision', img: 'tech_preview.png' },
@@ -588,7 +683,7 @@ export default function App() {
 
           </motion.div>
 
-          {/* Layer 1: Pinned Shrinking Hero Card (Framer Motion scale + border-radius) */}
+          {/* Layer 1: Pinned Shrinking Hero Card */}
           <motion.div 
             style={{ 
               scale: heroCardScale, 
@@ -616,12 +711,10 @@ export default function App() {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-slate-950/50" />
             </div>
 
-
-
-            {/* Foreground Content Layer (21st.dev / Elena Voss Editorial Hero) */}
+            {/* Foreground Content Layer (High-Converting Hero with WhatsApp Intake & Scroll Explorer) */}
             <motion.div 
               style={{ opacity: heroTextOpacity, y: heroTextY }}
-              className="relative z-20 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-16 pb-12 sm:py-24 w-full h-full flex flex-col justify-center"
+              className="relative z-20 max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-20 pb-16 sm:py-24 w-full h-full flex flex-col justify-center"
             >
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 
@@ -640,7 +733,7 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* 3-Line Statement in Editorial Typography (Host Grotesk) */}
+                  {/* 3-Line Statement in Editorial Typography */}
                   <h1 className="text-5xl sm:text-7xl lg:text-[5.5vw] font-normal tracking-tight leading-[1.05] mb-6 drop-shadow-md font-editorial text-white">
                     Precision <br />
                     Dentistry. <br />
@@ -651,36 +744,59 @@ export default function App() {
                     Founded by <strong className="font-semibold text-white">Dr. Mark & Susanna Diacono</strong>. Same-day CEREC 3D ceramics, precision bone reconstruction, and 100% anxiety-free certified IV sedation inside St. James Hospital.
                   </p>
 
-                  {/* CTAs with Contrast */}
-                  <div className="flex flex-wrap items-center gap-4">
+                  {/* High-Converting Action Row */}
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mb-6">
+                    
+                    {/* PRIMARY HIGH-CONVERTING WHATSAPP BUTTON */}
                     <button
-                      onClick={() => scrollToSection('booking')}
-                      className="group flex items-center gap-2.5 px-7 py-4 rounded-full bg-[#27CFC3] hover:bg-[#20b5aa] text-slate-950 font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-xl shadow-teal-500/30 hover:scale-105 cursor-pointer border-none"
+                      onClick={() => openWhatsAppBooking()}
+                      className="group relative flex items-center justify-center gap-3 px-8 py-4.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-sm uppercase tracking-wider transition-all duration-300 shadow-2xl shadow-emerald-500/40 hover:scale-[1.03] cursor-pointer border-none"
                     >
-                      <span>Book Free Consultation</span>
+                      <WhatsAppIcon className="w-5 h-5 text-slate-950" />
+                      <span>Agendar Cita por WhatsApp</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </button>
 
+                    {/* SECONDARY EXPLORATION BUTTON (Scroll down) */}
                     <button
-                      onClick={() => scrollToSection('services-section')}
-                      className="flex items-center gap-2 px-6 py-4 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold text-xs sm:text-sm uppercase tracking-wider border border-white/25 hover:border-white transition-all cursor-pointer"
+                      onClick={() => scrollToSection('smile-results')}
+                      className="flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold text-xs sm:text-sm uppercase tracking-wider border border-white/25 hover:border-white transition-all cursor-pointer"
                     >
                       <Layers className="w-4 h-4 text-[#27CFC3]" />
-                      <span>Explore Treatments</span>
+                      <span>Explorar Casos (Scroll ↓)</span>
                     </button>
 
-                    <button
-                      onClick={() => scrollToSection('clinics')}
-                      className="flex items-center gap-2 px-5 py-4 rounded-full bg-transparent hover:bg-white/10 text-white font-semibold text-xs sm:text-sm transition-colors cursor-pointer border-none"
+                    {/* DIRECT HOSPITAL CALL */}
+                    <a
+                      href="tel:+35623291029"
+                      className="hidden md:flex items-center justify-center gap-2 px-5 py-4 rounded-full bg-white/5 hover:bg-white/15 text-white/90 hover:text-white font-semibold text-xs sm:text-sm transition-colors cursor-pointer border border-white/10 no-underline"
                     >
                       <Phone className="w-4 h-4 text-[#27CFC3]" />
                       <span>(+356) 2329 1029</span>
-                    </button>
+                    </a>
+                  </div>
+
+                  {/* Trust Reassurance Footnote */}
+                  <div className="flex flex-wrap items-center gap-3 text-xs text-white/70">
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#25D366]" />
+                      <span>Respuesta en menos de 15 min</span>
+                    </div>
+                    <span className="text-white/30 hidden sm:inline">•</span>
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#27CFC3]" />
+                      <span>Sin compromiso</span>
+                    </div>
+                    <span className="text-white/30 hidden sm:inline">•</span>
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#27CFC3]" />
+                      <span>Sliema & San Pawl il-Baħar</span>
+                    </div>
                   </div>
 
                 </div>
 
-                {/* Right Column: Stacked Editorial Metadata (Elena Voss Inspired) */}
+                {/* Right Column: Stacked Editorial Metadata */}
                 <div className="hidden lg:flex lg:col-span-4 flex-col justify-between items-end text-right h-full py-4 text-white">
                   <div>
                     <span className="text-[11px] font-bold uppercase tracking-widest text-[#27CFC3] block mb-1">
@@ -722,7 +838,7 @@ export default function App() {
               </div>
             </motion.div>
 
-            {/* Bottom Video HUD Bar & Controls (Completely clear of fixed header) */}
+            {/* Bottom Video HUD Bar & Controls */}
             <div className="absolute bottom-5 inset-x-4 sm:inset-x-8 lg:inset-x-12 z-20 flex justify-between items-center pointer-events-none">
               <div className="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white text-[11px] font-semibold">
                 <span className="w-2 h-2 rounded-full bg-[#27CFC3] animate-ping" />
@@ -750,14 +866,20 @@ export default function App() {
         </div>
       </div>
 
-      {/* 2. ARCHED ROLLING TRANSITION: AWARD-WINNING RESTORATIONS (21st.dev Portfolio / Cover-Up Style) */}
+      {/* 3. ARCHED ROLLING TRANSITION: AWARD-WINNING RESTORATIONS */}
       <section 
         id="smile-results" 
         className="-mt-24 sm:-mt-32 rounded-t-[60px] sm:rounded-t-[80px] md:rounded-t-[100px] bg-[#070B12] text-white pt-24 pb-28 sm:pb-36 border-t border-white/10 relative z-20 shadow-[0_-25px_60px_-15px_rgba(0,0,0,0.8)]"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="text-center max-w-3xl mx-auto mb-16 sm:mb-20"
+          >
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-[#27CFC3] text-xs font-bold uppercase tracking-wider mb-4 border border-white/10">
               <Smile className="w-4 h-4 text-[#27CFC3]" />
               <span>Verified Clinical Results [ 01 – 04 ]</span>
@@ -768,12 +890,18 @@ export default function App() {
             <p className="text-slate-400 text-sm sm:text-lg max-w-2xl mx-auto font-body">
               Precision transformations engineered with Swiss Straumann implants and in-house CEREC 3D ceramics inside St. James Hospital.
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             
             {/* Left Column: Interactive Timeline List of Cases */}
-            <div className="lg:col-span-5 space-y-4">
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="lg:col-span-5 space-y-4"
+            >
               {transformationCases.map((c, idx) => {
                 const isActive = activeCaseIndex === idx;
                 return (
@@ -786,7 +914,6 @@ export default function App() {
                         : 'bg-white/[0.03] text-slate-300 border-white/10 hover:border-white/25 hover:bg-white/[0.06]'
                     }`}
                   >
-                    {/* Active Accent Indicator */}
                     {isActive && (
                       <div className="absolute top-0 left-0 bottom-0 w-1.5 bg-[#27CFC3]" />
                     )}
@@ -824,10 +951,16 @@ export default function App() {
                   </div>
                 );
               })}
-            </div>
+            </motion.div>
 
             {/* Right Column: Dynamic Interactive Before & After Slider */}
-            <div className="lg:col-span-7">
+            <motion.div 
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="lg:col-span-7"
+            >
               <div className="bg-slate-900/90 p-5 sm:p-7 rounded-3xl border border-white/10 shadow-2xl backdrop-blur-md">
                 
                 {/* Active Case Header */}
@@ -853,14 +986,14 @@ export default function App() {
                   onTouchMove={(e) => handleSliderMove(e.touches[0].clientX)}
                   className="relative rounded-2xl overflow-hidden aspect-[16/10] sm:aspect-[16/9] border border-white/15 shadow-2xl cursor-ew-resize select-none bg-slate-950"
                 >
-                  {/* After Image (Full Background) */}
+                  {/* After Image */}
                   <img
                     src={getAssetUrl(transformationCases[activeCaseIndex].afterImage)}
                     alt={transformationCases[activeCaseIndex].afterLabel}
                     className="absolute inset-0 w-full h-full object-cover"
                   />
 
-                  {/* Before Image (Clipped Left Layer) */}
+                  {/* Before Image */}
                   <div
                     className="absolute inset-0 overflow-hidden"
                     style={{ width: `${sliderPosition}%` }}
@@ -874,7 +1007,7 @@ export default function App() {
                     <div className="absolute inset-0 bg-slate-950/20" />
                   </div>
 
-                  {/* Central Draggable Divider Line */}
+                  {/* Divider Line */}
                   <div
                     className="absolute top-0 bottom-0 w-1 bg-white shadow-xl cursor-ew-resize flex items-center justify-center z-20"
                     style={{ left: `${sliderPosition}%` }}
@@ -900,32 +1033,41 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Bottom Callout & Quick Booking Trigger */}
+                {/* Bottom Quick WhatsApp Trigger */}
                 <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-2xl bg-white/5 border border-white/10 text-white">
                   <div className="text-xs text-slate-300">
                     <strong className="text-white">Protocol:</strong> {transformationCases[activeCaseIndex].sedation} • {transformationCases[activeCaseIndex].summary}
                   </div>
                   <button
-                    onClick={() => scrollToSection('booking')}
-                    className="px-6 py-2.5 rounded-full bg-[#27CFC3] hover:bg-[#20b5aa] text-slate-950 font-extrabold text-xs uppercase tracking-wider shrink-0 transition-all hover:scale-105 cursor-pointer border-none shadow-lg"
+                    onClick={() => openWhatsAppBooking({
+                      treatment: `${transformationCases[activeCaseIndex].title} (${transformationCases[activeCaseIndex].subtitle})`
+                    })}
+                    className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs uppercase tracking-wider shrink-0 transition-all hover:scale-105 cursor-pointer border-none shadow-lg shadow-emerald-500/20"
                   >
-                    Book This Procedure
+                    <WhatsAppIcon className="w-4 h-4 text-slate-950" />
+                    <span>Consultar este Procedimiento</span>
                   </button>
                 </div>
 
               </div>
-            </div>
+            </motion.div>
 
           </div>
 
         </div>
       </section>
 
-      {/* 3. WHY CHOOSE DIU CLINIC? (21st.dev "Why Work With Me?" 3-Bento Structure) */}
+      {/* 4. WHY CHOOSE DIU CLINIC? (3-BENTO GRID WITH SCROLL ENTRANCE & HOVER REVEALS) */}
       <section id="why-diu" className="py-24 md:py-32 bg-[#F8FAFC] text-slate-900 border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 35 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.7 }}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold uppercase tracking-wider mb-4">
               <Sparkles className="w-4 h-4 text-teal-600" />
               <span>Surgical Excellence Inside St. James Hospital</span>
@@ -936,70 +1078,146 @@ export default function App() {
             <p className="text-slate-600 text-base sm:text-lg font-body">
               Fast-track your dental restoration with Swiss & German surgical precision.
             </p>
-          </div>
+          </motion.div>
 
           {/* 3 Large Architectural Bento Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             
-            <div className="p-8 sm:p-10 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col justify-between">
-              <div>
-                <div className="text-xs font-bold text-slate-400 tracking-wider mb-6">[ 01 ]</div>
-                <div className="text-xs font-bold uppercase tracking-wider text-[#004A9C] mb-2 font-heading">
-                  CEREC CAD/CAM 3D Lab
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-normal text-slate-950 mb-4 tracking-tight font-editorial">
-                  Rapid Same-Day Restorations
-                </h3>
-                <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-body">
-                  Walk in with damaged, fractured, or missing teeth. Leave with permanent, custom-shaded German ceramic crowns and bridges diamond-milled on-site within hours.
-                </p>
-              </div>
-              <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-900">
-                <span>Single Visit Delivery</span>
-                <span className="text-[#27CFC3]">Zero Temporary Crowns</span>
-              </div>
-            </div>
+            {[
+              {
+                num: "01",
+                badge: "CEREC CAD/CAM 3D Lab",
+                title: "Rapid Same-Day Restorations",
+                desc: "Walk in with damaged, fractured, or missing teeth. Leave with permanent, custom-shaded German ceramic crowns and bridges diamond-milled on-site within hours.",
+                f1: "Single Visit Delivery",
+                f2: "Zero Temporary Crowns",
+                treatmentSelect: "CEREC 3D Ceramics & Veneers (60-Minute Milling)"
+              },
+              {
+                num: "02",
+                badge: "St. James Hospital Network",
+                title: "Precision & Surgical Safety",
+                desc: "Led by Dr. Mark & Susanna Diacono, every surgical procedure operates under stringent hospital operating theatre sterilization, HEPA filtration, and 3D CBCT guided protocols.",
+                f1: "Sub-mm Guided Accuracy",
+                f2: "Full Hospital Sterility",
+                treatmentSelect: "Dental Implants & All-on-4 (Same-Day Fixed Teeth)"
+              },
+              {
+                num: "03",
+                badge: "Board-Certified Anesthetist",
+                title: "100% Zero-Anxiety IV Sedation",
+                desc: "Complete complex bone grafting, multiple implants, or full-arch smile rehabilitations while comfortably asleep. Zero pain, zero stress, wake up with your smile restored.",
+                f1: "Twilight Sleep Protocol",
+                f2: "Zero Dental Memory",
+                treatmentSelect: "Certified IV Sedation (100% Anxiety & Pain Free)"
+              }
+            ].map((card, idx) => (
+              <motion.div
+                key={card.num}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.65, delay: idx * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                className="p-8 sm:p-10 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group flex flex-col justify-between relative overflow-hidden"
+              >
+                {/* Hover line glow */}
+                <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#27CFC3] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
 
-            <div className="p-8 sm:p-10 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col justify-between">
-              <div>
-                <div className="text-xs font-bold text-slate-400 tracking-wider mb-6">[ 02 ]</div>
-                <div className="text-xs font-bold uppercase tracking-wider text-[#004A9C] mb-2 font-heading">
-                  St. James Hospital Network
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-normal text-slate-950 mb-4 tracking-tight font-editorial">
-                  Precision & Surgical Safety
-                </h3>
-                <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-body">
-                  Led by Dr. Mark & Susanna Diacono, every surgical procedure operates under stringent hospital operating theatre sterilization, HEPA filtration, and 3D CBCT guided protocols.
-                </p>
-              </div>
-              <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-900">
-                <span>Sub-mm Guided Accuracy</span>
-                <span className="text-[#27CFC3]">Full Hospital Sterility</span>
-              </div>
-            </div>
+                <div>
+                  <div className="flex items-center justify-between mb-6">
+                    <span className="text-xs font-bold text-slate-400 tracking-wider">[ {card.num} ]</span>
+                    <button
+                      onClick={() => openWhatsAppBooking({ treatment: card.treatmentSelect })}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-[11px] font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 cursor-pointer bg-transparent border-none"
+                    >
+                      <span>Consultar</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
 
-            <div className="p-8 sm:p-10 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col justify-between">
-              <div>
-                <div className="text-xs font-bold text-slate-400 tracking-wider mb-6">[ 03 ]</div>
-                <div className="text-xs font-bold uppercase tracking-wider text-[#004A9C] mb-2 font-heading">
-                  Board-Certified Anesthetist
+                  <div className="text-xs font-bold uppercase tracking-wider text-[#004A9C] mb-2 font-heading">
+                    {card.badge}
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-normal text-slate-950 mb-4 tracking-tight font-editorial">
+                    {card.title}
+                  </h3>
+                  <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-body">
+                    {card.desc}
+                  </p>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-normal text-slate-950 mb-4 tracking-tight font-editorial">
-                  100% Zero-Anxiety IV Sedation
-                </h3>
-                <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-body">
-                  Complete complex bone grafting, multiple implants, or full-arch smile rehabilitations while comfortably asleep. Zero pain, zero stress, wake up with your smile restored.
-                </p>
-              </div>
-              <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-900">
-                <span>Twilight Sleep Protocol</span>
-                <span className="text-[#27CFC3]">Zero Dental Memory</span>
-              </div>
-            </div>
+
+                <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-900">
+                  <span>{card.f1}</span>
+                  <span className="text-[#27CFC3]">{card.f2}</span>
+                </div>
+              </motion.div>
+            ))}
 
           </div>
 
+        </div>
+      </section>
+
+      {/* 5. NEW: EDITORIAL PINNED HOSPITAL STATEMENT (Inspired by 21st.dev Reference) */}
+      <section className="py-28 md:py-36 bg-[#070B12] text-white relative overflow-hidden border-b border-white/10">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(39,207,195,0.12)_0%,transparent_70%)] pointer-events-none" />
+        
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-[#27CFC3] text-xs font-bold uppercase tracking-widest mb-8 border border-white/15"
+          >
+            <ShieldCheck className="w-4 h-4 text-[#27CFC3]" />
+            <span>St. James Hospital Network Standards</span>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-tight font-editorial leading-[1.08] max-w-5xl mx-auto mb-10 text-white"
+          >
+            Where Surgical Mastery <br className="hidden sm:inline" />
+            <span className="text-[#27CFC3]">Meets Absolute Peace of Mind.</span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="text-slate-300 text-base sm:text-xl max-w-3xl mx-auto font-body leading-relaxed mb-12"
+          >
+            Operating directly inside Malta’s premier private hospital, our surgical theatres, on-site CEREC 3D milling lab, and certified IV sedation protocol eliminate pain, guesswork, and weeks of waiting.
+          </motion.p>
+
+          {/* Quick Action Pill in Statement */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-wrap items-center justify-center gap-4"
+          >
+            <button
+              onClick={() => openWhatsAppBooking()}
+              className="flex items-center gap-2.5 px-8 py-4 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-xl shadow-emerald-500/30 hover:scale-105 cursor-pointer border-none"
+            >
+              <WhatsAppIcon className="w-4 h-4 text-slate-950" />
+              <span>Agendar Consulta por WhatsApp</span>
+            </button>
+            <button
+              onClick={() => scrollToSection('clinics')}
+              className="flex items-center gap-2 px-7 py-4 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold text-xs sm:text-sm uppercase tracking-wider border border-white/20 transition-all cursor-pointer"
+            >
+              <Building2 className="w-4 h-4 text-[#27CFC3]" />
+              <span>Ver Sedes St. James</span>
+            </button>
+          </motion.div>
         </div>
       </section>
 
@@ -1025,11 +1243,17 @@ export default function App() {
         </div>
       </div>
 
-      {/* 4. ANIMATED TRUST METRICS & SURGICAL CREDENTIALS (Westside Style) */}
+      {/* 6. PROVEN CLINICAL METRICS & SURGICAL CREDENTIALS */}
       <section className="py-20 md:py-24 bg-white border-y border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 35 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.7 }}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#004A9C] text-xs font-bold uppercase tracking-wider mb-3">
               <Award className="w-4 h-4" />
               <span>Redefining Dental Excellence Since 1999</span>
@@ -1040,63 +1264,67 @@ export default function App() {
             <p className="text-slate-600 text-base sm:text-lg mt-4 font-body">
               We never cut corners on materials, sterilization protocols, or patient comfort.
             </p>
-          </div>
+          </motion.div>
 
-          {/* 4 Large Bento Counter Cards */}
+          {/* 4 Large Bento Counter Cards with Staggered Entrance */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             
-            <div className="p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:border-[#27CFC3] transition-all hover:shadow-xl hover:-translate-y-1 group relative overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-[#27CFC3] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-              <div className="text-xs font-bold text-slate-400 tracking-wider mb-4">[ 01 ]</div>
-              <div className="text-5xl sm:text-6xl font-extrabold text-[#004A9C] tracking-tight mb-2 group-hover:text-[#27CFC3] transition-colors font-heading">
-                27+
-              </div>
-              <div className="text-lg font-bold text-slate-900 mb-2 font-heading">Years Established</div>
-              <p className="text-xs text-slate-600 leading-relaxed font-body">
-                Founding dental surgery and restorative team operating inside St. James Hospital since 1999.
-              </p>
-            </div>
-
-            <div className="p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:border-[#27CFC3] transition-all hover:shadow-xl hover:-translate-y-1 group relative overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-[#27CFC3] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-              <div className="text-xs font-bold text-slate-400 tracking-wider mb-4">[ 02 ]</div>
-              <div className="text-5xl sm:text-6xl font-extrabold text-[#004A9C] tracking-tight mb-2 group-hover:text-[#27CFC3] transition-colors font-heading">
-                10k+
-              </div>
-              <div className="text-lg font-bold text-slate-900 mb-2 font-heading">Smiles Restored</div>
-              <p className="text-xs text-slate-600 leading-relaxed font-body">
-                Over ten thousand dental implants, full-arch restorations, and CEREC ceramics successfully completed.
-              </p>
-            </div>
-
-            <div className="p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:border-[#27CFC3] transition-all hover:shadow-xl hover:-translate-y-1 group relative overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-[#27CFC3] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-              <div className="text-xs font-bold text-slate-400 tracking-wider mb-4">[ 03 ]</div>
-              <div className="text-5xl sm:text-6xl font-extrabold text-[#004A9C] tracking-tight mb-2 group-hover:text-[#27CFC3] transition-colors font-heading">
-                98%
-              </div>
-              <div className="text-lg font-bold text-slate-900 mb-2 font-heading">Anxiety-Free Rating</div>
-              <p className="text-xs text-slate-600 leading-relaxed font-body">
-                Patients report zero discomfort or fear under our consultant-administered IV sedation protocols.
-              </p>
-            </div>
-
-            <div className="p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:border-[#27CFC3] transition-all hover:shadow-xl hover:-translate-y-1 group relative overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-[#27CFC3] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-              <div className="text-xs font-bold text-slate-400 tracking-wider mb-4">[ 04 ]</div>
-              <div className="text-5xl sm:text-6xl font-extrabold text-[#004A9C] tracking-tight mb-2 group-hover:text-[#27CFC3] transition-colors font-heading">
-                07m
-              </div>
-              <div className="text-lg font-bold text-slate-900 mb-2 font-heading">Average Wait Time</div>
-              <p className="text-xs text-slate-600 leading-relaxed font-body">
-                Digital patient intake and dedicated treatment chairs guarantee virtually zero waiting time.
-              </p>
-            </div>
+            {[
+              {
+                num: "01",
+                stat: "27+",
+                title: "Years Established",
+                desc: "Founding dental surgery and restorative team operating inside St. James Hospital since 1999."
+              },
+              {
+                num: "02",
+                stat: "10k+",
+                title: "Smiles Restored",
+                desc: "Over ten thousand dental implants, full-arch restorations, and CEREC ceramics successfully completed."
+              },
+              {
+                num: "03",
+                stat: "98%",
+                title: "Anxiety-Free Rating",
+                desc: "Patients report zero discomfort or fear under our consultant-administered IV sedation protocols."
+              },
+              {
+                num: "04",
+                stat: "07m",
+                title: "Average Wait Time",
+                desc: "Digital patient intake and dedicated treatment chairs guarantee virtually zero waiting time."
+              }
+            ].map((stat, idx) => (
+              <motion.div
+                key={stat.num}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.55, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:border-[#27CFC3] transition-all hover:shadow-xl hover:-translate-y-1 group relative overflow-hidden"
+              >
+                <div className="absolute top-0 left-0 right-0 h-1 bg-[#27CFC3] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                <div className="text-xs font-bold text-slate-400 tracking-wider mb-4">[ {stat.num} ]</div>
+                <div className="text-5xl sm:text-6xl font-extrabold text-[#004A9C] tracking-tight mb-2 group-hover:text-[#27CFC3] transition-colors font-heading">
+                  {stat.stat}
+                </div>
+                <div className="text-lg font-bold text-slate-900 mb-2 font-heading">{stat.title}</div>
+                <p className="text-xs text-slate-600 leading-relaxed font-body">
+                  {stat.desc}
+                </p>
+              </motion.div>
+            ))}
 
           </div>
 
           {/* Clinical Quote from Mark & Susanna Diacono */}
-          <div className="mt-14 p-8 rounded-3xl bg-slate-900 text-white flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="mt-14 p-8 rounded-3xl bg-slate-900 text-white flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl"
+          >
             <div className="flex items-center gap-6">
               <div className="w-16 h-16 rounded-2xl bg-[#004A9C] flex items-center justify-center shrink-0 border border-white/20">
                 <LogoMark className="w-8 h-8" />
@@ -1116,16 +1344,22 @@ export default function App() {
             >
               Meet The Clinical Team
             </button>
-          </div>
+          </motion.div>
 
         </div>
       </section>
 
-      {/* 5. HORIZONTAL SCROLL SERVICES CAROUSEL (Westside Style: service_sticky-trigger) */}
+      {/* 7. HORIZONTAL SCROLL SERVICES CAROUSEL */}
       <section id="services-section" className="py-24 md:py-32 bg-[#F8FAFC] border-b border-slate-200/80 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
           
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 35 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="flex flex-col md:flex-row md:items-end justify-between gap-6"
+          >
             <div>
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold uppercase tracking-wider mb-3">
                 <Layers className="w-4 h-4 text-teal-600" />
@@ -1156,7 +1390,7 @@ export default function App() {
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
-          </div>
+          </motion.div>
 
         </div>
 
@@ -1204,16 +1438,27 @@ export default function App() {
                 </ul>
               </div>
 
-              {/* Action Trigger Button */}
-              <div className="pt-4 border-t border-slate-200/60 flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-800">
-                  View Full Clinical Details
-                </span>
-                <div 
-                  className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-slate-900 group-hover:scale-110 transition-transform overflow-hidden relative"
+              {/* Action Buttons in Card */}
+              <div className="pt-4 border-t border-slate-200/60 flex items-center justify-between gap-3">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openWhatsAppBooking({ treatment: svc.title });
+                  }}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-[#25D366] text-slate-950 font-black text-[11px] uppercase tracking-wider border-none cursor-pointer hover:bg-[#20ba59] shadow-sm transition-transform hover:scale-105"
                 >
-                  <ArrowUpRight className="w-4 h-4 transition-all duration-300 group-hover:translate-x-4 group-hover:-translate-y-4" />
-                  <ArrowUpRight className="w-4 h-4 text-[#004A9C] absolute transition-all duration-300 -translate-x-4 translate-y-4 group-hover:translate-x-0 group-hover:translate-y-0" />
+                  <WhatsAppIcon className="w-3.5 h-3.5" />
+                  <span>Agendar</span>
+                </button>
+
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-800">
+                  <span>Detalles</span>
+                  <div 
+                    className="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-sm text-slate-900 group-hover:scale-110 transition-transform overflow-hidden relative"
+                  >
+                    <ArrowUpRight className="w-4 h-4 transition-all duration-300 group-hover:translate-x-4 group-hover:-translate-y-4" />
+                    <ArrowUpRight className="w-4 h-4 text-[#004A9C] absolute transition-all duration-300 -translate-x-4 translate-y-4 group-hover:translate-x-0 group-hover:translate-y-0" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -1222,13 +1467,17 @@ export default function App() {
 
       </section>
 
-
-
-      {/* 7. HOSPITAL ACCREDITATIONS & SURGICAL STANDARDS (21ST.DEV AWARDS STYLE) */}
+      {/* 8. HOSPITAL ACCREDITATIONS & SURGICAL STANDARDS (AWARDS STYLE LIST) */}
       <section className="py-20 md:py-28 bg-[#070B12] text-white border-b border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 35 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16"
+          >
             <div>
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-[#27CFC3] text-xs font-bold uppercase tracking-wider mb-3 border border-white/10">
                 <Award className="w-4 h-4 text-[#27CFC3]" />
@@ -1241,13 +1490,17 @@ export default function App() {
             <p className="text-slate-400 text-sm sm:text-base max-w-md font-body">
               Our clinical operating theatres and sterilization protocols meet the strictest European hospital standards.
             </p>
-          </div>
+          </motion.div>
 
-          {/* Minimalist Editorial Row List (21st.dev Awards Reference) */}
+          {/* Minimalist Editorial Row List with Staggered Entrance */}
           <div className="divide-y divide-white/10 border-y border-white/10">
-            {hospitalAccreditations.map((item) => (
-              <div 
+            {hospitalAccreditations.map((item, idx) => (
+              <motion.div 
                 key={item.num}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.55, delay: idx * 0.12 }}
                 className="py-8 sm:py-10 group relative transition-all duration-300 hover:bg-white/[0.02] px-4 -mx-4 rounded-xl cursor-default"
               >
                 {/* Hover line draw */}
@@ -1274,18 +1527,24 @@ export default function App() {
                     </span>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
         </div>
       </section>
 
-      {/* 8. THE 2 CLINICS: DUAL HOSPITAL LOCATIONS & SCHEDULES */}
+      {/* 9. THE 2 CLINICS: DUAL HOSPITAL LOCATIONS & SCHEDULES */}
       <section id="clinics" className="py-24 md:py-32 bg-[#F8FAFC] border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-14">
+          <motion.div 
+            initial={{ opacity: 0, y: 35 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-center max-w-3xl mx-auto mb-14"
+          >
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#004A9C] text-xs font-bold uppercase tracking-wider mb-3">
               <Building2 className="w-4 h-4" />
               <span>Two Convenient Clinical Centres</span>
@@ -1296,7 +1555,7 @@ export default function App() {
             <p className="text-slate-600 text-base sm:text-lg mt-3 font-body">
               Operating sterile surgical suites in Sliema and specialized diagnostic dental care in San Pawl il-Baħar.
             </p>
-          </div>
+          </motion.div>
 
           {/* Interactive Location Tabs */}
           <div className="flex justify-center gap-4 mb-10">
@@ -1330,9 +1589,9 @@ export default function App() {
             .map((clinic) => (
               <motion.div
                 key={clinic.id}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.35 }}
                 className="max-w-5xl mx-auto rounded-3xl bg-white p-8 sm:p-12 border border-slate-200/90 shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center"
               >
                 <div>
@@ -1375,17 +1634,21 @@ export default function App() {
 
                   <div className="flex flex-wrap gap-3">
                     <button
-                      onClick={() => scrollToSection('booking')}
-                      className="px-6 py-3.5 rounded-full bg-[#27CFC3] hover:bg-[#20b5aa] text-slate-950 font-bold text-xs uppercase tracking-wider transition-all hover:scale-105 cursor-pointer border-none shadow-md"
+                      onClick={() => openWhatsAppBooking({
+                        clinic: clinic.id === 'sliema' ? 'Sliema' : 'San Pawl il-Baħar'
+                      })}
+                      className="flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs uppercase tracking-wider transition-all hover:scale-105 cursor-pointer border-none shadow-md shadow-emerald-500/25"
                     >
-                      Book At This Clinic
+                      <WhatsAppIcon className="w-4 h-4 text-slate-950" />
+                      <span>Agendar en esta Sede</span>
                     </button>
-                    <button
-                      onClick={() => alert(`For directions to ${clinic.name}, call our reception directly at ${clinic.phone}`)}
-                      className="px-6 py-3.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer border-none"
+                    <a
+                      href={`tel:+${clinic.phoneClean}`}
+                      className="px-6 py-3.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer border-none no-underline flex items-center gap-1.5"
                     >
-                      View Directions & Parking
-                    </button>
+                      <Phone className="w-3.5 h-3.5" />
+                      <span>Llamar al Hospital</span>
+                    </a>
                   </div>
                 </div>
 
@@ -1417,11 +1680,17 @@ export default function App() {
         </div>
       </section>
 
-      {/* 8. PATIENT TESTIMONIALS (Verified Google Reviews Social Proof) */}
+      {/* 10. PATIENT TESTIMONIALS (VERIFIED GOOGLE REVIEWS) */}
       <section className="py-24 md:py-32 bg-white border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 35 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
             <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-amber-50 text-amber-900 text-xs font-bold uppercase tracking-wider mb-3 border border-amber-200">
               <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
               <span>Voices of Trust & Care</span>
@@ -1429,10 +1698,16 @@ export default function App() {
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight font-heading">
               Patient Experiences at DiU
             </h2>
-          </div>
+          </motion.div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/90 shadow-xl relative">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/90 shadow-xl relative"
+            >
               <div className="flex items-center gap-1 mb-6 text-amber-500">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-5 h-5 fill-amber-500" />
@@ -1468,17 +1743,23 @@ export default function App() {
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
 
         </div>
       </section>
 
-      {/* 9. QUESTIONS WE GET OFTEN (Interactive FAQ Accordion) */}
+      {/* 11. QUESTIONS WE GET OFTEN (INTERACTIVE FAQ ACCORDION) */}
       <section id="faqs" className="py-24 md:py-32 bg-[#F4F6F9] border-b border-slate-200/80">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 35 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-center mb-16"
+          >
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#004A9C] text-xs font-bold uppercase tracking-wider mb-3">
               <span>Transparent Answers</span>
             </div>
@@ -1488,14 +1769,18 @@ export default function App() {
             <p className="text-slate-600 text-base sm:text-lg mt-3 font-body">
               Everything you need to know about treatments, sedation safety, and booking.
             </p>
-          </div>
+          </motion.div>
 
           <div className="space-y-4">
             {faqsData.map((faq, index) => {
               const isOpen = activeFaq === index;
               return (
-                <div
+                <motion.div
                   key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-20px" }}
+                  transition={{ duration: 0.45, delay: index * 0.08 }}
                   className="rounded-2xl border border-slate-200/90 bg-white overflow-hidden shadow-sm transition-all"
                 >
                   <button
@@ -1522,7 +1807,7 @@ export default function App() {
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </div>
+                </motion.div>
               );
             })}
           </div>
@@ -1530,17 +1815,23 @@ export default function App() {
         </div>
       </section>
 
-      {/* 10. HIGH-CONVERSION CONSULTATION DESK & BOOKING FORM */}
+      {/* 12. HIGH-CONVERSION CONSULTATION DESK & BOOKING FORM */}
       <section id="booking" className="py-24 md:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="max-w-5xl mx-auto rounded-3xl bg-slate-950 text-white p-8 sm:p-14 shadow-2xl relative overflow-hidden">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-5xl mx-auto rounded-3xl bg-slate-950 text-white p-8 sm:p-14 shadow-2xl relative overflow-hidden"
+          >
             <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#27CFC3]/20 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-[#004A9C]/30 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               
-              <div>
+              <div className="lg:col-span-6">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-[#27CFC3] text-xs font-bold uppercase tracking-wider mb-4 border border-white/10">
                   <Calendar className="w-3.5 h-3.5" />
                   <span>Direct Clinical Consultation Desk</span>
@@ -1551,8 +1842,17 @@ export default function App() {
                 </h2>
 
                 <p className="text-slate-300 text-base leading-relaxed mb-8">
-                  Book an evaluation with our specialist surgical and implantology team at St. James Hospital. No referral needed.
+                  Book an evaluation with our specialist surgical and implantology team at St. James Hospital. Prefer an instant WhatsApp chat? Click below to launch real-time intake.
                 </p>
+
+                {/* Big WhatsApp CTA in desk */}
+                <button
+                  onClick={() => openWhatsAppBooking()}
+                  className="w-full sm:w-auto mb-8 flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-sm uppercase tracking-wider transition-all duration-300 shadow-xl shadow-emerald-500/30 hover:scale-105 cursor-pointer border-none"
+                >
+                  <WhatsAppIcon className="w-5 h-5 text-slate-950" />
+                  <span>Abrir Agendamiento en WhatsApp</span>
+                </button>
 
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 text-sm text-slate-300">
@@ -1561,7 +1861,7 @@ export default function App() {
                   </div>
                   <div className="flex items-center gap-3 text-sm text-slate-300">
                     <Phone className="w-5 h-5 text-[#27CFC3]" />
-                    <span>San Pawl il-Baħar: <strong className="text-white">(+356)-2329-3710</strong></span>
+                    <span>San Pawl il-Baħar: <strong className="text-white">(+356) 2329 3710</strong></span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-slate-300">
                     <Mail className="w-5 h-5 text-[#27CFC3]" />
@@ -1570,10 +1870,10 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Consultation Booking Form */}
-              <div className="bg-white p-8 rounded-3xl text-slate-900 shadow-xl">
-                <div className="text-xl font-bold text-slate-950 mb-1">Schedule Consultation</div>
-                <div className="text-xs text-slate-500 mb-6">Fill in your information for same-day coordination.</div>
+              {/* Consultation Booking Form (Web option) */}
+              <div className="lg:col-span-6 bg-white p-8 rounded-3xl text-slate-900 shadow-xl">
+                <div className="text-xl font-bold text-slate-950 mb-1">Schedule Consultation Callback</div>
+                <div className="text-xs text-slate-500 mb-6">Fill in your information for hospital telephone confirmation.</div>
 
                 {leadSubmitted ? (
                   <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center">
@@ -1648,12 +1948,12 @@ export default function App() {
 
             </div>
 
-          </div>
+          </motion.div>
 
         </div>
       </section>
 
-      {/* 11. FOOTER */}
+      {/* 13. FOOTER */}
       <footer className="bg-slate-950 text-slate-400 py-12 border-t border-slate-900 text-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
@@ -1667,38 +1967,38 @@ export default function App() {
         </div>
       </footer>
 
-      {/* 12. FLOATING QUICK CONVERSION BAR (Fixed Bottom - Only visible after scrolling) */}
+      {/* 14. FLOATING QUICK CONVERSION BAR (Visible after scroll) */}
       <AnimatePresence>
         {showBottomBar && (
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 30 }}
-            className="fixed bottom-4 inset-x-4 max-w-lg mx-auto z-40 bg-slate-950/95 backdrop-blur-md p-2 rounded-full border border-slate-800 shadow-2xl flex items-center justify-between gap-3 text-white"
+            className="fixed bottom-4 inset-x-4 max-w-lg mx-auto z-40 bg-slate-950/95 backdrop-blur-md p-2 rounded-full border border-slate-800 shadow-2xl flex items-center justify-between gap-2 sm:gap-3 text-white"
           >
             <button
               onClick={() => scrollToSection('clinics')}
-              className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-[#27CFC3] bg-transparent border-none cursor-pointer"
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 text-xs font-bold text-[#27CFC3] bg-transparent border-none cursor-pointer"
             >
-              <Phone className="w-4 h-4" />
+              <Phone className="w-3.5 h-3.5" />
               <span>(+356) 2329 1029</span>
             </button>
 
             <button
-              onClick={() => scrollToSection('booking')}
-              className="px-5 py-2.5 rounded-full bg-[#27CFC3] hover:bg-[#20b5aa] text-slate-950 font-bold text-xs uppercase tracking-wider transition-all hover:scale-105 cursor-pointer border-none flex items-center gap-1.5"
+              onClick={() => openWhatsAppBooking()}
+              className="px-4 sm:px-6 py-2.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs uppercase tracking-wider transition-all hover:scale-105 cursor-pointer border-none flex items-center gap-2 shadow-lg shadow-emerald-500/25"
             >
-              <span>Book Consultation</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              <WhatsAppIcon className="w-4 h-4 text-slate-950" />
+              <span>Agendar en WhatsApp</span>
             </button>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* 13. INTERACTIVE SERVICE DETAIL MODAL */}
+      {/* 15. INTERACTIVE SERVICE DETAIL MODAL */}
       <AnimatePresence>
         {selectedService && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -1746,14 +2046,370 @@ export default function App() {
                 </button>
                 <button
                   onClick={() => {
+                    const svcName = selectedService.title;
                     setSelectedService(null);
-                    scrollToSection('booking');
+                    openWhatsAppBooking({ treatment: svcName });
                   }}
-                  className="px-6 py-3 rounded-full bg-[#27CFC3] text-slate-950 font-bold text-xs uppercase tracking-wider cursor-pointer border-none shadow-md hover:bg-[#20b5aa]"
+                  className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#25D366] text-slate-950 font-black text-xs uppercase tracking-wider cursor-pointer border-none shadow-md hover:bg-[#20ba59]"
                 >
-                  Inquire About Procedure
+                  <WhatsAppIcon className="w-4 h-4 text-slate-950" />
+                  <span>Consultar en WhatsApp</span>
                 </button>
               </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* 16. REVOLUTIONARY REAL-TIME WHATSAPP BOOKING MODAL WITH LIVE SMARTPHONE PREVIEW */}
+      <AnimatePresence>
+        {whatsappModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 25 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 25 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="bg-[#0B1017] text-white rounded-[32px] border border-white/15 w-full max-w-5xl max-h-[92vh] overflow-y-auto shadow-2xl relative p-6 sm:p-10 my-auto"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setWhatsappModalOpen(false)}
+                className="absolute top-5 right-5 sm:top-7 sm:right-7 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center cursor-pointer border-none transition-colors z-30"
+                aria-label="Cerrar modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Modal Header */}
+              <div className="mb-8 pr-12">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[#25D366] text-[11px] font-black uppercase tracking-wider mb-2">
+                  <WhatsAppIcon className="w-3.5 h-3.5" />
+                  <span>Agendamiento Inteligente • St. James Hospital</span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-normal font-editorial tracking-tight text-white">
+                  Solicita tu Cita Directa por WhatsApp
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                  Completa tus datos y mira en tiempo real a la derecha cómo se redactará tu mensaje oficial.
+                </p>
+              </div>
+
+              {/* 2-Column Responsive Layout: Intake Form (Left) + Phone WhatsApp Mockup (Right) */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                {/* LEFT COLUMN: Intake Form */}
+                <div className="lg:col-span-6 space-y-5">
+                  
+                  {/* Full Name Input */}
+                  <div>
+                    <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                      <User className="w-3.5 h-3.5 text-[#27CFC3]" />
+                      <span>Nombre Completo *</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Ej. Carlos Mendoza o Sarah Borg"
+                      value={bookingForm.name}
+                      onChange={(e) => {
+                        setBookingForm({ ...bookingForm, name: e.target.value });
+                        if (formValidationWarning) setFormValidationWarning(false);
+                      }}
+                      className={`w-full px-4 py-3 rounded-xl bg-slate-900 border text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#25D366] transition-colors ${
+                        formValidationWarning && !bookingForm.name.trim() ? 'border-rose-500 ring-1 ring-rose-500' : 'border-white/10'
+                      }`}
+                    />
+                  </div>
+
+                  {/* WhatsApp Phone Number */}
+                  <div>
+                    <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                      <Phone className="w-3.5 h-3.5 text-[#25D366]" />
+                      <span>Teléfono con WhatsApp *</span>
+                    </label>
+                    <input
+                      type="tel"
+                      placeholder="Ej. +356 9912 3456 o +34 612 345 678"
+                      value={bookingForm.phone}
+                      onChange={(e) => {
+                        setBookingForm({ ...bookingForm, phone: e.target.value });
+                        if (formValidationWarning) setFormValidationWarning(false);
+                      }}
+                      className={`w-full px-4 py-3 rounded-xl bg-slate-900 border text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#25D366] transition-colors ${
+                        formValidationWarning && !bookingForm.phone.trim() ? 'border-rose-500 ring-1 ring-rose-500' : 'border-white/10'
+                      }`}
+                    />
+                  </div>
+
+                  {/* Sede Hospital Preference */}
+                  <div>
+                    <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                      <Building2 className="w-3.5 h-3.5 text-[#27CFC3]" />
+                      <span>Sede de Atención St. James</span>
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setBookingForm({ ...bookingForm, clinic: 'Sliema' })}
+                        className={`p-3 rounded-xl border text-left cursor-pointer transition-all ${
+                          bookingForm.clinic === 'Sliema'
+                            ? 'bg-[#004A9C]/30 border-[#27CFC3] text-white shadow-md'
+                            : 'bg-slate-900/60 border-white/10 text-slate-400 hover:border-white/25'
+                        }`}
+                      >
+                        <div className="text-xs font-bold text-white flex items-center justify-between">
+                          <span>Sliema Flagship</span>
+                          {bookingForm.clinic === 'Sliema' && <CheckCircle2 className="w-4 h-4 text-[#27CFC3]" />}
+                        </div>
+                        <div className="text-[11px] text-slate-400 mt-0.5">St. James Hospital Quirúrgico</div>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setBookingForm({ ...bookingForm, clinic: 'San Pawl il-Baħar' })}
+                        className={`p-3 rounded-xl border text-left cursor-pointer transition-all ${
+                          bookingForm.clinic === 'San Pawl il-Baħar'
+                            ? 'bg-[#004A9C]/30 border-[#27CFC3] text-white shadow-md'
+                            : 'bg-slate-900/60 border-white/10 text-slate-400 hover:border-white/25'
+                        }`}
+                      >
+                        <div className="text-xs font-bold text-white flex items-center justify-between">
+                          <span>San Pawl il-Baħar</span>
+                          {bookingForm.clinic === 'San Pawl il-Baħar' && <CheckCircle2 className="w-4 h-4 text-[#27CFC3]" />}
+                        </div>
+                        <div className="text-[11px] text-slate-400 mt-0.5">St. James Medical Centre Norte</div>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Treatment of Interest */}
+                  <div>
+                    <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                      <Smile className="w-3.5 h-3.5 text-[#27CFC3]" />
+                      <span>Tratamiento de Interés</span>
+                    </label>
+                    <select
+                      value={bookingForm.treatment}
+                      onChange={(e) => setBookingForm({ ...bookingForm, treatment: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-white/10 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#25D366]"
+                    >
+                      {treatmentOptions.map((opt, i) => (
+                        <option key={i} value={opt} className="bg-slate-900 text-white">
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Preferred Time / Urgency */}
+                  <div>
+                    <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                      <Clock className="w-3.5 h-3.5 text-[#27CFC3]" />
+                      <span>Preferencia de Horario o Urgencia</span>
+                    </label>
+                    <select
+                      value={bookingForm.urgency}
+                      onChange={(e) => setBookingForm({ ...bookingForm, urgency: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-white/10 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#25D366]"
+                    >
+                      <option value="Urgencia Inmediata (Hoy / 24 Horas)">🚨 Urgencia Inmediata (Hoy / 24 Horas)</option>
+                      <option value="Esta semana (Lunes a Viernes)">📅 Esta semana (Lunes a Viernes)</option>
+                      <option value="Próxima semana">🗓️ Próxima semana</option>
+                      <option value="Mañana (09:00 - 13:00)">☀️ Horario Mañana (09:00 - 13:00)</option>
+                      <option value="Tarde (14:00 - 18:00)">🌤️ Horario Tarde (14:00 - 18:00)</option>
+                      <option value="Solo deseo información de precios">💬 Solo deseo información previa de costos</option>
+                    </select>
+                  </div>
+
+                  {/* Optional Notes */}
+                  <div>
+                    <label className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                      <MessageSquare className="w-3.5 h-3.5 text-[#27CFC3]" />
+                      <span>Detalles adicionales (Opcional)</span>
+                    </label>
+                    <textarea
+                      rows={2}
+                      placeholder="Ej. Tengo fobia dental, busco sedación consciente / pieza rota / reemplazo de prótesis..."
+                      value={bookingForm.notes}
+                      onChange={(e) => setBookingForm({ ...bookingForm, notes: e.target.value })}
+                      className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#25D366]"
+                    />
+                  </div>
+
+                  {/* Warning Notice if fields are missing */}
+                  {formValidationWarning && (
+                    <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+                      <span className="font-bold">⚠️ Atención:</span>
+                      <span>Por favor ingresa tu nombre y teléfono para preparar tu solicitud.</span>
+                    </div>
+                  )}
+
+                  {/* Action Buttons */}
+                  <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
+                    <button
+                      onClick={handleSendWhatsApp}
+                      className="w-full flex-1 py-4 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-sm uppercase tracking-wider transition-all duration-300 shadow-xl shadow-emerald-500/30 hover:scale-[1.02] cursor-pointer border-none flex items-center justify-center gap-2.5"
+                    >
+                      <WhatsAppIcon className="w-5 h-5 text-slate-950" />
+                      <span>Enviar a WhatsApp Oficial</span>
+                    </button>
+
+                    <button
+                      onClick={handleCopyWhatsAppMessage}
+                      className="w-full sm:w-auto px-4 py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer border border-white/15 flex items-center justify-center gap-1.5 shrink-0"
+                    >
+                      {copySuccess ? <Check className="w-4 h-4 text-[#25D366]" /> : <Copy className="w-4 h-4" />}
+                      <span>{copySuccess ? "Copiado!" : "Copiar"}</span>
+                    </button>
+                  </div>
+
+                  <div className="text-[11px] text-slate-500 flex items-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#27CFC3]" />
+                    <span>Conexión directa con la central de admisión de St. James Hospital Malta.</span>
+                  </div>
+
+                </div>
+
+                {/* RIGHT COLUMN: Realistic WhatsApp Smartphone Mockup */}
+                <div className="lg:col-span-6 flex flex-col items-center">
+                  
+                  <div className="w-full max-w-[340px] sm:max-w-[360px] rounded-[44px] p-3 bg-gradient-to-b from-slate-700 via-slate-800 to-slate-950 border-4 border-slate-700/80 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] relative select-none">
+                    
+                    {/* Phone Outer Screen Bezel */}
+                    <div className="w-full rounded-[34px] overflow-hidden bg-[#0B141A] flex flex-col border border-white/10 relative">
+                      
+                      {/* Dynamic Island / Speaker Notch */}
+                      <div className="bg-[#1F2C34] pt-2 px-6 pb-1 flex items-center justify-between text-[11px] font-semibold text-slate-300">
+                        <span>09:41</span>
+                        <div className="w-20 h-4 bg-black rounded-full mx-auto" />
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[10px]">5G</span>
+                          <span className="w-4 h-2 rounded-sm border border-white/60 inline-block p-0.5"><span className="w-full h-full bg-white block rounded-2xs" /></span>
+                        </div>
+                      </div>
+
+                      {/* WhatsApp Chat Header */}
+                      <div className="bg-[#1F2C34] px-3 py-2.5 flex items-center justify-between border-b border-white/5">
+                        <div className="flex items-center gap-2">
+                          <div className="text-white/80 text-xs font-bold cursor-default">&larr;</div>
+                          <div className="w-8 h-8 rounded-full bg-[#004A9C] flex items-center justify-center text-white relative shadow-inner">
+                            <LogoMark className="w-4 h-4" />
+                            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#25D366] border border-[#1F2C34]" />
+                          </div>
+                          <div>
+                            <div className="text-xs font-bold text-white flex items-center gap-1">
+                              <span>DiU Clinic Malta</span>
+                              <CheckCircle2 className="w-3 h-3 text-[#27CFC3]" />
+                            </div>
+                            <div className="text-[10px] text-emerald-400 flex items-center gap-1 leading-tight">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                              <span>en línea</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2.5 text-white/70">
+                          <Phone className="w-3.5 h-3.5" />
+                          <Smartphone className="w-3.5 h-3.5" />
+                        </div>
+                      </div>
+
+                      {/* WhatsApp Chat Canvas */}
+                      <div className="p-3 flex flex-col gap-3 min-h-[360px] max-h-[380px] overflow-y-auto bg-[#0B141A] relative font-sans text-xs">
+                        
+                        {/* Background Wallpaper Pattern Overlay */}
+                        <div className="absolute inset-0 opacity-5 pointer-events-none bg-[radial-gradient(#27CFC3_1px,transparent_1px)] [background-size:16px_16px]" />
+
+                        {/* Encrypted Pill Badge */}
+                        <div className="mx-auto my-1 px-3 py-1 rounded-lg bg-[#182229] border border-white/5 text-[9px] text-[#8696A0] text-center max-w-[90%] flex items-center gap-1 justify-center">
+                          <ShieldCheck className="w-3 h-3 text-amber-400/80 shrink-0" />
+                          <span>Mensajes protegidos con cifrado de extremo a extremo.</span>
+                        </div>
+
+                        {/* Date Chip */}
+                        <div className="mx-auto px-2.5 py-0.5 rounded-md bg-[#182229] text-[10px] font-semibold text-[#8696A0]">
+                          HOY
+                        </div>
+
+                        {/* Real-time Outgoing User Chat Bubble */}
+                        <div className="self-end max-w-[90%] bg-[#005C4B] text-white p-3 rounded-2xl rounded-tr-none shadow-md relative border border-emerald-400/20">
+                          
+                          {/* Bubble Corner Tail */}
+                          <div className="absolute top-0 -right-1.5 w-2 h-2 bg-[#005C4B]" style={{ clipPath: 'polygon(0 0, 0 100%, 100% 0)' }} />
+
+                          <div className="font-bold text-[11px] text-emerald-200 border-b border-emerald-400/20 pb-1 mb-2">
+                            👋 SOLICITUD DE AGENDAMIENTO
+                          </div>
+
+                          <div className="space-y-1 text-[11px] leading-snug">
+                            <div>
+                              <span className="text-emerald-200">👤 Paciente: </span>
+                              <strong className="text-white">{bookingForm.name.trim() || "[Tu Nombre]"}</strong>
+                            </div>
+                            <div>
+                              <span className="text-emerald-200">📱 WhatsApp: </span>
+                              <span className="text-white">{bookingForm.phone.trim() || "[Tu Teléfono]"}</span>
+                            </div>
+                            <div>
+                              <span className="text-emerald-200">🏛️ Sede: </span>
+                              <span className="text-white font-medium">
+                                {bookingForm.clinic === 'Sliema' ? 'Sliema (Hospital)' : 'San Pawl il-Baħar'}
+                              </span>
+                            </div>
+                            <div>
+                              <span className="text-emerald-200">🦷 Interés: </span>
+                              <span className="text-white">{bookingForm.treatment}</span>
+                            </div>
+                            <div>
+                              <span className="text-emerald-200">⏰ Horario: </span>
+                              <span className="text-white">{bookingForm.urgency}</span>
+                            </div>
+                            {bookingForm.notes.trim() && (
+                              <div className="mt-1 pt-1 border-t border-emerald-400/20 text-emerald-100 italic">
+                                📝 {bookingForm.notes.trim()}
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="mt-2 text-[9px] text-emerald-200/80 flex items-center justify-end gap-1">
+                            <span>10:45 AM</span>
+                            <CheckCheck className="w-3.5 h-3.5 text-[#53bdeb]" />
+                          </div>
+                        </div>
+
+                      </div>
+
+                      {/* WhatsApp Bottom Fake Input Field */}
+                      <div className="bg-[#1F2C34] p-2 flex items-center gap-2 border-t border-white/5">
+                        <div className="flex-1 bg-[#2A3942] rounded-full px-3 py-1.5 text-[11px] text-[#8696A0] flex items-center justify-between">
+                          <span>Escribe un mensaje...</span>
+                          <span className="text-white/50">📎</span>
+                        </div>
+                        <div 
+                          onClick={handleSendWhatsApp}
+                          className="w-8 h-8 rounded-full bg-[#00A884] hover:bg-[#008f70] text-slate-950 flex items-center justify-center cursor-pointer shadow-md transition-transform hover:scale-110"
+                        >
+                          <Send className="w-3.5 h-3.5 text-slate-950" />
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div className="mt-4 text-center">
+                    <span className="text-[11px] font-semibold text-emerald-400 flex items-center gap-1.5 justify-center">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                      <span>Vista previa interactiva en tiempo real</span>
+                    </span>
+                    <p className="text-[10px] text-slate-500 mt-0.5">
+                      Al presionar enviar, WhatsApp se abrirá con este mensaje formateado.
+                    </p>
+                  </div>
+
+                </div>
+
+              </div>
+
             </motion.div>
           </div>
         )}
