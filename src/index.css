@@ -4,7 +4,23 @@
 
 @layer base {
   :root {
-    color-scheme: light;
+    --background: #070B12;
+    --foreground: #F8FAFC;
+    --primary: #27CFC3;
+    --primary-foreground: #070B12;
+    --secondary: #004A9C;
+    --secondary-foreground: #FFFFFF;
+    --muted: #1E293B;
+    --muted-foreground: #94A3B8;
+    --accent: #27CFC3;
+    --accent-foreground: #070B12;
+    --destructive: #EF4444;
+    --destructive-foreground: #FFFFFF;
+    --border: rgba(255, 255, 255, 0.12);
+    --input: rgba(255, 255, 255, 0.15);
+    --ring: #27CFC3;
+    --radius: 1rem;
+    color-scheme: dark;
   }
 
   body {
