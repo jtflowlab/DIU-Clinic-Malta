@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+scratch/
+Video entrada al consultorio.mp4
+extract_clinic_frames.cjs
