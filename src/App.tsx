@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { 
   ArrowUpRight, 
@@ -321,69 +321,75 @@ const servicesData = [
   {
     num: "01",
     id: "IMPLANTS",
-    title: "Dental Implants & All-on-4",
-    tagline: "Same-Day Fixed Teeth",
+    title: "New Teeth in One Day",
+    tagline: "Fixed Teeth • No Dentures",
+    image: "clinic/scanning_in_surgery.jpg",
     bgClass: "bg-white",
     accentColor: "#142B4D",
-    summary: "Permanent full-arch or single tooth restoration guided by 3D CBCT digital bone mapping. Walk out with fixed, stable teeth on the very same day.",
-    bullets: ["3D CBCT guided surgical placement", "All-on-4 immediate full arch loading", "Bio-compatible Swiss grade titanium", "Lifelong bone preservation"],
-    desc: "Directed by senior maxillofacial surgeons and implantologists at St. James Hospital. Using high-precision 3D cone beam planning, we place implants with sub-millimeter accuracy. Patients with failing dentition or removable dentures can receive complete fixed teeth in one single visit without prolonged healing gaps."
+    summary: "Replace missing or loose teeth with brand new teeth fixed permanently. You can chew, smile, and talk naturally on the very same day.",
+    bullets: ["Eat apples and all your favorite foods again", "Fixed tight so they never move or slip out", "Looks and feels just like your real teeth", "Painless treatment guided by 3D hospital scans"],
+    desc: "Led by Dr. Mark Diacono and our surgical team at St. James Hospital. We place gentle dental implants that hold new teeth securely in your mouth. You walk in with missing teeth and walk out with fixed, stable teeth on the same day."
   },
   {
     num: "02",
     id: "CADCAM",
-    title: "Same-Day CEREC 3D Ceramics",
-    tagline: "In-House Precision Milling",
+    title: "New Crowns in About an Hour",
+    tagline: "Done in 1 Visit • Zero Mess",
+    image: "clinic/md_3d_scanner_and_pt.jpg",
     bgClass: "bg-white",
     accentColor: "#3EA3AC",
-    summary: "Precision porcelain crowns, inlays, and veneers designed and milled in our on-site dental laboratory in just 60 minutes. Zero messy impressions.",
-    bullets: ["100% finished in a single visit", "Zero temporary restorations needed", "Optical intraoral 3D camera scanning", "High-strength biocompatible feldspathic porcelain"],
-    desc: "Our on-site German CEREC CAD/CAM milling suite eliminates the two-week waiting period of traditional dental work. An optical 3D scan replaces traditional gooey trays; your custom restoration is sculpted digitally and diamond-milled while you relax in our private hospital lounge."
+    summary: "We make your custom ceramic tooth while you relax in our lounge. No messy pink paste trays in your mouth. You go home with your finished crown today.",
+    bullets: ["100% finished in just 60 minutes", "No messy impression paste in your mouth", "No temporary plastic caps that fall off", "Smooth, strong natural white porcelain"],
+    desc: "Our on-site German ceramic milling machine sculpts your new tooth right in our clinic. We take a quick 3D photo of your tooth, design it on the computer, and carve it from strong porcelain in less than an hour."
   },
   {
     num: "03",
     id: "SEDATION",
-    title: "Certified IV Sedation Unit",
-    tagline: "100% Anxiety & Pain Free",
+    title: "Sleep Dentistry (No Fear, No Pain)",
+    tagline: "100% Gentle & Relaxing",
+    image: "frame_chair.jpg",
     bgClass: "bg-white",
     accentColor: "#142B4D",
-    summary: "Dedicated intravenous sedation protocol directly monitored by consultant hospital anaesthetists for patients with dental anxiety or undergoing surgery.",
-    bullets: ["Consultant hospital anaesthetist on-site", "Deep relaxation with peaceful wake-up", "Zero memory of procedural discomfort", "Full vital signs hemodynamic monitoring"],
-    desc: "Designed specifically for nervous or phobic patients and complex surgical procedures. Intravenous sedation safely drifts you into a twilight sleep state. You remain responsive but completely calm and comfortable, with no recollection of surgical sounds or tension."
+    summary: "Nervous about visiting the dentist? A hospital doctor gives you gentle sleep medicine so you take a peaceful nap while we fix your teeth.",
+    bullets: ["Hospital doctor stays right beside you", "You drift into a peaceful, calm sleep", "Zero pain, zero scary sounds or memories", "Wake up rested with all treatment completed"],
+    desc: "Special care for nervous or worried patients. A hospital anaesthetist gives you gentle intravenous sedation. You feel completely relaxed and peaceful, and when you wake up, your dental treatment is completely done."
   },
   {
     num: "04",
     id: "DSD",
-    title: "Digital Smile Design (DSD)",
-    tagline: "★ Premier Golden Signature Service",
+    title: "Try On Your New Smile First",
+    tagline: "★ See It In The Mirror First",
+    image: "clinic/scanning_pt.jpg",
     bgClass: "bg-gradient-to-br from-amber-50/40 via-white to-amber-50/20",
     accentColor: "#D4AF37",
     isGold: true,
-    summary: "High-definition facial dynamic analysis. We produce a physical 3D mock-up you can test-drive in your own mouth before initiating treatment.",
-    bullets: ["Facial harmony proportion mapping", "Physical mock-up test drive in mouth", "High-definition video aesthetic analysis", "Zero surprises in final aesthetic result"],
-    desc: "Digital Smile Design bridges artistic facial aesthetics with dental engineering. By capturing video of your natural smile dynamics and speech patterns, we calculate ideal proportions and print a 3D preview you can wear and evaluate in real life before any tooth modification."
+    summary: "See your new smile before we do any work. We put a temporary model in your mouth so you can look in the mirror and smile with confidence.",
+    bullets: ["Look in the mirror before making any choice", "Designed to fit your face and lips naturally", "Zero surprises — you approve how it looks", "Take photos to show your friends and family"],
+    desc: "Led by Dr. Susanna Diacono, Malta's first Digital Smile Design Master. We record your natural smile and speech on video, design your best smile on computer, and let you wear a real temporary preview in your mouth."
   },
   {
     num: "05",
     id: "SURGERY",
-    title: "Maxillofacial & Hospital Surgery",
+    title: "Gentle Surgery & Wisdom Teeth",
     tagline: "Sterile Hospital Theatres",
+    image: "clinic/explaining_treatment_to_pt.jpg",
     bgClass: "bg-white",
     accentColor: "#142B4D",
-    summary: "Complex wisdom teeth extractions, bone grafting, sinus lifts, and corrective surgery performed in St. James Hospital sterile surgical suites.",
-    bullets: ["Operating theatre hospital sterility", "Piezoelectric ultrasonic bone cutting", "Advanced sinus lift & bone regeneration", "Specialist maxillofacial surgical team"],
-    desc: "Operating within Malta's leading private healthcare facility, our surgical division provides maximum clinical safety. Procedures are conducted with piezoelectric ultrasonic instruments that cut bone without harming adjacent soft tissue or nerve bundles."
+    summary: "Removing painful wisdom teeth or fixing bone problems inside a clean hospital operating room with gentle, modern instruments.",
+    bullets: ["Gentle care for painful wisdom teeth", "Clean hospital operating suites", "Gentle tools protect your gums and nerves", "Fast, peaceful healing with doctor follow-up"],
+    desc: "Operating inside St. James Hospital, our specialist oral surgeons use gentle ultrasonic tools that cut bone without harming soft gums or nerves, making healing much faster and more comfortable."
   },
   {
     num: "06",
     id: "ORTHO",
-    title: "Invisalign & Clear Aligners",
-    tagline: "Discreet Orthodontic Correction",
+    title: "Clear Braces (Straight Teeth)",
+    tagline: "Almost Invisible • Removable",
+    image: "clinic/examination_for_fading_background.jpg",
     bgClass: "bg-white",
     accentColor: "#3EA3AC",
-    summary: "Virtually invisible removable aligners and cosmetic braces designed to correct overcrowding and bite misalignments with digital tracking.",
-    bullets: ["Custom 3D transparent aligners", "Removable for normal eating & cleaning", "Digital weekly movement tracking", "Accelerated cosmetic orthodontic protocols"],
-    desc: "Modern digital orthodontics for adults and teenagers. We digitize your entire tooth movement roadmap, allowing you to view your final aligned smile progression on-screen from day one while wearing discreet, comfortable trays."
+    summary: "Straighten crooked teeth with clear plastic trays you can barely see. Take them out whenever you want to eat your lunch or brush your teeth.",
+    bullets: ["Clear plastic trays that no one notices", "Take them out to eat and brush easily", "Gentle tooth movement with no wire pokes", "Watch your smile get straighter each week"],
+    desc: "Clear aligners for teenagers and adults. We plan your entire tooth movement in 3D so you can see your final straight smile on-screen before you even begin wearing your comfortable clear trays."
   }
 ];
 
@@ -451,6 +457,73 @@ const verifiedReviews = [
   }
 ];
 
+// Transparent Treatment Fees & Pricing Guide
+const feesCategories = [
+  {
+    title: "Consultation & 3D Diagnostics",
+    description: "Clear answers and 3D preview before starting any treatment",
+    items: [
+      {
+        name: "Full Dental Exam & Specialist Consultation",
+        price: "€75",
+        features: ["Full mouth check with specialist", "Written personalized treatment plan", "Direct doctor discussion"]
+      },
+      {
+        name: "Hospital Low-Dose 3D CBCT Bone Scan",
+        price: "€120",
+        features: ["Low-radiation hospital 3D scan", "Precise implant measurement", "Immediate digital report"]
+      },
+      {
+        name: "Digital Smile Design (3D Smile Test-Drive)",
+        price: "from €150",
+        features: ["Try on real temporary mockup", "Look in mirror before starting", "Photo & video smile review"]
+      }
+    ]
+  },
+  {
+    title: "Same-Day Teeth & Restorations",
+    description: "Swiss titanium implants and 60-minute German ceramic crowns",
+    items: [
+      {
+        name: "Single Swiss Titanium Implant",
+        price: "from €850",
+        features: ["Swiss biocompatible implant", "Lifetime warranty registered", "Sterile hospital theatre"]
+      },
+      {
+        name: "CEREC Same-Day 3D Porcelain Crown",
+        price: "from €550",
+        features: ["Diamond-milled in 1 hour on-site", "No gooey impression paste", "Custom color shade match"]
+      },
+      {
+        name: "All-on-4 Full Arch Same-Day Teeth",
+        price: "Personalised Consultation",
+        features: ["Walk out with fixed teeth same day", "No loose removable dentures", "Consultant surgical team"]
+      }
+    ]
+  },
+  {
+    title: "Gentle Sleep Dentistry & Care",
+    description: "Complete comfort with consultant hospital doctor",
+    items: [
+      {
+        name: "Sleep Dentistry (IV Hospital Sedation)",
+        price: "from €350",
+        features: ["Consultant hospital anaesthetist", "Drift into a peaceful sleep", "Zero pain, zero memories"]
+      },
+      {
+        name: "Gentle Dental Cleaning & Hygiene",
+        price: "€70",
+        features: ["Ultrasonic gentle clean", "Air-flow stain polishing", "Gum health assessment"]
+      },
+      {
+        name: "Gentle Wisdom Tooth Removal",
+        price: "from €180",
+        features: ["Ultrasonic bone-sparing tools", "Sterile hospital suite", "Gentle, speedy healing"]
+      }
+    ]
+  }
+];
+
 // FAQs Data
 const faqsData = [
   {
@@ -494,9 +567,15 @@ export default function App() {
 
   // WhatsApp Intake Modal State & Interactive Live Preview
   const [whatsappModalOpen, setWhatsappModalOpen] = useState(false);
+  const [emergencyModalOpen, setEmergencyModalOpen] = useState(false);
+  const [heroVideoLayout, setHeroVideoLayout] = useState<'fullscreen' | 'compact'>('fullscreen');
+  const [showAllTeam, setShowAllTeam] = useState(false);
   const [bookingForm, setBookingForm] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     phone: '',
+    email: '',
+    contactPreference: 'WhatsApp' as 'WhatsApp' | 'Call Back' | 'Email',
     clinic: 'Sliema',
     treatment: 'Dental Implants & All-on-4 (Same-Day Fixed Teeth)',
     doctor: '',
@@ -505,10 +584,6 @@ export default function App() {
   });
   const [formValidationWarning, setFormValidationWarning] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
-
-  // Lead Desk State
-  const [leadSubmitted, setLeadSubmitted] = useState(false);
-  const [leadForm, setLeadForm] = useState({ name: '', phone: '', clinic: 'Sliema', service: 'Implants' });
 
   const sliderContainerRef = useRef<HTMLDivElement>(null);
   const heroSectionRef = useRef<HTMLDivElement>(null);
@@ -531,6 +606,15 @@ export default function App() {
   });
 
   const servicesX = useTransform(servicesProgress, [0, 1], ["0%", "-62%"]);
+
+  // 21st.dev Style Scroll-Driven Horizontal Translation for Specialist Doctors & Medical Team
+  const teamSectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: teamProgress } = useScroll({
+    target: teamSectionRef,
+    offset: ["start start", "end end"]
+  });
+
+  const teamX = useTransform(teamProgress, [0, 1], ["0%", "-68%"]);
 
   const toggleVideoPlay = () => {
     if (!heroVideoRef.current) return;
@@ -576,8 +660,12 @@ export default function App() {
 
   // Formatted WhatsApp message in English
   const generateWhatsAppMessage = () => {
-    const nameText = bookingForm.name.trim() || '[Patient Name]';
-    const phoneText = bookingForm.phone.trim() || '[WhatsApp Phone]';
+    const firstNameText = bookingForm.firstName.trim();
+    const lastNameText = bookingForm.lastName.trim();
+    const patientName = (firstNameText || lastNameText) ? `${firstNameText} ${lastNameText}`.trim() : '[Patient Name]';
+    const phoneText = bookingForm.phone.trim() || '[Phone Number]';
+    const emailText = bookingForm.email.trim() ? `\n✉️ *Email:* ${bookingForm.email.trim()}` : '';
+    const preference = bookingForm.contactPreference;
     const clinicName = 'St. James Hospital (Sliema Flagship)';
     const treatmentText = bookingForm.treatment || 'Clinical Consultation';
     const doctorText = bookingForm.doctor ? `\n👨‍⚕️ *Requested Clinician:* ${bookingForm.doctor}` : '';
@@ -586,8 +674,9 @@ export default function App() {
 
     return `👋 *CLINICAL APPOINTMENT REQUEST • DiU CLINIC MALTA*
 ━━━━━━━━━━━━━━━━━━
-👤 *Patient:* ${nameText}
-📱 *WhatsApp:* ${phoneText}
+👤 *Patient:* ${patientName}
+📱 *Phone:* ${phoneText}${emailText}
+🔔 *Preferred Contact Method:* ${preference}
 🏛️ *Hospital Centre:* ${clinicName}
 🦷 *Treatment:* ${treatmentText}${doctorText}
 ⏰ *Timeline / Urgency:* ${urgencyText}${notesText}
@@ -597,11 +686,11 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
   // Send WhatsApp Link
   const handleSendWhatsApp = () => {
-    if (!bookingForm.name.trim() || !bookingForm.phone.trim()) {
+    if (!bookingForm.firstName.trim() || !bookingForm.phone.trim()) {
       setFormValidationWarning(true);
       return;
     }
-    const phoneTarget = '35623291029';
+    const phoneTarget = '35699991029';
     const message = generateWhatsAppMessage();
     const whatsappUrl = `https://wa.me/${phoneTarget}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
@@ -614,11 +703,6 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
     setTimeout(() => setCopySuccess(false), 2500);
   };
 
-  const handleLeadSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!leadForm.name || !leadForm.phone) return;
-    setLeadSubmitted(true);
-  };
 
   // Scroll listener
   useEffect(() => {
@@ -631,10 +715,13 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const filteredClinicians = cliniciansList.filter(c => {
-    if (activeTeamTab === 'all') return true;
-    return c.category === activeTeamTab;
-  });
+  const filteredClinicians = useMemo(() => {
+    if (!showAllTeam && activeTeamTab === 'all') {
+      return cliniciansList.slice(0, 5);
+    }
+    if (activeTeamTab === 'all') return cliniciansList;
+    return cliniciansList.filter(c => c.category === activeTeamTab);
+  }, [showAllTeam, activeTeamTab]);
 
   return (
     <div className="relative min-h-screen bg-[#F8FAFC] text-slate-900 selection:bg-[#3EA3AC]/20 selection:text-[#142B4D] overflow-x-clip font-body">
@@ -666,7 +753,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
           </div>
 
           {/* Desktop Nav Links - Streamlined, High-End Luxury Editorial */}
-          <nav className="hidden xl:flex items-center gap-8 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-600">
+          <nav className="hidden xl:flex items-center gap-7 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-600">
             <button 
               onClick={() => scrollToSection('services-section')}
               className="hover:text-[#142B4D] transition-colors cursor-pointer bg-transparent border-none py-1"
@@ -689,6 +776,12 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
               Our Specialists
             </button>
             <button 
+              onClick={() => scrollToSection('fees-prices')}
+              className="hover:text-[#142B4D] transition-colors cursor-pointer bg-transparent border-none py-1"
+            >
+              Fees & Prices
+            </button>
+            <button 
               onClick={() => scrollToSection('clinics')}
               className="hover:text-[#142B4D] transition-colors cursor-pointer bg-transparent border-none py-1"
             >
@@ -696,8 +789,17 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             </button>
           </nav>
 
-          {/* Contact & CTA Buttons */}
-          <div className="flex items-center gap-3">
+          {/* Contact, Urgent & CTA Buttons */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Urgent Dental Emergency Button */}
+            <button
+              onClick={() => setEmergencyModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-none sm:rounded-sm bg-rose-50 hover:bg-rose-100 text-rose-800 font-extrabold text-[11px] uppercase tracking-wider transition-all border border-rose-300 cursor-pointer shadow-xs"
+            >
+              <AlertCircle className="w-3.5 h-3.5 text-rose-600" />
+              <span>Urgent Care</span>
+            </button>
+
             <a 
               href="tel:35623291029"
               className="hidden lg:flex items-center gap-2 text-xs font-semibold text-[#142B4D] hover:text-[#3EA3AC] px-2 py-1.5 transition-colors no-underline tracking-wide"
@@ -708,7 +810,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
             <button
               onClick={() => openWhatsAppBooking()}
-              className="flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-bold text-xs uppercase tracking-[0.14em] transition-all shadow-sm hover:shadow cursor-pointer border border-[#142B4D]"
+              className="flex items-center gap-2 px-3.5 sm:px-5 py-2.5 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-bold text-xs uppercase tracking-[0.14em] transition-all shadow-sm hover:shadow cursor-pointer border border-[#142B4D]"
             >
               <Calendar className="w-3.5 h-3.5 text-[#3EA3AC]" />
               <span>Book Consultation</span>
@@ -755,25 +857,35 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 Our Specialists
               </button>
               <button 
+                onClick={() => scrollToSection('fees-prices')}
+                className="text-left py-2 hover:text-[#142B4D] bg-transparent border-none cursor-pointer"
+              >
+                Fees & Prices
+              </button>
+              <button 
                 onClick={() => scrollToSection('clinics')}
                 className="text-left py-2 hover:text-[#142B4D] bg-transparent border-none cursor-pointer"
               >
                 Hospital Centre (Sliema)
               </button>
-              <button 
-                onClick={() => scrollToSection('anxious-patients')}
-                className="text-left py-2 hover:text-[#142B4D] bg-transparent border-none cursor-pointer text-slate-500 font-medium"
-              >
-                Sedation & Anxious Patients
-              </button>
 
               <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setEmergencyModalOpen(true);
+                  }}
+                  className="w-full py-2.5 rounded-none sm:rounded-sm bg-rose-50 text-rose-800 font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 border border-rose-200"
+                >
+                  <AlertCircle className="w-4 h-4 text-rose-600" />
+                  <span>🚨 Urgent Dental Emergency</span>
+                </button>
                 <a 
                   href="tel:35623291029"
                   className="flex items-center gap-2 py-1.5 text-xs font-bold text-[#142B4D] no-underline tracking-normal normal-case"
                 >
                   <Phone className="w-4 h-4 text-[#3EA3AC]" />
-                  <span>St. James Hospital: +356 2329 1029</span>
+                  <span>Hospital Line: (+356) 2329 1029</span>
                 </a>
               </div>
 
@@ -808,31 +920,35 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
               style={{ scale: heroCardScale, opacity: heroCardOpacity }}
               className="relative w-full h-full overflow-hidden rounded-none sm:rounded-sm border border-slate-200/90 shadow-2xl bg-white flex items-center justify-center"
             >
-              {/* Full Background 4K Video Tour / Reception Switcher */}
-              <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
-                {heroViewMode === 'video' ? (
-                  <video
-                    ref={heroVideoRef}
-                    src={getAssetUrl('video_hero_optimized.mp4')}
-                    poster={getAssetUrl('hero_poster_4k.jpg')}
-                    autoPlay
-                    muted
-                    playsInline
-                    loop
-                    className="w-full h-full object-cover object-center"
-                  />
-                ) : (
-                  <img
-                    src={getAssetUrl('clinic/reception_background_image.jpg')}
-                    alt="St. James Hospital Reception"
-                    className="w-full h-full object-cover object-center"
-                  />
-                )}
+              {/* Full Background 4K Video Tour / Reception Switcher (Active in fullscreen mode) */}
+              {heroVideoLayout === 'fullscreen' ? (
+                <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+                  {heroViewMode === 'video' ? (
+                    <video
+                      ref={heroVideoRef}
+                      src={getAssetUrl('video_hero_optimized.mp4')}
+                      poster={getAssetUrl('hero_poster_4k.jpg')}
+                      autoPlay
+                      muted
+                      playsInline
+                      loop
+                      className="w-full h-full object-cover object-center"
+                    />
+                  ) : (
+                    <img
+                      src={getAssetUrl('clinic/reception_background_image.jpg')}
+                      alt="St. James Hospital Reception"
+                      className="w-full h-full object-cover object-center"
+                    />
+                  )}
 
-                {/* Crystal Cinematic Exposure Framing: Zero milky blur, 100% vivid video visibility */}
-                <div className="absolute inset-0 bg-gradient-to-r from-slate-950/30 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/25 via-transparent to-black/5 pointer-events-none" />
-              </div>
+                  {/* Crystal Cinematic Exposure Framing: Zero milky blur, 100% vivid video visibility */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-slate-950/30 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/25 via-transparent to-black/5 pointer-events-none" />
+                </div>
+              ) : (
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-slate-50 via-white to-blue-50/20 z-0 pointer-events-none" />
+              )}
 
               {/* Foreground Content Layer */}
               <motion.div 
@@ -842,28 +958,56 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                   
                   {/* Left Column: Client Copy in Architectural Luxury Frosted Glass Card */}
-                  <div className="lg:col-span-7 flex flex-col justify-center">
+                  <div className={`${heroVideoLayout === 'fullscreen' ? 'lg:col-span-7' : 'lg:col-span-6'} flex flex-col justify-center`}>
                     <div className="bg-white/95 backdrop-blur-xl p-6 sm:p-8 md:p-10 rounded-none sm:rounded-sm border border-slate-200/80 shadow-[0_20px_50px_rgba(20,43,77,0.12)] max-w-xl">
                       
-                      {/* Location Badge */}
-                      <div className="inline-flex items-center gap-2 self-start px-3 py-1 rounded-none sm:rounded-sm bg-[#142B4D]/5 border border-[#142B4D]/15 text-[#142B4D] text-[10px] sm:text-[11px] font-bold uppercase tracking-widest mb-4">
-                        <Building2 className="w-3.5 h-3.5 text-[#3EA3AC]" />
-                        <span>ST JAMES HOSPITAL, SLIEMA</span>
+                      {/* Video Layout Switcher (Requested by Jordan Pozo) */}
+                      <div className="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-100">
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-none sm:rounded-sm bg-[#142B4D]/5 border border-[#142B4D]/15 text-[#142B4D] text-[10px] font-bold uppercase tracking-widest">
+                          <Building2 className="w-3 h-3 text-[#3EA3AC]" />
+                          <span>ST. JAMES HOSPITAL • SLIEMA</span>
+                        </div>
+
+                        {/* Video Size Toggle: Fullscreen vs Compact Framed */}
+                        <div className="inline-flex items-center p-0.5 bg-slate-100 rounded-none sm:rounded-sm border border-slate-200">
+                          <button
+                            type="button"
+                            onClick={() => setHeroVideoLayout('fullscreen')}
+                            className={`px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider transition-all cursor-pointer border ${
+                              heroVideoLayout === 'fullscreen'
+                                ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-xs'
+                                : 'bg-transparent text-slate-600 border-transparent hover:text-slate-900'
+                            }`}
+                          >
+                            ⛶ Fullscreen Video
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setHeroVideoLayout('compact')}
+                            className={`px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider transition-all cursor-pointer border ${
+                              heroVideoLayout === 'compact'
+                                ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-xs'
+                                : 'bg-transparent text-slate-600 border-transparent hover:text-slate-900'
+                            }`}
+                          >
+                            🗖 Compact Video
+                          </button>
+                        </div>
                       </div>
 
-                      {/* Main Headline */}
-                      <h1 className="text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight leading-[1.08] mb-4 font-editorial text-slate-900">
+                      {/* Main Headline (Simplified 3rd Grade Language) */}
+                      <h1 className="text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight leading-[1.08] mb-3 font-editorial text-slate-900">
                         <span className="text-[#142B4D] font-medium">Trusted by families</span> <br />
                         <span className="text-[#3EA3AC]">for over 25 years.</span>
                       </h1>
 
-                      {/* Subtitle */}
+                      {/* Subtitle (Direct & Friendly) */}
                       <p className="text-sm sm:text-base text-slate-700 font-normal leading-relaxed mb-6 font-body">
-                        From your family's check-ups and children's dentistry to smile design, implants and full-mouth reconstruction, one team plans your care together.
+                        We take care of all your dental needs in one safe place. From friendly check-ups for kids to same-day new teeth and smile makeovers, our hospital team is here to help you.
                       </p>
 
-                      {/* Exact Two Clean Action Buttons */}
-                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6">
+                      {/* Action Buttons + Urgent Care */}
+                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-5">
                         <button
                           onClick={() => openWhatsAppBooking()}
                           className="px-6 py-3.5 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg cursor-pointer flex items-center justify-center gap-2 border border-[#142B4D]"
@@ -877,8 +1021,22 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                           className="px-5 py-3.5 rounded-none sm:rounded-sm bg-white hover:bg-slate-50 text-[#142B4D] font-bold text-xs uppercase tracking-wider border border-slate-300 hover:border-slate-400 shadow-xs transition-all cursor-pointer flex items-center justify-center gap-2"
                         >
                           <Sparkles className="w-4 h-4 text-amber-500" />
-                          <span>Smile design around your face</span>
+                          <span>See new smile preview</span>
                         </button>
+                      </div>
+
+                      {/* Dental Emergency Direct Alert Bar */}
+                      <div 
+                        onClick={() => setEmergencyModalOpen(true)}
+                        className="mb-4 p-3 rounded-none sm:rounded-sm bg-rose-50 hover:bg-rose-100/80 border border-rose-200 flex items-center justify-between cursor-pointer transition-colors group"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                          <div className="text-xs text-rose-950 font-medium">
+                            <strong>Toothache, broken tooth or lost filling?</strong> Click for urgent care.
+                          </div>
+                        </div>
+                        <span className="text-[10px] font-bold text-rose-700 uppercase tracking-wider group-hover:translate-x-0.5 transition-transform">Call Now ➔</span>
                       </div>
 
                       {/* Sedation Hospital Reassurance Box */}
@@ -887,89 +1045,132 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                           <Heart className="w-3.5 h-3.5 fill-[#3EA3AC]/20 text-[#3EA3AC]" />
                         </div>
                         <div className="text-xs text-slate-700 leading-relaxed font-body">
-                          <strong className="text-[#142B4D] font-bold">Nervous about the dentist?</strong> All treatments are available under sedation, with a consultant anaesthetist, in a hospital setting.
+                          <strong className="text-[#142B4D] font-bold">Nervous about the dentist?</strong> You can take a peaceful nap with our hospital sleep doctor. Wake up with your teeth fixed and zero pain.
                         </div>
                       </div>
 
                     </div>
                   </div>
 
-                  {/* Right Column: Floating Interactive 21st.dev Video Controls */}
-                  <div className="lg:col-span-5 hidden sm:flex flex-col justify-end items-start lg:items-end">
-                    <div className="bg-white/95 backdrop-blur-xl p-4 sm:p-5 rounded-none sm:rounded-sm border border-slate-200/80 shadow-[0_20px_50px_rgba(20,43,77,0.12)] max-w-sm w-full">
-                      <div className="flex items-center justify-between gap-2 mb-3 pb-2.5 border-b border-slate-100">
-                        <div className="flex items-center gap-2">
-                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                          <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#142B4D]">
-                            {heroViewMode === 'video' ? '4K Hospital Tour Live' : 'Executive Reception'}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          {heroViewMode === 'video' && (
+                  {/* Right Column: Either Compact Video Player OR 21st.dev Floating Controls */}
+                  {heroVideoLayout === 'compact' ? (
+                    <div className="lg:col-span-6 flex flex-col justify-center">
+                      <div className="rounded-none sm:rounded-sm overflow-hidden border-2 border-slate-300 shadow-2xl bg-black relative">
+                        <div className="aspect-[16/10] relative">
+                          <video
+                            ref={heroVideoRef}
+                            src={getAssetUrl('video_hero_optimized.mp4')}
+                            poster={getAssetUrl('hero_poster_4k.jpg')}
+                            autoPlay
+                            muted
+                            playsInline
+                            loop
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
+                          
+                          {/* Player Header Overlay */}
+                          <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+                            <div className="px-3 py-1 rounded-none sm:rounded-sm bg-white/95 text-[#142B4D] text-[10px] font-extrabold uppercase tracking-wider border border-slate-200">
+                              4K Facility Tour • St. James Hospital
+                            </div>
                             <button
                               type="button"
                               onClick={toggleVideoPlay}
-                              className="p-1.5 rounded-none sm:rounded-sm bg-slate-100 hover:bg-slate-200 text-slate-800 cursor-pointer border border-slate-200 transition-colors"
-                              title={isVideoPlaying ? "Pause Video" : "Play Video"}
+                              className="p-1.5 rounded-none sm:rounded-sm bg-black/70 hover:bg-black text-white text-xs cursor-pointer border border-white/20 transition-colors"
                             >
                               {isVideoPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-current" />}
                             </button>
-                          )}
-                          <button
-                            type="button"
-                            onClick={() => setHeroViewMode(heroViewMode === 'video' ? 'reception' : 'video')}
-                            className="px-2.5 py-1 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white text-[10px] font-bold uppercase tracking-wider cursor-pointer border-none transition-colors"
-                          >
-                            {heroViewMode === 'video' ? '📷 View Photo' : '▶ Play 4K Video'}
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="space-y-1.5 text-xs text-slate-600">
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-500">Hospital Facility:</span>
-                          <span className="font-bold text-slate-900">St. James Hospital (Sliema)</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-500">Clinical Suites:</span>
-                          <span className="font-semibold text-[#3EA3AC]">Sterile Theatres + CEREC 3D Lab</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-slate-500">Patient Satisfaction:</span>
-                          <span className="font-bold text-amber-600 flex items-center gap-1">
-                            <Star className="w-3 h-3 fill-amber-400 text-amber-500" />
-                            <span>4.9 / 5.0 (25+ Yrs)</span>
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Reception picture-in-picture preview button */}
-                      <div 
-                        onClick={() => setHeroViewMode(heroViewMode === 'video' ? 'reception' : 'video')}
-                        className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between gap-3 cursor-pointer group"
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-12 h-9 rounded-none sm:rounded-sm overflow-hidden border border-slate-200 relative shrink-0">
-                            <img 
-                              src={getAssetUrl(heroViewMode === 'video' ? 'clinic/reception_background_image.jpg' : 'hero_poster_4k.jpg')} 
-                              alt="Toggle Preview" 
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                            />
                           </div>
-                          <div>
-                            <div className="text-[11px] font-bold text-slate-900 group-hover:text-[#3EA3AC] transition-colors">
-                              {heroViewMode === 'video' ? 'Switch to Reception Desk' : 'Switch to 4K Video Tour'}
-                            </div>
-                            <div className="text-[10px] text-slate-500">
-                              {heroViewMode === 'video' ? 'Ground Floor St. James Hospital' : 'Full facility walkthrough'}
-                            </div>
+
+                          {/* Player Bottom Description */}
+                          <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs">
+                            <span className="font-medium text-slate-200">State-of-the-art sterile hospital surgical suites</span>
+                            <span className="text-[10px] text-emerald-400 font-bold flex items-center gap-1">
+                              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                              HD Video Active
+                            </span>
                           </div>
                         </div>
-                        <ArrowUpRight className="w-3.5 h-3.5 text-[#3EA3AC] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                       </div>
-
                     </div>
-                  </div>
+                  ) : (
+                    <div className="lg:col-span-5 hidden sm:flex flex-col justify-end items-start lg:items-end">
+                      <div className="bg-white/95 backdrop-blur-xl p-4 sm:p-5 rounded-none sm:rounded-sm border border-slate-200/80 shadow-[0_20px_50px_rgba(20,43,77,0.12)] max-w-sm w-full">
+                        <div className="flex items-center justify-between gap-2 mb-3 pb-2.5 border-b border-slate-100">
+                          <div className="flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                            <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#142B4D]">
+                              {heroViewMode === 'video' ? '4K Hospital Tour Live' : 'Executive Reception'}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            {heroViewMode === 'video' && (
+                              <button
+                                type="button"
+                                onClick={toggleVideoPlay}
+                                className="p-1.5 rounded-none sm:rounded-sm bg-slate-100 hover:bg-slate-200 text-slate-800 cursor-pointer border border-slate-200 transition-colors"
+                                title={isVideoPlaying ? "Pause Video" : "Play Video"}
+                              >
+                                {isVideoPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-current" />}
+                              </button>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => setHeroViewMode(heroViewMode === 'video' ? 'reception' : 'video')}
+                              className="px-2.5 py-1 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white text-[10px] font-bold uppercase tracking-wider cursor-pointer border-none transition-colors"
+                            >
+                              {heroViewMode === 'video' ? '📷 View Photo' : '▶ Play 4K Video'}
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="space-y-1.5 text-xs text-slate-600">
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-500">Hospital Facility:</span>
+                            <span className="font-bold text-slate-900">St. James Hospital (Sliema)</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-500">Clinical Suites:</span>
+                            <span className="font-semibold text-[#3EA3AC]">Sterile Theatres + CEREC 3D Lab</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-500">Patient Satisfaction:</span>
+                            <span className="font-bold text-amber-600 flex items-center gap-1">
+                              <Star className="w-3 h-3 fill-amber-400 text-amber-500" />
+                              <span>4.9 / 5.0 (25+ Yrs)</span>
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Reception picture-in-picture preview button */}
+                        <div 
+                          onClick={() => setHeroViewMode(heroViewMode === 'video' ? 'reception' : 'video')}
+                          className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between gap-3 cursor-pointer group"
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-12 h-9 rounded-none sm:rounded-sm overflow-hidden border border-slate-200 relative shrink-0">
+                              <img 
+                                src={getAssetUrl(heroViewMode === 'video' ? 'clinic/reception_background_image.jpg' : 'hero_poster_4k.jpg')} 
+                                alt="Toggle Preview" 
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                              />
+                            </div>
+                            <div>
+                              <div className="text-[11px] font-bold text-slate-900 group-hover:text-[#3EA3AC] transition-colors">
+                                {heroViewMode === 'video' ? 'Switch to Reception Desk' : 'Switch to 4K Video Tour'}
+                              </div>
+                              <div className="text-[10px] text-slate-500">
+                                {heroViewMode === 'video' ? 'Ground Floor St. James Hospital' : 'Full facility walkthrough'}
+                              </div>
+                            </div>
+                          </div>
+                          <ArrowUpRight className="w-3.5 h-3.5 text-[#3EA3AC] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                        </div>
+
+                      </div>
+                    </div>
+                  )}
 
                 </div>
               </motion.div>
@@ -1033,15 +1234,313 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
             </div>
           </div>
 
-        {/* 3. FOR ANXIOUS PATIENTS: SAFE, GENTLE HANDS & HOSPITAL SEDATION (From Client Recording Frame 08s) */}
+        {/* 2. COMPREHENSIVE CLINICAL SPECIALTIES (21ST.DEV SCROLL-DRIVEN HORIZONTAL TRACK #1) */}
+        <div 
+          id="services-section" 
+          ref={servicesSectionRef}
+          className="relative lg:h-[250vh] bg-white border-b border-slate-200/80"
+        >
+          <div className="lg:sticky lg:top-0 lg:h-screen w-full overflow-hidden flex flex-col justify-center py-20 lg:py-0 px-4 sm:px-8 lg:px-14">
+            
+            <div className="max-w-7xl mx-auto w-full mb-8 lg:mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-[#3EA3AC] text-xs font-bold uppercase tracking-wider mb-2">
+                  <Layers className="w-4 h-4 text-[#3EA3AC]" />
+                  <span>Advanced Clinical Specialties [ 01 – 06 ]</span>
+                </div>
+                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-normal text-slate-950 tracking-tight font-editorial">
+                  Comprehensive Care For <span className="text-[#142B4D]">Every Patient</span>
+                </h2>
+              </div>
+              <div className="text-xs font-semibold text-slate-500 hidden lg:flex items-center gap-2">
+                <span>Scroll vertically to glide through procedures</span>
+                <ChevronRight className="w-4 h-4 text-[#3EA3AC] animate-pulse" />
+              </div>
+            </div>
+
+            {/* Desktop Horizontal Sliding Track (Scroll-Driven via servicesX) */}
+            <div className="hidden lg:block w-full overflow-hidden">
+              <motion.div 
+                style={{ x: servicesX }}
+                className="flex gap-8 will-change-transform pr-24"
+              >
+                {servicesData.map((svc) => (
+                  <div
+                    key={svc.id}
+                    className={`w-[420px] xl:w-[460px] shrink-0 rounded-none sm:rounded-sm border ${
+                      svc.isGold 
+                        ? 'border-amber-400 shadow-md ring-1 ring-amber-300' 
+                        : 'border-slate-200/90 shadow-2xs'
+                    } flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 cursor-pointer overflow-hidden ${svc.bgClass}`}
+                    onClick={() => setSelectedService(svc)}
+                  >
+                    {/* Real Clinical Image */}
+                    <div className="relative aspect-[16/10] overflow-hidden bg-slate-100 border-b border-slate-200">
+                      <img
+                        src={getAssetUrl(svc.image)}
+                        alt={svc.title}
+                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div className="absolute top-3 left-3 px-2.5 py-1 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md text-[#142B4D] text-[10px] font-extrabold uppercase tracking-wider border border-slate-200 shadow-2xs">
+                        [ {svc.num} ]
+                      </div>
+                      <div className="absolute top-3 right-3">
+                        <span 
+                          className={`text-[10px] font-bold px-2.5 py-1 rounded-none sm:rounded-sm uppercase tracking-wider backdrop-blur-md ${
+                            svc.isGold 
+                              ? 'bg-amber-100/95 text-amber-900 border border-amber-300' 
+                              : 'bg-white/95 text-slate-700 border border-slate-200'
+                          }`}
+                        >
+                          {svc.tagline}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950 mb-2.5 tracking-tight font-heading">
+                          {svc.title}
+                        </h3>
+                        <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4 font-body">
+                          {svc.summary}
+                        </p>
+
+                        <ul className="space-y-2 mb-6">
+                          {svc.bullets.map((b, idx) => (
+                            <li key={idx} className="flex items-start gap-2 text-xs text-slate-700 font-medium">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-[#3EA3AC] shrink-0 mt-0.5" />
+                              <span>{b}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="pt-4 border-t border-slate-200/60 flex items-center justify-between gap-3">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openWhatsAppBooking({ treatment: svc.title });
+                          }}
+                          className="flex items-center gap-1.5 px-4 py-2.5 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-extrabold text-xs uppercase tracking-wider cursor-pointer shadow-2xs transition-transform hover:scale-[1.02]"
+                        >
+                          <span>Book Procedure</span>
+                        </button>
+
+                        <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-slate-800">
+                          <span>Details</span>
+                          <ArrowUpRight className="w-4 h-4 text-[#3EA3AC]" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* Mobile / Tablet Responsive Horizontal Carousel with Touch Scroll */}
+            <div className="lg:hidden flex gap-5 overflow-x-auto no-scrollbar pb-6 pt-2 scroll-smooth">
+              {servicesData.map((svc) => (
+                <div
+                  key={svc.id}
+                  className={`w-[85vw] max-w-[340px] shrink-0 rounded-none sm:rounded-sm border ${
+                    svc.isGold 
+                      ? 'border-amber-400 shadow-md ring-1 ring-amber-300' 
+                      : 'border-slate-200/90 shadow-2xs'
+                  } flex flex-col justify-between overflow-hidden ${svc.bgClass}`}
+                  onClick={() => setSelectedService(svc)}
+                >
+                  {/* Real Clinical Image */}
+                  <div className="relative aspect-[16/10] overflow-hidden bg-slate-100 border-b border-slate-200">
+                    <img
+                      src={getAssetUrl(svc.image)}
+                      alt={svc.title}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                    <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-none sm:rounded-sm bg-white/95 text-[#142B4D] text-[9px] font-extrabold uppercase tracking-wider border border-slate-200">
+                      [ {svc.num} ]
+                    </div>
+                    <div className="absolute top-2.5 right-2.5">
+                      <span 
+                        className={`text-[9px] font-bold px-2 py-0.5 rounded-none sm:rounded-sm uppercase tracking-wider ${
+                          svc.isGold 
+                            ? 'bg-amber-100 text-amber-900 border border-amber-300' 
+                            : 'bg-white text-slate-700 border border-slate-200'
+                        }`}
+                      >
+                        {svc.tagline}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-5 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-lg font-extrabold text-slate-950 mb-1.5 tracking-tight font-heading">
+                        {svc.title}
+                      </h3>
+                      <p className="text-slate-600 text-xs leading-relaxed mb-3.5 font-body">
+                        {svc.summary}
+                      </p>
+
+                      <ul className="space-y-1.5 mb-5">
+                        {svc.bullets.slice(0, 3).map((b, idx) => (
+                          <li key={idx} className="flex items-start gap-1.5 text-xs text-slate-700 font-medium">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-[#3EA3AC] shrink-0 mt-0.5" />
+                            <span>{b}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="pt-3 border-t border-slate-200/60 flex items-center justify-between gap-3">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openWhatsAppBooking({ treatment: svc.title });
+                        }}
+                        className="flex items-center gap-1 px-3.5 py-2 rounded-none sm:rounded-sm bg-[#142B4D] text-white font-extrabold text-xs uppercase tracking-wider"
+                      >
+                        <span>Book</span>
+                      </button>
+                      <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-slate-800">
+                        <span>Details</span>
+                        <ArrowUpRight className="w-3.5 h-3.5 text-[#3EA3AC]" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+
+        {/* 3. AWARD-WINNING RESTORATIONS: 3-TOOTH ABSENCE VS FIXED CERAMIC IMPLANTS (Moved higher up) */}
+        <section 
+          id="smile-results" 
+          className="bg-white text-slate-950 pt-20 pb-28 border-b border-slate-200/90 relative z-20"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <motion.div 
+              initial={{ opacity: 0, y: 35 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="text-center max-w-3xl mx-auto mb-14"
+            >
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-[#3EA3AC] text-xs font-bold uppercase tracking-wider mb-3">
+                <Smile className="w-4 h-4 text-[#3EA3AC]" />
+                <span>Real Smiles We Have Fixed [ Before vs After ]</span>
+              </div>
+              <h2 className="text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight font-editorial text-slate-950 mb-4 leading-tight">
+                Award-Winning Restorations
+              </h2>
+              <p className="text-slate-600 text-sm sm:text-lg max-w-2xl mx-auto font-body">
+                Drag the slider with your finger or mouse to see how we fixed missing teeth with strong, permanent new teeth that look and feel real.
+              </p>
+            </motion.div>
+
+            {/* Interactive Before & After Slider */}
+            <div className="max-w-5xl mx-auto">
+              <div className="bg-[#F8FAFC] p-4 sm:p-8 rounded-none sm:rounded-sm border border-slate-200/90 shadow-xl">
+                
+                {/* Header */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-200">
+                  <div>
+                    <div className="text-[11px] font-bold uppercase tracking-wider text-[#3EA3AC] font-heading">
+                      Fixed Swiss Dental Implants Case
+                    </div>
+                    <div className="text-xl sm:text-2xl font-bold text-slate-950 font-editorial">
+                      3 Missing Teeth Restored to Fixed Perfection
+                    </div>
+                  </div>
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 text-[#142B4D] text-xs font-bold border border-teal-200 self-start sm:self-auto">
+                    <span className="w-2 h-2 rounded-full bg-[#3EA3AC] animate-pulse" />
+                    <span>Immediate Ceramic Integration</span>
+                  </div>
+                </div>
+
+                {/* Slider Box */}
+                <div
+                  ref={sliderContainerRef}
+                  onMouseMove={(e) => handleSliderMove(e.clientX)}
+                  onTouchMove={(e) => handleSliderMove(e.touches[0].clientX)}
+                  onTouchStart={(e) => handleSliderMove(e.touches[0].clientX)}
+                  className="relative rounded-none sm:rounded-sm overflow-hidden aspect-[4/3] sm:aspect-[16/9] border-2 border-slate-200 shadow-xl cursor-ew-resize select-none bg-slate-100 touch-none"
+                >
+                  {/* AFTER: Full Base */}
+                  <img
+                    src={getAssetUrl('dental_case_after.jpg')}
+                    alt="After: Permanent Ceramic Dental Implant Restoration"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+
+                  {/* BEFORE: Clipped Left Layer */}
+                  <div
+                    className="absolute inset-0 overflow-hidden"
+                    style={{ width: `${sliderPosition}%` }}
+                  >
+                    <img
+                      src={getAssetUrl('dental_case_before.jpg')}
+                      alt="Before: 3-Tooth Absence Case"
+                      className="absolute inset-0 w-full h-full object-cover max-w-none"
+                      style={{ width: sliderContainerRef.current ? `${sliderContainerRef.current.clientWidth}px` : '100%' }}
+                    />
+                  </div>
+
+                  {/* Center Divider */}
+                  <div
+                    className="absolute top-0 bottom-0 w-1 bg-white shadow-2xl cursor-ew-resize flex items-center justify-center z-20"
+                    style={{ left: `${sliderPosition}%` }}
+                  >
+                    <div className="w-10 h-10 rounded-none sm:rounded-sm bg-[#142B4D] text-white flex items-center justify-center shadow-xl border-2 border-white text-xs font-black">
+                      ⇄
+                    </div>
+                  </div>
+
+                  {/* Badges */}
+                  <div className="absolute top-3 left-3 z-10 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-white/95 text-slate-900 text-[10px] sm:text-xs font-bold border border-slate-200 shadow-md">
+                    BEFORE: 3 Missing Teeth
+                  </div>
+                  <div className="absolute top-3 right-3 z-10 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-[#142B4D] text-white text-[10px] sm:text-xs font-bold border border-blue-400/40 shadow-md">
+                    AFTER: Brand New Fixed Teeth
+                  </div>
+                </div>
+
+                {/* Footer trigger */}
+                <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-none sm:rounded-sm bg-white border border-slate-200 text-slate-800">
+                  <div className="text-xs sm:text-sm text-slate-700">
+                    <strong className="text-slate-950">Clinical Protocol:</strong> 3D CBCT guided implantology • German CEREC single-visit milling • St. James Hospital
+                  </div>
+                  <button
+                    onClick={() => openWhatsAppBooking({
+                      treatment: "Dental Implants & All-on-4 (Same-Day Fixed Teeth)"
+                    })}
+                    className="flex items-center gap-2 px-7 py-3 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-extrabold text-xs uppercase tracking-wider shrink-0 transition-all cursor-pointer border border-[#142B4D] shadow-sm"
+                  >
+                    <span>Inquire About This Case</span>
+                    <ArrowUpRight className="w-4 h-4 text-[#3EA3AC]" />
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* 4. FOR ANXIOUS PATIENTS: SAFE, GENTLE HANDS & HOSPITAL SEDATION (Vertical Flow) */}
         <section 
           id="anxious-patients"
-          className="py-20 md:py-28 bg-[#F8FAFC] border-b border-slate-200/80"
+          className="py-24 md:py-32 bg-[#F8FAFC] border-b border-slate-200/80"
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
               
-              {/* Left Image: The Actual Clinic Waiting Lounge (waiting_room_2.jpg) */}
+              {/* Left Image: The Actual Clinic Waiting Lounge */}
               <motion.div 
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -1064,7 +1563,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 </div>
               </motion.div>
 
-              {/* Right Content: Exact Client Wording */}
+              {/* Right Content */}
               <motion.div 
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -1077,8 +1576,9 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                   <span>FOR ANXIOUS PATIENTS</span>
                 </div>
 
-                <h2 className="text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight leading-tight mb-6 font-editorial text-slate-950">
-                  You’re in safe, <span className="text-[#3EA3AC]">gentle hands</span>
+                <h2 className="text-4xl sm:text-6xl lg:text-7xl font-normal tracking-tight leading-[1.06] mb-6 font-editorial text-slate-950">
+                  You’re in safe, <br className="hidden sm:block" />
+                  <span className="text-[#3EA3AC]">gentle hands.</span>
                 </h2>
 
                 <p className="text-slate-700 text-base sm:text-lg leading-relaxed mb-5 font-body">
@@ -1112,145 +1612,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
           </div>
         </section>
 
-        {/* 4. MODERN TECHNOLOGY & CLINICAL EXCELLENCE (4 PILLARS + 3D SCANNER SHOWCASE) */}
-        <section className="py-20 md:py-28 bg-white border-b border-slate-200/80">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div className="text-center max-w-3xl mx-auto mb-14">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-blue-50 text-[#142B4D] text-xs font-bold uppercase tracking-wider mb-3 border border-blue-200">
-                <Sparkles className="w-4 h-4 text-[#3EA3AC]" />
-                <span>Hospital Standards & Digital Accuracy</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight font-heading">
-                Advanced Technology. Human Care.
-              </h2>
-            </div>
-
-            {/* 4 Pillar Cards (Square Borders, Exact Copy from Client Artifact Frame 12s) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.05 }}
-                className="p-8 rounded-none sm:rounded-sm bg-[#F8FAFC] border border-slate-200/90 shadow-2xs hover:shadow-lg transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="w-12 h-12 rounded-none sm:rounded-sm bg-teal-50 text-[#3EA3AC] border border-teal-200 flex items-center justify-center mb-6">
-                    <Activity className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-950 mb-3 font-heading">
-                    Modern technology
-                  </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed font-body">
-                    3D dental scanner, crowns in a single visit with CAD/CAM technology, and 3D X-ray (CBCT).
-                  </p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-slate-200 text-[11px] font-bold uppercase tracking-wider text-[#3EA3AC]">
-                  German CEREC Milling Lab
-                </div>
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.12 }}
-                className="p-8 rounded-none sm:rounded-sm bg-[#F8FAFC] border border-slate-200/90 shadow-2xs hover:shadow-lg transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="w-12 h-12 rounded-none sm:rounded-sm bg-teal-50 text-[#3EA3AC] border border-teal-200 flex items-center justify-center mb-6">
-                    <Heart className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-950 mb-3 font-heading">
-                    Anxious–patient care
-                  </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed font-body">
-                    Sedation with a consultant anaesthetist for nervous patients in a calm hospital environment.
-                  </p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-slate-200 text-[11px] font-bold uppercase tracking-wider text-[#3EA3AC]">
-                  Zero Memory Of Discomfort
-                </div>
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.19 }}
-                className="p-8 rounded-none sm:rounded-sm bg-[#F8FAFC] border border-slate-200/90 shadow-2xs hover:shadow-lg transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="w-12 h-12 rounded-none sm:rounded-sm bg-teal-50 text-[#3EA3AC] border border-teal-200 flex items-center justify-center mb-6">
-                    <User className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-950 mb-3 font-heading">
-                    Multidisciplinary team
-                  </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed font-body">
-                    Complex cases planned as a specialist team, all under one roof at St. James Hospital.
-                  </p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-slate-200 text-[11px] font-bold uppercase tracking-wider text-[#3EA3AC]">
-                  Oral Surgeons & Specialists
-                </div>
-              </motion.div>
-
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.26 }}
-                className="p-8 rounded-none sm:rounded-sm bg-[#F8FAFC] border border-slate-200/90 shadow-2xs hover:shadow-lg transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="w-12 h-12 rounded-none sm:rounded-sm bg-teal-50 text-[#3EA3AC] border border-teal-200 flex items-center justify-center mb-6">
-                    <Shield className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-950 mb-3 font-heading">
-                    Hospital–level safety
-                  </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed font-body">
-                    Based inside St James Hospital, Sliema, trusted since 1999 with sterile operating suites.
-                  </p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-slate-200 text-[11px] font-bold uppercase tracking-wider text-[#3EA3AC]">
-                  Full Medical Hospital Backup
-                </div>
-              </motion.div>
-
-            </div>
-
-            {/* High-Tech In-Surgery Scanning Visual Showcase */}
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="relative rounded-none sm:rounded-sm overflow-hidden border border-slate-200 aspect-[16/10] bg-slate-100">
-                <img 
-                  src={getAssetUrl('clinic/md_3d_scanner_and_pt.jpg')} 
-                  alt="Dr. Mark Diacono with 3D Scanner and Patient"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute bottom-3 left-3 bg-white/95 px-3 py-1.5 rounded-none sm:rounded-sm text-xs font-bold text-slate-900 border border-slate-200 shadow-2xs">
-                  Intraoral 3D Digital Scanning with Dr. Mark Diacono
-                </div>
-              </div>
-              <div className="relative rounded-none sm:rounded-sm overflow-hidden border border-slate-200 aspect-[16/10] bg-slate-100">
-                <img 
-                  src={getAssetUrl('clinic/scanning_in_surgery.jpg')} 
-                  alt="Digital 3D Optical Scanning in Operating Surgery"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute bottom-3 left-3 bg-white/95 px-3 py-1.5 rounded-none sm:rounded-sm text-xs font-bold text-slate-900 border border-slate-200 shadow-2xs">
-                  Zero Impressions: Sub-millimeter Optical Mapping
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* 5. SIGNATURE GOLDEN FEATURE: DIGITAL SMILE DESIGN (DSD) — REQUESTED TOP SERVICE */}
+        {/* 4. SIGNATURE GOLDEN FEATURE: DIGITAL SMILE DESIGN (DSD) — REQUESTED TOP SERVICE */}
         <section 
           id="digital-smile-design"
           className="py-24 md:py-32 bg-gradient-to-b from-amber-50/50 via-white to-amber-50/30 border-b border-amber-200/80 relative overflow-hidden"
@@ -1267,7 +1629,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 <span>★ PREMIER SIGNATURE SERVICE • DIGITAL SMILE DESIGN (DSD)</span>
               </div>
               
-              <h2 className="text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight font-editorial text-slate-950 leading-tight">
+              <h2 className="text-4xl sm:text-6xl lg:text-7xl font-normal tracking-tight font-editorial text-slate-950 leading-tight">
                 Architecting Your Smile <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-700 via-amber-600 to-yellow-600 font-medium">
                   Before Any Treatment Begins.
@@ -1343,6 +1705,30 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
             </div>
 
+            {/* High-Tech In-Surgery Scanning Visual Showcase (DSD Technology in Action) */}
+            <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="relative rounded-none sm:rounded-sm overflow-hidden border border-amber-200 aspect-[16/10] bg-slate-100 shadow-sm">
+                <img 
+                  src={getAssetUrl('clinic/md_3d_scanner_and_pt.jpg')} 
+                  alt="Dr. Mark Diacono with 3D Scanner and Patient"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute bottom-3 left-3 bg-white/95 px-3 py-1.5 rounded-none sm:rounded-sm text-xs font-bold text-slate-900 border border-slate-200 shadow-2xs">
+                  Intraoral 3D Digital Scanning with Dr. Mark Diacono
+                </div>
+              </div>
+              <div className="relative rounded-none sm:rounded-sm overflow-hidden border border-amber-200 aspect-[16/10] bg-slate-100 shadow-sm">
+                <img 
+                  src={getAssetUrl('clinic/scanning_in_surgery.jpg')} 
+                  alt="Digital 3D Optical Scanning in Operating Surgery"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute bottom-3 left-3 bg-white/95 px-3 py-1.5 rounded-none sm:rounded-sm text-xs font-bold text-slate-900 border border-slate-200 shadow-2xs">
+                  Zero Impressions: Sub-millimeter Optical Mapping
+                </div>
+              </div>
+            </div>
+
             {/* CTA Box for DSD */}
             <div className="p-6 sm:p-8 rounded-none sm:rounded-sm bg-gradient-to-r from-amber-100/80 via-white to-amber-100/80 border border-amber-300 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
               <div>
@@ -1369,342 +1755,151 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
           </div>
         </section>
 
-        {/* 6. OUR CLINICIANS & MEDICAL TEAM ("OUR EXPERTS IN ORAL HEALTH") */}
-        <section 
+        {/* 5. OUR CLINICIANS & MEDICAL TEAM (21ST.DEV SCROLL-DRIVEN HORIZONTAL TRACK #2) */}
+        <div 
           id="our-team"
-          className="py-24 md:py-32 bg-[#F8FAFC] border-b border-slate-200/80"
+          ref={teamSectionRef}
+          className="relative lg:h-[260vh] bg-[#F8FAFC] border-b border-slate-200/80"
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="lg:sticky lg:top-0 lg:h-screen w-full overflow-hidden flex flex-col justify-center py-16 lg:py-0 px-4 sm:px-8 lg:px-14">
             
-            {/* Section Header: Exact Client Wording from Video Frame 16s & Screenshot */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            {/* Section Header: Client Wording with Large Editorial Typography */}
+            <div className="max-w-7xl mx-auto w-full mb-6 lg:mb-8 flex flex-col lg:flex-row lg:items-end justify-between gap-4">
               <div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-[#3EA3AC] text-xs font-bold uppercase tracking-wider mb-3">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-[#3EA3AC] text-xs font-bold uppercase tracking-wider mb-2">
                   <User className="w-4 h-4 text-[#3EA3AC]" />
                   <span>OUR CLINICIANS • ST. JAMES HOSPITAL</span>
                 </div>
-                <h2 className="text-3xl sm:text-5xl md:text-6xl font-normal text-slate-950 tracking-tight font-editorial">
-                  Our Experts in Oral Health
+                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-normal text-slate-950 tracking-tight font-editorial">
+                  Our Experts in <span className="text-[#142B4D]">Oral Health</span>
                 </h2>
               </div>
-              <p className="text-slate-600 text-sm sm:text-base max-w-md font-body">
-                Specialists and general dentists working side by side, so every treatment is planned by the right person.
-              </p>
-            </div>
-
-            {/* Filter Tabs (Square Borders) */}
-            <div className="flex flex-wrap gap-2 mb-12 border-b border-slate-200 pb-4">
-              <button
-                onClick={() => setActiveTeamTab('all')}
-                className={`px-5 py-2.5 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                  activeTeamTab === 'all'
-                    ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-sm'
-                    : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
-                }`}
-              >
-                All Team ({cliniciansList.length})
-              </button>
-              <button
-                onClick={() => setActiveTeamTab('specialists')}
-                className={`px-5 py-2.5 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                  activeTeamTab === 'specialists'
-                    ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-sm'
-                    : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
-                }`}
-              >
-                Specialist Surgeons & Dentists (5)
-              </button>
-              <button
-                onClick={() => setActiveTeamTab('general')}
-                className={`px-5 py-2.5 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                  activeTeamTab === 'general'
-                    ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-sm'
-                    : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
-                }`}
-              >
-                General & Paediatric Dentists (4)
-              </button>
-              <button
-                onClick={() => setActiveTeamTab('support')}
-                className={`px-5 py-2.5 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                  activeTeamTab === 'support'
-                    ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-sm'
-                    : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
-                }`}
-              >
-                Clinical Care & Nursing Team (10)
-              </button>
-            </div>
-
-            {/* Clinicians Pop-Out Card Grid (Matching WhatsApp Reference Screenshot) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
-              {filteredClinicians.map((person) => (
-                <motion.div
-                  key={person.id}
-                  layout
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
-                  className="rounded-none sm:rounded-sm bg-white border border-slate-200/90 shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+              
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                {/* View All Team Members Toggle Button (Requested by CEO Jordan Pozo) */}
+                <button
+                  onClick={() => {
+                    setShowAllTeam(!showAllTeam);
+                    if (!showAllTeam) setActiveTeamTab('all');
+                  }}
+                  className={`px-4 py-2 rounded-none sm:rounded-sm text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer border flex items-center justify-center gap-2 shadow-xs ${
+                    showAllTeam 
+                      ? 'bg-[#3EA3AC] hover:bg-[#358f97] text-white border-[#3EA3AC]' 
+                      : 'bg-[#142B4D] hover:bg-[#0c1c33] text-white border-[#142B4D]'
+                  }`}
                 >
-                  <div>
-                    {/* Portrait Photo Container */}
-                    <div className="relative aspect-[4/4.5] overflow-hidden bg-slate-100">
-                      <img
-                        src={getAssetUrl(person.photo)}
-                        alt={person.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                      <div className="absolute top-3 left-3 px-2.5 py-1 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md text-[#142B4D] text-[10px] font-extrabold uppercase tracking-wider border border-slate-200 shadow-2xs">
-                        {person.badge}
-                      </div>
-                    </div>
+                  <User className="w-3.5 h-3.5 text-white" />
+                  <span>{showAllTeam ? 'Showing All 19 Members (Click to Collapse)' : 'View All Team Members (19)'}</span>
+                </button>
 
-                    {/* Information */}
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold text-slate-950 mb-1 font-heading group-hover:text-[#3EA3AC] transition-colors">
-                        {person.name}
-                      </h3>
-                      
-                      <div className="text-xs font-bold text-[#142B4D] uppercase tracking-wider mb-2 font-heading">
-                        {person.role}
-                      </div>
-
-                      <div className="text-[11px] text-[#3EA3AC] font-semibold mb-3">
-                        {person.qualifications}
-                      </div>
-
-                      <p className="text-xs text-slate-600 leading-relaxed font-body line-clamp-3">
-                        {person.bio}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Card Action Footer */}
-                  <div className="p-6 pt-0">
-                    <button
-                      onClick={() => openWhatsAppBooking({
-                        doctor: person.name,
-                        treatment: person.treatmentDefault
-                      })}
-                      className="w-full py-2.5 rounded-none sm:rounded-sm bg-slate-50 hover:bg-[#142B4D] text-slate-800 hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 hover:border-[#142B4D] transition-colors cursor-pointer flex items-center justify-center gap-1.5"
-                    >
-                      <span>Inquire with {person.name.split(' ')[0]}</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-          </div>
-        </section>
-
-        {/* 7. AWARD-WINNING RESTORATIONS: 3-TOOTH ABSENCE VS FIXED CERAMIC IMPLANTS */}
-        <section 
-          id="smile-results" 
-          className="bg-[#F8FAFC] text-slate-950 pt-20 pb-28 border-b border-slate-200/90 relative z-20"
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <motion.div 
-              initial={{ opacity: 0, y: 35 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="text-center max-w-3xl mx-auto mb-14"
-            >
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-[#3EA3AC] text-xs font-bold uppercase tracking-wider mb-3">
-                <Smile className="w-4 h-4 text-[#3EA3AC]" />
-                <span>Verified Clinical Cases [ Before vs After ]</span>
-              </div>
-              <h2 className="text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight font-editorial text-slate-950 mb-4 leading-tight">
-                Award-Winning Restorations
-              </h2>
-              <p className="text-slate-600 text-sm sm:text-lg max-w-2xl mx-auto font-body">
-                Drag the interactive slider below to inspect full clinical restoration: from severe 3-tooth absence to permanent Swiss implants & CEREC 3D ceramic crowns.
-              </p>
-            </motion.div>
-
-            {/* Interactive Before & After Slider */}
-            <div className="max-w-5xl mx-auto">
-              <div className="bg-white p-4 sm:p-8 rounded-none sm:rounded-sm border border-slate-200/90 shadow-xl backdrop-blur-md">
-                
-                {/* Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-100">
-                  <div>
-                    <div className="text-[11px] font-bold uppercase tracking-wider text-[#3EA3AC] font-heading">
-                      Multiple Tooth Absence & Swiss Dental Implants
-                    </div>
-                    <div className="text-xl sm:text-2xl font-bold text-slate-950 font-editorial">
-                      3-Tooth Absence Restored to Fixed Perfection
-                    </div>
-                  </div>
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 text-[#142B4D] text-xs font-bold border border-teal-200 self-start sm:self-auto">
-                    <span className="w-2 h-2 rounded-full bg-[#3EA3AC] animate-pulse" />
-                    <span>Immediate Ceramic Integration</span>
-                  </div>
-                </div>
-
-                {/* Slider Box */}
-                <div
-                  ref={sliderContainerRef}
-                  onMouseMove={(e) => handleSliderMove(e.clientX)}
-                  onTouchMove={(e) => handleSliderMove(e.touches[0].clientX)}
-                  onTouchStart={(e) => handleSliderMove(e.touches[0].clientX)}
-                  className="relative rounded-none sm:rounded-sm overflow-hidden aspect-[4/3] sm:aspect-[16/9] border-2 border-slate-200 shadow-xl cursor-ew-resize select-none bg-slate-100 touch-none"
-                >
-                  {/* AFTER: Full Base */}
-                  <img
-                    src={getAssetUrl('dental_case_after.jpg')}
-                    alt="After: Permanent Ceramic Dental Implant Restoration"
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-
-                  {/* BEFORE: Clipped Left Layer */}
-                  <div
-                    className="absolute inset-0 overflow-hidden"
-                    style={{ width: `${sliderPosition}%` }}
-                  >
-                    <img
-                      src={getAssetUrl('dental_case_before.jpg')}
-                      alt="Before: 3-Tooth Absence Case"
-                      className="absolute inset-0 w-full h-full object-cover max-w-none"
-                      style={{ width: sliderContainerRef.current ? `${sliderContainerRef.current.clientWidth}px` : '100%' }}
-                    />
-                  </div>
-
-                  {/* Center Divider */}
-                  <div
-                    className="absolute top-0 bottom-0 w-1 bg-white shadow-2xl cursor-ew-resize flex items-center justify-center z-20"
-                    style={{ left: `${sliderPosition}%` }}
-                  >
-                    <div className="w-10 h-10 rounded-none sm:rounded-sm bg-[#142B4D] text-white flex items-center justify-center shadow-xl border-2 border-white text-xs font-black">
-                      ⇄
-                    </div>
-                  </div>
-
-                  {/* Badges */}
-                  <div className="absolute top-3 left-3 z-10 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-white/95 text-slate-900 text-[10px] sm:text-xs font-bold border border-slate-200 shadow-md">
-                    BEFORE: 3-Tooth Absence
-                  </div>
-                  <div className="absolute top-3 right-3 z-10 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-[#142B4D] text-white text-[10px] sm:text-xs font-bold border border-blue-400/40 shadow-md">
-                    AFTER: Fixed Ceramic Implants
-                  </div>
-                </div>
-
-                {/* Footer trigger */}
-                <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-none sm:rounded-sm bg-slate-50 border border-slate-200 text-slate-800">
-                  <div className="text-xs sm:text-sm text-slate-700">
-                    <strong className="text-slate-950">Clinical Protocol:</strong> 3D CBCT guided implantology • German CEREC single-visit milling • St. James Hospital
-                  </div>
+                {/* Filter Tabs (Square Borders) */}
+                <div className="flex flex-wrap gap-1.5">
                   <button
-                    onClick={() => openWhatsAppBooking({
-                      treatment: "Dental Implants & All-on-4 (Same-Day Fixed Teeth)"
-                    })}
-                    className="flex items-center gap-2 px-7 py-3 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-extrabold text-xs uppercase tracking-wider shrink-0 transition-all cursor-pointer border border-[#142B4D] shadow-sm"
+                    onClick={() => setActiveTeamTab('all')}
+                    className={`px-3.5 py-2 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                      activeTeamTab === 'all'
+                        ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-xs'
+                        : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                    }`}
                   >
-                    <span>Inquire About This Case</span>
-                    <ArrowUpRight className="w-4 h-4 text-[#3EA3AC]" />
+                    All ({cliniciansList.length})
+                  </button>
+                  <button
+                    onClick={() => setActiveTeamTab('specialists')}
+                    className={`px-3.5 py-2 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                      activeTeamTab === 'specialists'
+                        ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-xs'
+                        : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                    }`}
+                  >
+                    Specialists (5)
+                  </button>
+                  <button
+                    onClick={() => setActiveTeamTab('general')}
+                    className={`px-3.5 py-2 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                      activeTeamTab === 'general'
+                        ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-xs'
+                        : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                    }`}
+                  >
+                    Dentists (4)
+                  </button>
+                  <button
+                    onClick={() => setActiveTeamTab('support')}
+                    className={`px-3.5 py-2 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                      activeTeamTab === 'support'
+                        ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-xs'
+                        : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                    }`}
+                  >
+                    Care & Nursing (10)
                   </button>
                 </div>
 
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* 8. COMPREHENSIVE CLINICAL SPECIALTIES (21ST.DEV SCROLL-DRIVEN HORIZONTAL TRACK) */}
-        <div 
-          id="services-section" 
-          ref={servicesSectionRef}
-          className="relative lg:h-[250vh] bg-white border-b border-slate-200/80"
-        >
-          <div className="lg:sticky lg:top-0 lg:h-screen w-full overflow-hidden flex flex-col justify-center py-20 lg:py-0 px-4 sm:px-8 lg:px-14">
-            
-            <div className="max-w-7xl mx-auto w-full mb-8 lg:mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-[#3EA3AC] text-xs font-bold uppercase tracking-wider mb-2">
-                  <Layers className="w-4 h-4 text-[#3EA3AC]" />
-                  <span>Advanced Clinical Specialties [ 01 – 06 ]</span>
+                <div className="text-xs font-semibold text-slate-500 hidden lg:flex items-center gap-1.5 shrink-0 pl-2">
+                  <span>Scroll to explore</span>
+                  <ChevronRight className="w-4 h-4 text-[#3EA3AC] animate-pulse" />
                 </div>
-                <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-950 tracking-tight font-heading">
-                  Comprehensive Care For <span className="text-[#142B4D]">Every Patient</span>
-                </h2>
-              </div>
-              <div className="text-xs font-semibold text-slate-500 hidden lg:flex items-center gap-2">
-                <span>Scroll vertically to glide through procedures</span>
-                <ChevronRight className="w-4 h-4 text-[#3EA3AC] animate-pulse" />
               </div>
             </div>
 
-            {/* Desktop Horizontal Sliding Track (Scroll-Driven via servicesX) */}
+            {/* Desktop Horizontal Sliding Track (Scroll-Driven via teamX) */}
             <div className="hidden lg:block w-full overflow-hidden">
               <motion.div 
-                style={{ x: servicesX }}
-                className="flex gap-8 will-change-transform pr-24"
+                style={{ x: teamX }}
+                className="flex gap-6 will-change-transform pr-24"
               >
-                {servicesData.map((svc) => (
+                {filteredClinicians.map((person) => (
                   <div
-                    key={svc.id}
-                    className={`w-[400px] xl:w-[440px] shrink-0 rounded-none sm:rounded-sm p-8 border ${
-                      svc.isGold 
-                        ? 'border-amber-400 shadow-md ring-1 ring-amber-300' 
-                        : 'border-slate-200/90 shadow-2xs'
-                    } flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 cursor-pointer ${svc.bgClass}`}
-                    onClick={() => setSelectedService(svc)}
+                    key={person.id}
+                    className="w-[320px] xl:w-[350px] shrink-0 rounded-none sm:rounded-sm bg-white border border-slate-200/90 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
                   >
                     <div>
-                      <div className="flex items-center justify-between mb-6">
-                        <span className="text-sm font-extrabold text-slate-400 tracking-wider font-heading">
-                          [ {svc.num} ]
-                        </span>
-                        <span 
-                          className={`text-[11px] font-bold px-3 py-1 rounded-none sm:rounded-sm uppercase tracking-wider ${
-                            svc.isGold 
-                              ? 'bg-amber-100 text-amber-900 border border-amber-300' 
-                              : 'bg-slate-100 text-slate-700 border border-slate-200'
-                          }`}
-                        >
-                          {svc.tagline}
-                        </span>
+                      {/* Portrait Photo Container */}
+                      <div className="relative aspect-[4/3.8] overflow-hidden bg-slate-100">
+                        <img
+                          src={getAssetUrl(person.photo)}
+                          alt={person.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          loading="lazy"
+                        />
+                        <div className="absolute top-3 left-3 px-2.5 py-1 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md text-[#142B4D] text-[10px] font-extrabold uppercase tracking-wider border border-slate-200 shadow-2xs">
+                          {person.badge}
+                        </div>
                       </div>
 
-                      <h3 className="text-2xl font-extrabold text-slate-950 mb-3 tracking-tight font-heading">
-                        {svc.title}
-                      </h3>
-                      <p className="text-slate-600 text-sm leading-relaxed mb-6 font-body">
-                        {svc.summary}
-                      </p>
+                      {/* Information */}
+                      <div className="p-5">
+                        <h3 className="text-lg font-bold text-slate-950 mb-0.5 font-heading group-hover:text-[#3EA3AC] transition-colors truncate">
+                          {person.name}
+                        </h3>
+                        
+                        <div className="text-[11px] font-bold text-[#142B4D] uppercase tracking-wider mb-1 font-heading truncate">
+                          {person.role}
+                        </div>
 
-                      <ul className="space-y-2 mb-8">
-                        {svc.bullets.map((b, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-xs text-slate-700 font-medium">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-[#3EA3AC] shrink-0 mt-0.5" />
-                            <span>{b}</span>
-                          </li>
-                        ))}
-                      </ul>
+                        <div className="text-[10px] text-[#3EA3AC] font-semibold mb-2.5 truncate">
+                          {person.qualifications}
+                        </div>
+
+                        <p className="text-xs text-slate-600 leading-relaxed font-body line-clamp-3">
+                          {person.bio}
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="pt-4 border-t border-slate-200/60 flex items-center justify-between gap-3">
+                    {/* Card Action Footer */}
+                    <div className="p-5 pt-0">
                       <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openWhatsAppBooking({ treatment: svc.title });
-                        }}
-                        className="flex items-center gap-1.5 px-4 py-2.5 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-extrabold text-xs uppercase tracking-wider cursor-pointer shadow-2xs transition-transform hover:scale-[1.02]"
+                        onClick={() => openWhatsAppBooking({
+                          doctor: person.name,
+                          treatment: person.treatmentDefault
+                        })}
+                        className="w-full py-2.5 rounded-none sm:rounded-sm bg-slate-50 hover:bg-[#142B4D] text-slate-800 hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 hover:border-[#142B4D] transition-colors cursor-pointer flex items-center justify-center gap-1.5"
                       >
-                        <span>Book Procedure</span>
+                        <span>Inquire with {person.name.split(' ')[0]}</span>
+                        <ArrowUpRight className="w-3.5 h-3.5" />
                       </button>
-
-                      <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-slate-800">
-                        <span>Details</span>
-                        <ArrowUpRight className="w-4 h-4 text-[#3EA3AC]" />
-                      </div>
                     </div>
                   </div>
                 ))}
@@ -1713,63 +1908,51 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
             {/* Mobile / Tablet Responsive Horizontal Carousel with Touch Scroll */}
             <div className="lg:hidden flex gap-5 overflow-x-auto no-scrollbar pb-6 pt-2 scroll-smooth">
-              {servicesData.map((svc) => (
+              {filteredClinicians.map((person) => (
                 <div
-                  key={svc.id}
-                  className={`w-[85vw] max-w-[340px] shrink-0 rounded-none sm:rounded-sm p-6 border ${
-                    svc.isGold 
-                      ? 'border-amber-400 shadow-md ring-1 ring-amber-300' 
-                      : 'border-slate-200/90 shadow-2xs'
-                  } flex flex-col justify-between ${svc.bgClass}`}
-                  onClick={() => setSelectedService(svc)}
+                  key={person.id}
+                  className="w-[78vw] max-w-[290px] shrink-0 rounded-none sm:rounded-sm bg-white border border-slate-200/90 shadow-md flex flex-col justify-between overflow-hidden"
                 >
                   <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-xs font-extrabold text-slate-400 tracking-wider font-heading">
-                        [ {svc.num} ]
-                      </span>
-                      <span 
-                        className={`text-[10px] font-bold px-2.5 py-1 rounded-none sm:rounded-sm uppercase tracking-wider ${
-                          svc.isGold 
-                            ? 'bg-amber-100 text-amber-900 border border-amber-300' 
-                            : 'bg-slate-100 text-slate-700 border border-slate-200'
-                        }`}
-                      >
-                        {svc.tagline}
-                      </span>
+                    <div className="relative aspect-[4/3.8] overflow-hidden bg-slate-100">
+                      <img
+                        src={getAssetUrl(person.photo)}
+                        alt={person.name}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                      <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-none sm:rounded-sm bg-white/95 text-[#142B4D] text-[9px] font-extrabold uppercase tracking-wider border border-slate-200">
+                        {person.badge}
+                      </div>
                     </div>
 
-                    <h3 className="text-xl font-extrabold text-slate-950 mb-2 tracking-tight font-heading">
-                      {svc.title}
-                    </h3>
-                    <p className="text-slate-600 text-xs leading-relaxed mb-4 font-body">
-                      {svc.summary}
-                    </p>
-
-                    <ul className="space-y-1.5 mb-6">
-                      {svc.bullets.slice(0, 3).map((b, idx) => (
-                        <li key={idx} className="flex items-start gap-1.5 text-xs text-slate-700 font-medium">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-[#3EA3AC] shrink-0 mt-0.5" />
-                          <span>{b}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="p-4">
+                      <h3 className="text-base font-bold text-slate-950 mb-0.5 font-heading">
+                        {person.name}
+                      </h3>
+                      <div className="text-[10px] font-bold text-[#142B4D] uppercase tracking-wider mb-1 font-heading">
+                        {person.role}
+                      </div>
+                      <div className="text-[10px] text-[#3EA3AC] font-semibold mb-2">
+                        {person.qualifications}
+                      </div>
+                      <p className="text-[11px] text-slate-600 leading-relaxed font-body line-clamp-3">
+                        {person.bio}
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="pt-3 border-t border-slate-200/60 flex items-center justify-between gap-3">
+                  <div className="p-4 pt-0">
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openWhatsAppBooking({ treatment: svc.title });
-                      }}
-                      className="flex items-center gap-1 px-3.5 py-2 rounded-none sm:rounded-sm bg-[#142B4D] text-white font-extrabold text-xs uppercase tracking-wider"
+                      onClick={() => openWhatsAppBooking({
+                        doctor: person.name,
+                        treatment: person.treatmentDefault
+                      })}
+                      className="w-full py-2 rounded-none sm:rounded-sm bg-[#142B4D] text-white font-bold text-[11px] uppercase tracking-wider cursor-pointer flex items-center justify-center gap-1"
                     >
-                      <span>Book</span>
+                      <span>Inquire</span>
+                      <ArrowUpRight className="w-3 h-3 text-[#3EA3AC]" />
                     </button>
-                    <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-slate-800">
-                      <span>Details</span>
-                      <ArrowUpRight className="w-3.5 h-3.5 text-[#3EA3AC]" />
-                    </div>
                   </div>
                 </div>
               ))}
@@ -1777,6 +1960,111 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
           </div>
         </div>
+
+        {/* 6. TRANSPARENT TREATMENT FEES & PRICES GUIDE */}
+        <section 
+          id="fees-prices" 
+          className="py-24 md:py-32 bg-white border-b border-slate-200/80"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-blue-50 text-[#142B4D] text-xs font-bold uppercase tracking-wider mb-3 border border-blue-200">
+                <CreditCard className="w-4 h-4 text-[#3EA3AC]" />
+                <span>Transparent Treatment Fees & Pricing Guide</span>
+              </div>
+              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-normal text-slate-950 tracking-tight font-editorial">
+                Clear, Honest <span className="text-[#142B4D]">Hospital Fees</span>
+              </h2>
+              <p className="text-slate-600 text-base sm:text-lg mt-3 font-body">
+                No surprises or hidden fees. Every patient receives a clear written plan with exact prices after their examination at St. James Hospital.
+              </p>
+            </div>
+
+            {/* 3 Pricing Category Columns */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-14">
+              {feesCategories.map((cat, idx) => (
+                <div 
+                  key={idx}
+                  className="rounded-none sm:rounded-sm border border-slate-200 bg-[#F8FAFC] p-6 sm:p-8 flex flex-col justify-between shadow-2xs hover:shadow-md transition-shadow"
+                >
+                  <div>
+                    <div className="text-xs font-extrabold uppercase tracking-wider text-[#3EA3AC] mb-1 font-heading">
+                      [ Category 0{idx + 1} ]
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-950 mb-2 font-heading">
+                      {cat.title}
+                    </h3>
+                    <p className="text-xs text-slate-500 mb-6 font-body">
+                      {cat.description}
+                    </p>
+
+                    <div className="space-y-4">
+                      {cat.items.map((item, itemIdx) => (
+                        <div 
+                          key={itemIdx}
+                          className="bg-white p-4 rounded-none sm:rounded-sm border border-slate-200/80 shadow-2xs"
+                        >
+                          <div className="flex items-start justify-between gap-3 mb-2">
+                            <span className="text-sm font-bold text-slate-900 leading-snug">
+                              {item.name}
+                            </span>
+                            <span className="text-base font-extrabold text-[#142B4D] shrink-0 font-heading">
+                              {item.price}
+                            </span>
+                          </div>
+                          <ul className="space-y-1">
+                            {item.features.map((feat, fIdx) => (
+                              <li key={fIdx} className="flex items-center gap-1.5 text-[11px] text-slate-600">
+                                <Check className="w-3 h-3 text-[#3EA3AC] shrink-0" />
+                                <span>{feat}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="pt-6 mt-6 border-t border-slate-200">
+                    <button
+                      onClick={() => openWhatsAppBooking({ treatment: cat.items[0].name })}
+                      className="w-full py-3 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-extrabold text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-2 border border-[#142B4D]"
+                    >
+                      <Calendar className="w-3.5 h-3.5 text-[#3EA3AC]" />
+                      <span>Book For This Category</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Insurance & Hospital direct billing banner */}
+            <div className="p-6 sm:p-8 rounded-none sm:rounded-sm bg-gradient-to-r from-blue-50/70 via-white to-teal-50/50 border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-none sm:rounded-sm bg-[#142B4D] text-[#3EA3AC] flex items-center justify-center shrink-0 border border-[#142B4D]">
+                  <ShieldCheck className="w-6 h-6" />
+                </div>
+                <div>
+                  <h4 className="text-base font-bold text-slate-900">
+                    Private Health Insurance & Direct St. James Hospital Coordination
+                  </h4>
+                  <p className="text-xs sm:text-sm text-slate-600 mt-0.5">
+                    We provide official receipts, dental claim forms, and hospital surgical invoices for all local and European insurance providers.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => openWhatsAppBooking({ notes: 'Requesting insurance claim & billing estimate' })}
+                className="px-6 py-3 rounded-none sm:rounded-sm bg-white hover:bg-slate-50 text-[#142B4D] font-bold text-xs uppercase tracking-wider border border-slate-300 shrink-0 transition-colors cursor-pointer shadow-2xs"
+              >
+                Inquire on Insurance
+              </button>
+            </div>
+
+          </div>
+        </section>
+
 
         {/* 9. THE HOSPITAL CENTRE & NAVIGATION (ST. JAMES HOSPITAL SLIEMA + 3 PHOTO STEPS) */}
         <section id="clinics" className="py-24 md:py-32 bg-[#F8FAFC] border-b border-slate-200/80">
@@ -1965,76 +2253,6 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
           </div>
         </section>
 
-        {/* 10. PATIENT INFORMATION: EVERYTHING YOU NEED BEFORE YOUR VISIT (From Video Frame 24s) */}
-        <section className="py-20 md:py-28 bg-white border-b border-slate-200/80">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div className="text-center max-w-3xl mx-auto mb-14">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 text-[#3EA3AC] text-xs font-bold uppercase tracking-wider mb-3 border border-teal-200">
-                <FileText className="w-4 h-4 text-[#3EA3AC]" />
-                <span>PATIENT INFORMATION</span>
-              </div>
-              <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-950 tracking-tight font-heading">
-                Everything you need <span className="text-[#3EA3AC]">before your visit</span>
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              
-              <div className="p-8 rounded-none sm:rounded-sm bg-[#F8FAFC] border border-slate-200/90 shadow-2xs">
-                <div className="w-10 h-10 rounded-none sm:rounded-sm bg-white border border-slate-200 flex items-center justify-center text-[#142B4D] mb-4">
-                  <Calendar className="w-5 h-5" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-950 mb-2 font-heading">
-                  Your first visit
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed font-body">
-                  What to expect at your first consultation, comprehensive 3D scan, and personalized treatment roadmap.
-                </p>
-              </div>
-
-              <div className="p-8 rounded-none sm:rounded-sm bg-[#F8FAFC] border border-slate-200/90 shadow-2xs">
-                <div className="w-10 h-10 rounded-none sm:rounded-sm bg-white border border-slate-200 flex items-center justify-center text-[#142B4D] mb-4">
-                  <CreditCard className="w-5 h-5" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-950 mb-2 font-heading">
-                  Fees and insurance
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed font-body">
-                  Transparent fee schedules and direct hospital health insurance coordination. Let us know if you have private coverage.
-                </p>
-              </div>
-
-              <div className="p-8 rounded-none sm:rounded-sm bg-[#F8FAFC] border border-slate-200/90 shadow-2xs">
-                <div className="w-10 h-10 rounded-none sm:rounded-sm bg-white border border-slate-200 flex items-center justify-center text-[#142B4D] mb-4">
-                  <Heart className="w-5 h-5" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-950 mb-2 font-heading">
-                  Aftercare
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed font-body">
-                  Looking after your teeth after treatment. Dedicated post-op instructions and continuous clinical check-ins.
-                </p>
-              </div>
-
-              <div className="p-8 rounded-none sm:rounded-sm bg-[#F8FAFC] border border-slate-200/90 shadow-2xs">
-                <div className="w-10 h-10 rounded-none sm:rounded-sm bg-white border border-slate-200 flex items-center justify-center text-[#3EA3AC] mb-4">
-                  <AlertCircle className="w-5 h-5" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-950 mb-2 font-heading">
-                  Dental emergencies
-                </h3>
-                <div className="text-xs text-slate-600 leading-relaxed font-body">
-                  <div>During opening hours: <strong className="text-slate-900">2329 1029</strong></div>
-                  <div>WhatsApp: <strong className="text-slate-900">9999 1029</strong></div>
-                  <div>Out of hours: <strong className="text-slate-900">2329 1000</strong></div>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-        </section>
 
         {/* 11. PATIENT REVIEWS (3 REAL VERIFIED TESTIMONIALS) */}
         <section id="reviews" className="py-24 md:py-32 bg-[#F8FAFC] border-b border-slate-200/80">
@@ -2153,119 +2371,85 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
           </div>
         </section>
 
-        {/* 13. DIRECT CONSULTATION DESK */}
+        {/* 10. DIRECT CONSULTATION DESK (VIP HOSPITAL CONCIERGE) */}
         <section id="booking" className="py-24 md:py-32 bg-[#F8FAFC]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div className="max-w-5xl mx-auto rounded-none sm:rounded-sm bg-white p-8 sm:p-14 shadow-xl border border-slate-200/90">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                 
-                <div className="lg:col-span-6">
+                <div className="lg:col-span-7">
                   <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 text-[#142B4D] text-xs font-bold uppercase tracking-wider mb-4 border border-teal-200">
                     <Calendar className="w-3.5 h-3.5 text-[#3EA3AC]" />
-                    <span>Direct Clinical Consultation Desk</span>
+                    <span>Direct Hospital Intake Desk • Sliema</span>
                   </div>
 
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-6 font-heading text-slate-950">
-                    Ready to Restore Your Smile in One Visit?
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight leading-tight mb-4 font-editorial text-slate-950">
+                    Direct Access to Malta’s <span className="text-[#3EA3AC]">Oral Specialists</span>
                   </h2>
 
-                  <p className="text-slate-600 text-base leading-relaxed mb-8 font-body">
-                    Book an evaluation with our specialist surgical and implantology team at St. James Hospital. Prefer an instant WhatsApp chat? Launch our real-time booking flow below.
+                  <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 font-body">
+                    Skip long clinic queues. Connect directly with our patient coordinators at St. James Hospital for priority surgical consultations, 3D CBCT diagnostic appointments, and same-day dental evaluations.
                   </p>
 
-                  <button
-                    onClick={() => openWhatsAppBooking()}
-                    className="w-full sm:w-auto mb-8 flex items-center justify-center gap-3 px-8 py-4 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-extrabold text-sm uppercase tracking-wider transition-all duration-200 shadow-md cursor-pointer border border-[#142B4D]"
-                  >
-                    <Calendar className="w-4 h-4 text-[#3EA3AC]" />
-                    <span>Schedule Consultation via WhatsApp</span>
-                  </button>
-
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3 text-sm text-slate-700">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <button
+                      onClick={() => openWhatsAppBooking()}
+                      className="flex-1 flex items-center justify-center gap-2.5 px-6 py-4 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-extrabold text-xs uppercase tracking-wider transition-all duration-200 shadow-md cursor-pointer border border-[#142B4D]"
+                    >
+                      <WhatsAppIcon className="w-4 h-4 text-[#3EA3AC]" />
+                      <span>Launch WhatsApp Concierge</span>
+                    </button>
+                    <a
+                      href="tel:+35623291029"
+                      className="flex items-center justify-center gap-2 px-6 py-4 rounded-none sm:rounded-sm bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider border border-slate-300 no-underline transition-colors"
+                    >
                       <Phone className="w-4 h-4 text-[#3EA3AC]" />
-                      <span>Hospital Reception Desk: <strong className="text-slate-950">(+356) 2329 1029</strong></span>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm text-slate-700">
-                      <MapPin className="w-4 h-4 text-[#3EA3AC]" />
-                      <span>St. James Hospital, George Borg Olivier St, Sliema</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm text-slate-700">
-                      <Mail className="w-4 h-4 text-[#3EA3AC]" />
-                      <span className="text-slate-950 font-semibold">appointment@dentalunitmalta.com</span>
-                    </div>
+                      <span>Call Hospital (+356 2329 1029)</span>
+                    </a>
                   </div>
                 </div>
 
-                {/* Consultation Callback Form */}
-                <div className="lg:col-span-6 bg-slate-50 p-8 sm:p-10 rounded-none sm:rounded-sm border border-slate-200">
-                  <div className="text-xl font-bold text-slate-950 mb-1">Request a Telephone Callback</div>
-                  <div className="text-xs text-slate-500 mb-6">Our hospital patient coordinator will call you back within 1 hour.</div>
+                {/* VIP Coordinator Info Card */}
+                <div className="lg:col-span-5 bg-slate-50 p-6 sm:p-8 rounded-none sm:rounded-sm border border-slate-200">
+                  <div className="text-xs font-extrabold uppercase tracking-widest text-[#3EA3AC] mb-1 font-heading">
+                    Dedicated Patient Care
+                  </div>
+                  <div className="text-lg font-bold text-slate-950 mb-4 font-heading">
+                    Hospital Coordination Team
+                  </div>
 
-                  {leadSubmitted ? (
-                    <div className="bg-emerald-50 border border-emerald-200 rounded-none sm:rounded-sm p-6 text-center">
-                      <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto mb-2" />
-                      <div className="text-base font-bold text-emerald-950">Appointment Request Received</div>
-                      <div className="text-xs text-emerald-700 mt-1">Our hospital coordinator will call you shortly to confirm your slot.</div>
+                  <div className="space-y-4 mb-6 text-xs text-slate-700">
+                    <div className="flex items-start gap-3">
+                      <Clock className="w-4 h-4 text-[#142B4D] shrink-0 mt-0.5" />
+                      <div>
+                        <div className="font-bold text-slate-900">Hospital Operating Hours</div>
+                        <div className="text-slate-600">Monday – Friday: 08:30 – 19:00</div>
+                        <div className="text-slate-600">Saturday: 08:30 – 13:00</div>
+                      </div>
                     </div>
-                  ) : (
-                    <form onSubmit={handleLeadSubmit} className="space-y-4">
+
+                    <div className="flex items-start gap-3">
+                      <MapPin className="w-4 h-4 text-[#142B4D] shrink-0 mt-0.5" />
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Full Name</label>
-                        <input
-                          type="text"
-                          required
-                          placeholder="e.g. Christopher Borg"
-                          value={leadForm.name}
-                          onChange={(e) => setLeadForm({ ...leadForm, name: e.target.value })}
-                          className="w-full px-4 py-3 rounded-none sm:rounded-sm bg-white border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#3EA3AC]"
-                        />
+                        <div className="font-bold text-slate-900">Hospital Floor & Entrance</div>
+                        <div className="text-slate-600">Lower Ground (LG), St. James Hospital, Sliema</div>
                       </div>
+                    </div>
 
+                    <div className="flex items-start gap-3">
+                      <ShieldCheck className="w-4 h-4 text-[#3EA3AC] shrink-0 mt-0.5" />
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Phone Number</label>
-                        <input
-                          type="tel"
-                          required
-                          placeholder="+356 ..."
-                          value={leadForm.phone}
-                          onChange={(e) => setLeadForm({ ...leadForm, phone: e.target.value })}
-                          className="w-full px-4 py-3 rounded-none sm:rounded-sm bg-white border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#3EA3AC]"
-                        />
+                        <div className="font-bold text-slate-900">Emergency & Out-Of-Hours</div>
+                        <div className="text-slate-600">Hospital direct line: <strong>2329 1000</strong> (24/7)</div>
                       </div>
+                    </div>
+                  </div>
 
-                      <div>
-                        <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Procedure of Interest</label>
-                        <select
-                          value={leadForm.service}
-                          onChange={(e) => setLeadForm({ ...leadForm, service: e.target.value })}
-                          className="w-full px-4 py-3 rounded-none sm:rounded-sm bg-white border border-slate-300 text-sm text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-[#3EA3AC]"
-                        >
-                          <option value="Implants">Dental Implants / All-on-4</option>
-                          <option value="CEREC">Same-Day CEREC Crown</option>
-                          <option value="Sedation">IV Sedation Protocol</option>
-                          <option value="DSD">Digital Smile Design</option>
-                          <option value="Surgery">Oral & Wisdom Surgery</option>
-                        </select>
-                      </div>
-
-                      <div className="p-3.5 bg-white border border-slate-200 rounded-none sm:rounded-sm flex items-center justify-between text-xs text-slate-700">
-                        <div className="flex items-center gap-2">
-                          <Building2 className="w-4 h-4 text-[#3EA3AC]" />
-                          <span>Hospital Location: <strong className="text-slate-950">St. James Hospital, Sliema</strong></span>
-                        </div>
-                        <span className="text-[10px] text-teal-800 font-bold uppercase tracking-wider bg-teal-50 px-2.5 py-1 border border-teal-200">Main Facility</span>
-                      </div>
-
-                      <button
-                        type="submit"
-                        className="w-full py-4 rounded-none sm:rounded-sm bg-[#3EA3AC] hover:bg-[#328b93] text-white font-extrabold text-xs uppercase tracking-wider transition-all duration-200 shadow-sm cursor-pointer border-none mt-2"
-                      >
-                        Confirm Callback Request
-                      </button>
-                    </form>
-                  )}
+                  <div className="p-3 bg-white border border-slate-200 rounded-none sm:rounded-sm flex items-center justify-between text-[11px] font-semibold text-slate-600">
+                    <span>Average coordinator reply:</span>
+                    <span className="text-[#3EA3AC] font-bold">Under 15 minutes</span>
+                  </div>
                 </div>
 
               </div>
@@ -2410,34 +2594,88 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 {/* Form Left Side */}
                 <div className="lg:col-span-7 space-y-5">
                   
-                  {/* Full Name */}
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                      <User className="w-3.5 h-3.5 text-[#3EA3AC]" />
-                      <span>Full Name *</span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="e.g. Christopher Borg"
-                      value={bookingForm.name}
-                      onChange={(e) => setBookingForm({ ...bookingForm, name: e.target.value })}
-                      className="w-full px-4 py-3.5 rounded-none sm:rounded-sm bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#3EA3AC] focus:border-transparent"
-                    />
+                  {/* First Name & Last Name (Separated per CEO Jordan Pozo's request) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                        <User className="w-3.5 h-3.5 text-[#3EA3AC]" />
+                        <span>First Name *</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Christopher"
+                        value={bookingForm.firstName}
+                        onChange={(e) => setBookingForm({ ...bookingForm, firstName: e.target.value })}
+                        className="w-full px-4 py-3.5 rounded-none sm:rounded-sm bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#3EA3AC] focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                        <User className="w-3.5 h-3.5 text-[#3EA3AC]" />
+                        <span>Last Name *</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Borg"
+                        value={bookingForm.lastName}
+                        onChange={(e) => setBookingForm({ ...bookingForm, lastName: e.target.value })}
+                        className="w-full px-4 py-3.5 rounded-none sm:rounded-sm bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#3EA3AC] focus:border-transparent"
+                      />
+                    </div>
                   </div>
 
-                  {/* Phone Number */}
+                  {/* Preferred Contact Method (WhatsApp | Call Back | Email per CEO request) */}
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                      <Phone className="w-3.5 h-3.5 text-[#3EA3AC]" />
-                      <span>WhatsApp Phone Number *</span>
+                      <MessageSquare className="w-3.5 h-3.5 text-[#3EA3AC]" />
+                      <span>How do you prefer to be contacted? *</span>
                     </label>
-                    <input
-                      type="tel"
-                      placeholder="e.g. +356 9912 3456 or +44 7911 123456"
-                      value={bookingForm.phone}
-                      onChange={(e) => setBookingForm({ ...bookingForm, phone: e.target.value })}
-                      className="w-full px-4 py-3.5 rounded-none sm:rounded-sm bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#3EA3AC] focus:border-transparent"
-                    />
+                    <div className="grid grid-cols-3 gap-2">
+                      {(['WhatsApp', 'Call Back', 'Email'] as const).map((method) => (
+                        <button
+                          key={method}
+                          type="button"
+                          onClick={() => setBookingForm({ ...bookingForm, contactPreference: method })}
+                          className={`py-3 px-2 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border text-center ${
+                            bookingForm.contactPreference === method
+                              ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-xs'
+                              : 'bg-slate-50 text-slate-700 border-slate-300 hover:bg-slate-100'
+                          }`}
+                        >
+                          {method === 'WhatsApp' ? '💬 WhatsApp' : method === 'Call Back' ? '📞 Call Back' : '✉️ Email'}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Phone & Email Inputs */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                        <Phone className="w-3.5 h-3.5 text-[#3EA3AC]" />
+                        <span>Phone Number *</span>
+                      </label>
+                      <input
+                        type="tel"
+                        placeholder="e.g. +356 9912 3456"
+                        value={bookingForm.phone}
+                        onChange={(e) => setBookingForm({ ...bookingForm, phone: e.target.value })}
+                        className="w-full px-4 py-3.5 rounded-none sm:rounded-sm bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#3EA3AC] focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                        <Mail className="w-3.5 h-3.5 text-[#3EA3AC]" />
+                        <span>Email (Optional)</span>
+                      </label>
+                      <input
+                        type="email"
+                        placeholder="e.g. christopher@gmail.com"
+                        value={bookingForm.email}
+                        onChange={(e) => setBookingForm({ ...bookingForm, email: e.target.value })}
+                        className="w-full px-4 py-3.5 rounded-none sm:rounded-sm bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#3EA3AC] focus:border-transparent"
+                      />
+                    </div>
                   </div>
 
                   {/* Hospital Location */}
@@ -2513,7 +2751,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                   {formValidationWarning && (
                     <div className="p-3.5 rounded-none sm:rounded-sm bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold flex items-center gap-2">
                       <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
-                      <span>Please enter both your Full Name and WhatsApp Phone Number to proceed.</span>
+                      <span>Please enter your First Name and Phone Number to proceed.</span>
                     </div>
                   )}
 
@@ -2572,8 +2810,10 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                         <div className="text-[11px] font-bold text-emerald-200 mb-1">
                           👋 CLINICAL APPOINTMENT REQUEST
                         </div>
-                        <div>👤 <strong>Patient:</strong> {bookingForm.name.trim() || '[Your Name]'}</div>
-                        <div>📱 <strong>WhatsApp:</strong> {bookingForm.phone.trim() || '[Your Phone]'}</div>
+                        <div>👤 <strong>Patient:</strong> {`${bookingForm.firstName} ${bookingForm.lastName}`.trim() || '[Your Name]'}</div>
+                        <div>📱 <strong>Phone:</strong> {bookingForm.phone.trim() || '[Your Phone]'}</div>
+                        {bookingForm.email.trim() && <div>✉️ <strong>Email:</strong> {bookingForm.email.trim()}</div>}
+                        <div>🔔 <strong>Preferred Contact:</strong> {bookingForm.contactPreference}</div>
                         <div>🏛️ <strong>Location:</strong> St. James Hospital (Sliema)</div>
                         <div>🦷 <strong>Treatment:</strong> {bookingForm.treatment}</div>
                         {bookingForm.doctor && <div>👨‍⚕️ <strong>Clinician:</strong> {bookingForm.doctor}</div>}
@@ -2601,6 +2841,132 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                   </div>
                 </div>
 
+              </div>
+
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* 18. DENTAL EMERGENCY MODAL */}
+      <AnimatePresence>
+        {emergencyModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/80 backdrop-blur-md overflow-y-auto">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-2xl bg-white border-2 border-rose-300 rounded-none sm:rounded-sm shadow-2xl p-6 sm:p-10 text-slate-900 my-8"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setEmergencyModalOpen(false)}
+                className="absolute top-5 right-5 p-2 rounded-none sm:rounded-sm bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer border border-slate-200 transition-colors"
+                aria-label="Close emergency modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Emergency Header */}
+              <div className="mb-6">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none sm:rounded-sm bg-rose-50 text-rose-900 text-xs font-black uppercase tracking-wider mb-2 border border-rose-300">
+                  <AlertCircle className="w-4 h-4 text-rose-600" />
+                  <span>St. James Hospital • Emergency Dental Care</span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-950 font-heading tracking-tight">
+                  Toothache, a broken tooth or a lost filling?
+                </h3>
+                <p className="text-slate-600 text-sm mt-2 font-body leading-relaxed">
+                  We provide urgent treatment for severe pain, dental infections, knocked-out teeth, and facial trauma inside St. James Hospital in Sliema.
+                </p>
+              </div>
+
+              {/* Direct Urgent Contact Channels */}
+              <div className="space-y-4 mb-8">
+                
+                {/* 1. Opening Hours Line */}
+                <div className="p-4 sm:p-5 rounded-none sm:rounded-sm bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-[#3EA3AC] font-heading">
+                      During Opening Hours (Reception Desk)
+                    </div>
+                    <div className="text-lg sm:text-xl font-extrabold text-[#142B4D]">
+                      (+356) 2329 1029
+                    </div>
+                    <div className="text-xs text-slate-500 mt-0.5">
+                      Mon, Tue, Thu 09:00–18:00 · Wed 09:00–17:30 · Fri, Sat 09:00–13:30
+                    </div>
+                  </div>
+                  <a
+                    href="tel:+35623291029"
+                    className="px-5 py-3 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-extrabold text-xs uppercase tracking-wider no-underline text-center shrink-0 flex items-center justify-center gap-2 shadow-xs"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-[#3EA3AC]" />
+                    <span>Call 2329 1029</span>
+                  </a>
+                </div>
+
+                {/* 2. Out of Hours Hospital Emergency 24/7 */}
+                <div className="p-4 sm:p-5 rounded-none sm:rounded-sm bg-rose-50/70 border border-rose-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <div className="text-[10px] font-black uppercase tracking-wider text-rose-700 font-heading flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-rose-600 animate-ping" />
+                      <span>Out-Of-Hours & Hospital Emergency (24/7)</span>
+                    </div>
+                    <div className="text-lg sm:text-xl font-extrabold text-rose-950">
+                      (+356) 2329 1000
+                    </div>
+                    <div className="text-xs text-rose-800 mt-0.5">
+                      St. James Hospital 24-hour medical emergency triage admission
+                    </div>
+                  </div>
+                  <a
+                    href="tel:+35623291000"
+                    className="px-5 py-3 rounded-none sm:rounded-sm bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs uppercase tracking-wider no-underline text-center shrink-0 flex items-center justify-center gap-2 shadow-xs"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-white" />
+                    <span>Call Hospital 24/7</span>
+                  </a>
+                </div>
+
+                {/* 3. Urgent WhatsApp Mobile */}
+                <div className="p-4 sm:p-5 rounded-none sm:rounded-sm bg-emerald-50/70 border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 font-heading">
+                      Urgent WhatsApp Mobile
+                    </div>
+                    <div className="text-lg sm:text-xl font-extrabold text-emerald-950">
+                      (+356) 9999 1029
+                    </div>
+                    <div className="text-xs text-emerald-800 mt-0.5">
+                      Message our team directly with photos or symptom notes
+                    </div>
+                  </div>
+                  <a
+                    href="https://wa.me/35699991029?text=Hello%20DiU%20Clinic,%20I%20have%20an%20urgent%20dental%20emergency."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-5 py-3 rounded-none sm:rounded-sm bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs uppercase tracking-wider no-underline text-center shrink-0 flex items-center justify-center gap-2 shadow-xs"
+                  >
+                    <WhatsAppIcon className="w-3.5 h-3.5 text-slate-950" />
+                    <span>WhatsApp 9999 1029</span>
+                  </a>
+                </div>
+
+              </div>
+
+              {/* Hospital Address and Email Footer */}
+              <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+                <div className="flex items-center gap-1.5">
+                  <MapPin className="w-4 h-4 text-[#142B4D]" />
+                  <span>St. James Hospital, George Borg Olivier Street, Sliema</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Mail className="w-4 h-4 text-[#3EA3AC]" />
+                  <a href="mailto:appointment@dentalunitmalta.com" className="text-[#142B4D] hover:underline font-semibold">
+                    appointment@dentalunitmalta.com
+                  </a>
+                </div>
               </div>
 
             </motion.div>
