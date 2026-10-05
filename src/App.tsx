@@ -34,7 +34,10 @@ import {
   Navigation,
   FileText,
   CreditCard,
-  AlertCircle
+  AlertCircle,
+  Camera,
+  Volume2,
+  VolumeX
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
@@ -479,7 +482,9 @@ const faqsData = [
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [heroViewMode, setHeroViewMode] = useState<'reception' | 'video'>('reception');
+  const [heroViewMode, setHeroViewMode] = useState<'video' | 'reception'>('video');
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
   const [selectedService, setSelectedService] = useState<typeof servicesData[0] | null>(null);
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
   const [sliderPosition, setSliderPosition] = useState(50);
@@ -833,21 +838,132 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
               </div>
 
-              {/* Right Column: Real Reception Showcase & 4K Tour View */}
+              {/* Right Column: 4K Clinical Suites Video & Executive Reception Showcase */}
               <div className="lg:col-span-6 relative">
-                <div className="rounded-none sm:rounded-sm overflow-hidden border border-slate-200/90 bg-white shadow-xl relative aspect-[4/3] sm:aspect-[16/11]">
+                <div className="rounded-none sm:rounded-sm overflow-hidden border-2 border-slate-200/90 bg-slate-950 shadow-2xl relative aspect-[4/3] sm:aspect-[16/11]">
                   
-                  {heroViewMode === 'reception' ? (
+                  {heroViewMode === 'video' ? (
+                    <div className="relative w-full h-full bg-slate-950">
+                      <video
+                        ref={heroVideoRef}
+                        src={getAssetUrl('video_hero_optimized.mp4')}
+                        poster={getAssetUrl('hero_poster_4k.jpg')}
+                        autoPlay
+                        muted
+                        playsInline
+                        loop
+                        className="w-full h-full object-cover"
+                      />
+
+                      {/* Top Bar Badges & Controls */}
+                      <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-2 z-10">
+                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-sm text-slate-900">
+                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                          <span className="text-[10px] font-extrabold tracking-widest uppercase text-[#142B4D]">4K Clinical Tour</span>
+                          <span className="text-slate-300">•</span>
+                          <span className="text-[10px] font-semibold text-slate-600">St. James Hospital</span>
+                        </div>
+
+                        <div className="flex items-center gap-1.5">
+                          {/* Pause / Play Toggle */}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (!heroVideoRef.current) return;
+                              if (heroVideoRef.current.paused) {
+                                heroVideoRef.current.play();
+                                setIsVideoPlaying(true);
+                              } else {
+                                heroVideoRef.current.pause();
+                                setIsVideoPlaying(false);
+                              }
+                            }}
+                            className="p-2 rounded-none sm:rounded-sm bg-slate-950/70 hover:bg-slate-950/90 text-white backdrop-blur-md border border-white/20 cursor-pointer shadow-sm transition-all"
+                            title={isVideoPlaying ? "Pause Video" : "Play Video"}
+                          >
+                            {isVideoPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-current" />}
+                          </button>
+
+                          {/* Switch to Reception Desk Photo */}
+                          <button
+                            type="button"
+                            onClick={() => setHeroViewMode('reception')}
+                            className="px-3 py-1.5 rounded-none sm:rounded-sm bg-white/95 hover:bg-white text-[#142B4D] text-xs font-bold uppercase tracking-wider shadow-sm cursor-pointer border border-slate-200 flex items-center gap-1.5 transition-all"
+                          >
+                            <Camera className="w-3.5 h-3.5 text-[#3EA3AC]" />
+                            <span className="hidden sm:inline">Reception Desk</span>
+                            <span className="sm:hidden">Photo</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Bottom Caption & Picture-in-Picture */}
+                      <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-transparent flex items-end justify-between gap-4 text-white z-10 pointer-events-auto">
+                        <div>
+                          <span className="text-[10px] font-bold uppercase tracking-widest text-[#3EA3AC] bg-slate-950/80 px-2 py-0.5 rounded-none sm:rounded-sm border border-[#3EA3AC]/30 inline-block mb-1">
+                            Accredited Private Hospital Setting
+                          </span>
+                          <div className="text-sm sm:text-base font-bold text-white drop-shadow-sm font-editorial">
+                            Dental & Implantology Unit (DiU Malta)
+                          </div>
+                          <div className="text-[11px] text-slate-300 hidden sm:block mt-0.5">
+                            Sterile Operating Theatres • In-House CEREC 3D Lab • IV Sedation
+                          </div>
+                        </div>
+
+                        {/* Picture-in-Picture Reception Desk Preview */}
+                        <div 
+                          onClick={() => setHeroViewMode('reception')}
+                          className="hidden sm:flex flex-col items-end cursor-pointer group/pip shrink-0"
+                          title="Click to view Executive Reception Photo"
+                        >
+                          <div className="w-20 h-14 rounded-none sm:rounded-sm overflow-hidden border-2 border-white/90 group-hover/pip:border-[#3EA3AC] shadow-lg transition-all relative">
+                            <img 
+                              src={getAssetUrl('clinic/reception_background_image.jpg')} 
+                              alt="Executive Reception Desk" 
+                              className="w-full h-full object-cover group-hover/pip:scale-105 transition-transform"
+                            />
+                            <div className="absolute inset-0 bg-slate-950/20 group-hover/pip:bg-transparent" />
+                          </div>
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-200 mt-1 flex items-center gap-1 group-hover/pip:text-[#3EA3AC]">
+                            <Camera className="w-2.5 h-2.5" />
+                            <span>Reception</span>
+                          </span>
+                        </div>
+                      </div>
+
+                    </div>
+                  ) : (
                     <div className="relative w-full h-full">
                       <img 
                         src={getAssetUrl('clinic/reception_background_image.jpg')} 
                         alt="DiU Dental & Implantology Unit - St. James Hospital Reception Desk"
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent pointer-events-none" />
                       
+                      {/* Top Bar Badges & Controls */}
+                      <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-2 z-10">
+                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-sm text-slate-900">
+                          <Camera className="w-3.5 h-3.5 text-[#3EA3AC]" />
+                          <span className="text-[10px] font-extrabold tracking-widest uppercase text-[#142B4D]">Executive Reception</span>
+                          <span className="text-slate-300">•</span>
+                          <span className="text-[10px] font-semibold text-slate-600">St. James Hospital</span>
+                        </div>
+
+                        {/* Button to Play 4K Video */}
+                        <button
+                          type="button"
+                          onClick={() => setHeroViewMode('video')}
+                          className="px-3.5 py-1.5 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white text-xs font-bold uppercase tracking-wider shadow-md cursor-pointer border border-[#142B4D] flex items-center gap-1.5 transition-all"
+                        >
+                          <Play className="w-3.5 h-3.5 fill-[#3EA3AC] text-[#3EA3AC]" />
+                          <span>Play 4K Video Tour</span>
+                        </button>
+                      </div>
+
                       {/* Image Details Caption */}
-                      <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between text-white">
+                      <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between text-white z-10">
                         <div>
                           <span className="text-[10px] font-bold uppercase tracking-widest text-[#3EA3AC] bg-slate-950/70 px-2.5 py-1 rounded-none sm:rounded-sm">
                             Executive Reception • St. James Hospital
@@ -858,34 +974,13 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                         </div>
 
                         <button
+                          type="button"
                           onClick={() => setHeroViewMode('video')}
                           className="px-3.5 py-2 rounded-none sm:rounded-sm bg-white/95 hover:bg-white text-slate-950 font-bold text-xs uppercase tracking-wider shadow-md transition-all flex items-center gap-1.5 cursor-pointer border-none shrink-0"
                         >
                           <Play className="w-3.5 h-3.5 fill-[#3EA3AC] text-[#3EA3AC]" />
                           <span>Watch 4K Tour</span>
                         </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="relative w-full h-full bg-slate-950">
-                      <video
-                        src={getAssetUrl('video_hero_4k.mp4')}
-                        autoPlay
-                        muted
-                        playsInline
-                        loop
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute top-4 right-4">
-                        <button
-                          onClick={() => setHeroViewMode('reception')}
-                          className="px-3 py-1.5 rounded-none sm:rounded-sm bg-white/90 hover:bg-white text-slate-900 text-xs font-bold uppercase tracking-wider shadow-md cursor-pointer border border-slate-200"
-                        >
-                          View Reception Photo
-                        </button>
-                      </div>
-                      <div className="absolute bottom-4 left-4 text-white text-xs font-semibold bg-slate-900/70 px-3 py-1.5 rounded-none sm:rounded-sm">
-                        4K Clinical Suites • St. James Hospital
                       </div>
                     </div>
                   )}
