@@ -401,22 +401,11 @@ export function CinematicFooter({
                 <MagneticButton 
                   as="a" 
                   href="tel:35623291029" 
-                  className="footer-glass-pill px-7 sm:px-9 py-4 sm:py-4.5 rounded-none sm:rounded-sm text-slate-900 font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2.5 group shadow-sm hover:border-[#004A9C]"
+                  className="footer-glass-pill px-7 sm:px-9 py-4 sm:py-4.5 rounded-none sm:rounded-sm text-slate-900 font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2.5 group shadow-sm hover:border-[#3EA3AC]"
                 >
-                  <Phone className="w-4 h-4 text-[#004A9C] group-hover:scale-110 transition-transform" />
-                  <span>Sliema (+356) 2329 1029</span>
+                  <Phone className="w-4 h-4 text-[#3EA3AC] group-hover:scale-110 transition-transform" />
+                  <span>St. James Hospital (+356) 2329 1029</span>
                 </MagneticButton>
-
-                {/* Direct Telephone San Pawl */}
-                <MagneticButton 
-                  as="a" 
-                  href="tel:35623293710" 
-                  className="footer-glass-pill px-7 sm:px-9 py-4 sm:py-4.5 rounded-none sm:rounded-sm text-slate-900 font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2.5 group shadow-sm hover:border-[#004A9C] hidden sm:flex"
-                >
-                  <Phone className="w-4 h-4 text-[#004A9C] group-hover:scale-110 transition-transform" />
-                  <span>San Pawl (+356) 2329 3710</span>
-                </MagneticButton>
-
               </div>
 
               {/* Secondary Navigation Pills */}

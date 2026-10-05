@@ -220,7 +220,7 @@ const cliniciansList: Clinician[] = [
     qualifications: 'Clinical Operations Director',
     badge: 'Hospital Operations',
     photo: 'team/mrs_sue_lanzon_clinic_manager.jpg',
-    bio: 'Oversees patient coordination, clinical standards, and hospital operating theatre scheduling across our Sliema and San Pawl suites.',
+    bio: 'Oversees patient coordination, clinical standards, and hospital operating theatre scheduling inside St. James Hospital, Sliema.',
     treatmentDefault: 'Comprehensive Consultation & 3D CBCT Scan'
   },
   {
@@ -417,28 +417,6 @@ const clinicLocations = [
       'Direct Private Underground Hospital Parking'
     ],
     image: 'sliema_clinic.png'
-  },
-  {
-    id: 'burmarrad',
-    name: 'St. James Clinic (San Pawl il-Baħar)',
-    tag: 'North Malta Medical Centre',
-    address: 'Triq Il-Wardija, San Pawl il-Baħar, Malta',
-    phone: '(+356) 2329 3710',
-    phoneClean: '35623293710',
-    email: 'appointment@dentalunitmalta.com',
-    hours: [
-      { days: 'Monday, Tuesday & Thursday', time: '09:00 – 18:00' },
-      { days: 'Wednesday', time: '09:00 – 17:30' },
-      { days: 'Friday & Saturday', time: '09:00 – 13:30' },
-      { days: 'Sunday', time: 'Closed' }
-    ],
-    features: [
-      'Digital 3D CBCT Radiographic Bone Imaging',
-      'Microscopic Endodontics & Aesthetic Suite',
-      'Rapid Same-Day Consultations & Dental Care',
-      'Ground Floor Accessible Reception Entrance'
-    ],
-    image: 'burmarrad_clinic.png'
   }
 ];
 
@@ -456,7 +434,7 @@ const verifiedReviews = [
     author: "Elena Vassallo",
     photo: "patient_elena.jpg",
     treatment: "CEREC Ceramic Crown in 1 Visit",
-    clinic: "St. James Clinic, San Pawl il-Baħar",
+    clinic: "St. James Hospital, Sliema",
     text: "I chipped a front tooth right before an overseas flight. The team scanned it with their 3D optical camera, milled the porcelain crown right there in their clinic lab, and bonded it in less than an hour! It matches my other teeth seamlessly. Incredible technology.",
     rating: 5
   },
@@ -495,7 +473,7 @@ const faqsData = [
   {
     num: "05",
     q: "How do I schedule an appointment and what are the consultation details?",
-    a: "Consultations can be booked instantly through our fast WhatsApp consultation flow with live chat preview or by calling (+356) 2329 1029 (Sliema) or (+356) 2329 3710 (San Pawl). Our hospital patient coordinators will confirm a specialist slot within minutes."
+    a: "Consultations can be booked instantly through our fast WhatsApp consultation flow with live chat preview or by calling (+356) 2329 1029. Our hospital patient coordinators will confirm a specialist slot within minutes."
   }
 ];
 
@@ -564,9 +542,7 @@ export default function App() {
   const generateWhatsAppMessage = () => {
     const nameText = bookingForm.name.trim() || '[Patient Name]';
     const phoneText = bookingForm.phone.trim() || '[WhatsApp Phone]';
-    const clinicName = bookingForm.clinic === 'Sliema' 
-      ? 'St. James Hospital (Sliema Flagship)' 
-      : 'St. James Medical Centre (San Pawl il-Baħar)';
+    const clinicName = 'St. James Hospital (Sliema Flagship)';
     const treatmentText = bookingForm.treatment || 'Clinical Consultation';
     const doctorText = bookingForm.doctor ? `\n👨‍⚕️ *Requested Clinician:* ${bookingForm.doctor}` : '';
     const urgencyText = bookingForm.urgency || 'This week';
@@ -576,7 +552,7 @@ export default function App() {
 ━━━━━━━━━━━━━━━━━━
 👤 *Patient:* ${nameText}
 📱 *WhatsApp:* ${phoneText}
-🏛️ *Preferred Clinic:* ${clinicName}
+🏛️ *Hospital Centre:* ${clinicName}
 🦷 *Treatment:* ${treatmentText}${doctorText}
 ⏰ *Timeline / Urgency:* ${urgencyText}${notesText}
 ━━━━━━━━━━━━━━━━━━
@@ -589,9 +565,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
       setFormValidationWarning(true);
       return;
     }
-    const phoneTarget = bookingForm.clinic === 'San Pawl' || bookingForm.clinic.toLowerCase().includes('pawl')
-      ? '35623293710'
-      : '35623291029';
+    const phoneTarget = '35623291029';
     const message = generateWhatsAppMessage();
     const whatsappUrl = `https://wa.me/${phoneTarget}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
@@ -650,7 +624,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 St. James Hospital Network
               </span>
               <span className="text-[11px] font-semibold text-slate-600 block">
-                Sliema & San Pawl il-Baħar
+                St. James Hospital, Sliema
               </span>
             </div>
           </div>
@@ -775,14 +749,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                   className="flex items-center gap-2 py-2 text-xs font-bold text-[#142B4D] no-underline"
                 >
                   <Phone className="w-4 h-4 text-[#3EA3AC]" />
-                  <span>Sliema: +356 2329 1029</span>
-                </a>
-                <a 
-                  href="tel:35623293710"
-                  className="flex items-center gap-2 py-2 text-xs font-bold text-[#142B4D] no-underline"
-                >
-                  <Phone className="w-4 h-4 text-[#3EA3AC]" />
-                  <span>San Pawl: +356 2329 3710</span>
+                  <span>St. James Hospital: +356 2329 1029</span>
                 </a>
               </div>
 
@@ -1644,44 +1611,49 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
           </div>
         </section>
 
-        {/* 9. THE 2 CLINICS & HOSPITAL NAVIGATION (SLIEMA & SAN PAWL + 3 PHOTO STEPS FROM VIDEO FRAME 28S) */}
+        {/* 9. THE HOSPITAL CENTRE & NAVIGATION (ST. JAMES HOSPITAL SLIEMA + 3 PHOTO STEPS) */}
         <section id="clinics" className="py-24 md:py-32 bg-[#F8FAFC] border-b border-slate-200/80">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div className="text-center max-w-3xl mx-auto mb-16">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-blue-50 text-[#142B4D] text-xs font-bold uppercase tracking-wider mb-3 border border-blue-200">
                 <Building2 className="w-4 h-4 text-[#3EA3AC]" />
-                <span>Two Flagship Hospital Centres</span>
+                <span>Flagship Hospital Centre • Sliema</span>
               </div>
               <h2 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-slate-950 tracking-tight font-heading">
-                St. James Hospital Network
+                St. James Hospital (Sliema)
               </h2>
               <p className="text-slate-600 text-base sm:text-xl mt-3 font-body">
-                Two accredited facilities in Malta, equipped with full sterile operating theatres and advanced 3D diagnostics.
+                Malta's premier accredited private hospital facility, equipped with sterile operating theatres and advanced 3D diagnostics.
               </p>
             </div>
 
-            {/* Both Clinics Side by Side */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+            {/* Single Flagship Clinic Showcase */}
+            <div className="mb-16">
               {clinicLocations.map((clinic) => (
                 <div
                   key={clinic.id}
-                  className="rounded-none sm:rounded-sm bg-white border border-slate-200/90 shadow-md overflow-hidden flex flex-col justify-between"
+                  className="rounded-none sm:rounded-sm bg-white border border-slate-200/90 shadow-lg overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-0"
                 >
-                  <div>
-                    <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
-                      <img
-                        src={getAssetUrl(clinic.image)}
-                        alt={clinic.name}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute top-4 left-4 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md text-[#142B4D] text-xs font-bold uppercase tracking-wider border border-slate-200 shadow-sm">
-                        {clinic.tag}
-                      </div>
+                  {/* Left Imagery Column */}
+                  <div className="lg:col-span-6 relative aspect-[16/11] lg:aspect-auto overflow-hidden bg-slate-100 flex flex-col">
+                    <img
+                      src={getAssetUrl(clinic.image)}
+                      alt={clinic.name}
+                      className="w-full h-full object-cover min-h-[380px]"
+                    />
+                    <div className="absolute top-4 left-4 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md text-[#142B4D] text-xs font-bold uppercase tracking-wider border border-slate-200 shadow-sm">
+                      {clinic.tag}
                     </div>
+                  </div>
 
-                    <div className="p-8">
-                      <h3 className="text-2xl font-extrabold text-slate-950 mb-6 tracking-tight font-heading">
+                  {/* Right Details Column */}
+                  <div className="lg:col-span-6 p-8 sm:p-12 flex flex-col justify-between">
+                    <div>
+                      <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#3EA3AC] mb-2 font-heading">
+                        <span>Accredited Private Hospital Facility</span>
+                      </div>
+                      <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-950 mb-6 tracking-tight font-heading">
                         {clinic.name}
                       </h3>
 
@@ -1698,7 +1670,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                           <Phone className="w-5 h-5 text-[#3EA3AC] shrink-0 mt-0.5" />
                           <div>
                             <div className="font-bold text-slate-900">Direct Telephone</div>
-                            <div className="text-lg font-extrabold text-[#142B4D]">{clinic.phone}</div>
+                            <div className="text-xl font-extrabold text-[#142B4D]">{clinic.phone}</div>
                           </div>
                         </div>
 
@@ -1727,24 +1699,23 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="p-8 pt-0 flex gap-3">
-                    <button
-                      onClick={() => openWhatsAppBooking({
-                        clinic: clinic.id === 'sliema' ? 'Sliema' : 'San Pawl il-Baħar'
-                      })}
-                      className="flex-1 py-3.5 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-extrabold text-xs uppercase tracking-wider cursor-pointer border border-[#142B4D] shadow-sm text-center"
-                    >
-                      Book at {clinic.id === 'sliema' ? 'Sliema' : 'San Pawl'}
-                    </button>
-                    <a
-                      href={`tel:+${clinic.phoneClean}`}
-                      className="px-6 py-3.5 rounded-none sm:rounded-sm bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider border border-slate-300 no-underline flex items-center justify-center gap-1.5"
-                    >
-                      <Phone className="w-3.5 h-3.5" />
-                      <span>Call</span>
-                    </a>
+                    <div className="pt-2 flex flex-wrap gap-3">
+                      <button
+                        onClick={() => openWhatsAppBooking({ clinic: 'Sliema' })}
+                        className="flex-1 py-4 px-6 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-extrabold text-xs uppercase tracking-wider cursor-pointer border border-[#142B4D] shadow-sm text-center flex items-center justify-center gap-2"
+                      >
+                        <Calendar className="w-4 h-4 text-[#3EA3AC]" />
+                        <span>Book Consultation at St. James Hospital</span>
+                      </button>
+                      <a
+                        href={`tel:+${clinic.phoneClean}`}
+                        className="px-7 py-4 rounded-none sm:rounded-sm bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider border border-slate-300 no-underline flex items-center justify-center gap-2"
+                      >
+                        <Phone className="w-4 h-4 text-[#3EA3AC]" />
+                        <span>Call Hospital</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -2047,11 +2018,11 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                   <div className="space-y-3">
                     <div className="flex items-center gap-3 text-sm text-slate-700">
                       <Phone className="w-4 h-4 text-[#3EA3AC]" />
-                      <span>Sliema Hospital: <strong className="text-slate-950">(+356) 2329 1029</strong></span>
+                      <span>Hospital Reception Desk: <strong className="text-slate-950">(+356) 2329 1029</strong></span>
                     </div>
                     <div className="flex items-center gap-3 text-sm text-slate-700">
-                      <Phone className="w-4 h-4 text-[#3EA3AC]" />
-                      <span>San Pawl il-Baħar: <strong className="text-slate-950">(+356) 2329 3710</strong></span>
+                      <MapPin className="w-4 h-4 text-[#3EA3AC]" />
+                      <span>St. James Hospital, George Borg Olivier St, Sliema</span>
                     </div>
                     <div className="flex items-center gap-3 text-sm text-slate-700">
                       <Mail className="w-4 h-4 text-[#3EA3AC]" />
@@ -2097,33 +2068,27 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                         />
                       </div>
 
-                      <div className="grid grid-cols-2 gap-3">
-                        <div>
-                          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Hospital Clinic</label>
-                          <select
-                            value={leadForm.clinic}
-                            onChange={(e) => setLeadForm({ ...leadForm, clinic: e.target.value })}
-                            className="w-full px-3 py-3 rounded-none sm:rounded-sm bg-white border border-slate-300 text-xs text-slate-900 font-semibold focus:outline-none"
-                          >
-                            <option value="Sliema">Sliema (Hospital)</option>
-                            <option value="San Pawl">San Pawl il-Baħar</option>
-                          </select>
-                        </div>
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Procedure of Interest</label>
+                        <select
+                          value={leadForm.service}
+                          onChange={(e) => setLeadForm({ ...leadForm, service: e.target.value })}
+                          className="w-full px-4 py-3 rounded-none sm:rounded-sm bg-white border border-slate-300 text-sm text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-[#3EA3AC]"
+                        >
+                          <option value="Implants">Dental Implants / All-on-4</option>
+                          <option value="CEREC">Same-Day CEREC Crown</option>
+                          <option value="Sedation">IV Sedation Protocol</option>
+                          <option value="DSD">Digital Smile Design</option>
+                          <option value="Surgery">Oral & Wisdom Surgery</option>
+                        </select>
+                      </div>
 
-                        <div>
-                          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Procedure</label>
-                          <select
-                            value={leadForm.service}
-                            onChange={(e) => setLeadForm({ ...leadForm, service: e.target.value })}
-                            className="w-full px-3 py-3 rounded-none sm:rounded-sm bg-white border border-slate-300 text-xs text-slate-900 font-semibold focus:outline-none"
-                          >
-                            <option value="Implants">Dental Implants / All-on-4</option>
-                            <option value="CEREC">Same-Day CEREC Crown</option>
-                            <option value="Sedation">IV Sedation Protocol</option>
-                            <option value="DSD">Digital Smile Design</option>
-                            <option value="Surgery">Oral & Wisdom Surgery</option>
-                          </select>
+                      <div className="p-3.5 bg-white border border-slate-200 rounded-none sm:rounded-sm flex items-center justify-between text-xs text-slate-700">
+                        <div className="flex items-center gap-2">
+                          <Building2 className="w-4 h-4 text-[#3EA3AC]" />
+                          <span>Hospital Location: <strong className="text-slate-950">St. James Hospital, Sliema</strong></span>
                         </div>
+                        <span className="text-[10px] text-teal-800 font-bold uppercase tracking-wider bg-teal-50 px-2.5 py-1 border border-teal-200">Main Facility</span>
                       </div>
 
                       <button
@@ -2308,44 +2273,21 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                     />
                   </div>
 
-                  {/* Clinic Location */}
+                  {/* Hospital Location */}
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                       <Building2 className="w-3.5 h-3.5 text-[#3EA3AC]" />
-                      <span>Hospital Location Preference</span>
+                      <span>Hospital Centre</span>
                     </label>
-                    <div className="grid grid-cols-2 gap-3">
-                      <button
-                        type="button"
-                        onClick={() => setBookingForm({ ...bookingForm, clinic: 'Sliema' })}
-                        className={`p-3.5 rounded-none sm:rounded-sm border text-left cursor-pointer transition-all ${
-                          bookingForm.clinic === 'Sliema'
-                            ? 'bg-teal-50/70 border-[#3EA3AC] text-slate-950 font-bold ring-1 ring-[#3EA3AC]'
-                            : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-extrabold">Sliema Flagship</span>
-                          {bookingForm.clinic === 'Sliema' && <Check className="w-3.5 h-3.5 text-[#3EA3AC]" />}
-                        </div>
-                        <div className="text-[10px] text-slate-500 mt-0.5">St. James Surgical Hospital</div>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setBookingForm({ ...bookingForm, clinic: 'San Pawl' })}
-                        className={`p-3.5 rounded-none sm:rounded-sm border text-left cursor-pointer transition-all ${
-                          bookingForm.clinic === 'San Pawl'
-                            ? 'bg-teal-50/70 border-[#3EA3AC] text-slate-950 font-bold ring-1 ring-[#3EA3AC]'
-                            : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-extrabold">San Pawl il-Baħar</span>
-                          {bookingForm.clinic === 'San Pawl' && <Check className="w-3.5 h-3.5 text-[#3EA3AC]" />}
-                        </div>
-                        <div className="text-[10px] text-slate-500 mt-0.5">St. James North Medical Centre</div>
-                      </button>
+                    <div className="p-3.5 rounded-none sm:rounded-sm bg-teal-50/70 border border-[#3EA3AC]/50 text-slate-950 flex items-center justify-between">
+                      <div>
+                        <div className="text-xs font-extrabold text-[#142B4D]">St. James Hospital (Sliema Flagship)</div>
+                        <div className="text-[10px] text-slate-600 mt-0.5">George Borg Olivier Street, Sliema • Ground Floor / LG</div>
+                      </div>
+                      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-teal-800 bg-teal-100/80 px-2.5 py-1 rounded-none sm:rounded-sm">
+                        <Check className="w-3.5 h-3.5 text-[#3EA3AC]" />
+                        <span>Flagship Centre</span>
+                      </span>
                     </div>
                   </div>
 
@@ -2465,7 +2407,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                         </div>
                         <div>👤 <strong>Patient:</strong> {bookingForm.name.trim() || '[Your Name]'}</div>
                         <div>📱 <strong>WhatsApp:</strong> {bookingForm.phone.trim() || '[Your Phone]'}</div>
-                        <div>🏛️ <strong>Location:</strong> {bookingForm.clinic === 'Sliema' ? 'St. James Hospital (Sliema)' : 'San Pawl il-Baħar'}</div>
+                        <div>🏛️ <strong>Location:</strong> St. James Hospital (Sliema)</div>
                         <div>🦷 <strong>Treatment:</strong> {bookingForm.treatment}</div>
                         {bookingForm.doctor && <div>👨‍⚕️ <strong>Clinician:</strong> {bookingForm.doctor}</div>}
                         <div>⏰ <strong>Timeline:</strong> {bookingForm.urgency}</div>
