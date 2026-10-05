@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { 
   ArrowUpRight, 
   X, 
@@ -511,6 +511,37 @@ export default function App() {
   const [leadForm, setLeadForm] = useState({ name: '', phone: '', clinic: 'Sliema', service: 'Implants' });
 
   const sliderContainerRef = useRef<HTMLDivElement>(null);
+  const heroSectionRef = useRef<HTMLDivElement>(null);
+  const servicesSectionRef = useRef<HTMLDivElement>(null);
+
+  // 21st.dev Style Scroll-Linked Transforms for Hero Card
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroSectionRef,
+    offset: ["start start", "end start"]
+  });
+
+  const heroCardScale = useTransform(heroProgress, [0, 0.75], [1, 0.94]);
+  const heroCardOpacity = useTransform(heroProgress, [0.7, 0.98], [1, 0.4]);
+  const heroContentY = useTransform(heroProgress, [0, 0.75], [0, -25]);
+
+  // 21st.dev Style Scroll-Driven Horizontal Translation for Clinical Services (01 - 06)
+  const { scrollYProgress: servicesProgress } = useScroll({
+    target: servicesSectionRef,
+    offset: ["start start", "end end"]
+  });
+
+  const servicesX = useTransform(servicesProgress, [0, 1], ["0%", "-62%"]);
+
+  const toggleVideoPlay = () => {
+    if (!heroVideoRef.current) return;
+    if (heroVideoRef.current.paused) {
+      heroVideoRef.current.play();
+      setIsVideoPlaying(true);
+    } else {
+      heroVideoRef.current.pause();
+      setIsVideoPlaying(false);
+    }
+  };
 
   // Smooth Section Scrolling
   const scrollToSection = (id: string) => {
@@ -776,220 +807,190 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
       {/* MAIN CONTENT AREA */}
       <main className="relative z-10 bg-[#F8FAFC] shadow-[0_30px_70px_rgba(15,23,42,0.06)] pt-20 sm:pt-24">
 
-        {/* 2. HERO SECTION: CLEAN, CRISP, LIGHT MEDICAL LUXURY WITH EXACT CLIENT COPY */}
-        <section 
-          id="hero"
-          className="relative w-full bg-[#F8FAFC] pt-8 sm:pt-12 pb-16 sm:pb-20 border-b border-slate-200/80"
+        {/* 2. HERO SECTION: 21ST.DEV FULL-BACKGROUND 4K VIDEO + PINNED SCROLL SCALE */}
+        <div 
+          id="hero" 
+          ref={heroSectionRef} 
+          className="relative w-full min-h-[125vh] bg-[#F8FAFC]"
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-              
-              {/* Left Column: Official Client Copy & Exact Two CTA Buttons */}
-              <div className="lg:col-span-6 flex flex-col justify-center">
-                
-                {/* Location / Heritage Badge */}
-                <div className="inline-flex items-center gap-2 self-start px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200/80 text-[#142B4D] text-[11px] sm:text-xs font-bold uppercase tracking-widest mb-6">
-                  <Building2 className="w-3.5 h-3.5 text-[#3EA3AC]" />
-                  <span>ST JAMES HOSPITAL, SLIEMA</span>
-                </div>
+          <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center p-0 sm:p-4 md:p-6 lg:p-8">
+            
+            {/* The Animated Hero Canvas Card (scales down smoothly on scroll) */}
+            <motion.div 
+              style={{ scale: heroCardScale, opacity: heroCardOpacity }}
+              className="relative w-full h-full overflow-hidden rounded-none sm:rounded-sm border border-slate-200/90 shadow-2xl bg-white flex items-center justify-center"
+            >
+              {/* Full Background 4K Video Tour / Reception Switcher */}
+              <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+                {heroViewMode === 'video' ? (
+                  <video
+                    ref={heroVideoRef}
+                    src={getAssetUrl('video_hero_optimized.mp4')}
+                    poster={getAssetUrl('hero_poster_4k.jpg')}
+                    autoPlay
+                    muted
+                    playsInline
+                    loop
+                    className="w-full h-full object-cover object-center"
+                  />
+                ) : (
+                  <img
+                    src={getAssetUrl('clinic/reception_background_image.jpg')}
+                    alt="St. James Hospital Reception"
+                    className="w-full h-full object-cover object-center"
+                  />
+                )}
 
-                {/* Main Headline in Dark Navy & Light Cyan */}
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.2vw] font-normal tracking-tight leading-[1.08] mb-6 font-editorial drop-shadow-xs">
-                  <span className="text-[#142B4D]">Trusted by families</span> <br />
-                  <span className="text-[#3EA3AC]">for over 25 years.</span>
-                </h1>
-
-                {/* Subtitle / Paragraph */}
-                <p className="text-base sm:text-lg lg:text-xl text-slate-700 font-normal leading-relaxed mb-8 font-body max-w-xl">
-                  From your family's check-ups and children's dentistry to smile design, implants and full-mouth reconstruction, one team plans your care together.
-                </p>
-
-                {/* EXACTLY TWO CLEAN ACTION BUTTONS (Square Architectural Styling) */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-8">
-                  
-                  {/* Button 1: Primary Consultation / WhatsApp Intake */}
-                  <button
-                    onClick={() => openWhatsAppBooking()}
-                    className="px-8 py-4 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-extrabold text-sm uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg cursor-pointer flex items-center justify-center gap-2.5 border border-[#142B4D]"
-                  >
-                    <span>Book a consultation</span>
-                    <ArrowUpRight className="w-4 h-4 text-[#3EA3AC]" />
-                  </button>
-
-                  {/* Button 2: Secondary Golden DSD Feature Exploration */}
-                  <button
-                    onClick={() => scrollToSection('digital-smile-design')}
-                    className="px-7 py-4 rounded-none sm:rounded-sm bg-white hover:bg-slate-50 text-[#142B4D] font-bold text-sm uppercase tracking-wider border border-slate-300 hover:border-slate-400 shadow-xs transition-all cursor-pointer flex items-center justify-center gap-2"
-                  >
-                    <Sparkles className="w-4 h-4 text-amber-500" />
-                    <span>Smile design around your face</span>
-                  </button>
-                </div>
-
-                {/* Sedation Hospital Reassurance Box (Square Border, Calm Face / Hospital Setting) */}
-                <div className="p-4 sm:p-5 rounded-none sm:rounded-sm bg-teal-50/70 border border-[#3EA3AC]/30 flex items-start gap-3.5 shadow-xs">
-                  <div className="p-2 rounded-none sm:rounded-sm bg-white border border-[#3EA3AC]/40 text-[#3EA3AC] shrink-0 mt-0.5">
-                    <Heart className="w-4 h-4 fill-[#3EA3AC]/20 text-[#3EA3AC]" />
-                  </div>
-                  <div className="text-xs sm:text-sm text-slate-800 leading-relaxed font-body">
-                    <strong className="text-[#142B4D] font-bold">Nervous about the dentist?</strong> All our treatments are available under sedation, with a consultant anaesthetist, in a hospital setting.
-                  </div>
-                </div>
-
+                {/* Ultra-Luxe Pearl Gradient Overlays (Ensures pure light aesthetic & crystal text clarity) */}
+                <div className="absolute inset-0 bg-gradient-to-b lg:bg-gradient-to-r from-white via-white/95 via-50% to-white/15 backdrop-blur-[1.5px]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-white/60" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_15%_40%,rgba(62,163,172,0.12)_0%,transparent_70%)]" />
               </div>
 
-              {/* Right Column: 4K Clinical Suites Video & Executive Reception Showcase */}
-              <div className="lg:col-span-6 relative">
-                <div className="rounded-none sm:rounded-sm overflow-hidden border-2 border-slate-200/90 bg-slate-950 shadow-2xl relative aspect-[4/3] sm:aspect-[16/11]">
+              {/* Foreground Content Layer */}
+              <motion.div 
+                style={{ y: heroContentY }}
+                className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 lg:py-16 flex flex-col justify-center"
+              >
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                   
-                  {heroViewMode === 'video' ? (
-                    <div className="relative w-full h-full bg-slate-950">
-                      <video
-                        ref={heroVideoRef}
-                        src={getAssetUrl('video_hero_optimized.mp4')}
-                        poster={getAssetUrl('hero_poster_4k.jpg')}
-                        autoPlay
-                        muted
-                        playsInline
-                        loop
-                        className="w-full h-full object-cover"
-                      />
+                  {/* Left Column: Client Copy & Exact Two CTA Buttons */}
+                  <div className="lg:col-span-7 flex flex-col justify-center">
+                    
+                    {/* Location Badge */}
+                    <div className="inline-flex items-center gap-2 self-start px-3.5 py-1.5 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md border border-teal-200/90 text-[#142B4D] text-[11px] sm:text-xs font-bold uppercase tracking-widest mb-5 shadow-xs">
+                      <Building2 className="w-3.5 h-3.5 text-[#3EA3AC]" />
+                      <span>ST JAMES HOSPITAL, SLIEMA</span>
+                    </div>
 
-                      {/* Top Bar Badges & Controls */}
-                      <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-2 z-10">
-                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-sm text-slate-900">
-                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                          <span className="text-[10px] font-extrabold tracking-widest uppercase text-[#142B4D]">4K Clinical Tour</span>
-                          <span className="text-slate-300">•</span>
-                          <span className="text-[10px] font-semibold text-slate-600">St. James Hospital</span>
+                    {/* Main Headline */}
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.4vw] font-normal tracking-tight leading-[1.06] mb-5 font-editorial drop-shadow-xs">
+                      <span className="text-[#142B4D] font-medium">Trusted by families</span> <br />
+                      <span className="text-[#3EA3AC]">for over 25 years.</span>
+                    </h1>
+
+                    {/* Subtitle */}
+                    <p className="text-base sm:text-lg text-slate-800 font-medium leading-relaxed mb-7 font-body max-w-xl">
+                      From your family's check-ups and children's dentistry to smile design, implants and full-mouth reconstruction, one team plans your care together.
+                    </p>
+
+                    {/* Exact Two Clean Action Buttons */}
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mb-7">
+                      <button
+                        onClick={() => openWhatsAppBooking()}
+                        className="px-8 py-4 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg cursor-pointer flex items-center justify-center gap-2.5 border border-[#142B4D]"
+                      >
+                        <span>Book a consultation</span>
+                        <ArrowUpRight className="w-4 h-4 text-[#3EA3AC]" />
+                      </button>
+
+                      <button
+                        onClick={() => scrollToSection('digital-smile-design')}
+                        className="px-7 py-4 rounded-none sm:rounded-sm bg-white/95 hover:bg-white text-[#142B4D] font-bold text-xs sm:text-sm uppercase tracking-wider border border-slate-300 hover:border-slate-400 shadow-xs transition-all cursor-pointer flex items-center justify-center gap-2"
+                      >
+                        <Sparkles className="w-4 h-4 text-amber-500" />
+                        <span>Smile design around your face</span>
+                      </button>
+                    </div>
+
+                    {/* Sedation Hospital Reassurance Box */}
+                    <div className="p-4 sm:p-5 rounded-none sm:rounded-sm bg-white/85 backdrop-blur-md border border-[#3EA3AC]/30 flex items-start gap-3.5 shadow-2xs max-w-xl">
+                      <div className="p-2 rounded-none sm:rounded-sm bg-teal-50 border border-[#3EA3AC]/40 text-[#3EA3AC] shrink-0 mt-0.5">
+                        <Heart className="w-4 h-4 fill-[#3EA3AC]/20 text-[#3EA3AC]" />
+                      </div>
+                      <div className="text-xs sm:text-sm text-slate-800 leading-relaxed font-body">
+                        <strong className="text-[#142B4D] font-bold">Nervous about the dentist?</strong> All our treatments are available under sedation, with a consultant anaesthetist, in a hospital setting.
+                      </div>
+                    </div>
+
+                  </div>
+
+                  {/* Right Column: Floating Interactive 21st.dev Video Controls & Real-Time Hospital Stats Card */}
+                  <div className="lg:col-span-5 flex flex-col justify-end items-start lg:items-end">
+                    
+                    {/* Live Video Control Badge */}
+                    <div className="bg-white/90 backdrop-blur-md p-4 sm:p-5 rounded-none sm:rounded-sm border border-slate-200/90 shadow-xl max-w-sm w-full">
+                      <div className="flex items-center justify-between gap-2 mb-3 pb-3 border-b border-slate-100">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                          <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#142B4D]">
+                            {heroViewMode === 'video' ? '4K Clinical Tour Live' : 'Executive Reception'}
+                          </span>
                         </div>
-
                         <div className="flex items-center gap-1.5">
-                          {/* Pause / Play Toggle */}
+                          {heroViewMode === 'video' && (
+                            <button
+                              type="button"
+                              onClick={toggleVideoPlay}
+                              className="p-1.5 rounded-none sm:rounded-sm bg-slate-100 hover:bg-slate-200 text-slate-800 cursor-pointer border border-slate-200"
+                              title={isVideoPlaying ? "Pause Video" : "Play Video"}
+                            >
+                              {isVideoPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-current" />}
+                            </button>
+                          )}
                           <button
                             type="button"
-                            onClick={() => {
-                              if (!heroVideoRef.current) return;
-                              if (heroVideoRef.current.paused) {
-                                heroVideoRef.current.play();
-                                setIsVideoPlaying(true);
-                              } else {
-                                heroVideoRef.current.pause();
-                                setIsVideoPlaying(false);
-                              }
-                            }}
-                            className="p-2 rounded-none sm:rounded-sm bg-slate-950/70 hover:bg-slate-950/90 text-white backdrop-blur-md border border-white/20 cursor-pointer shadow-sm transition-all"
-                            title={isVideoPlaying ? "Pause Video" : "Play Video"}
+                            onClick={() => setHeroViewMode(heroViewMode === 'video' ? 'reception' : 'video')}
+                            className="px-2.5 py-1 rounded-none sm:rounded-sm bg-[#142B4D] text-white text-[10px] font-bold uppercase tracking-wider cursor-pointer border-none"
                           >
-                            {isVideoPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-current" />}
-                          </button>
-
-                          {/* Switch to Reception Desk Photo */}
-                          <button
-                            type="button"
-                            onClick={() => setHeroViewMode('reception')}
-                            className="px-3 py-1.5 rounded-none sm:rounded-sm bg-white/95 hover:bg-white text-[#142B4D] text-xs font-bold uppercase tracking-wider shadow-sm cursor-pointer border border-slate-200 flex items-center gap-1.5 transition-all"
-                          >
-                            <Camera className="w-3.5 h-3.5 text-[#3EA3AC]" />
-                            <span className="hidden sm:inline">Reception Desk</span>
-                            <span className="sm:hidden">Photo</span>
+                            {heroViewMode === 'video' ? '📷 View Photo' : '▶ Play 4K Video'}
                           </button>
                         </div>
                       </div>
 
-                      {/* Bottom Caption & Picture-in-Picture */}
-                      <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-transparent flex items-end justify-between gap-4 text-white z-10 pointer-events-auto">
-                        <div>
-                          <span className="text-[10px] font-bold uppercase tracking-widest text-[#3EA3AC] bg-slate-950/80 px-2 py-0.5 rounded-none sm:rounded-sm border border-[#3EA3AC]/30 inline-block mb-1">
-                            Accredited Private Hospital Setting
-                          </span>
-                          <div className="text-sm sm:text-base font-bold text-white drop-shadow-sm font-editorial">
-                            Dental & Implantology Unit (DiU Malta)
-                          </div>
-                          <div className="text-[11px] text-slate-300 hidden sm:block mt-0.5">
-                            Sterile Operating Theatres • In-House CEREC 3D Lab • IV Sedation
-                          </div>
+                      <div className="space-y-2 text-xs text-slate-600">
+                        <div className="flex items-center justify-between">
+                          <span className="text-slate-500">Hospital Facility:</span>
+                          <span className="font-bold text-slate-900">St. James Hospital (Sliema)</span>
                         </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-slate-500">Clinical Suites:</span>
+                          <span className="font-semibold text-[#3EA3AC]">Sterile Theatres + CEREC 3D Lab</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-slate-500">Patient Satisfaction:</span>
+                          <span className="font-bold text-amber-600 flex items-center gap-1">
+                            <Star className="w-3 h-3 fill-amber-400 text-amber-500" />
+                            <span>4.9 / 5.0 (25+ Yrs)</span>
+                          </span>
+                        </div>
+                      </div>
 
-                        {/* Picture-in-Picture Reception Desk Preview */}
-                        <div 
-                          onClick={() => setHeroViewMode('reception')}
-                          className="hidden sm:flex flex-col items-end cursor-pointer group/pip shrink-0"
-                          title="Click to view Executive Reception Photo"
-                        >
-                          <div className="w-20 h-14 rounded-none sm:rounded-sm overflow-hidden border-2 border-white/90 group-hover/pip:border-[#3EA3AC] shadow-lg transition-all relative">
+                      {/* Reception picture-in-picture preview button */}
+                      <div 
+                        onClick={() => setHeroViewMode(heroViewMode === 'video' ? 'reception' : 'video')}
+                        className="mt-3.5 pt-3 border-t border-slate-100 flex items-center justify-between gap-3 cursor-pointer group"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-12 h-9 rounded-none sm:rounded-sm overflow-hidden border border-slate-200 relative shrink-0">
                             <img 
-                              src={getAssetUrl('clinic/reception_background_image.jpg')} 
-                              alt="Executive Reception Desk" 
-                              className="w-full h-full object-cover group-hover/pip:scale-105 transition-transform"
+                              src={getAssetUrl(heroViewMode === 'video' ? 'clinic/reception_background_image.jpg' : 'hero_poster_4k.jpg')} 
+                              alt="Toggle Preview" 
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                             />
-                            <div className="absolute inset-0 bg-slate-950/20 group-hover/pip:bg-transparent" />
                           </div>
-                          <span className="text-[9px] font-bold uppercase tracking-wider text-slate-200 mt-1 flex items-center gap-1 group-hover/pip:text-[#3EA3AC]">
-                            <Camera className="w-2.5 h-2.5" />
-                            <span>Reception</span>
-                          </span>
+                          <div>
+                            <div className="text-[11px] font-bold text-slate-900 group-hover:text-[#3EA3AC] transition-colors">
+                              {heroViewMode === 'video' ? 'Switch to Reception Desk' : 'Switch to 4K Video Tour'}
+                            </div>
+                            <div className="text-[10px] text-slate-500">
+                              {heroViewMode === 'video' ? 'Ground Floor St. James Hospital' : 'Full facility walkthrough'}
+                            </div>
+                          </div>
                         </div>
+                        <ArrowUpRight className="w-3.5 h-3.5 text-[#3EA3AC] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                       </div>
 
                     </div>
-                  ) : (
-                    <div className="relative w-full h-full">
-                      <img 
-                        src={getAssetUrl('clinic/reception_background_image.jpg')} 
-                        alt="DiU Dental & Implantology Unit - St. James Hospital Reception Desk"
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent pointer-events-none" />
-                      
-                      {/* Top Bar Badges & Controls */}
-                      <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-2 z-10">
-                        <div className="flex items-center gap-2 px-3 py-1.5 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-sm text-slate-900">
-                          <Camera className="w-3.5 h-3.5 text-[#3EA3AC]" />
-                          <span className="text-[10px] font-extrabold tracking-widest uppercase text-[#142B4D]">Executive Reception</span>
-                          <span className="text-slate-300">•</span>
-                          <span className="text-[10px] font-semibold text-slate-600">St. James Hospital</span>
-                        </div>
 
-                        {/* Button to Play 4K Video */}
-                        <button
-                          type="button"
-                          onClick={() => setHeroViewMode('video')}
-                          className="px-3.5 py-1.5 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white text-xs font-bold uppercase tracking-wider shadow-md cursor-pointer border border-[#142B4D] flex items-center gap-1.5 transition-all"
-                        >
-                          <Play className="w-3.5 h-3.5 fill-[#3EA3AC] text-[#3EA3AC]" />
-                          <span>Play 4K Video Tour</span>
-                        </button>
-                      </div>
-
-                      {/* Image Details Caption */}
-                      <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between text-white z-10">
-                        <div>
-                          <span className="text-[10px] font-bold uppercase tracking-widest text-[#3EA3AC] bg-slate-950/70 px-2.5 py-1 rounded-none sm:rounded-sm">
-                            Executive Reception • St. James Hospital
-                          </span>
-                          <div className="text-sm sm:text-base font-bold text-white mt-1 drop-shadow-sm font-editorial">
-                            Dental & Implantology Unit (DiU Malta)
-                          </div>
-                        </div>
-
-                        <button
-                          type="button"
-                          onClick={() => setHeroViewMode('video')}
-                          className="px-3.5 py-2 rounded-none sm:rounded-sm bg-white/95 hover:bg-white text-slate-950 font-bold text-xs uppercase tracking-wider shadow-md transition-all flex items-center gap-1.5 cursor-pointer border-none shrink-0"
-                        >
-                          <Play className="w-3.5 h-3.5 fill-[#3EA3AC] text-[#3EA3AC]" />
-                          <span>Watch 4K Tour</span>
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                  </div>
 
                 </div>
-              </div>
+              </motion.div>
 
-            </div>
+            </motion.div>
           </div>
+        </div>
 
           {/* Under-Hero Dark Blue Quick Info Banner (Matching Client Artifact Frame 01s) */}
           <div className="mt-12 sm:mt-16 bg-[#142B4D] text-white py-6 border-y border-[#0c1c33]">
@@ -1045,7 +1046,6 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
             </div>
           </div>
-        </section>
 
         {/* 3. FOR ANXIOUS PATIENTS: SAFE, GENTLE HANDS & HOSPITAL SEDATION (From Client Recording Frame 08s) */}
         <section 
@@ -1631,80 +1631,166 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
           </div>
         </section>
 
-        {/* 8. COMPREHENSIVE CLINICAL SPECIALTIES (01 - 06) */}
-        <section id="services-section" className="py-24 md:py-32 bg-white border-b border-slate-200/80">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-            <div className="text-center max-w-3xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-[#3EA3AC] text-xs font-bold uppercase tracking-wider mb-3">
-                <Layers className="w-4 h-4 text-[#3EA3AC]" />
-                <span>Advanced Clinical Specialties [ 01 – 06 ]</span>
+        {/* 8. COMPREHENSIVE CLINICAL SPECIALTIES (21ST.DEV SCROLL-DRIVEN HORIZONTAL TRACK) */}
+        <div 
+          id="services-section" 
+          ref={servicesSectionRef}
+          className="relative lg:h-[250vh] bg-white border-b border-slate-200/80"
+        >
+          <div className="lg:sticky lg:top-0 lg:h-screen w-full overflow-hidden flex flex-col justify-center py-20 lg:py-0 px-4 sm:px-8 lg:px-14">
+            
+            <div className="max-w-7xl mx-auto w-full mb-8 lg:mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-[#3EA3AC] text-xs font-bold uppercase tracking-wider mb-2">
+                  <Layers className="w-4 h-4 text-[#3EA3AC]" />
+                  <span>Advanced Clinical Specialties [ 01 – 06 ]</span>
+                </div>
+                <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-950 tracking-tight font-heading">
+                  Comprehensive Care For <span className="text-[#142B4D]">Every Patient</span>
+                </h2>
               </div>
-              <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-950 tracking-tight font-heading">
-                Comprehensive Care For <span className="text-[#142B4D]">Every Patient</span>
-              </h2>
-              <p className="text-slate-600 text-base sm:text-lg mt-2 font-body">
-                Explore our six flagship surgical and restorative procedures.
-              </p>
+              <div className="text-xs font-semibold text-slate-500 hidden lg:flex items-center gap-2">
+                <span>Scroll vertically to glide through procedures</span>
+                <ChevronRight className="w-4 h-4 text-[#3EA3AC] animate-pulse" />
+              </div>
             </div>
-          </div>
 
-          {/* Grid */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {servicesData.map((svc) => (
-              <div
-                key={svc.id}
-                className={`rounded-none sm:rounded-sm p-8 border ${svc.isGold ? 'border-amber-400 shadow-md ring-1 ring-amber-300' : 'border-slate-200/90 shadow-2xs'} flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 cursor-pointer ${svc.bgClass}`}
-                onClick={() => setSelectedService(svc)}
+            {/* Desktop Horizontal Sliding Track (Scroll-Driven via servicesX) */}
+            <div className="hidden lg:block w-full overflow-hidden">
+              <motion.div 
+                style={{ x: servicesX }}
+                className="flex gap-8 will-change-transform pr-24"
               >
-                <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="text-sm font-extrabold text-slate-400 tracking-wider font-heading">
-                      [ {svc.num} ]
-                    </span>
-                    <span 
-                      className={`text-[11px] font-bold px-3 py-1 rounded-none sm:rounded-sm uppercase tracking-wider ${svc.isGold ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-slate-100 text-slate-700 border border-slate-200'}`}
-                    >
-                      {svc.tagline}
-                    </span>
-                  </div>
-
-                  <h3 className="text-2xl font-extrabold text-slate-950 mb-3 tracking-tight font-heading">
-                    {svc.title}
-                  </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed mb-6 font-body">
-                    {svc.summary}
-                  </p>
-
-                  <ul className="space-y-2 mb-8">
-                    {svc.bullets.map((b, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-xs text-slate-700 font-medium">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#3EA3AC] shrink-0 mt-0.5" />
-                        <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="pt-4 border-t border-slate-200/60 flex items-center justify-between gap-3">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openWhatsAppBooking({ treatment: svc.title });
-                    }}
-                    className="flex items-center gap-1.5 px-4 py-2.5 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-extrabold text-xs uppercase tracking-wider cursor-pointer shadow-2xs transition-transform hover:scale-[1.02]"
+                {servicesData.map((svc) => (
+                  <div
+                    key={svc.id}
+                    className={`w-[400px] xl:w-[440px] shrink-0 rounded-none sm:rounded-sm p-8 border ${
+                      svc.isGold 
+                        ? 'border-amber-400 shadow-md ring-1 ring-amber-300' 
+                        : 'border-slate-200/90 shadow-2xs'
+                    } flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 cursor-pointer ${svc.bgClass}`}
+                    onClick={() => setSelectedService(svc)}
                   >
-                    <span>Book Procedure</span>
-                  </button>
+                    <div>
+                      <div className="flex items-center justify-between mb-6">
+                        <span className="text-sm font-extrabold text-slate-400 tracking-wider font-heading">
+                          [ {svc.num} ]
+                        </span>
+                        <span 
+                          className={`text-[11px] font-bold px-3 py-1 rounded-none sm:rounded-sm uppercase tracking-wider ${
+                            svc.isGold 
+                              ? 'bg-amber-100 text-amber-900 border border-amber-300' 
+                              : 'bg-slate-100 text-slate-700 border border-slate-200'
+                          }`}
+                        >
+                          {svc.tagline}
+                        </span>
+                      </div>
 
-                  <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-slate-800">
-                    <span>Details</span>
-                    <ArrowUpRight className="w-4 h-4 text-[#3EA3AC]" />
+                      <h3 className="text-2xl font-extrabold text-slate-950 mb-3 tracking-tight font-heading">
+                        {svc.title}
+                      </h3>
+                      <p className="text-slate-600 text-sm leading-relaxed mb-6 font-body">
+                        {svc.summary}
+                      </p>
+
+                      <ul className="space-y-2 mb-8">
+                        {svc.bullets.map((b, idx) => (
+                          <li key={idx} className="flex items-start gap-2 text-xs text-slate-700 font-medium">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-[#3EA3AC] shrink-0 mt-0.5" />
+                            <span>{b}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="pt-4 border-t border-slate-200/60 flex items-center justify-between gap-3">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openWhatsAppBooking({ treatment: svc.title });
+                        }}
+                        className="flex items-center gap-1.5 px-4 py-2.5 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-extrabold text-xs uppercase tracking-wider cursor-pointer shadow-2xs transition-transform hover:scale-[1.02]"
+                      >
+                        <span>Book Procedure</span>
+                      </button>
+
+                      <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-slate-800">
+                        <span>Details</span>
+                        <ArrowUpRight className="w-4 h-4 text-[#3EA3AC]" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* Mobile / Tablet Responsive Horizontal Carousel with Touch Scroll */}
+            <div className="lg:hidden flex gap-5 overflow-x-auto no-scrollbar pb-6 pt-2 scroll-smooth">
+              {servicesData.map((svc) => (
+                <div
+                  key={svc.id}
+                  className={`w-[85vw] max-w-[340px] shrink-0 rounded-none sm:rounded-sm p-6 border ${
+                    svc.isGold 
+                      ? 'border-amber-400 shadow-md ring-1 ring-amber-300' 
+                      : 'border-slate-200/90 shadow-2xs'
+                  } flex flex-col justify-between ${svc.bgClass}`}
+                  onClick={() => setSelectedService(svc)}
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-xs font-extrabold text-slate-400 tracking-wider font-heading">
+                        [ {svc.num} ]
+                      </span>
+                      <span 
+                        className={`text-[10px] font-bold px-2.5 py-1 rounded-none sm:rounded-sm uppercase tracking-wider ${
+                          svc.isGold 
+                            ? 'bg-amber-100 text-amber-900 border border-amber-300' 
+                            : 'bg-slate-100 text-slate-700 border border-slate-200'
+                        }`}
+                      >
+                        {svc.tagline}
+                      </span>
+                    </div>
+
+                    <h3 className="text-xl font-extrabold text-slate-950 mb-2 tracking-tight font-heading">
+                      {svc.title}
+                    </h3>
+                    <p className="text-slate-600 text-xs leading-relaxed mb-4 font-body">
+                      {svc.summary}
+                    </p>
+
+                    <ul className="space-y-1.5 mb-6">
+                      {svc.bullets.slice(0, 3).map((b, idx) => (
+                        <li key={idx} className="flex items-start gap-1.5 text-xs text-slate-700 font-medium">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-[#3EA3AC] shrink-0 mt-0.5" />
+                          <span>{b}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="pt-3 border-t border-slate-200/60 flex items-center justify-between gap-3">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openWhatsAppBooking({ treatment: svc.title });
+                      }}
+                      className="flex items-center gap-1 px-3.5 py-2 rounded-none sm:rounded-sm bg-[#142B4D] text-white font-extrabold text-xs uppercase tracking-wider"
+                    >
+                      <span>Book</span>
+                    </button>
+                    <div className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-slate-800">
+                      <span>Details</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-[#3EA3AC]" />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+
           </div>
-        </section>
+        </div>
 
         {/* 9. THE HOSPITAL CENTRE & NAVIGATION (ST. JAMES HOSPITAL SLIEMA + 3 PHOTO STEPS) */}
         <section id="clinics" className="py-24 md:py-32 bg-[#F8FAFC] border-b border-slate-200/80">
