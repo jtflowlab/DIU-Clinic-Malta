@@ -248,9 +248,10 @@ export default function App() {
     offset: ["start start", "end start"]
   });
 
-  const heroVideoScale = useTransform(heroProgress, [0, 0.8], [1, 1.18]);
-  const heroVideoBorderRadius = useTransform(heroProgress, [0, 0.8], [28, 8]);
-  const heroVideoY = useTransform(heroProgress, [0, 0.8], [0, 40]);
+  const heroVideoScale = useTransform(heroProgress, [0, 1], [1, 1.2]);
+  const heroVideoY = useTransform(heroProgress, [0, 1], ["0%", "15%"]);
+  const heroTextOpacity = useTransform(heroProgress, [0, 0.65], [1, 0.15]);
+  const heroTextY = useTransform(heroProgress, [0, 0.65], [0, -60]);
 
   // Handle Video Autoplay & Loop
   useEffect(() => {
@@ -328,7 +329,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-[#27CFC3] selection:text-slate-950 overflow-x-hidden">
+    <div className="min-h-screen bg-[#F4F6F9] text-slate-900 font-sans selection:bg-[#27CFC3] selection:text-slate-950 overflow-x-hidden">
 
       {/* 1. TOP ANNOUNCEMENT BAR (Real Hospital Coordinates) */}
       <div className="bg-[#004A9C] text-white text-[11px] sm:text-xs py-2 px-4 sm:px-8 border-b border-blue-900/40">
@@ -443,43 +444,87 @@ export default function App() {
         </AnimatePresence>
       </header>
 
-      {/* 3. HERO SECTION (High-Impact First Impression: 4K Video Instantly Visible Above the Fold) */}
-      <section id="hero" ref={heroSectionRef} className="relative pt-6 pb-20 md:pt-10 md:pb-28 overflow-hidden bg-gradient-to-b from-white via-slate-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 3. HERO SECTION (Full-Width Edge-to-Edge 4K Video + High-Contrast Foreground Overlay + Scroll Parallax) */}
+      <section 
+        id="hero" 
+        ref={heroSectionRef} 
+        className="relative min-h-[92vh] sm:min-h-[88vh] flex items-center justify-center overflow-hidden bg-slate-950"
+      >
+        {/* Full-Width Background 4K Video with Parallax Scroll Sync */}
+        <motion.div 
+          style={{ scale: heroVideoScale, y: heroVideoY }}
+          className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none"
+        >
+          <video
+            ref={videoRef}
+            src={getAssetUrl('video_hero_4k.mp4')}
+            poster={getAssetUrl('hero_poster_4k.jpg')}
+            autoPlay
+            muted
+            playsInline
+            loop
+            preload="auto"
+            className="w-full h-full object-cover object-center"
+          />
           
-          {/* Main 2-Column Split Hero (Video and Value Proposition Side-by-Side) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-16">
+          {/* Multi-Layer Cinematic Gradients for Contrast & 100% Readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/75 to-slate-950/35" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/45" />
+        </motion.div>
+
+        {/* Top Floating Video HUD Info */}
+        <div className="absolute top-5 left-4 sm:left-8 right-4 sm:right-8 z-20 flex justify-between items-center pointer-events-none">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-white text-[11px] sm:text-xs font-semibold">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <span>4K CLINICAL SUITE • ST. JAMES HOSPITAL</span>
+          </div>
+          <button
+            onClick={toggleVideoPlayback}
+            aria-label={isVideoPlaying ? "Pause video" : "Play video"}
+            className="pointer-events-auto px-3.5 py-1.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white text-[11px] sm:text-xs font-medium flex items-center gap-2 cursor-pointer transition-colors"
+          >
+            {isVideoPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-white" />}
+            <span className="hidden sm:inline">{isVideoPlaying ? "Pause 4K Tour" : "Play 4K Tour"}</span>
+          </button>
+        </div>
+
+        {/* Foreground Content Layer Over Video (Synchronized with Scroll) */}
+        <motion.div 
+          style={{ opacity: heroTextOpacity, y: heroTextY }}
+          className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 w-full"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            {/* Left Column: Bold Editorial Copy & Rapid Action */}
-            <div className="lg:col-span-6 flex flex-col justify-center">
+            {/* Left Content Column */}
+            <div className="lg:col-span-8 text-white">
               
               {/* Badges */}
               <div className="flex flex-wrap items-center gap-2.5 mb-5">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200/80 text-teal-900 text-xs font-semibold tracking-wide">
-                  <Sparkles className="w-3.5 h-3.5 text-teal-600" />
-                  <span>EST. 1999 • ST. JAMES HOSPITAL</span>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#27CFC3] text-xs font-bold tracking-wide">
+                  <Sparkles className="w-3.5 h-3.5 text-[#27CFC3]" />
+                  <span>EST. 1999 • 27 YEARS SURGICAL EXCELLENCE</span>
                 </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200/80 text-amber-900 text-xs font-bold">
-                  <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-amber-300 text-xs font-bold">
+                  <Star className="w-3.5 h-3.5 fill-amber-300" />
                   <span>4.9 / 5.0 (200+ Reviews)</span>
                 </div>
               </div>
 
-              {/* Headline */}
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-extrabold text-slate-950 tracking-tight leading-[1.1] mb-5">
+              {/* High-Impact Headline */}
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4rem] font-extrabold tracking-tight leading-[1.08] mb-6 drop-shadow-md font-heading">
                 Step Inside Malta’s Leading <br />
-                <span className="text-[#004A9C]">Dental & Implantology</span> Hospital.
+                <span className="text-[#27CFC3]">Dental & Implantology</span> Hospital.
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed mb-6">
-                Founded by <strong className="font-semibold text-slate-900">Dr. Mark & Susanna Diacono</strong>. Same-day CEREC 3D ceramics, precision bone reconstruction, and 100% anxiety-free certified IV sedation inside St. James Hospital.
+              <p className="text-lg sm:text-xl md:text-2xl text-slate-200 font-normal leading-relaxed max-w-2xl mb-8 drop-shadow font-body">
+                Founded by <strong className="font-semibold text-white">Dr. Mark & Susanna Diacono</strong>. Same-day CEREC 3D ceramics, precision bone reconstruction, and 100% anxiety-free certified IV sedation inside St. James Hospital.
               </p>
 
-              {/* Primary Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3 mb-8">
+              {/* CTAs with Contrast */}
+              <div className="flex flex-wrap items-center gap-4 mb-8">
                 <button
                   onClick={() => scrollToSection('booking')}
-                  className="px-7 py-3.5 rounded-full bg-[#27CFC3] hover:bg-[#20b5aa] text-slate-950 font-extrabold text-xs uppercase tracking-wider transition-all duration-300 shadow-xl shadow-teal-500/20 hover:scale-105 cursor-pointer border-none flex items-center gap-2"
+                  className="px-8 py-4 rounded-full bg-[#27CFC3] hover:bg-[#20b5aa] text-slate-950 font-extrabold text-sm uppercase tracking-wider transition-all duration-300 shadow-xl shadow-teal-500/30 hover:scale-105 cursor-pointer border-none flex items-center gap-2"
                 >
                   <span>Book Free Consultation</span>
                   <ArrowUpRight className="w-4 h-4" />
@@ -487,126 +532,112 @@ export default function App() {
 
                 <button
                   onClick={() => scrollToSection('clinics')}
-                  className="px-6 py-3.5 rounded-full bg-white hover:bg-slate-50 text-[#004A9C] font-bold text-xs uppercase tracking-wider border-2 border-[#004A9C]/20 hover:border-[#004A9C] transition-all cursor-pointer flex items-center gap-2"
+                  className="px-7 py-4 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold text-sm uppercase tracking-wider border border-white/25 hover:border-white transition-all cursor-pointer flex items-center gap-2"
                 >
-                  <Building2 className="w-4 h-4 text-[#004A9C]" />
+                  <Building2 className="w-4 h-4 text-[#27CFC3]" />
                   <span>2 Hospital Clinics</span>
+                </button>
+
+                <button
+                  onClick={() => scrollToSection('clinics')}
+                  className="px-5 py-4 rounded-full bg-transparent hover:bg-white/10 text-white font-bold text-sm flex items-center gap-2 transition-colors cursor-pointer border-none"
+                >
+                  <Phone className="w-4 h-4 text-[#27CFC3]" />
+                  <span>(+356) 2329 1029</span>
                 </button>
               </div>
 
-              {/* Instant Callback Mini-Bar */}
-              <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-sm">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="text-xs font-bold text-slate-900 flex items-center gap-2">
+            </div>
+
+            {/* Right Column: Floating Rapid Lead-Capture Card */}
+            <div className="lg:col-span-4">
+              <div className="bg-white/95 backdrop-blur-xl p-6 sm:p-7 rounded-3xl border border-white/80 shadow-2xl shadow-black/50 text-slate-900">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="text-sm font-extrabold text-slate-950 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                     <span>Rapid Callback Guarantee</span>
                   </div>
-                  <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full">
-                    Within 10 Minutes
+                  <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+                    &lt; 10 Mins
                   </span>
                 </div>
+                <p className="text-xs text-slate-600 mb-4">
+                  Speak directly with our senior clinical coordinator at St. James Hospital.
+                </p>
+
                 {leadSubmitted ? (
-                  <div className="text-xs text-emerald-800 font-bold bg-emerald-50 p-2 rounded-xl text-center">
-                    ✓ Request logged! A senior clinical coordinator is calling you.
+                  <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
+                    <CheckCircle2 className="w-6 h-6 text-emerald-600 mx-auto mb-1" />
+                    <div className="text-xs font-bold text-emerald-950">Thank you! Your callback is booked.</div>
+                    <div className="text-[11px] text-emerald-700">A coordinator will call you shortly.</div>
                   </div>
                 ) : (
-                  <form onSubmit={handleLeadSubmit} className="flex gap-2">
+                  <form onSubmit={handleLeadSubmit} className="space-y-3">
+                    <input
+                      type="text"
+                      placeholder="Your Full Name"
+                      required
+                      value={leadForm.name}
+                      onChange={(e) => setLeadForm({ ...leadForm, name: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#27CFC3]"
+                    />
                     <input
                       type="tel"
-                      placeholder="Your phone (+356...)"
+                      placeholder="Phone Number (+356...)"
                       required
                       value={leadForm.phone}
                       onChange={(e) => setLeadForm({ ...leadForm, phone: e.target.value })}
-                      className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#27CFC3]"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#27CFC3]"
                     />
                     <button
                       type="submit"
-                      className="px-4 py-2 rounded-xl bg-[#004A9C] text-white font-bold text-xs whitespace-nowrap cursor-pointer border-none hover:bg-[#003875] transition-colors"
+                      className="w-full py-3 rounded-xl bg-[#004A9C] hover:bg-[#003875] text-white font-bold text-xs uppercase tracking-wider transition-all cursor-pointer border-none shadow-md"
                     >
-                      Call Me
+                      Request Rapid Callback
                     </button>
+                    <div className="text-[10px] text-center text-slate-400 flex items-center justify-center gap-1">
+                      <ShieldCheck className="w-3 h-3 text-emerald-600" />
+                      <span>100% Private Hospital Confidentiality</span>
+                    </div>
                   </form>
                 )}
               </div>
-
-            </div>
-
-            {/* Right Column: THE 4K SHOWSTOPPER VIDEO (Direct First Impression) */}
-            <div className="lg:col-span-6">
-              <motion.div 
-                style={{
-                  scale: heroVideoScale,
-                  borderRadius: heroVideoBorderRadius,
-                  y: heroVideoY
-                }}
-                className="relative rounded-3xl overflow-hidden border-4 border-white shadow-2xl shadow-slate-900/15 bg-slate-950 aspect-[4/3] sm:aspect-video group"
-              >
-                {/* 4K Enhanced Native Video */}
-                <video
-                  ref={videoRef}
-                  src={getAssetUrl('video_hero_4k.mp4')}
-                  poster={getAssetUrl('hero_poster_4k.jpg')}
-                  autoPlay
-                  muted
-                  playsInline
-                  loop
-                  preload="auto"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-
-                {/* Floating Live Badges */}
-                <div className="absolute top-4 left-4 flex flex-wrap gap-2 pointer-events-none z-10">
-                  <span className="px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-md text-white text-[11px] font-semibold flex items-center gap-2 border border-white/20">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                    4K Virtual Walkthrough
-                  </span>
-                  <span className="hidden sm:flex px-3 py-1.5 rounded-full bg-[#004A9C]/80 backdrop-blur-md text-white text-[11px] font-medium items-center gap-1.5 border border-white/20">
-                    <MapPin className="w-3.5 h-3.5 text-[#27CFC3]" />
-                    St. James Hospital, Sliema
-                  </span>
-                </div>
-
-                {/* Video Play/Pause Overlay */}
-                <button
-                  onClick={toggleVideoPlayback}
-                  aria-label={isVideoPlaying ? "Pause video" : "Play video"}
-                  className="absolute bottom-4 right-4 w-11 h-11 rounded-full bg-white/95 hover:bg-white text-slate-900 flex items-center justify-center shadow-xl transition-transform hover:scale-110 cursor-pointer border-none z-10"
-                >
-                  {isVideoPlaying ? <Pause className="w-4 h-4 text-slate-900" /> : <Play className="w-4 h-4 fill-slate-900 text-slate-900 ml-0.5" />}
-                </button>
-
-                {/* Bottom Overlay Label */}
-                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
-                <div className="absolute bottom-3.5 left-4 text-white text-[11px] font-medium pointer-events-none z-10">
-                  <span>Entrance ➔ Reception ➔ Sterilization Suite</span>
-                </div>
-              </motion.div>
             </div>
 
           </div>
+        </motion.div>
 
-          {/* Quick Key Trust Anchors */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-slate-200/60 text-center">
-            <div className="p-3 rounded-2xl bg-white border border-slate-200/80">
-              <div className="text-base font-extrabold text-[#004A9C]">100% In-House</div>
-              <div className="text-[11px] text-slate-500">CEREC 3D Milling Lab</div>
-            </div>
-            <div className="p-3 rounded-2xl bg-white border border-slate-200/80">
-              <div className="text-base font-extrabold text-[#004A9C]">Zero Anxiety</div>
-              <div className="text-[11px] text-slate-500">Certified IV Sedation</div>
-            </div>
-            <div className="p-3 rounded-2xl bg-white border border-slate-200/80">
-              <div className="text-base font-extrabold text-[#004A9C]">3D CBCT</div>
-              <div className="text-[11px] text-slate-500">Sub-mm Bone Scans</div>
-            </div>
-            <div className="p-3 rounded-2xl bg-white border border-slate-200/80">
-              <div className="text-base font-extrabold text-[#004A9C]">Same Day</div>
-              <div className="text-[11px] text-slate-500">All-on-4 Fixed Teeth</div>
-            </div>
+        {/* Scroll Indicator at bottom of Hero */}
+        <div className="absolute bottom-4 inset-x-0 z-20 flex justify-center pointer-events-none">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/15 text-white/90 text-[11px] font-medium">
+            <span>Scroll to explore clinical specialties</span>
+            <ChevronDown className="w-3.5 h-3.5 text-[#27CFC3] animate-bounce" />
           </div>
-
         </div>
+
       </section>
+
+      {/* Hospital Anchors Bar */}
+      <div className="bg-[#EBF1F6] border-b border-slate-200/80 py-5 px-4 sm:px-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div className="p-3.5 rounded-2xl bg-white border border-slate-200/70 shadow-sm">
+            <div className="text-base font-extrabold text-[#004A9C] font-heading">100% In-House</div>
+            <div className="text-[11px] text-slate-600">CEREC 3D Milling Lab</div>
+          </div>
+          <div className="p-3.5 rounded-2xl bg-white border border-slate-200/70 shadow-sm">
+            <div className="text-base font-extrabold text-[#004A9C] font-heading">Zero Anxiety</div>
+            <div className="text-[11px] text-slate-600">Certified IV Sedation</div>
+          </div>
+          <div className="p-3.5 rounded-2xl bg-white border border-slate-200/70 shadow-sm">
+            <div className="text-base font-extrabold text-[#004A9C] font-heading">3D CBCT</div>
+            <div className="text-[11px] text-slate-600">Sub-mm Bone Scans</div>
+          </div>
+          <div className="p-3.5 rounded-2xl bg-white border border-slate-200/70 shadow-sm">
+            <div className="text-base font-extrabold text-[#004A9C] font-heading">Same Day</div>
+            <div className="text-[11px] text-slate-600">All-on-4 Fixed Teeth</div>
+          </div>
+        </div>
+      </div>
 
       {/* 4. ANIMATED TRUST METRICS & SURGICAL CREDENTIALS (Westside Style) */}
       <section className="py-20 md:py-24 bg-white border-y border-slate-200/80">
@@ -617,10 +648,10 @@ export default function App() {
               <Award className="w-4 h-4" />
               <span>Redefining Dental Excellence Since 1999</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight leading-tight font-heading">
               Hospital Precision & Proven Results
             </h2>
-            <p className="text-slate-600 text-base sm:text-lg mt-4">
+            <p className="text-slate-600 text-base sm:text-lg mt-4 font-body">
               We never cut corners on materials, sterilization protocols, or patient comfort.
             </p>
           </div>
@@ -628,46 +659,46 @@ export default function App() {
           {/* 4 Large Bento Counter Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             
-            <div className="p-8 rounded-3xl bg-[#f8fafc] border border-slate-200/80 hover:border-[#27CFC3] transition-all hover:shadow-xl hover:-translate-y-1 group">
+            <div className="p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:border-[#27CFC3] transition-all hover:shadow-xl hover:-translate-y-1 group">
               <div className="text-xs font-bold text-slate-400 tracking-wider mb-4">[ 01 ]</div>
-              <div className="text-5xl sm:text-6xl font-extrabold text-[#004A9C] tracking-tight mb-2 group-hover:text-[#27CFC3] transition-colors">
+              <div className="text-5xl sm:text-6xl font-extrabold text-[#004A9C] tracking-tight mb-2 group-hover:text-[#27CFC3] transition-colors font-heading">
                 27+
               </div>
-              <div className="text-lg font-bold text-slate-900 mb-2">Years Established</div>
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <div className="text-lg font-bold text-slate-900 mb-2 font-heading">Years Established</div>
+              <p className="text-xs text-slate-600 leading-relaxed font-body">
                 Founding dental surgery and restorative team operating inside St. James Hospital since 1999.
               </p>
             </div>
 
-            <div className="p-8 rounded-3xl bg-[#f8fafc] border border-slate-200/80 hover:border-[#27CFC3] transition-all hover:shadow-xl hover:-translate-y-1 group">
+            <div className="p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:border-[#27CFC3] transition-all hover:shadow-xl hover:-translate-y-1 group">
               <div className="text-xs font-bold text-slate-400 tracking-wider mb-4">[ 02 ]</div>
-              <div className="text-5xl sm:text-6xl font-extrabold text-[#004A9C] tracking-tight mb-2 group-hover:text-[#27CFC3] transition-colors">
+              <div className="text-5xl sm:text-6xl font-extrabold text-[#004A9C] tracking-tight mb-2 group-hover:text-[#27CFC3] transition-colors font-heading">
                 10k+
               </div>
-              <div className="text-lg font-bold text-slate-900 mb-2">Smiles Restored</div>
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <div className="text-lg font-bold text-slate-900 mb-2 font-heading">Smiles Restored</div>
+              <p className="text-xs text-slate-600 leading-relaxed font-body">
                 Over ten thousand dental implants, full-arch restorations, and CEREC ceramics successfully completed.
               </p>
             </div>
 
-            <div className="p-8 rounded-3xl bg-[#f8fafc] border border-slate-200/80 hover:border-[#27CFC3] transition-all hover:shadow-xl hover:-translate-y-1 group">
+            <div className="p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:border-[#27CFC3] transition-all hover:shadow-xl hover:-translate-y-1 group">
               <div className="text-xs font-bold text-slate-400 tracking-wider mb-4">[ 03 ]</div>
-              <div className="text-5xl sm:text-6xl font-extrabold text-[#004A9C] tracking-tight mb-2 group-hover:text-[#27CFC3] transition-colors">
+              <div className="text-5xl sm:text-6xl font-extrabold text-[#004A9C] tracking-tight mb-2 group-hover:text-[#27CFC3] transition-colors font-heading">
                 98%
               </div>
-              <div className="text-lg font-bold text-slate-900 mb-2">Anxiety-Free Rating</div>
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <div className="text-lg font-bold text-slate-900 mb-2 font-heading">Anxiety-Free Rating</div>
+              <p className="text-xs text-slate-600 leading-relaxed font-body">
                 Patients report zero discomfort or fear under our consultant-administered IV sedation protocols.
               </p>
             </div>
 
-            <div className="p-8 rounded-3xl bg-[#f8fafc] border border-slate-200/80 hover:border-[#27CFC3] transition-all hover:shadow-xl hover:-translate-y-1 group">
+            <div className="p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:border-[#27CFC3] transition-all hover:shadow-xl hover:-translate-y-1 group">
               <div className="text-xs font-bold text-slate-400 tracking-wider mb-4">[ 04 ]</div>
-              <div className="text-5xl sm:text-6xl font-extrabold text-[#004A9C] tracking-tight mb-2 group-hover:text-[#27CFC3] transition-colors">
+              <div className="text-5xl sm:text-6xl font-extrabold text-[#004A9C] tracking-tight mb-2 group-hover:text-[#27CFC3] transition-colors font-heading">
                 07m
               </div>
-              <div className="text-lg font-bold text-slate-900 mb-2">Average Wait Time</div>
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <div className="text-lg font-bold text-slate-900 mb-2 font-heading">Average Wait Time</div>
+              <p className="text-xs text-slate-600 leading-relaxed font-body">
                 Digital patient intake and dedicated treatment chairs guarantee virtually zero waiting time.
               </p>
             </div>
@@ -710,10 +741,10 @@ export default function App() {
                 <Layers className="w-4 h-4 text-teal-600" />
                 <span>Advanced Clinical Specialties [ 01 – 06 ]</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight font-heading">
                 Comprehensive Care For <span className="text-[#004A9C]">Every Patient</span>
               </h2>
-              <p className="text-slate-600 text-base sm:text-lg mt-2 max-w-2xl">
+              <p className="text-slate-600 text-base sm:text-lg mt-2 max-w-2xl font-body">
                 Explore our six flagship surgical and restorative procedures. Drag or use arrows to view all treatments.
               </p>
             </div>
@@ -753,7 +784,7 @@ export default function App() {
               <div>
                 {/* Number & Tag */}
                 <div className="flex items-center justify-between mb-6">
-                  <span className="text-sm font-extrabold text-slate-400 tracking-wider">
+                  <span className="text-sm font-extrabold text-slate-400 tracking-wider font-heading">
                     [ {svc.num} ]
                   </span>
                   <span 
@@ -765,7 +796,7 @@ export default function App() {
                 </div>
 
                 {/* Title & Summary */}
-                <h3 className="text-2xl font-extrabold text-slate-950 mb-3 tracking-tight">
+                <h3 className="text-2xl font-extrabold text-slate-950 mb-3 tracking-tight font-heading">
                   {svc.title}
                 </h3>
                 <p className="text-slate-600 text-sm leading-relaxed mb-6">
@@ -809,10 +840,10 @@ export default function App() {
               <Smile className="w-4 h-4 text-teal-600" />
               <span>Real Clinical Outcomes</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight font-heading">
               Interactive Smile Transformation
             </h2>
-            <p className="text-slate-600 text-base sm:text-lg mt-3">
+            <p className="text-slate-600 text-base sm:text-lg mt-3 font-body">
               Drag the central divider to inspect the restorative precision achieved with CEREC and dental implants.
             </p>
           </div>
@@ -898,10 +929,10 @@ export default function App() {
               <Building2 className="w-4 h-4" />
               <span>Two Convenient Clinical Centres</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight font-heading">
               St. James Hospital Network in Malta
             </h2>
-            <p className="text-slate-600 text-base sm:text-lg mt-3">
+            <p className="text-slate-600 text-base sm:text-lg mt-3 font-body">
               Operating sterile surgical suites in Sliema and specialized diagnostic dental care in San Pawl il-Baħar.
             </p>
           </div>
@@ -944,10 +975,10 @@ export default function App() {
                 className="max-w-5xl mx-auto rounded-3xl bg-white p-8 sm:p-12 border border-slate-200/90 shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center"
               >
                 <div>
-                  <div className="inline-block px-3.5 py-1 rounded-full bg-teal-50 text-teal-800 text-xs font-bold uppercase tracking-wider mb-4 border border-teal-200/60">
+                  <div className="inline-block px-3.5 py-1 rounded-full bg-teal-50 text-teal-800 text-xs font-bold uppercase tracking-wider mb-4 border border-teal-200/60 font-heading">
                     {clinic.tag}
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-950 mb-4 tracking-tight">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-950 mb-4 tracking-tight font-heading">
                     {clinic.name}
                   </h3>
 
@@ -1034,30 +1065,30 @@ export default function App() {
               <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
               <span>Voices of Trust & Care</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight font-heading">
               Patient Experiences at DiU
             </h2>
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="bg-[#f8fafc] p-8 sm:p-12 rounded-3xl border border-slate-200/80 shadow-lg relative">
+            <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/90 shadow-xl relative">
               <div className="flex items-center gap-1 mb-6 text-amber-500">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-5 h-5 fill-amber-500" />
                 ))}
-                <span className="text-xs font-bold text-slate-600 ml-2">5.0 Star Patient Verification</span>
+                <span className="text-xs font-bold text-slate-600 ml-2 font-heading">5.0 Star Patient Verification</span>
               </div>
 
-              <blockquote className="text-lg sm:text-xl md:text-2xl font-medium text-slate-900 leading-relaxed mb-8">
+              <blockquote className="text-lg sm:text-xl md:text-2xl font-medium text-slate-900 leading-relaxed mb-8 font-body">
                 “{testimonialsData[activeTestimonial].text}”
               </blockquote>
 
               <div className="flex items-center justify-between pt-6 border-t border-slate-200/80">
                 <div>
-                  <div className="font-extrabold text-slate-950 text-base">
+                  <div className="font-extrabold text-slate-950 text-base font-heading">
                     {testimonialsData[activeTestimonial].author}
                   </div>
-                  <div className="text-xs text-slate-500 font-medium">
+                  <div className="text-xs text-slate-500 font-medium font-body">
                     {testimonialsData[activeTestimonial].treatment} • {testimonialsData[activeTestimonial].clinic}
                   </div>
                 </div>
@@ -1083,17 +1114,17 @@ export default function App() {
       </section>
 
       {/* 9. QUESTIONS WE GET OFTEN (Interactive FAQ Accordion) */}
-      <section id="faqs" className="py-24 md:py-32 bg-[#F8FAFC] border-b border-slate-200/80">
+      <section id="faqs" className="py-24 md:py-32 bg-[#F4F6F9] border-b border-slate-200/80">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#004A9C] text-xs font-bold uppercase tracking-wider mb-3">
               <span>Transparent Answers</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight font-heading">
               Frequently Asked Questions
             </h2>
-            <p className="text-slate-600 text-base sm:text-lg mt-3">
+            <p className="text-slate-600 text-base sm:text-lg mt-3 font-body">
               Everything you need to know about treatments, sedation safety, and booking.
             </p>
           </div>
@@ -1154,7 +1185,7 @@ export default function App() {
                   <span>Direct Clinical Consultation Desk</span>
                 </div>
 
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-6">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-6 font-heading">
                   Ready to Restore Your Smile in One Visit?
                 </h2>
 
@@ -1321,7 +1352,7 @@ export default function App() {
               </button>
 
               <div className="text-xs font-extrabold text-slate-400 mb-2">[ {selectedService.num} ]</div>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-950 mb-3">{selectedService.title}</h3>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-950 mb-3 font-heading">{selectedService.title}</h3>
               <div 
                 className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 bg-slate-100"
                 style={{ color: selectedService.accentColor }}

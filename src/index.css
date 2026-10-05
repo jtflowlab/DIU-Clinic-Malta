@@ -9,9 +9,9 @@
 
   body {
     margin: 0;
-    background-color: #F8FAFC;
+    background-color: #F4F6F9;
     color: #0F172A;
-    font-family: 'Sora', 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -29,19 +29,36 @@
   }
 }
 
+/* Typography Classes */
+.font-heading {
+  font-family: 'Sora', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.font-body {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+
 /* Glassmorphism & Custom Elements */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.85);
+.glass-panel-dark {
+  background: rgba(11, 19, 32, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-panel-light {
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  border: 1px solid rgba(226, 232, 240, 0.85);
 }
 
 .glass-badge {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 /* Hide scrollbar on specific horizontal carousels while keeping scroll functional */

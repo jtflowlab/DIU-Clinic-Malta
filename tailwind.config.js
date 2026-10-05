@@ -13,7 +13,8 @@ export default {
         darkBg: '#05070a',
       },
       fontFamily: {
-        sans: ['Sora', 'Plus Jakarta Sans', 'Inter', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+        heading: ['Sora', 'sans-serif'],
         display: ['Sora', 'sans-serif'],
       },
     },
