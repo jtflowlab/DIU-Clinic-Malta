@@ -37,7 +37,10 @@ import {
   AlertCircle,
   Camera,
   Volume2,
-  VolumeX
+  VolumeX,
+  Users,
+  ArrowRight,
+  ArrowLeft
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
@@ -568,6 +571,7 @@ export default function App() {
   // WhatsApp Intake Modal State & Interactive Live Preview
   const [whatsappModalOpen, setWhatsappModalOpen] = useState(false);
   const [emergencyModalOpen, setEmergencyModalOpen] = useState(false);
+  const [isFullTeamDirectoryOpen, setIsFullTeamDirectoryOpen] = useState(false);
   const [heroVideoLayout, setHeroVideoLayout] = useState<'fullscreen' | 'compact'>('fullscreen');
   const [showAllTeam, setShowAllTeam] = useState(false);
   const [bookingForm, setBookingForm] = useState({
@@ -589,16 +593,25 @@ export default function App() {
   const heroSectionRef = useRef<HTMLDivElement>(null);
   const servicesSectionRef = useRef<HTMLDivElement>(null);
 
-  // 21st.dev Style Scroll-Linked Transforms for Cinematic Hero (Zoom In on Scroll + Progressive Exit)
+  // 4 Core Leading Specialists to display prominently in main page
+  const coreSpecialists = useMemo(() => [
+    cliniciansList.find(c => c.id === 'dr-mark')!,
+    cliniciansList.find(c => c.id === 'dr-susanna')!,
+    cliniciansList.find(c => c.id === 'prof-nikolai')!,
+    cliniciansList.find(c => c.id === 'dr-laura')!,
+  ], []);
+
+  // 21st.dev Style Scroll-Linked Transforms for Cinematic Hero (Scroll-Down Shrink & Docking)
   const { scrollYProgress: heroProgress } = useScroll({
     target: heroSectionRef,
     offset: ["start start", "end start"]
   });
 
-  const heroVideoScale = useTransform(heroProgress, [0, 1], [1, 1.28]);
-  const heroContentY = useTransform(heroProgress, [0, 0.7], [0, -90]);
-  const heroContentOpacity = useTransform(heroProgress, [0, 0.6], [1, 0]);
-  const heroContentScale = useTransform(heroProgress, [0, 0.7], [1, 0.95]);
+  // When scrolling down, the entire hero scales down (from 1.0 down to 0.88), corners round smoothly (0px -> 24px)
+  const heroCardScale = useTransform(heroProgress, [0, 0.85], [1, 0.88]);
+  const heroCardRadius = useTransform(heroProgress, [0, 0.85], ["0px", "24px"]);
+  const heroContentY = useTransform(heroProgress, [0, 0.7], [0, -50]);
+  const heroContentOpacity = useTransform(heroProgress, [0, 0.75], [1, 0.3]);
 
   // 21st.dev Style Scroll-Driven Horizontal Translation for Clinical Services (01 - 06)
   const { scrollYProgress: servicesProgress } = useScroll({
@@ -607,15 +620,6 @@ export default function App() {
   });
 
   const servicesX = useTransform(servicesProgress, [0, 1], ["0%", "-62%"]);
-
-  // 21st.dev Style Scroll-Driven Horizontal Translation for Specialist Doctors & Medical Team
-  const teamSectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: teamProgress } = useScroll({
-    target: teamSectionRef,
-    offset: ["start start", "end end"]
-  });
-
-  const teamX = useTransform(teamProgress, [0, 1], ["0%", "-68%"]);
 
   const toggleVideoPlay = () => {
     if (!heroVideoRef.current) return;
@@ -922,18 +926,21 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
       {/* MAIN CONTENT AREA */}
       <main className="relative z-10 bg-[#F8FAFC]">
 
-        {/* 2. HERO SECTION: FULL-BLEED CINEMATIC 4K VIDEO + SCROLL ZOOM-IN + PROGRESSIVE EDITORIAL TYPOGRAPHY */}
+        {/* 2. HERO SECTION: FULL-BLEED CINEMATIC 4K VIDEO + SCROLL DOWNSCALING DOCK (21ST.DEV) + PROGRESSIVE EDITORIAL TYPOGRAPHY */}
         <div 
           id="hero" 
           ref={heroSectionRef} 
-          className="relative w-full h-[180vh] bg-slate-950"
+          className="relative w-full h-[165vh] bg-[#F8FAFC]"
         >
-          <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
+          <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center p-0">
             
-            {/* Fullscreen Video Canvas with Scroll-Driven Zoom-In */}
+            {/* The Animated Hero Canvas: Starts 100% full-screen edge-to-edge, smoothly shrinks down to dock on scroll */}
             <motion.div 
-              style={{ scale: heroVideoScale }}
-              className="absolute inset-0 w-full h-full overflow-hidden z-0"
+              style={{ 
+                scale: heroCardScale,
+                borderRadius: heroCardRadius
+              }}
+              className="relative w-full h-full overflow-hidden shadow-2xl bg-slate-950 will-change-transform border border-slate-800/40 flex items-center justify-center"
             >
               <video
                 ref={heroVideoRef}
@@ -943,117 +950,117 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 muted
                 playsInline
                 loop
-                className="w-full h-full object-cover object-center"
+                className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none z-0"
               />
               
               {/* Deep Cinematic Vignette & Readability Gradients (Video is 100% visible, text is crystal clear) */}
-              <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/60 to-slate-950/25 pointer-events-none" />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-transparent to-slate-950/60 pointer-events-none" />
-            </motion.div>
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/60 to-slate-950/25 pointer-events-none z-[1]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-transparent to-slate-950/60 pointer-events-none z-[1]" />
 
-            {/* Progressive Floating Editorial Text Layer */}
-            <motion.div 
-              style={{ y: heroContentY, opacity: heroContentOpacity, scale: heroContentScale }}
-              className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 sm:pt-24"
-            >
-              <div className="max-w-3xl">
-                
-                {/* 1. Hospital Location Pill */}
-                <motion.div
-                  initial={{ opacity: 0, y: 25 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-white/10 backdrop-blur-md border border-white/20 text-[#3EA3AC] text-xs font-black uppercase tracking-[0.22em] mb-6 shadow-md"
-                >
-                  <Building2 className="w-3.5 h-3.5 text-[#3EA3AC]" />
-                  <span>ST. JAMES HOSPITAL • SLIEMA</span>
-                </motion.div>
-
-                {/* 2. Giant Commanding Headline */}
-                <motion.h1
-                  initial={{ opacity: 0, y: 35 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.85, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-tight leading-[1.03] mb-6 font-editorial text-white drop-shadow-2xl"
-                >
-                  Trusted by families <br />
-                  <span className="text-[#3EA3AC] font-medium">for over 25 years.</span>
-                </motion.h1>
-
-                {/* 3. Simple Warm Subtitle (Level 3rd Grade, Large & Legible) */}
-                <motion.p
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-lg sm:text-2xl md:text-3xl text-slate-200 font-normal leading-relaxed mb-8 sm:mb-10 max-w-2xl font-body drop-shadow"
-                >
-                  All your dental care in one safe hospital. Same-day fixed teeth, 1-hour porcelain crowns, and gentle sleep dentistry.
-                </motion.p>
-
-                {/* 4. High-Impact Action Buttons */}
-                <motion.div
-                  initial={{ opacity: 0, y: 25 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex flex-wrap items-center gap-3 sm:gap-4 mb-8"
-                >
-                  <button
-                    onClick={() => openWhatsAppBooking()}
-                    className="px-7 sm:px-9 py-4 sm:py-4.5 rounded-none sm:rounded-sm bg-[#3EA3AC] hover:bg-[#358f97] text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-xl hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-2.5 border border-[#3EA3AC]"
+              {/* Progressive Floating Editorial Text Layer */}
+              <motion.div 
+                style={{ y: heroContentY, opacity: heroContentOpacity }}
+                className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-16 sm:pt-20"
+              >
+                <div className="max-w-3xl">
+                  
+                  {/* 1. Hospital Location Pill */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 25 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                    className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-white/10 backdrop-blur-md border border-white/20 text-[#3EA3AC] text-xs font-black uppercase tracking-[0.22em] mb-6 shadow-md"
                   >
-                    <span>Book Consultation</span>
-                    <ArrowUpRight className="w-4 h-4" />
-                  </button>
+                    <Building2 className="w-3.5 h-3.5 text-[#3EA3AC]" />
+                    <span>ST. JAMES HOSPITAL • SLIEMA</span>
+                  </motion.div>
 
-                  <button
-                    onClick={() => setEmergencyModalOpen(true)}
-                    className="px-6 sm:px-8 py-4 sm:py-4.5 rounded-none sm:rounded-sm bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-xl hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-2 border border-rose-500"
+                  {/* 2. Giant Commanding Headline */}
+                  <motion.h1
+                    initial={{ opacity: 0, y: 35 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.85, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-tight leading-[1.03] mb-6 font-editorial text-white drop-shadow-2xl"
                   >
-                    <AlertCircle className="w-4 h-4 text-white" />
-                    <span>🚨 Urgent Care</span>
-                  </button>
+                    Trusted by families <br />
+                    <span className="text-[#3EA3AC] font-medium">for over 25 years.</span>
+                  </motion.h1>
 
-                  <button
-                    onClick={() => scrollToSection('services-section')}
-                    className="px-6 sm:px-7 py-4 sm:py-4.5 rounded-none sm:rounded-sm bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold text-xs sm:text-sm uppercase tracking-wider border border-white/25 transition-all cursor-pointer flex items-center justify-center gap-2"
+                  {/* 3. Simple Warm Subtitle (Level 3rd Grade, Large & Legible) */}
+                  <motion.p
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-lg sm:text-2xl md:text-3xl text-slate-200 font-normal leading-relaxed mb-8 sm:mb-10 max-w-2xl font-body drop-shadow"
                   >
-                    <span>Explore Treatments</span>
-                    <ChevronDown className="w-4 h-4 text-[#3EA3AC]" />
-                  </button>
-                </motion.div>
+                    All your dental care in one safe hospital. Same-day fixed teeth, 1-hour porcelain crowns, and gentle sleep dentistry.
+                  </motion.p>
 
-                {/* 5. Direct Emergency Call Quick Hint */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0.95 }}
-                  className="inline-flex items-center gap-2 text-xs sm:text-sm text-slate-300"
-                >
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Hospital direct line:</span>
-                  <a href="tel:35623291029" className="text-white font-extrabold hover:text-[#3EA3AC] transition-colors underline decoration-[#3EA3AC]">
-                    (+356) 2329 1029
-                  </a>
-                  <span className="text-slate-400">· 24/7 Emergency:</span>
-                  <a href="tel:35623291000" className="text-white font-extrabold hover:text-rose-400 transition-colors underline decoration-rose-400">
-                    2329 1000
-                  </a>
-                </motion.div>
+                  {/* 4. High-Impact Action Buttons */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 25 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex flex-wrap items-center gap-3 sm:gap-4 mb-8"
+                  >
+                    <button
+                      onClick={() => openWhatsAppBooking()}
+                      className="px-7 sm:px-9 py-4 sm:py-4.5 rounded-none sm:rounded-sm bg-[#3EA3AC] hover:bg-[#358f97] text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-xl hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-2.5 border border-[#3EA3AC]"
+                    >
+                      <span>Book Consultation</span>
+                      <ArrowUpRight className="w-4 h-4" />
+                    </button>
 
-              </div>
+                    <button
+                      onClick={() => setEmergencyModalOpen(true)}
+                      className="px-6 sm:px-8 py-4 sm:py-4.5 rounded-none sm:rounded-sm bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 shadow-xl hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-2 border border-rose-500"
+                    >
+                      <AlertCircle className="w-4 h-4 text-white" />
+                      <span>🚨 Urgent Care</span>
+                    </button>
+
+                    <button
+                      onClick={() => scrollToSection('services-section')}
+                      className="px-6 sm:px-7 py-4 sm:py-4.5 rounded-none sm:rounded-sm bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold text-xs sm:text-sm uppercase tracking-wider border border-white/25 transition-all cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      <span>Explore Treatments</span>
+                      <ChevronDown className="w-4 h-4 text-[#3EA3AC]" />
+                    </button>
+                  </motion.div>
+
+                  {/* 5. Direct Emergency Call Quick Hint */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.8, delay: 0.95 }}
+                    className="inline-flex items-center gap-2 text-xs sm:text-sm text-slate-300"
+                  >
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>Hospital direct line:</span>
+                    <a href="tel:35623291029" className="text-white font-extrabold hover:text-[#3EA3AC] transition-colors underline decoration-[#3EA3AC]">
+                      (+356) 2329 1029
+                    </a>
+                    <span className="text-slate-400">· 24/7 Emergency:</span>
+                    <a href="tel:35623291000" className="text-white font-extrabold hover:text-rose-400 transition-colors underline decoration-rose-400">
+                      2329 1000
+                    </a>
+                  </motion.div>
+
+                </div>
+              </motion.div>
+
+              {/* Scroll Indicator Pill at Bottom */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 1.1 }}
+                className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 text-white/70 pointer-events-none"
+              >
+                <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/60">Scroll Down</span>
+                <ChevronDown className="w-4 h-4 animate-bounce text-[#3EA3AC]" />
+              </motion.div>
+
             </motion.div>
-
-            {/* Scroll Indicator Pill at Bottom */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 1.1 }}
-              className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 text-white/70 pointer-events-none"
-            >
-              <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/60">Scroll Down</span>
-              <ChevronDown className="w-4 h-4 animate-bounce text-[#3EA3AC]" />
-            </motion.div>
-
           </div>
         </div>
 
@@ -1633,211 +1640,106 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
           </div>
         </section>
 
-        {/* 5. OUR CLINICIANS & MEDICAL TEAM (21ST.DEV SCROLL-DRIVEN HORIZONTAL TRACK #2) */}
-        <div 
+        {/* 5. OUR CLINICIANS & MEDICAL TEAM: 4 FOCUSED SPECIALISTS + INTERNAL FULL TEAM DIRECTORY BUTTON */}
+        <section 
           id="our-team"
-          ref={teamSectionRef}
-          className="relative lg:h-[260vh] bg-[#F8FAFC] border-b border-slate-200/80"
+          className="py-20 lg:py-28 bg-[#F8FAFC] border-b border-slate-200/80"
         >
-          <div className="lg:sticky lg:top-0 lg:h-screen w-full overflow-hidden flex flex-col justify-center py-16 lg:py-0 px-4 sm:px-8 lg:px-14">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             {/* Section Header: Client Wording with Large Editorial Typography */}
-            <div className="max-w-7xl mx-auto w-full mb-6 lg:mb-8 flex flex-col lg:flex-row lg:items-end justify-between gap-4">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-[#3EA3AC] text-xs font-bold uppercase tracking-wider mb-2">
-                  <User className="w-4 h-4 text-[#3EA3AC]" />
-                  <span>OUR CLINICIANS • ST. JAMES HOSPITAL</span>
-                </div>
-                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-normal text-slate-950 tracking-tight font-editorial">
-                  Our Experts in <span className="text-[#142B4D]">Oral Health</span>
-                </h2>
+            <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-[#3EA3AC] text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
+                <User className="w-4 h-4 text-[#3EA3AC]" />
+                <span>OUR CLINICIANS • ST. JAMES HOSPITAL</span>
               </div>
-              
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                {/* View All Team Members Toggle Button (Requested by CEO Jordan Pozo) */}
-                <button
-                  onClick={() => {
-                    setShowAllTeam(!showAllTeam);
-                    if (!showAllTeam) setActiveTeamTab('all');
-                  }}
-                  className={`px-4 py-2 rounded-none sm:rounded-sm text-xs font-extrabold uppercase tracking-wider transition-all cursor-pointer border flex items-center justify-center gap-2 shadow-xs ${
-                    showAllTeam 
-                      ? 'bg-[#3EA3AC] hover:bg-[#358f97] text-white border-[#3EA3AC]' 
-                      : 'bg-[#142B4D] hover:bg-[#0c1c33] text-white border-[#142B4D]'
-                  }`}
-                >
-                  <User className="w-3.5 h-3.5 text-white" />
-                  <span>{showAllTeam ? 'Showing All 19 Members (Click to Collapse)' : 'View All Team Members (19)'}</span>
-                </button>
-
-                {/* Filter Tabs (Square Borders) */}
-                <div className="flex flex-wrap gap-1.5">
-                  <button
-                    onClick={() => setActiveTeamTab('all')}
-                    className={`px-3.5 py-2 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                      activeTeamTab === 'all'
-                        ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-xs'
-                        : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
-                    }`}
-                  >
-                    All ({cliniciansList.length})
-                  </button>
-                  <button
-                    onClick={() => setActiveTeamTab('specialists')}
-                    className={`px-3.5 py-2 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                      activeTeamTab === 'specialists'
-                        ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-xs'
-                        : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
-                    }`}
-                  >
-                    Specialists (5)
-                  </button>
-                  <button
-                    onClick={() => setActiveTeamTab('general')}
-                    className={`px-3.5 py-2 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                      activeTeamTab === 'general'
-                        ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-xs'
-                        : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
-                    }`}
-                  >
-                    Dentists (4)
-                  </button>
-                  <button
-                    onClick={() => setActiveTeamTab('support')}
-                    className={`px-3.5 py-2 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                      activeTeamTab === 'support'
-                        ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-xs'
-                        : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
-                    }`}
-                  >
-                    Care & Nursing (10)
-                  </button>
-                </div>
-
-                <div className="text-xs font-semibold text-slate-500 hidden lg:flex items-center gap-1.5 shrink-0 pl-2">
-                  <span>Scroll to explore</span>
-                  <ChevronRight className="w-4 h-4 text-[#3EA3AC] animate-pulse" />
-                </div>
-              </div>
+              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-normal text-slate-950 tracking-tight font-editorial mb-4">
+                Our Experts in <span className="text-[#142B4D]">Oral Health</span>
+              </h2>
+              <p className="text-base sm:text-lg text-slate-600 font-body leading-relaxed max-w-2xl mx-auto">
+                Led by pioneers in surgical implantology and Digital Smile Design, our senior medical specialists deliver predictable hospital-standard dental care in Malta.
+              </p>
             </div>
 
-            {/* Desktop Horizontal Sliding Track (Scroll-Driven via teamX) */}
-            <div className="hidden lg:block w-full overflow-hidden">
-              <motion.div 
-                style={{ x: teamX }}
-                className="flex gap-6 will-change-transform pr-24"
-              >
-                {filteredClinicians.map((person) => (
-                  <div
-                    key={person.id}
-                    className="w-[320px] xl:w-[350px] shrink-0 rounded-none sm:rounded-sm bg-white border border-slate-200/90 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
-                  >
-                    <div>
-                      {/* Portrait Photo Container */}
-                      <div className="relative aspect-[4/3.8] overflow-hidden bg-slate-100">
-                        <img
-                          src={getAssetUrl(person.photo)}
-                          alt={person.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          loading="lazy"
-                        />
-                        <div className="absolute top-3 left-3 px-2.5 py-1 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md text-[#142B4D] text-[10px] font-extrabold uppercase tracking-wider border border-slate-200 shadow-2xs">
-                          {person.badge}
-                        </div>
-                      </div>
-
-                      {/* Information */}
-                      <div className="p-5">
-                        <h3 className="text-lg font-bold text-slate-950 mb-0.5 font-heading group-hover:text-[#3EA3AC] transition-colors truncate">
-                          {person.name}
-                        </h3>
-                        
-                        <div className="text-[11px] font-bold text-[#142B4D] uppercase tracking-wider mb-1 font-heading truncate">
-                          {person.role}
-                        </div>
-
-                        <div className="text-[10px] text-[#3EA3AC] font-semibold mb-2.5 truncate">
-                          {person.qualifications}
-                        </div>
-
-                        <p className="text-xs text-slate-600 leading-relaxed font-body line-clamp-3">
-                          {person.bio}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Card Action Footer */}
-                    <div className="p-5 pt-0">
-                      <button
-                        onClick={() => openWhatsAppBooking({
-                          doctor: person.name,
-                          treatment: person.treatmentDefault
-                        })}
-                        className="w-full py-2.5 rounded-none sm:rounded-sm bg-slate-50 hover:bg-[#142B4D] text-slate-800 hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 hover:border-[#142B4D] transition-colors cursor-pointer flex items-center justify-center gap-1.5"
-                      >
-                        <span>Inquire with {person.name.split(' ')[0]}</span>
-                        <ArrowUpRight className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </motion.div>
-            </div>
-
-            {/* Mobile / Tablet Responsive Horizontal Carousel with Touch Scroll */}
-            <div className="lg:hidden flex gap-5 overflow-x-auto no-scrollbar pb-6 pt-2 scroll-smooth">
-              {filteredClinicians.map((person) => (
-                <div
+            {/* 4 Focused Specialist Cards with Rich Architectural Styling & Animations */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8">
+              {coreSpecialists.map((person, idx) => (
+                <motion.div
                   key={person.id}
-                  className="w-[78vw] max-w-[290px] shrink-0 rounded-none sm:rounded-sm bg-white border border-slate-200/90 shadow-md flex flex-col justify-between overflow-hidden"
+                  initial={{ opacity: 0, y: 25 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: idx * 0.12 }}
+                  className="rounded-none sm:rounded-sm bg-white border border-slate-200/90 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1"
                 >
                   <div>
-                    <div className="relative aspect-[4/3.8] overflow-hidden bg-slate-100">
+                    {/* Portrait Photo Container */}
+                    <div className="relative aspect-[4/4] overflow-hidden bg-slate-100">
                       <img
                         src={getAssetUrl(person.photo)}
                         alt={person.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         loading="lazy"
                       />
-                      <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-none sm:rounded-sm bg-white/95 text-[#142B4D] text-[9px] font-extrabold uppercase tracking-wider border border-slate-200">
+                      <div className="absolute top-3 left-3 px-2.5 py-1 rounded-none sm:rounded-sm bg-white/95 backdrop-blur-md text-[#142B4D] text-[10px] font-extrabold uppercase tracking-wider border border-slate-200 shadow-2xs">
                         {person.badge}
                       </div>
                     </div>
 
-                    <div className="p-4">
-                      <h3 className="text-base font-bold text-slate-950 mb-0.5 font-heading">
+                    {/* Information */}
+                    <div className="p-5 sm:p-6">
+                      <h3 className="text-xl font-bold text-slate-950 mb-1 font-heading group-hover:text-[#3EA3AC] transition-colors">
                         {person.name}
                       </h3>
-                      <div className="text-[10px] font-bold text-[#142B4D] uppercase tracking-wider mb-1 font-heading">
+                      
+                      <div className="text-xs font-bold text-[#142B4D] uppercase tracking-wider mb-1 font-heading">
                         {person.role}
                       </div>
-                      <div className="text-[10px] text-[#3EA3AC] font-semibold mb-2">
+
+                      <div className="text-[11px] text-[#3EA3AC] font-semibold mb-3">
                         {person.qualifications}
                       </div>
-                      <p className="text-[11px] text-slate-600 leading-relaxed font-body line-clamp-3">
+
+                      <p className="text-xs text-slate-600 leading-relaxed font-body line-clamp-3">
                         {person.bio}
                       </p>
                     </div>
                   </div>
 
-                  <div className="p-4 pt-0">
+                  {/* Card Action Footer */}
+                  <div className="p-5 sm:p-6 pt-0">
                     <button
                       onClick={() => openWhatsAppBooking({
                         doctor: person.name,
                         treatment: person.treatmentDefault
                       })}
-                      className="w-full py-2 rounded-none sm:rounded-sm bg-[#142B4D] text-white font-bold text-[11px] uppercase tracking-wider cursor-pointer flex items-center justify-center gap-1"
+                      className="w-full py-3 rounded-none sm:rounded-sm bg-slate-50 hover:bg-[#142B4D] text-slate-800 hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 hover:border-[#142B4D] transition-colors cursor-pointer flex items-center justify-center gap-1.5 group-hover:bg-[#142B4D] group-hover:text-white"
                     >
-                      <span>Inquire</span>
-                      <ArrowUpRight className="w-3 h-3 text-[#3EA3AC]" />
+                      <span>Inquire with {person.name.split(' ')[0]}</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-[#3EA3AC]" />
                     </button>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 
+            {/* Clear, Prominent Call-to-Action to View All Team Members (Internal Directory) */}
+            <div className="mt-14 sm:mt-16 text-center flex flex-col items-center justify-center">
+              <button
+                onClick={() => setIsFullTeamDirectoryOpen(true)}
+                className="px-8 sm:px-12 py-4 sm:py-5 rounded-none sm:rounded-sm bg-[#142B4D] hover:bg-[#0c1c33] text-white font-extrabold text-xs sm:text-sm uppercase tracking-widest transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-[1.02] cursor-pointer inline-flex items-center gap-3.5 border border-[#142B4D] group"
+              >
+                <Users className="w-4 h-4 text-[#3EA3AC]" />
+                <span>View Full Medical Team & Specialists (19)</span>
+                <ArrowRight className="w-4 h-4 text-[#3EA3AC] group-hover:translate-x-1.5 transition-transform" />
+              </button>
+              <p className="mt-3.5 text-xs sm:text-sm text-slate-500 font-medium">
+                Click to explore our complete roster of 19 surgeons, prosthodontists, dentists, hygienists, and hospital care coordinators.
+              </p>
+            </div>
+
           </div>
-        </div>
+        </section>
 
         {/* 6. TRANSPARENT TREATMENT FEES & PRICES GUIDE */}
         <section 
@@ -2849,6 +2751,210 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
             </motion.div>
           </div>
+        )}
+      </AnimatePresence>
+
+      {/* FULL MEDICAL TEAM DIRECTORY INTERNAL PAGE MODAL */}
+      <AnimatePresence>
+        {isFullTeamDirectoryOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 30 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="fixed inset-0 z-[70] bg-[#F8FAFC] overflow-y-auto"
+          >
+            {/* Internal Page Sticky Header */}
+            <div className="sticky top-0 inset-x-0 z-30 bg-white/95 backdrop-blur-xl border-b border-slate-200 py-3 px-4 sm:px-8 shadow-sm flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <button
+                  onClick={() => setIsFullTeamDirectoryOpen(false)}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-none sm:rounded-sm bg-slate-100 hover:bg-slate-200 text-[#142B4D] font-extrabold text-xs uppercase tracking-wider transition-colors cursor-pointer border border-slate-300"
+                >
+                  <ArrowLeft className="w-4 h-4 text-[#3EA3AC]" />
+                  <span>Back to Overview</span>
+                </button>
+                <span className="hidden md:inline-block text-xs font-semibold text-slate-300">|</span>
+                <div className="hidden md:flex items-center gap-2 text-xs font-semibold text-slate-600">
+                  <FullLogo className="h-6 w-auto" light={false} />
+                  <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                  <span className="text-[#142B4D] font-bold">Medical Team Directory (19 Clinicians)</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 sm:gap-3">
+                <button
+                  onClick={() => {
+                    setIsFullTeamDirectoryOpen(false);
+                    openWhatsAppBooking();
+                  }}
+                  className="px-4 sm:px-5 py-2 rounded-none sm:rounded-sm bg-[#3EA3AC] hover:bg-[#358f97] text-white font-extrabold text-xs uppercase tracking-wider cursor-pointer shadow-xs flex items-center gap-1.5"
+                >
+                  <Calendar className="w-3.5 h-3.5" />
+                  <span>Book Consultation</span>
+                </button>
+                <button
+                  onClick={() => setIsFullTeamDirectoryOpen(false)}
+                  className="p-2 rounded-none sm:rounded-sm text-slate-500 hover:text-slate-900 hover:bg-slate-100 cursor-pointer border border-slate-200"
+                  aria-label="Close Team Directory"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Internal Page Body */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-20">
+              
+              {/* Internal Banner */}
+              <div className="max-w-3xl mb-8">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-[#3EA3AC] text-xs font-bold uppercase tracking-wider mb-3">
+                  <Building2 className="w-3.5 h-3.5 text-[#3EA3AC]" />
+                  <span>ST. JAMES HOSPITAL • SLIEMA CLINICAL ROSTER</span>
+                </div>
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-normal text-slate-950 tracking-tight font-editorial mb-4">
+                  The Complete <span className="text-[#142B4D]">Medical Team</span>
+                </h1>
+                <p className="text-base sm:text-lg text-slate-600 font-body leading-relaxed">
+                  Explore all 19 oral surgeons, prosthodontists, general dentists, registered hygienists, and hospital care coordinators dedicated to your comfort and oral health.
+                </p>
+              </div>
+
+              {/* Internal Category Filter Tabs */}
+              <div className="flex flex-wrap gap-2 mb-10 pb-4 border-b border-slate-200">
+                <button
+                  onClick={() => setActiveTeamTab('all')}
+                  className={`px-4 py-2.5 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                    activeTeamTab === 'all'
+                      ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-xs'
+                      : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                  }`}
+                >
+                  All Clinicians ({cliniciansList.length})
+                </button>
+                <button
+                  onClick={() => setActiveTeamTab('specialists')}
+                  className={`px-4 py-2.5 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                    activeTeamTab === 'specialists'
+                      ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-xs'
+                      : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                  }`}
+                >
+                  Specialists & Surgeons (5)
+                </button>
+                <button
+                  onClick={() => setActiveTeamTab('general')}
+                  className={`px-4 py-2.5 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                    activeTeamTab === 'general'
+                      ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-xs'
+                      : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                  }`}
+                >
+                  General & Paediatric Dentists (4)
+                </button>
+                <button
+                  onClick={() => setActiveTeamTab('support')}
+                  className={`px-4 py-2.5 rounded-none sm:rounded-sm text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                    activeTeamTab === 'support'
+                      ? 'bg-[#142B4D] text-white border-[#142B4D] shadow-xs'
+                      : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                  }`}
+                >
+                  Care, Nursing & DSD Coordinators (10)
+                </button>
+              </div>
+
+              {/* Clinicians Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-16">
+                {cliniciansList
+                  .filter(c => activeTeamTab === 'all' || c.category === activeTeamTab)
+                  .map((person) => (
+                    <div
+                      key={person.id}
+                      className="rounded-none sm:rounded-sm bg-white border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1"
+                    >
+                      <div>
+                        <div className="relative aspect-[4/3.8] overflow-hidden bg-slate-100">
+                          <img
+                            src={getAssetUrl(person.photo)}
+                            alt={person.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                          />
+                          <div className="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-none sm:rounded-sm bg-white/95 text-[#142B4D] text-[10px] font-extrabold uppercase tracking-wider border border-slate-200 shadow-2xs">
+                            {person.badge}
+                          </div>
+                        </div>
+
+                        <div className="p-5">
+                          <h3 className="text-lg font-bold text-slate-950 mb-0.5 font-heading group-hover:text-[#3EA3AC] transition-colors truncate">
+                            {person.name}
+                          </h3>
+                          
+                          <div className="text-[11px] font-bold text-[#142B4D] uppercase tracking-wider mb-1 font-heading truncate">
+                            {person.role}
+                          </div>
+
+                          <div className="text-[10px] text-[#3EA3AC] font-semibold mb-2.5 truncate">
+                            {person.qualifications}
+                          </div>
+
+                          <p className="text-xs text-slate-600 leading-relaxed font-body line-clamp-3">
+                            {person.bio}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="p-5 pt-0">
+                        <button
+                          onClick={() => {
+                            setIsFullTeamDirectoryOpen(false);
+                            openWhatsAppBooking({
+                              doctor: person.name,
+                              treatment: person.treatmentDefault
+                            });
+                          }}
+                          className="w-full py-2.5 rounded-none sm:rounded-sm bg-slate-50 hover:bg-[#142B4D] text-slate-800 hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 hover:border-[#142B4D] transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                        >
+                          <span>Inquire with {person.name.split(' ')[0]}</span>
+                          <ArrowUpRight className="w-3.5 h-3.5 text-[#3EA3AC]" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+
+              {/* Internal Directory Bottom Action Bar */}
+              <div className="bg-[#142B4D] text-white p-8 sm:p-12 rounded-none sm:rounded-sm border border-[#0c1c33] flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+                <div>
+                  <h3 className="text-2xl sm:text-3xl font-bold font-editorial mb-2">
+                    Ready to meet your chosen doctor?
+                  </h3>
+                  <p className="text-sm text-slate-300 max-w-xl font-body">
+                    Schedule your consultation directly. Our hospital patient coordinators will confirm your specialist time slot within minutes.
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-3 shrink-0">
+                  <button
+                    onClick={() => {
+                      setIsFullTeamDirectoryOpen(false);
+                      openWhatsAppBooking();
+                    }}
+                    className="px-6 py-3.5 rounded-none sm:rounded-sm bg-[#3EA3AC] hover:bg-[#358f97] text-white font-bold text-xs uppercase tracking-wider cursor-pointer shadow-md"
+                  >
+                    Book Appointment
+                  </button>
+                  <button
+                    onClick={() => setIsFullTeamDirectoryOpen(false)}
+                    className="px-6 py-3.5 rounded-none sm:rounded-sm bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider cursor-pointer border border-white/20"
+                  >
+                    Return to Overview
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
 
