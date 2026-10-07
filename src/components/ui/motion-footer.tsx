@@ -368,7 +368,7 @@ export function CinematicFooter({
           <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 sm:px-6 mt-16 sm:mt-20 w-full max-w-5xl mx-auto">
             
             {/* Minimal Sub-Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-none sm:rounded-sm bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
               <Sparkles className="w-3.5 h-3.5 text-[#00A896]" />
               <span>St. James Hospital Network • Est. 1999</span>
             </div>
@@ -391,7 +391,7 @@ export function CinematicFooter({
                 <MagneticButton 
                   as="button" 
                   onClick={handleWhatsAppClick}
-                  className="whatsapp-magnetic-pill px-8 sm:px-10 py-4 sm:py-4.5 rounded-none sm:rounded-sm text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2.5 transition-transform"
+                  className="whatsapp-magnetic-pill px-8 sm:px-10 py-4 sm:py-4.5 rounded-full text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2.5 transition-transform"
                 >
                   <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-slate-950 fill-current" />
                   <span>Book via WhatsApp</span>
@@ -401,7 +401,7 @@ export function CinematicFooter({
                 <MagneticButton 
                   as="a" 
                   href="tel:35623291029" 
-                  className="footer-glass-pill px-7 sm:px-9 py-4 sm:py-4.5 rounded-none sm:rounded-sm text-slate-900 font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2.5 group shadow-sm hover:border-[#3EA3AC]"
+                  className="footer-glass-pill px-7 sm:px-9 py-4 sm:py-4.5 rounded-full text-slate-900 font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2.5 group shadow-sm hover:border-[#3EA3AC]"
                 >
                   <Phone className="w-4 h-4 text-[#3EA3AC] group-hover:scale-110 transition-transform" />
                   <span>St. James Hospital (+356) 2329 1029</span>
@@ -413,7 +413,7 @@ export function CinematicFooter({
                 <MagneticButton 
                   as="button" 
                   onClick={handleNavClick('smile-results')}
-                  className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-none sm:rounded-sm text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
+                  className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-full text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
                 >
                   Restorations
                 </MagneticButton>
@@ -421,7 +421,7 @@ export function CinematicFooter({
                 <MagneticButton 
                   as="button" 
                   onClick={handleNavClick('why-diu-container')}
-                  className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-none sm:rounded-sm text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
+                  className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-full text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
                 >
                   Why DiU Clinic
                 </MagneticButton>
@@ -429,7 +429,7 @@ export function CinematicFooter({
                 <MagneticButton 
                   as="button" 
                   onClick={handleNavClick('clinics')}
-                  className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-none sm:rounded-sm text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
+                  className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-full text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
                 >
                   Hospital Suites
                 </MagneticButton>
@@ -437,7 +437,7 @@ export function CinematicFooter({
                 <MagneticButton 
                   as="button" 
                   onClick={handleNavClick('reviews')}
-                  className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-none sm:rounded-sm text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
+                  className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-full text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
                 >
                   Patient Reviews
                 </MagneticButton>
@@ -445,7 +445,7 @@ export function CinematicFooter({
                 <MagneticButton 
                   as="button" 
                   onClick={handleNavClick('faqs')}
-                  className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-none sm:rounded-sm text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
+                  className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-full text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
                 >
                   FAQ
                 </MagneticButton>
@@ -463,7 +463,7 @@ export function CinematicFooter({
             </div>
 
             {/* "Made with Love" Badge */}
-            <div className="footer-glass-pill px-5 py-2.5 rounded-none sm:rounded-sm flex items-center gap-2 order-1 md:order-2 cursor-default border-slate-200 bg-white">
+            <div className="footer-glass-pill px-5 py-2.5 rounded-full flex items-center gap-2 order-1 md:order-2 cursor-default border-slate-200 bg-white">
               <span className="text-slate-500 text-[10px] md:text-xs font-bold uppercase tracking-widest">Excellence by</span>
               <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 animate-footer-heartbeat" />
               <span className="text-slate-900 font-black text-xs md:text-sm tracking-normal ml-0.5">Dr. Mark Diacono</span>
@@ -473,7 +473,7 @@ export function CinematicFooter({
             <MagneticButton
               as="button"
               onClick={scrollToTop}
-              className="w-11 h-11 rounded-none sm:rounded-sm footer-glass-pill flex items-center justify-center text-slate-700 hover:text-slate-950 group order-3 border-slate-200 shadow-sm"
+              className="w-11 h-11 rounded-full footer-glass-pill flex items-center justify-center text-slate-700 hover:text-slate-950 group order-3 border-slate-200 shadow-sm"
               aria-label="Scroll back to top"
             >
               <ArrowUp className="w-4 h-4 transform group-hover:-translate-y-1 transition-transform duration-300 text-[#00A896]" />
