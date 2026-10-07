@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { 
   Calendar, 
   Phone, 
@@ -67,7 +67,18 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [homeFormError, setHomeFormError] = useState(false);
 
   const heroVideoRef = useRef<HTMLVideoElement>(null);
+  const heroSectionRef = useRef<HTMLDivElement>(null);
   const sliderContainerRef = useRef<HTMLDivElement>(null);
+
+  // 21st.dev Hero Scroll Downscaling Dock (scales from 1.0 down to 0.92, corners 0px -> 32px)
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroSectionRef,
+    offset: ["start start", "end start"]
+  });
+  const heroScale = useTransform(heroProgress, [0, 0.85], [1, 0.92]);
+  const heroRadius = useTransform(heroProgress, [0, 0.85], ["0px", "32px"]);
+  const heroContentY = useTransform(heroProgress, [0, 0.7], [0, -40]);
+  const heroContentOpacity = useTransform(heroProgress, [0, 0.75], [1, 0.4]);
 
   // 5 Leading Clinicians matching Frame 16s
   const featuredClinicians = cliniciansList.slice(0, 5);
@@ -109,102 +120,138 @@ export const HomePage: React.FC<HomePageProps> = ({
   return (
     <div className="bg-[#F8FAFC] text-slate-900 font-body">
 
-      {/* 1. HERO SECTION: LUMINOUS & BRIGHT (MATCHING APPROVED FIGMA FRAME 01s) */}
-      <section className="relative pt-24 sm:pt-28 pb-12 sm:pb-16 bg-white border-b border-slate-100 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 1. HERO SECTION: FULL-BLEED CINEMATIC 4K VIDEO HERO WITH OVERLAID TEXT + 21ST.DEV SCROLL DOCK */}
+      <div 
+        id="hero" 
+        ref={heroSectionRef} 
+        className="relative w-full h-[155vh] bg-[#F8FAFC]"
+      >
+        <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center p-0">
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Animated Hero Canvas: Starts 100vw x 100vh full-bleed, smoothly docks on scroll (scale 1.0 -> 0.92, radius 0px -> 32px) */}
+          <motion.div 
+            style={{ 
+              scale: heroScale,
+              borderRadius: heroRadius
+            }}
+            className="relative w-full h-full overflow-hidden shadow-2xl bg-slate-900 will-change-transform border border-slate-800/20 flex items-center justify-center"
+          >
+            {/* Bright, Crystal-Clear 4K Hero Video (Occupies entire screen) */}
+            <video
+              ref={heroVideoRef}
+              src={getAssetUrl('video_hero_optimized.mp4')}
+              poster={getAssetUrl('hero_poster_4k.jpg')}
+              autoPlay
+              muted={isVideoMuted}
+              playsInline
+              loop
+              className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none z-0"
+            />
             
-            {/* Left Column: Approved Typography & CTAs */}
-            <div className="lg:col-span-6 flex flex-col justify-center">
-              
-              {/* Main Headline */}
-              <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#0E2B4C] leading-[1.08] mb-6 font-heading">
-                Trusted by families <br />
-                <span className="text-[#2BB4A7]">for over 25 years.</span>
-              </h1>
+            {/* Luminous Scrim: Soft directional navy gradient only on text side, keeping video bright and unobstructed across center/right */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0E2B4C]/85 via-[#0E2B4C]/45 to-transparent pointer-events-none z-[1]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0E2B4C]/70 via-transparent to-black/20 pointer-events-none z-[1]" />
 
-              {/* Subtitle */}
-              <p className="text-base sm:text-lg text-slate-600 leading-relaxed mb-8 max-w-xl font-body">
-                From your family’s check-ups and children’s dentistry to smile design, implants and full-mouth reconstruction, one team plans your care together.
-              </p>
-
-              {/* CTA Pill Buttons */}
-              <div className="flex flex-wrap items-center gap-3.5 sm:gap-4 mb-8">
-                <button
-                  onClick={() => onOpenBooking()}
-                  className="px-7 sm:px-8 py-3.5 sm:py-4 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg cursor-pointer border border-[#0E2B4C] hover:scale-102"
-                >
-                  Book a consultation
-                </button>
-
-                <button
-                  onClick={() => onNavigate('/treatments')}
-                  className="px-7 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white hover:bg-teal-50/50 text-[#0E2B4C] font-bold text-xs sm:text-sm uppercase tracking-wider transition-all duration-200 border border-teal-500/40 hover:border-[#2BB4A7] cursor-pointer shadow-2xs hover:scale-102"
-                >
-                  Smile design around your face
-                </button>
-              </div>
-
-              {/* Sedation Alert Notice Card (Light Teal Container Matching Frame 01s) */}
-              <div className="rounded-2xl bg-[#E8F8F6] border border-[#C5EDE8] p-4 sm:p-5 flex items-start gap-4 text-slate-800 shadow-2xs">
-                <div className="w-10 h-10 rounded-full bg-[#2BB4A7]/15 border border-[#2BB4A7]/30 flex items-center justify-center shrink-0 mt-0.5 text-[#2BB4A7]">
-                  <Smile className="w-5 h-5 text-[#2BB4A7]" />
-                </div>
-                <div className="text-xs sm:text-sm leading-relaxed">
-                  <strong className="text-[#0E2B4C] font-bold">Nervous about the dentist?</strong> All our treatments are available under sedation, with a consultant anaesthetist, in a hospital setting.
-                </div>
-              </div>
-
-            </div>
-
-            {/* Right Column: Luminous, Crystal-Clear Hero Video Container */}
-            <div className="lg:col-span-6">
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-slate-200 bg-slate-100 aspect-[4/3] sm:aspect-[16/11] lg:aspect-[4/3] group">
+            {/* Floating Overlaid Editorial Content: Directly on top of video */}
+            <motion.div 
+              style={{ y: heroContentY, opacity: heroContentOpacity }}
+              className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 sm:pt-24 pb-12"
+            >
+              <div className="max-w-2xl lg:max-w-3xl">
                 
-                {/* Bright Clinic Video (No dark overlay) */}
-                <video
-                  ref={heroVideoRef}
-                  src={getAssetUrl('video_hero_optimized.mp4')}
-                  poster={getAssetUrl('hero_poster_4k.jpg')}
-                  autoPlay
-                  muted={isVideoMuted}
-                  playsInline
-                  loop
-                  className="w-full h-full object-cover object-center"
-                />
+                {/* 1. Hospital Location Pill */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/60 text-[#0E2B4C] text-xs font-bold uppercase tracking-wider mb-6 shadow-md"
+                >
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#2BB4A7] animate-pulse" />
+                  <span>St. James Hospital • Sliema, Malta</span>
+                </motion.div>
 
-                {/* Subtle Clean Badge */}
-                <div className="absolute top-4 left-4 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#0E2B4C] text-[11px] font-bold uppercase tracking-wider border border-slate-200 shadow-xs flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#2BB4A7] animate-pulse" />
-                  <span>St. James Hospital • Sliema</span>
-                </div>
+                {/* 2. Main Headline (High Contrast White & Teal Overlaid Directly on Video) */}
+                <motion.h1
+                  initial={{ opacity: 0, y: 25 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.2 }}
+                  className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white leading-[1.08] mb-6 font-heading drop-shadow-xl"
+                >
+                  Trusted by families <br />
+                  <span className="text-[#2BB4A7] drop-shadow-md">for over 25 years.</span>
+                </motion.h1>
 
-                {/* Video Controls (Mute & Play/Pause) */}
-                <div className="absolute bottom-4 right-4 flex items-center gap-2">
+                {/* 3. Subtitle */}
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.3 }}
+                  className="text-base sm:text-xl text-slate-100 font-normal leading-relaxed mb-8 max-w-2xl font-body drop-shadow"
+                >
+                  From your family’s check-ups and children’s dentistry to smile design, implants and full-mouth reconstruction, one team plans your care together.
+                </motion.p>
+
+                {/* 4. Action Pill Buttons */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.4 }}
+                  className="flex flex-wrap items-center gap-3.5 sm:gap-4 mb-8"
+                >
                   <button
-                    onClick={toggleVideoPlay}
-                    className="p-2.5 rounded-full bg-white/90 hover:bg-white text-slate-800 shadow-md backdrop-blur-md cursor-pointer border border-slate-200 transition-transform hover:scale-105"
-                    aria-label={isVideoPlaying ? "Pause video" : "Play video"}
+                    onClick={() => onOpenBooking()}
+                    className="px-7 sm:px-9 py-3.5 sm:py-4 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all duration-200 shadow-xl shadow-teal-950/30 cursor-pointer border border-[#2BB4A7] hover:scale-105 active:scale-95"
                   >
-                    {isVideoPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
+                    Book a consultation
                   </button>
+
                   <button
-                    onClick={toggleVideoMute}
-                    className="p-2.5 rounded-full bg-white/90 hover:bg-white text-slate-800 shadow-md backdrop-blur-md cursor-pointer border border-slate-200 transition-transform hover:scale-105"
-                    aria-label={isVideoMuted ? "Unmute video" : "Mute video"}
+                    onClick={() => onNavigate('/treatments')}
+                    className="px-7 sm:px-9 py-3.5 sm:py-4 rounded-full bg-white/95 hover:bg-white text-[#0E2B4C] font-bold text-xs sm:text-sm uppercase tracking-wider transition-all duration-200 border border-white/80 cursor-pointer shadow-lg backdrop-blur-md hover:scale-105 active:scale-95"
                   >
-                    {isVideoMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                    Smile design around your face
                   </button>
-                </div>
+                </motion.div>
+
+                {/* 5. Sedation Notice (Frosted Luminous White Card) */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.5 }}
+                  className="rounded-2xl bg-white/95 backdrop-blur-md border border-white/60 p-4 sm:p-5 flex items-start gap-4 text-slate-800 shadow-xl max-w-xl"
+                >
+                  <div className="w-10 h-10 rounded-full bg-[#2BB4A7]/15 border border-[#2BB4A7]/30 flex items-center justify-center shrink-0 mt-0.5 text-[#2BB4A7]">
+                    <Smile className="w-5 h-5 text-[#2BB4A7]" />
+                  </div>
+                  <div className="text-xs sm:text-sm leading-relaxed text-slate-700">
+                    <strong className="text-[#0E2B4C] font-bold">Nervous about the dentist?</strong> All our treatments are available under sedation, with a consultant anaesthetist, in a hospital setting.
+                  </div>
+                </motion.div>
 
               </div>
+            </motion.div>
+
+            {/* Bottom Right Floating Media Controls */}
+            <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 z-20 flex items-center gap-2">
+              <button
+                onClick={toggleVideoPlay}
+                className="p-3 rounded-full bg-white/90 hover:bg-white text-[#0E2B4C] shadow-xl backdrop-blur-md cursor-pointer border border-white/50 transition-transform hover:scale-110 active:scale-95"
+                aria-label={isVideoPlaying ? "Pause video" : "Play video"}
+              >
+                {isVideoPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
+              </button>
+              <button
+                onClick={toggleVideoMute}
+                className="p-3 rounded-full bg-white/90 hover:bg-white text-[#0E2B4C] shadow-xl backdrop-blur-md cursor-pointer border border-white/50 transition-transform hover:scale-110 active:scale-95"
+                aria-label={isVideoMuted ? "Unmute video" : "Mute video"}
+              >
+                {isVideoMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+              </button>
             </div>
 
-          </div>
-
+          </motion.div>
         </div>
-      </section>
+      </div>
 
       {/* 2. THREE-COLUMN NAVY SUMMARY BAR (MATCHING APPROVED FIGMA FRAME 01s) */}
       <section className="bg-[#0E2B4C] text-white py-6 border-b border-[#07192d]">

@@ -108,10 +108,11 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Book Consultation Button */}
           <button
             onClick={onOpenBooking}
-            className="flex items-center gap-2 px-4 sm:px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider transition-all bg-[#0E2B4C] hover:bg-[#07192d] text-white border border-[#0E2B4C] shadow-sm hover:shadow hover:scale-102 cursor-pointer"
+            className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2 sm:py-2.5 rounded-full font-bold text-xs uppercase tracking-wider transition-all bg-[#0E2B4C] hover:bg-[#07192d] text-white border border-[#0E2B4C] shadow-sm hover:shadow hover:scale-102 cursor-pointer shrink-0"
           >
             <Calendar className="w-3.5 h-3.5 text-[#2BB4A7]" />
-            <span>Book a Consultation</span>
+            <span className="hidden sm:inline">Book a Consultation</span>
+            <span className="sm:hidden">Book</span>
           </button>
 
           {/* Mobile Menu Toggle Button */}
