@@ -43,7 +43,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     notes: initialDefaults?.notes || ''
   });
 
-  const [formValidationWarning, setFormValidationWarning] = useState(false);
+  const [formValidationWarning, setFormValidationWarning] = useState<string | null>(null);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
   const [isSubmittedDirectly, setIsSubmittedDirectly] = useState(false);
 
@@ -55,7 +56,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         ...initialDefaults
       }));
     }
-    setFormValidationWarning(false);
+    setFormValidationWarning(null);
+    setAcceptedTerms(false);
     setIsSubmittedDirectly(false);
   }, [isOpen, initialDefaults]);
 
@@ -88,9 +90,14 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
 
   const handleSendWhatsApp = () => {
     if (!formData.firstName.trim() || !formData.phone.trim()) {
-      setFormValidationWarning(true);
+      setFormValidationWarning('Please provide both your First Name and Phone Number to continue.');
       return;
     }
+    if (!acceptedTerms) {
+      setFormValidationWarning('Please tick the box to accept the Terms & Conditions.');
+      return;
+    }
+    setFormValidationWarning(null);
     const phoneTarget = '35699991029';
     const message = generateWhatsAppMessage();
     const whatsappUrl = `https://wa.me/${phoneTarget}?text=${encodeURIComponent(message)}`;
@@ -107,10 +114,14 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
   const handleDirectSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.firstName.trim() || !formData.phone.trim()) {
-      setFormValidationWarning(true);
+      setFormValidationWarning('Please provide both your First Name and Phone Number to continue.');
       return;
     }
-    setFormValidationWarning(false);
+    if (!acceptedTerms) {
+      setFormValidationWarning('Please tick the box to accept the Terms & Conditions.');
+      return;
+    }
+    setFormValidationWarning(null);
     setIsSubmittedDirectly(true);
   };
 
@@ -331,11 +342,26 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 </select>
               </div>
 
+              {/* Terms and Conditions Checkbox */}
+              <div className="pt-1">
+                <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={acceptedTerms}
+                    onChange={(e) => setAcceptedTerms(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#2BB4A7] focus:ring-[#2BB4A7] cursor-pointer shrink-0"
+                  />
+                  <span className="text-xs text-slate-600 leading-snug">
+                    I accept the <strong className="text-[#0E2B4C] underline">Terms &amp; Conditions</strong> and consent to DiU Clinic Malta processing my details for appointment arrangement.
+                  </span>
+                </label>
+              </div>
+
               {/* Validation Warning */}
               {formValidationWarning && (
                 <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold flex items-center gap-2">
                   <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
-                  <span>Please provide both your First Name and Phone Number to continue.</span>
+                  <span>{formValidationWarning}</span>
                 </div>
               )}
 

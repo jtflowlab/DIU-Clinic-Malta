@@ -101,8 +101,11 @@ export default function App() {
   useEffect(() => {
     const onScroll = () => {
       const scrollPos = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight;
+      const winHeight = window.innerHeight;
+      const isNearBottom = (scrollPos + winHeight) >= (docHeight - 160);
       setIsScrolled(scrollPos > 40);
-      setShowBottomBar(scrollPos > 600);
+      setShowBottomBar(scrollPos > 600 && !isNearBottom);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);

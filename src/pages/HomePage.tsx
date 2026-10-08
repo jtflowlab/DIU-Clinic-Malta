@@ -26,7 +26,6 @@ import {
   cliniciansList, 
   bookingTreatmentOptions
 } from '@/data/clinicData';
-import { ServiceItem } from '@/types';
 
 interface HomePageProps {
   onNavigate: (route: string) => void;
@@ -42,7 +41,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [isVideoMuted, setIsVideoMuted] = useState(true);
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
 
-  // Home Page Direct Form State (with First & Last name separated + Contact Preference)
+  // Home Page Direct Form State (with First & Last name separated + Contact Preference + Terms Checkbox)
   const [homeForm, setHomeForm] = useState({
     firstName: '',
     lastName: '',
@@ -52,13 +51,16 @@ export const HomePage: React.FC<HomePageProps> = ({
     treatment: 'Initial Dental Consultation & Check-up',
     message: ''
   });
+  const [homeTermsAccepted, setHomeTermsAccepted] = useState(false);
   const [homeFormSuccess, setHomeFormSuccess] = useState(false);
-  const [homeFormError, setHomeFormError] = useState(false);
+  const [homeFormError, setHomeFormError] = useState<string | null>(null);
 
   const heroVideoRef = useRef<HTMLVideoElement>(null);
   const heroSectionRef = useRef<HTMLDivElement>(null);
+  const servicesSectionRef = useRef<HTMLDivElement>(null);
+  const teamSectionRef = useRef<HTMLDivElement>(null);
 
-  // 21st.dev Hero Scroll Downscaling Dock (scales from 1.0 down to 0.93, corners 0px -> 28px)
+  // 1. Hero Scroll Downscaling Dock (scales from 1.0 down to 0.93, corners 0px -> 28px)
   const { scrollYProgress: heroProgress } = useScroll({
     target: heroSectionRef,
     offset: ["start start", "end start"]
@@ -67,6 +69,20 @@ export const HomePage: React.FC<HomePageProps> = ({
   const heroRadius = useTransform(heroProgress, [0, 0.85], ["0px", "28px"]);
   const heroContentY = useTransform(heroProgress, [0, 0.7], [0, -35]);
   const heroContentOpacity = useTransform(heroProgress, [0, 0.75], [1, 0.45]);
+
+  // 2. Scroll-Driven Horizontal Translation for Clinical Treatments (Track #1)
+  const { scrollYProgress: servicesProgress } = useScroll({
+    target: servicesSectionRef,
+    offset: ["start start", "end end"]
+  });
+  const servicesX = useTransform(servicesProgress, [0, 1], ["0%", "-58%"]);
+
+  // 3. Scroll-Driven Horizontal Translation for Specialist Doctors & Medical Team (Track #2)
+  const { scrollYProgress: teamProgress } = useScroll({
+    target: teamSectionRef,
+    offset: ["start start", "end end"]
+  });
+  const teamX = useTransform(teamProgress, [0, 1], ["0%", "-52%"]);
 
   // 5 Leading Clinicians matching client mockup
   const featuredClinicians = cliniciansList.slice(0, 5);
@@ -91,17 +107,21 @@ export const HomePage: React.FC<HomePageProps> = ({
   const handleHomeFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!homeForm.firstName.trim() || !homeForm.phone.trim()) {
-      setHomeFormError(true);
+      setHomeFormError('Please enter your First Name and Phone Number.');
       return;
     }
-    setHomeFormError(false);
+    if (!homeTermsAccepted) {
+      setHomeFormError('Please tick the box to accept the Terms & Conditions.');
+      return;
+    }
+    setHomeFormError(null);
     setHomeFormSuccess(true);
   };
 
   return (
     <div className="bg-[#F8FAFC] text-slate-900 font-body">
 
-      {/* 1. HERO SECTION: FULL-BLEED CINEMATIC 4K VIDEO HERO WITH OVERLAID TEXT + 21ST.DEV SCROLL DOCK */}
+      {/* 1. HERO SECTION: FULL-BLEED CINEMATIC 4K VIDEO HERO WITH OVERLAID TEXT + SCROLL DOCK */}
       <div 
         id="hero" 
         ref={heroSectionRef} 
@@ -109,7 +129,6 @@ export const HomePage: React.FC<HomePageProps> = ({
       >
         <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center p-0">
           
-          {/* Animated Hero Canvas: Starts 100vw x 100vh full-bleed, smoothly docks on scroll (scale 1.0 -> 0.93, radius 0px -> 28px) */}
           <motion.div 
             style={{ 
               scale: heroScale,
@@ -129,11 +148,11 @@ export const HomePage: React.FC<HomePageProps> = ({
               className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none z-0"
             />
             
-            {/* Subtle Directional Scrim: Only gentle darkening on the far left so video stays bright, vibrant, and letters on glass door remain unobstructed */}
+            {/* Subtle Directional Scrim: Gentle darkening on far left so video stays bright, and physical glass letters remain visible */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#0E2B4C]/80 via-[#0E2B4C]/35 to-transparent pointer-events-none z-[1]" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0E2B4C]/60 via-transparent to-black/15 pointer-events-none z-[1]" />
 
-            {/* Overlaid Editorial Content: Constrained to max-w-xl on left so center/right glass letters are completely visible */}
+            {/* Overlaid Editorial Content: Constrained to max-w-xl on left */}
             <motion.div 
               style={{ y: heroContentY, opacity: heroContentOpacity }}
               className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 sm:pt-24 pb-12"
@@ -151,7 +170,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   <span>ST JAMES HOSPITAL, SLIEMA</span>
                 </motion.div>
 
-                {/* 2. Main Headline (Exact text from client layout) */}
+                {/* 2. Main Headline */}
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -162,7 +181,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   <span className="text-[#2BB4A7] drop-shadow-md">With one team under one roof.</span>
                 </motion.h1>
 
-                {/* 3. Subtitle (Exact client wording) */}
+                {/* 3. Subtitle */}
                 <motion.p
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -194,7 +213,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   </button>
                 </motion.div>
 
-                {/* 5. Sedation Notice (Frosted Luminous White Card) */}
+                {/* 5. Sedation Notice */}
                 <motion.div
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -257,7 +276,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
             </div>
 
-            {/* Column 2: Emergency contact (No alarmist red, pure clean medical navy/teal) */}
+            {/* Column 2: Emergency contact */}
             <div 
               onClick={onOpenEmergency}
               className="flex items-center gap-4 p-3 rounded-2xl md:border-x md:border-white/10 md:px-6 hover:bg-white/5 cursor-pointer transition-colors group"
@@ -365,36 +384,139 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 4. FOUR CORE TREATMENT CATEGORIES (IMPLANTS & DSD FIRST, VERTICAL CLEAN GRID, CAPTURAS 06-09) */}
-      <section id="services" className="py-20 lg:py-28 bg-[#F8FAFC] border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 4. FOUR CORE TREATMENT CATEGORIES (SCROLL-DRIVEN HORIZONTAL TRACK #1) */}
+      <div 
+        id="services" 
+        ref={servicesSectionRef} 
+        className="relative lg:h-[260vh] bg-[#F8FAFC] border-b border-slate-200/80"
+      >
+        <div className="lg:sticky lg:top-0 lg:h-screen w-full overflow-hidden flex flex-col justify-center py-20 lg:py-0 px-4 sm:px-8 lg:px-14">
           
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-widest mb-3">
-              Comprehensive Care
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0E2B4C] font-heading">
-              Our Dental Treatments
-            </h2>
-            <p className="text-slate-600 text-sm sm:text-base mt-3 max-w-xl mx-auto font-body">
-              Specialists and general dentists working under one hospital roof, tailoring each treatment to your comfort.
-            </p>
+          <div className="max-w-7xl mx-auto w-full mb-8 lg:mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <span className="inline-block px-4 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-widest mb-3">
+                Comprehensive Care
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0E2B4C] font-heading">
+                Our Dental Treatments
+              </h2>
+              <p className="text-slate-600 text-xs sm:text-sm mt-2 max-w-xl font-body">
+                Specialists and general dentists working under one hospital roof, tailoring each treatment to your comfort.
+              </p>
+            </div>
+
+            {/* Desktop Dynamic Scroll Prompt */}
+            <div className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-xs text-xs font-semibold text-slate-700">
+              <span>Scroll vertically to glide through treatments</span>
+              <ChevronRight className="w-4 h-4 text-[#2BB4A7] animate-pulse" />
+            </div>
           </div>
 
-          {/* 4 Cards Grid with Real Clinic Photos and Exact Copy from Client Mockups */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8">
+          {/* Desktop Scroll-Driven Horizontal Translation Track */}
+          <div className="hidden lg:block w-full overflow-hidden">
+            <motion.div 
+              style={{ x: servicesX }}
+              className="flex gap-6 xl:gap-8 will-change-transform pr-24"
+            >
+              {approvedServices.map((svc) => (
+                <div
+                  key={svc.id}
+                  className="w-[410px] xl:w-[450px] shrink-0 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1.5"
+                >
+                  <div>
+                    {/* Real Clinic Photo */}
+                    <div className="relative aspect-[16/11] overflow-hidden bg-slate-100">
+                      <img
+                        src={getAssetUrl(svc.image)}
+                        alt={svc.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-[#0E2B4C] text-[10px] font-extrabold uppercase tracking-wider border border-slate-200 shadow-2xs">
+                        [ {svc.num} ]
+                      </div>
+                    </div>
+
+                    {/* Card Content */}
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-[#0E2B4C] mb-2.5 font-heading group-hover:text-[#2BB4A7] transition-colors leading-snug">
+                        {svc.title}
+                      </h3>
+                      <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5 font-body line-clamp-3">
+                        {svc.summary}
+                      </p>
+
+                      {/* Clinicians Attribution */}
+                      {svc.clinicians && (
+                        <div className="pt-3.5 border-t border-slate-100 space-y-1 mb-2 text-[11px] text-slate-500 font-medium">
+                          {svc.clinicians.map((c, i) => (
+                            <div key={i} className="flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#2BB4A7]" />
+                              <span className="truncate">{c}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Card Footer Link */}
+                  <div className="p-6 pt-0 flex items-center justify-between">
+                    <button
+                      onClick={() => onNavigate('/treatments')}
+                      className="text-xs font-bold text-[#2BB4A7] hover:text-[#0E2B4C] transition-colors flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 uppercase tracking-wider"
+                    >
+                      <span>Learn more →</span>
+                    </button>
+                    <button
+                      onClick={() => onOpenBooking({ treatment: svc.title })}
+                      className="px-4 py-2 rounded-full bg-slate-50 hover:bg-[#0E2B4C] text-slate-700 hover:text-white text-xs font-bold border border-slate-200 transition-colors cursor-pointer"
+                    >
+                      Book
+                    </button>
+                  </div>
+
+                </div>
+              ))}
+
+              {/* Final 5th CTA Card in the Horizontal Track */}
+              <div className="w-[360px] xl:w-[400px] shrink-0 rounded-3xl bg-[#0E2B4C] text-white p-8 flex flex-col justify-between shadow-xl">
+                <div>
+                  <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-[#2BB4A7] text-[10px] font-bold uppercase tracking-wider mb-4 border border-white/20">
+                    Hospital Specialties
+                  </span>
+                  <h3 className="text-2xl font-bold font-heading mb-3 leading-snug">
+                    Explore All Treatments &amp; Procedures
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed font-body">
+                    Detailed clinical procedures, fees itemization, and multidisciplinary planning inside St. James Hospital.
+                  </p>
+                </div>
+                <button
+                  onClick={() => onNavigate('/treatments')}
+                  className="w-full py-4 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 hover:scale-102"
+                >
+                  <span>View All Treatments</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+
+            </motion.div>
+          </div>
+
+          {/* Mobile / Tablet Responsive Horizontal Carousel with Touch Scroll */}
+          <div className="lg:hidden flex gap-5 overflow-x-auto no-scrollbar pb-6 pt-2 scroll-smooth">
             {approvedServices.map((svc) => (
               <div
                 key={svc.id}
-                className="rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1"
+                className="w-[85vw] max-w-[340px] shrink-0 rounded-3xl bg-white border border-slate-200/90 shadow-sm flex flex-col justify-between overflow-hidden"
               >
                 <div>
-                  {/* Real Clinic Photo */}
                   <div className="relative aspect-[16/11] overflow-hidden bg-slate-100">
                     <img
                       src={getAssetUrl(svc.image)}
                       alt={svc.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover"
                       loading="lazy"
                     />
                     <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-[#0E2B4C] text-[10px] font-extrabold uppercase tracking-wider border border-slate-200 shadow-2xs">
@@ -402,22 +524,19 @@ export const HomePage: React.FC<HomePageProps> = ({
                     </div>
                   </div>
 
-                  {/* Card Content */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-[#0E2B4C] mb-3 font-heading group-hover:text-[#2BB4A7] transition-colors leading-snug">
+                  <div className="p-5">
+                    <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading leading-snug">
                       {svc.title}
                     </h3>
-                    <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6 font-body">
+                    <p className="text-slate-600 text-xs leading-relaxed mb-4 font-body line-clamp-3">
                       {svc.summary}
                     </p>
-
-                    {/* Clinicians Attribution */}
                     {svc.clinicians && (
-                      <div className="pt-4 border-t border-slate-100 space-y-1 mb-4 text-[11px] text-slate-500 font-medium">
+                      <div className="pt-3 border-t border-slate-100 space-y-1 mb-2 text-[10px] text-slate-500 font-medium">
                         {svc.clinicians.map((c, i) => (
                           <div key={i} className="flex items-center gap-1.5">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#2BB4A7]" />
-                            <span>{c}</span>
+                            <span className="truncate">{c}</span>
                           </div>
                         ))}
                       </div>
@@ -425,38 +544,26 @@ export const HomePage: React.FC<HomePageProps> = ({
                   </div>
                 </div>
 
-                {/* Card Footer Link */}
-                <div className="p-6 pt-0 flex items-center justify-between">
+                <div className="p-5 pt-0 flex items-center justify-between">
                   <button
                     onClick={() => onNavigate('/treatments')}
-                    className="text-xs font-bold text-[#2BB4A7] hover:text-[#0E2B4C] transition-colors flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 uppercase tracking-wider"
+                    className="text-xs font-bold text-[#2BB4A7] uppercase tracking-wider"
                   >
-                    <span>Learn more →</span>
+                    Learn more →
                   </button>
                   <button
                     onClick={() => onOpenBooking({ treatment: svc.title })}
-                    className="px-3.5 py-1.5 rounded-full bg-slate-50 hover:bg-[#0E2B4C] text-slate-700 hover:text-white text-[11px] font-bold border border-slate-200 transition-colors cursor-pointer"
+                    className="px-3.5 py-1.5 rounded-full bg-slate-50 text-slate-700 text-xs font-bold border border-slate-200"
                   >
                     Book
                   </button>
                 </div>
-
               </div>
             ))}
           </div>
 
-          <div className="mt-12 text-center">
-            <button
-              onClick={() => onNavigate('/treatments')}
-              className="px-8 py-3.5 rounded-full bg-white hover:bg-slate-50 text-[#0E2B4C] font-bold text-xs uppercase tracking-wider border border-slate-300 transition-all cursor-pointer shadow-sm inline-flex items-center gap-2 hover:scale-102"
-            >
-              <span>Explore All Clinical Services &amp; Specialties</span>
-              <ArrowRight className="w-4 h-4 text-[#2BB4A7]" />
-            </button>
-          </div>
-
         </div>
-      </section>
+      </div>
 
       {/* 5. DSD SIGNATURE TREATMENT SECTION (CAPTURA 10) */}
       <section className="py-20 lg:py-28 bg-[#0E2B4C] text-white">
@@ -685,11 +792,15 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 8. OUR CLINICIANS & TEAM (MATCHING APPROVED FIGMA FRAME 16s) */}
-      <section id="our-team" className="py-20 lg:py-28 bg-[#F8FAFC] border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 8. OUR CLINICIANS & MEDICAL TEAM (SCROLL-DRIVEN HORIZONTAL TRACK #2) */}
+      <div 
+        id="our-team" 
+        ref={teamSectionRef} 
+        className="relative lg:h-[260vh] bg-white border-b border-slate-200/80"
+      >
+        <div className="lg:sticky lg:top-0 lg:h-screen w-full overflow-hidden flex flex-col justify-center py-20 lg:py-0 px-4 sm:px-8 lg:px-14">
           
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+          <div className="max-w-7xl mx-auto w-full mb-8 lg:mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <span className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-3">
                 OUR CLINICIANS
@@ -697,46 +808,121 @@ export const HomePage: React.FC<HomePageProps> = ({
               <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0E2B4C] font-heading">
                 Our dentists <span className="text-[#2BB4A7]">&amp; hygienist</span>
               </h2>
+              <p className="text-slate-600 text-xs sm:text-sm mt-2 max-w-md font-body">
+                Specialists and general dentists working side by side, so every treatment is planned by the right person.
+              </p>
             </div>
-            <p className="text-slate-600 text-sm sm:text-base max-w-md font-body">
-              Specialists and general dentists working side by side, so every treatment is planned by the right person.
-            </p>
+
+            {/* Desktop Dynamic Scroll Prompt */}
+            <div className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 shadow-xs text-xs font-semibold text-slate-700">
+              <span>Scroll vertically to meet our clinical team</span>
+              <ChevronRight className="w-4 h-4 text-[#2BB4A7] animate-pulse" />
+            </div>
           </div>
 
-          {/* 5 Core Clinicians Horizontal Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
+          {/* Desktop Scroll-Driven Horizontal Translation Track */}
+          <div className="hidden lg:block w-full overflow-hidden">
+            <motion.div 
+              style={{ x: teamX }}
+              className="flex gap-6 xl:gap-8 will-change-transform pr-24"
+            >
+              {featuredClinicians.map((person) => (
+                <div
+                  key={person.id}
+                  className="w-[320px] xl:w-[350px] shrink-0 rounded-3xl bg-[#F8FAFC] border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1.5"
+                >
+                  <div>
+                    <div className="relative aspect-[4/4] overflow-hidden bg-slate-200">
+                      <img
+                        src={getAssetUrl(person.photo)}
+                        alt={person.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                    </div>
+
+                    <div className="p-5">
+                      <h3 className="text-lg font-bold text-[#0E2B4C] font-heading group-hover:text-[#2BB4A7] transition-colors leading-snug">
+                        {person.name}
+                      </h3>
+                      <div className="text-[11px] text-slate-500 font-medium mt-0.5 leading-snug line-clamp-2">
+                        {person.qualifications}
+                      </div>
+                      <div className="text-xs font-bold text-[#2BB4A7] mt-2 font-heading">
+                        {person.role}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-5 pt-0">
+                    <button
+                      onClick={() => onOpenBooking({ doctor: person.name, treatment: person.treatmentDefault })}
+                      className="w-full py-2.5 rounded-full bg-white hover:bg-[#0E2B4C] text-[#0E2B4C] hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 transition-colors cursor-pointer"
+                    >
+                      Inquire
+                    </button>
+                  </div>
+                </div>
+              ))}
+
+              {/* Final 6th Card: View Full 19 Clinicians Directory */}
+              <div className="w-[320px] xl:w-[350px] shrink-0 rounded-3xl bg-[#0E2B4C] text-white p-7 flex flex-col justify-between shadow-xl">
+                <div>
+                  <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-[#2BB4A7] text-[10px] font-bold uppercase tracking-wider mb-4 border border-white/20">
+                    Hospital Staff Directory
+                  </span>
+                  <h3 className="text-2xl font-bold font-heading mb-3 leading-snug">
+                    Meet Our Entire Medical Team
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed font-body">
+                    19 specialists, general dentists, dental hygienist, theatre surgical nurses, and patient care coordinators.
+                  </p>
+                </div>
+                <button
+                  onClick={() => onNavigate('/team')}
+                  className="w-full py-3.5 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 hover:scale-102"
+                >
+                  <Users className="w-4 h-4" />
+                  <span>View Full Team (19)</span>
+                </button>
+              </div>
+
+            </motion.div>
+          </div>
+
+          {/* Mobile / Tablet Responsive Horizontal Carousel with Touch Scroll */}
+          <div className="lg:hidden flex gap-5 overflow-x-auto no-scrollbar pb-6 pt-2 scroll-smooth">
             {featuredClinicians.map((person) => (
               <div
                 key={person.id}
-                className="rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1"
+                className="w-[78vw] max-w-[280px] shrink-0 rounded-3xl bg-[#F8FAFC] border border-slate-200/90 shadow-sm flex flex-col justify-between overflow-hidden"
               >
                 <div>
                   <div className="relative aspect-[4/4] overflow-hidden bg-slate-200">
                     <img
                       src={getAssetUrl(person.photo)}
                       alt={person.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover"
                       loading="lazy"
                     />
                   </div>
-
-                  <div className="p-4 sm:p-5">
-                    <h3 className="text-base font-bold text-[#0E2B4C] font-heading group-hover:text-[#2BB4A7] transition-colors leading-snug">
+                  <div className="p-4">
+                    <h3 className="text-base font-bold text-[#0E2B4C] font-heading leading-snug">
                       {person.name}
                     </h3>
-                    <div className="text-[11px] text-slate-500 font-medium mt-0.5 leading-snug line-clamp-2">
+                    <div className="text-[10px] text-slate-500 font-medium mt-0.5 line-clamp-2">
                       {person.qualifications}
                     </div>
-                    <div className="text-xs font-bold text-[#2BB4A7] mt-2 font-heading">
+                    <div className="text-xs font-bold text-[#2BB4A7] mt-1.5 font-heading">
                       {person.role}
                     </div>
                   </div>
                 </div>
 
-                <div className="p-4 sm:p-5 pt-0">
+                <div className="p-4 pt-0">
                   <button
                     onClick={() => onOpenBooking({ doctor: person.name, treatment: person.treatmentDefault })}
-                    className="w-full py-2.5 rounded-full bg-slate-50 hover:bg-[#0E2B4C] text-[#0E2B4C] hover:text-white font-bold text-[11px] uppercase tracking-wider border border-slate-200 transition-colors cursor-pointer"
+                    className="w-full py-2 rounded-full bg-white text-[#0E2B4C] font-bold text-xs border border-slate-200"
                   >
                     Inquire
                   </button>
@@ -745,23 +931,21 @@ export const HomePage: React.FC<HomePageProps> = ({
             ))}
           </div>
 
-          {/* View Full Medical Team Button */}
-          <div className="text-center">
+          <div className="mt-8 text-center lg:hidden">
             <button
               onClick={() => onNavigate('/team')}
-              className="px-8 sm:px-10 py-4 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md hover:scale-102 cursor-pointer inline-flex items-center gap-2"
+              className="px-6 py-3 rounded-full bg-[#0E2B4C] text-white font-bold text-xs uppercase tracking-wider inline-flex items-center gap-2"
             >
-              <Users className="w-4 h-4 text-[#2BB4A7]" />
-              <span>View Full Medical Team &amp; Specialists (19)</span>
+              <span>View Full Team (19)</span>
               <ArrowRight className="w-4 h-4 text-[#2BB4A7]" />
             </button>
           </div>
 
         </div>
-      </section>
+      </div>
 
       {/* 9. PATIENT INFORMATION (MATCHING APPROVED FIGMA FRAME 24s) */}
-      <section className="py-20 lg:py-28 bg-white border-b border-slate-100">
+      <section className="py-20 lg:py-28 bg-[#F8FAFC] border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="mb-14">
@@ -779,7 +963,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             {/* Card 1: Your first visit */}
             <div 
               onClick={() => onOpenBooking()}
-              className="p-7 rounded-3xl bg-[#F8FAFC] border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group"
+              className="p-7 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group"
             >
               <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading group-hover:text-[#2BB4A7] transition-colors">
                 Your first visit
@@ -792,7 +976,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             {/* Card 2: Fees and insurance */}
             <div 
               onClick={() => onNavigate('/prices')}
-              className="p-7 rounded-3xl bg-[#F8FAFC] border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group"
+              className="p-7 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group"
             >
               <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading group-hover:text-[#2BB4A7] transition-colors">
                 Fees and insurance
@@ -805,7 +989,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             {/* Card 3: Aftercare */}
             <div 
               onClick={() => onNavigate('/blog')}
-              className="p-7 rounded-3xl bg-[#F8FAFC] border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group"
+              className="p-7 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group"
             >
               <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading group-hover:text-[#2BB4A7] transition-colors">
                 Aftercare
@@ -815,7 +999,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
             </div>
 
-            {/* Card 4: Dental emergencies (Clean, calm hospital support) */}
+            {/* Card 4: Dental emergencies */}
             <div 
               onClick={onOpenEmergency}
               className="p-7 rounded-3xl bg-teal-50/50 border border-teal-200/80 shadow-xs hover:shadow-md transition-all cursor-pointer group"
@@ -838,12 +1022,12 @@ export const HomePage: React.FC<HomePageProps> = ({
       </section>
 
       {/* 10. HOW TO FIND US INSIDE ST. JAMES HOSPITAL (CAPTURA 28) */}
-      <section className="py-20 lg:py-28 bg-[#F8FAFC] border-b border-slate-200/80">
+      <section className="py-20 lg:py-28 bg-white border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200 shadow-md">
+          <div className="bg-[#F8FAFC] p-8 sm:p-12 rounded-3xl border border-slate-200 shadow-sm">
             
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-slate-100">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-slate-200">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-[#2BB4A7]">
                   Location Guide • St. James Hospital Sliema
@@ -870,7 +1054,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             {/* 3 Steps Visuals */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               
-              <div className="rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
+              <div className="rounded-2xl overflow-hidden border border-slate-200 bg-white">
                 <div className="aspect-[16/10] overflow-hidden">
                   <img
                     src={getAssetUrl('clinic/st_james_main_entrance.jpg')}
@@ -884,7 +1068,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </div>
               </div>
 
-              <div className="rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
+              <div className="rounded-2xl overflow-hidden border border-slate-200 bg-white">
                 <div className="aspect-[16/10] overflow-hidden">
                   <img
                     src={getAssetUrl('clinic/st_james_lift_lg.jpg')}
@@ -898,7 +1082,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </div>
               </div>
 
-              <div className="rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
+              <div className="rounded-2xl overflow-hidden border border-slate-200 bg-white">
                 <div className="aspect-[16/10] overflow-hidden">
                   <img
                     src={getAssetUrl('clinic/diu_clinic_entrance.jpg')}
@@ -952,7 +1136,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 12. BOOK A CONSULTATION SECTION (MATCHING APPROVED FIGMA FRAME 28s & 32s) */}
+      {/* 12. BOOK A CONSULTATION SECTION (MATCHING APPROVED FIGMA FRAME 28s & 32s + TERMS CHECKBOX) */}
       <section id="contact-booking" className="py-20 lg:py-28 bg-[#0E2B4C] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -1016,7 +1200,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
             </div>
 
-            {/* Right Contact Form (Frame 28s & 32s + Direct Form Submit) */}
+            {/* Right Contact Form with Terms & Conditions Checkbox */}
             <div className="lg:col-span-7">
               <div className="bg-white text-slate-900 p-8 sm:p-12 rounded-3xl shadow-2xl border border-slate-200">
                 
@@ -1130,7 +1314,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                       </div>
                     </div>
 
-                    {/* Interested in (General consultation default) */}
+                    {/* Interested in */}
                     <div>
                       <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
                         Interested in *
@@ -1160,10 +1344,25 @@ export const HomePage: React.FC<HomePageProps> = ({
                       />
                     </div>
 
+                    {/* Terms & Conditions Checkbox */}
+                    <div className="pt-1">
+                      <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                        <input
+                          type="checkbox"
+                          checked={homeTermsAccepted}
+                          onChange={(e) => setHomeTermsAccepted(e.target.checked)}
+                          className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#2BB4A7] focus:ring-[#2BB4A7] cursor-pointer shrink-0"
+                        />
+                        <span className="text-xs text-slate-600 leading-snug">
+                          I accept the <strong className="text-[#0E2B4C] underline">Terms &amp; Conditions</strong> and consent to DiU Clinic Malta contacting me regarding this dental appointment request.
+                        </span>
+                      </label>
+                    </div>
+
                     {homeFormError && (
                       <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold flex items-center gap-2">
                         <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
-                        <span>Please enter your First Name and Phone Number.</span>
+                        <span>{homeFormError}</span>
                       </div>
                     )}
 

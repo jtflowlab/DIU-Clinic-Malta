@@ -257,8 +257,20 @@ export function CinematicFooter({
   const headingRef = useRef<HTMLHeadingElement>(null);
   const linksRef = useRef<HTMLDivElement>(null);
 
+  const [isDesktop, setIsDesktop] = React.useState(false);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    checkDesktop();
+    window.addEventListener("resize", checkDesktop);
+    return () => window.removeEventListener("resize", checkDesktop);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !isDesktop) return;
     if (!wrapperRef.current) return;
 
     const ctx = gsap.context(() => {
@@ -300,7 +312,7 @@ export function CinematicFooter({
     }, wrapperRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isDesktop]);
 
   const scrollToTop = () => {
     if (typeof window !== "undefined") {
@@ -335,14 +347,14 @@ export function CinematicFooter({
     <>
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
       
-      {/* The Curtain Reveal Wrapper */}
+      {/* Responsive Curtain Reveal Wrapper (Desktop) / Fluid Block (Mobile) */}
       <div
         ref={wrapperRef}
-        className="relative h-screen w-full"
-        style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
+        className="relative lg:h-screen w-full overflow-visible"
+        style={isDesktop ? { clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" } : undefined}
       >
-        {/* The actual footer stays fixed to viewport in LIGHT THEME */}
-        <footer className="fixed bottom-0 left-0 flex h-screen w-full flex-col justify-between overflow-hidden bg-[#F8FAFC] text-slate-900 cinematic-footer-wrapper select-none">
+        {/* Footer: Flows naturally on mobile with ample bottom padding; Fixed curtain on desktop */}
+        <footer className="relative lg:fixed lg:bottom-0 lg:left-0 flex min-h-fit lg:h-screen w-full flex-col justify-between overflow-visible lg:overflow-hidden bg-[#F8FAFC] text-slate-900 cinematic-footer-wrapper select-none pt-12 sm:pt-16 lg:pt-0 pb-28 sm:pb-32 lg:pb-0">
           
           {/* Ambient Soft Light & Grid Background */}
           <div className="footer-aurora absolute left-1/2 top-1/2 h-[65vh] w-[85vw] -translate-x-1/2 -translate-y-1/2 animate-footer-breathe rounded-[50%] blur-[90px] pointer-events-none z-0" />
@@ -351,13 +363,13 @@ export function CinematicFooter({
           {/* Giant background text (DIU CLINIC) */}
           <div
             ref={giantTextRef}
-            className="footer-giant-bg-text absolute -bottom-[3vh] left-1/2 -translate-x-1/2 whitespace-nowrap z-0 pointer-events-none select-none text-center"
+            className="footer-giant-bg-text absolute -bottom-[3vh] left-1/2 -translate-x-1/2 whitespace-nowrap z-0 pointer-events-none select-none text-center hidden lg:block"
           >
             {giantText}
           </div>
 
           {/* 1. Diagonal Sleek Marquee (Top of footer) */}
-          <div className="absolute top-8 sm:top-12 left-0 w-full overflow-hidden border-y border-slate-200/90 bg-white/85 backdrop-blur-md py-3.5 z-10 -rotate-1 sm:-rotate-2 scale-105 shadow-sm">
+          <div className="relative lg:absolute top-0 lg:top-8 sm:lg:top-12 left-0 w-full overflow-hidden border-y border-slate-200/90 bg-white/85 backdrop-blur-md py-3.5 z-10 lg:-rotate-1 sm:lg:-rotate-2 scale-100 lg:scale-105 shadow-sm mb-6 lg:mb-0">
             <div className="flex w-max animate-footer-scroll-marquee text-[11px] md:text-xs font-black tracking-[0.25em] text-slate-600 uppercase">
               <MarqueeItem />
               <MarqueeItem />

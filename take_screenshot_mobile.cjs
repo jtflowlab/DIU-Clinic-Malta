@@ -1,62 +1,56 @@
 const { chromium } = require('playwright');
+const path = require('path');
 
 (async () => {
-  const browser = await chromium.launch();
+  let browser;
+  try {
+    browser = await chromium.launch({ channel: 'msedge' });
+  } catch (e) {
+    browser = await chromium.launch({ channel: 'chrome' });
+  }
   const page = await browser.newPage();
   
-  // Set viewport size for mobile (iPhone width/height)
-  await page.setViewportSize({ width: 375, height: 812 });
+  // Set viewport size for mobile (iPhone 14 width/height: 390 x 844)
+  await page.setViewportSize({ width: 390, height: 844 });
   
   console.log('Navigating to http://localhost:5173/ for mobile test...');
   await page.goto('http://localhost:5173/');
+  await page.waitForTimeout(2000);
   
-  // Wait for the loader to clear
-  console.log('Waiting 7 seconds for preloading...');
-  await page.waitForTimeout(7000);
+  const baseDir = 'C:\\Users\\jorda\\.gemini\\antigravity\\brain\\2f59d547-19fb-4dd6-b63e-6926441a856c';
   
-  // Take screenshot of the Hero section in mobile
-  const heroPath = 'C:\\Users\\jorda\\.gemini\\antigravity\\brain\\2f59d547-19fb-4dd6-b63e-6926441a856c\\screenshot_mobile_hero.png';
+  // 1. Mobile Hero
+  const heroPath = path.join(baseDir, 'screenshot_mobile_hero.png');
   await page.screenshot({ path: heroPath });
   console.log('Mobile Hero screenshot saved to:', heroPath);
   
-  // Scroll to Clinics section (35% scroll)
+  // 2. Mobile Treatments track
   await page.evaluate(() => {
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    window.scrollTo(0, maxScroll * 0.35);
+    document.getElementById('services')?.scrollIntoView({ behavior: 'instant' });
   });
   await page.waitForTimeout(1000);
-  const clinicsPath = 'C:\\Users\\jorda\\.gemini\\antigravity\\brain\\2f59d547-19fb-4dd6-b63e-6926441a856c\\screenshot_mobile_clinics.png';
-  await page.screenshot({ path: clinicsPath });
-  console.log('Mobile Clinics screenshot saved to:', clinicsPath);
+  const servicesPath = path.join(baseDir, 'screenshot_mobile_services.png');
+  await page.screenshot({ path: servicesPath });
+  console.log('Mobile Services screenshot saved to:', servicesPath);
 
-  // Scroll to Technology section (60% scroll)
+  // 3. Mobile Booking Form with Terms checkbox
   await page.evaluate(() => {
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    window.scrollTo(0, maxScroll * 0.60);
+    document.getElementById('contact-booking')?.scrollIntoView({ behavior: 'instant' });
   });
   await page.waitForTimeout(1000);
-  const techPath = 'C:\\Users\\jorda\\.gemini\\antigravity\\brain\\2f59d547-19fb-4dd6-b63e-6926441a856c\\screenshot_mobile_tech.png';
-  await page.screenshot({ path: techPath });
-  console.log('Mobile Technology screenshot saved to:', techPath);
+  const formPath = path.join(baseDir, 'screenshot_mobile_form.png');
+  await page.screenshot({ path: formPath });
+  console.log('Mobile Form screenshot saved to:', formPath);
 
-  // Scroll to Treatments section (82% scroll)
+  // 4. Mobile Very End of Page (Footer, Copyright, and Completion)
   await page.evaluate(() => {
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    window.scrollTo(0, maxScroll * 0.82);
+    window.scrollTo(0, document.documentElement.scrollHeight);
   });
-  await page.waitForTimeout(1000);
-  const treatmentsPath = 'C:\\Users\\jorda\\.gemini\\antigravity\\brain\\2f59d547-19fb-4dd6-b63e-6926441a856c\\screenshot_mobile_treatments.png';
-  await page.screenshot({ path: treatmentsPath });
-  console.log('Mobile Treatments screenshot saved to:', treatmentsPath);
-  
-  // Open the Hamburger menu
-  console.log('Clicking the mobile menu hamburger button...');
-  await page.click('button[aria-label="Open mobile menu"]');
-  await page.waitForTimeout(500);
-  const menuPath = 'C:\\Users\\jorda\\.gemini\\antigravity\\brain\\2f59d547-19fb-4dd6-b63e-6926441a856c\\screenshot_mobile_menu.png';
-  await page.screenshot({ path: menuPath });
-  console.log('Mobile Menu screenshot saved to:', menuPath);
+  await page.waitForTimeout(1200);
+  const endPath = path.join(baseDir, 'screenshot_mobile_end_of_page.png');
+  await page.screenshot({ path: endPath });
+  console.log('Mobile End of Page screenshot saved to:', endPath);
 
   await browser.close();
-  console.log('Mobile screenshots complete!');
+  console.log('Done mobile testing!');
 })();
