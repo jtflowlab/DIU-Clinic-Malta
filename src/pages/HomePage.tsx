@@ -1,24 +1,20 @@
 import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
   Calendar, 
   Phone, 
   Clock, 
   ArrowRight, 
-  ShieldCheck, 
   Smile, 
-  Sparkles, 
   CheckCircle2, 
   ChevronRight, 
   AlertCircle,
   Navigation,
   Check,
-  User,
   Cpu,
   Heart,
   Users,
   Shield,
-  Maximize2,
   Volume2,
   VolumeX,
   Play,
@@ -28,12 +24,9 @@ import {
   getAssetUrl, 
   approvedServices, 
   cliniciansList, 
-  feesCategories, 
-  verifiedReviews, 
-  faqsData,
   bookingTreatmentOptions
 } from '@/data/clinicData';
-import { ServiceItem, Clinician } from '@/types';
+import { ServiceItem } from '@/types';
 
 interface HomePageProps {
   onNavigate: (route: string) => void;
@@ -46,14 +39,10 @@ export const HomePage: React.FC<HomePageProps> = ({
   onOpenBooking,
   onOpenEmergency
 }) => {
-  const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
-  const [sliderPosition, setSliderPosition] = useState(50);
-  const [activeFaq, setActiveFaq] = useState<number | null>(0);
   const [isVideoMuted, setIsVideoMuted] = useState(true);
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
-  const [isHeroFullscreen, setIsHeroFullscreen] = useState(false);
 
-  // Home Page Direct Form State
+  // Home Page Direct Form State (with First & Last name separated + Contact Preference)
   const [homeForm, setHomeForm] = useState({
     firstName: '',
     lastName: '',
@@ -68,27 +57,19 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   const heroVideoRef = useRef<HTMLVideoElement>(null);
   const heroSectionRef = useRef<HTMLDivElement>(null);
-  const sliderContainerRef = useRef<HTMLDivElement>(null);
 
-  // 21st.dev Hero Scroll Downscaling Dock (scales from 1.0 down to 0.92, corners 0px -> 32px)
+  // 21st.dev Hero Scroll Downscaling Dock (scales from 1.0 down to 0.93, corners 0px -> 28px)
   const { scrollYProgress: heroProgress } = useScroll({
     target: heroSectionRef,
     offset: ["start start", "end start"]
   });
-  const heroScale = useTransform(heroProgress, [0, 0.85], [1, 0.92]);
-  const heroRadius = useTransform(heroProgress, [0, 0.85], ["0px", "32px"]);
-  const heroContentY = useTransform(heroProgress, [0, 0.7], [0, -40]);
-  const heroContentOpacity = useTransform(heroProgress, [0, 0.75], [1, 0.4]);
+  const heroScale = useTransform(heroProgress, [0, 0.85], [1, 0.93]);
+  const heroRadius = useTransform(heroProgress, [0, 0.85], ["0px", "28px"]);
+  const heroContentY = useTransform(heroProgress, [0, 0.7], [0, -35]);
+  const heroContentOpacity = useTransform(heroProgress, [0, 0.75], [1, 0.45]);
 
-  // 5 Leading Clinicians matching Frame 16s
+  // 5 Leading Clinicians matching client mockup
   const featuredClinicians = cliniciansList.slice(0, 5);
-
-  const handleSliderMove = (clientX: number) => {
-    if (!sliderContainerRef.current) return;
-    const rect = sliderContainerRef.current.getBoundingClientRect();
-    const position = ((clientX - rect.left) / rect.width) * 100;
-    setSliderPosition(Math.max(0, Math.min(100, position)));
-  };
 
   const toggleVideoPlay = () => {
     if (!heroVideoRef.current) return;
@@ -124,17 +105,17 @@ export const HomePage: React.FC<HomePageProps> = ({
       <div 
         id="hero" 
         ref={heroSectionRef} 
-        className="relative w-full h-[155vh] bg-[#F8FAFC]"
+        className="relative w-full h-[140vh] bg-[#F8FAFC]"
       >
         <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center p-0">
           
-          {/* Animated Hero Canvas: Starts 100vw x 100vh full-bleed, smoothly docks on scroll (scale 1.0 -> 0.92, radius 0px -> 32px) */}
+          {/* Animated Hero Canvas: Starts 100vw x 100vh full-bleed, smoothly docks on scroll (scale 1.0 -> 0.93, radius 0px -> 28px) */}
           <motion.div 
             style={{ 
               scale: heroScale,
               borderRadius: heroRadius
             }}
-            className="relative w-full h-full overflow-hidden shadow-2xl bg-slate-900 will-change-transform border border-slate-800/20 flex items-center justify-center"
+            className="relative w-full h-full overflow-hidden shadow-2xl bg-slate-900 will-change-transform flex items-center justify-start"
           >
             {/* Bright, Crystal-Clear 4K Hero Video (Occupies entire screen) */}
             <video
@@ -148,66 +129,66 @@ export const HomePage: React.FC<HomePageProps> = ({
               className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none z-0"
             />
             
-            {/* Luminous Scrim: Soft directional navy gradient only on text side, keeping video bright and unobstructed across center/right */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0E2B4C]/85 via-[#0E2B4C]/45 to-transparent pointer-events-none z-[1]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0E2B4C]/70 via-transparent to-black/20 pointer-events-none z-[1]" />
+            {/* Subtle Directional Scrim: Only gentle darkening on the far left so video stays bright, vibrant, and letters on glass door remain unobstructed */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0E2B4C]/80 via-[#0E2B4C]/35 to-transparent pointer-events-none z-[1]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0E2B4C]/60 via-transparent to-black/15 pointer-events-none z-[1]" />
 
-            {/* Floating Overlaid Editorial Content: Directly on top of video */}
+            {/* Overlaid Editorial Content: Constrained to max-w-xl on left so center/right glass letters are completely visible */}
             <motion.div 
               style={{ y: heroContentY, opacity: heroContentOpacity }}
               className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 sm:pt-24 pb-12"
             >
-              <div className="max-w-2xl lg:max-w-3xl">
+              <div className="max-w-xl lg:max-w-2xl">
                 
                 {/* 1. Hospital Location Pill */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/60 text-[#0E2B4C] text-xs font-bold uppercase tracking-wider mb-6 shadow-md"
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/60 text-[#0E2B4C] text-[11px] font-bold uppercase tracking-widest mb-5 shadow-sm"
                 >
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#2BB4A7] animate-pulse" />
-                  <span>St. James Hospital • Sliema, Malta</span>
+                  <span className="w-2 h-2 rounded-full bg-[#2BB4A7] animate-pulse" />
+                  <span>ST JAMES HOSPITAL, SLIEMA</span>
                 </motion.div>
 
-                {/* 2. Main Headline (High Contrast White & Teal Overlaid Directly on Video) */}
+                {/* 2. Main Headline (Exact text from client layout) */}
                 <motion.h1
-                  initial={{ opacity: 0, y: 25 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.2 }}
-                  className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white leading-[1.08] mb-6 font-heading drop-shadow-xl"
-                >
-                  Trusted by families <br />
-                  <span className="text-[#2BB4A7] drop-shadow-md">for over 25 years.</span>
-                </motion.h1>
-
-                {/* 3. Subtitle */}
-                <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.3 }}
-                  className="text-base sm:text-xl text-slate-100 font-normal leading-relaxed mb-8 max-w-2xl font-body drop-shadow"
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-[1.08] mb-5 font-heading drop-shadow-lg"
+                >
+                  Dental care done properly. <br />
+                  <span className="text-[#2BB4A7] drop-shadow-md">With one team under one roof.</span>
+                </motion.h1>
+
+                {/* 3. Subtitle (Exact client wording) */}
+                <motion.p
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="text-sm sm:text-base md:text-lg text-slate-100 font-normal leading-relaxed mb-7 max-w-xl font-body drop-shadow"
                 >
                   From your family’s check-ups and children’s dentistry to smile design, implants and full-mouth reconstruction, one team plans your care together.
                 </motion.p>
 
                 {/* 4. Action Pill Buttons */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.4 }}
-                  className="flex flex-wrap items-center gap-3.5 sm:gap-4 mb-8"
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="flex flex-wrap items-center gap-3.5 mb-6"
                 >
                   <button
                     onClick={() => onOpenBooking()}
-                    className="px-7 sm:px-9 py-3.5 sm:py-4 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all duration-200 shadow-xl shadow-teal-950/30 cursor-pointer border border-[#2BB4A7] hover:scale-105 active:scale-95"
+                    className="px-7 sm:px-8 py-3.5 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-lg cursor-pointer border border-[#2BB4A7] hover:scale-105 active:scale-95"
                   >
                     Book a consultation
                   </button>
 
                   <button
                     onClick={() => onNavigate('/treatments')}
-                    className="px-7 sm:px-9 py-3.5 sm:py-4 rounded-full bg-white/95 hover:bg-white text-[#0E2B4C] font-bold text-xs sm:text-sm uppercase tracking-wider transition-all duration-200 border border-white/80 cursor-pointer shadow-lg backdrop-blur-md hover:scale-105 active:scale-95"
+                    className="px-7 sm:px-8 py-3.5 rounded-full bg-white/95 hover:bg-white text-[#0E2B4C] font-bold text-xs uppercase tracking-wider transition-all duration-200 border border-white/80 cursor-pointer shadow-md backdrop-blur-md hover:scale-105 active:scale-95"
                   >
                     Smile design around your face
                   </button>
@@ -215,15 +196,15 @@ export const HomePage: React.FC<HomePageProps> = ({
 
                 {/* 5. Sedation Notice (Frosted Luminous White Card) */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.5 }}
-                  className="rounded-2xl bg-white/95 backdrop-blur-md border border-white/60 p-4 sm:p-5 flex items-start gap-4 text-slate-800 shadow-xl max-w-xl"
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                  className="rounded-2xl bg-white/95 backdrop-blur-md border border-white/60 p-4 flex items-start gap-3.5 text-slate-800 shadow-lg max-w-lg"
                 >
-                  <div className="w-10 h-10 rounded-full bg-[#2BB4A7]/15 border border-[#2BB4A7]/30 flex items-center justify-center shrink-0 mt-0.5 text-[#2BB4A7]">
-                    <Smile className="w-5 h-5 text-[#2BB4A7]" />
+                  <div className="w-8 h-8 rounded-full bg-[#2BB4A7]/15 border border-[#2BB4A7]/30 flex items-center justify-center shrink-0 mt-0.5 text-[#2BB4A7]">
+                    <Smile className="w-4 h-4 text-[#2BB4A7]" />
                   </div>
-                  <div className="text-xs sm:text-sm leading-relaxed text-slate-700">
+                  <div className="text-xs leading-relaxed text-slate-700">
                     <strong className="text-[#0E2B4C] font-bold">Nervous about the dentist?</strong> All our treatments are available under sedation, with a consultant anaesthetist, in a hospital setting.
                   </div>
                 </motion.div>
@@ -235,14 +216,14 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 z-20 flex items-center gap-2">
               <button
                 onClick={toggleVideoPlay}
-                className="p-3 rounded-full bg-white/90 hover:bg-white text-[#0E2B4C] shadow-xl backdrop-blur-md cursor-pointer border border-white/50 transition-transform hover:scale-110 active:scale-95"
+                className="p-3 rounded-full bg-white/90 hover:bg-white text-[#0E2B4C] shadow-lg backdrop-blur-md cursor-pointer border border-white/50 transition-transform hover:scale-110 active:scale-95"
                 aria-label={isVideoPlaying ? "Pause video" : "Play video"}
               >
                 {isVideoPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
               </button>
               <button
                 onClick={toggleVideoMute}
-                className="p-3 rounded-full bg-white/90 hover:bg-white text-[#0E2B4C] shadow-xl backdrop-blur-md cursor-pointer border border-white/50 transition-transform hover:scale-110 active:scale-95"
+                className="p-3 rounded-full bg-white/90 hover:bg-white text-[#0E2B4C] shadow-lg backdrop-blur-md cursor-pointer border border-white/50 transition-transform hover:scale-110 active:scale-95"
                 aria-label={isVideoMuted ? "Unmute video" : "Mute video"}
               >
                 {isVideoMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
@@ -276,7 +257,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
             </div>
 
-            {/* Column 2: Emergency contact */}
+            {/* Column 2: Emergency contact (No alarmist red, pure clean medical navy/teal) */}
             <div 
               onClick={onOpenEmergency}
               className="flex items-center gap-4 p-3 rounded-2xl md:border-x md:border-white/10 md:px-6 hover:bg-white/5 cursor-pointer transition-colors group"
@@ -285,7 +266,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <Phone className="w-5 h-5 text-[#2BB4A7]" />
               </div>
               <div>
-                <div className="text-base font-bold text-white group-hover:text-rose-300 transition-colors font-heading">
+                <div className="text-base font-bold text-white group-hover:text-[#2BB4A7] transition-colors font-heading">
                   Emergency contact
                 </div>
                 <div className="text-xs text-slate-300 font-body">
@@ -314,8 +295,78 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 3. FOUR CORE TREATMENT CATEGORIES (MATCHING APPROVED FIGMA FRAME 04s) */}
-      <section id="services" className="py-20 lg:py-28 bg-[#F8FAFC]">
+      {/* 3. A WELCOME FROM DR MARK AND DR SUSANNA (FOUNDERS SECTION, CAPTURAS 04 & 05) */}
+      <section className="py-20 lg:py-28 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            
+            {/* Founders Joint Photo */}
+            <div className="lg:col-span-6">
+              <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200 aspect-[4/3] sm:aspect-[16/12] bg-slate-100">
+                <img
+                  src={getAssetUrl('clinic/founders_diacono.jpg')}
+                  alt="Dr Mark Diacono and Dr Susanna Diacono - Co-Founders of Dental and Implantology Unit"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-md">
+                  <div className="text-sm font-bold text-[#0E2B4C] font-heading">
+                    Dr Mark Diacono &amp; Dr Susanna Diacono
+                  </div>
+                  <div className="text-xs text-slate-500 font-medium">
+                    Founders &amp; Clinical Directors · St James Hospital, Sliema (Est. 1999)
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Content Column with Exact Client Copy */}
+            <div className="lg:col-span-6">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-4">
+                A Welcome from Dr Mark &amp; Dr Susanna
+              </span>
+              
+              <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0E2B4C] mb-6 font-heading leading-tight">
+                Every smile <span className="text-[#2BB4A7]">has a story.</span>
+              </h2>
+
+              <div className="space-y-4 text-slate-600 text-sm sm:text-base leading-relaxed font-body mb-8">
+                <p>
+                  We founded the Dental and Implantology Unit in 1999 with a simple conviction: patients deserve unhurried, thoughtful dental care from clinicians who take the time to listen.
+                </p>
+                <p>
+                  Being based inside St James Hospital allows us to offer something rare in private practice: a complete multidisciplinary team collaborating on complex cases, access to hospital-level theatre and sedation facilities, and the reassurance of an established medical environment.
+                </p>
+                <p>
+                  Whether you’re visiting for a regular check-up or embarking on a full smile reconstruction, you’re in caring, experienced hands.
+                </p>
+              </div>
+
+              {/* Doctor Signatures / Credentials */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-slate-100">
+                <div>
+                  <div className="font-bold text-[#0E2B4C] text-sm font-heading">Dr Mark Diacono</div>
+                  <div className="text-xs text-slate-500 leading-snug">
+                    B.Ch.D. (Hons), M.Sc. (Lond.), F.D.S.R.C.S. (Eng.) <br />
+                    <span className="text-[#2BB4A7] font-semibold">Specialist in Oral Surgery</span>
+                  </div>
+                </div>
+                <div>
+                  <div className="font-bold text-[#0E2B4C] text-sm font-heading">Dr Susanna Diacono</div>
+                  <div className="text-xs text-slate-500 leading-snug">
+                    B.Ch.D. (Hons), M.Sc. Restorative (Lond.) <br />
+                    <span className="text-[#2BB4A7] font-semibold">Master in Digital Smile Design</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 4. FOUR CORE TREATMENT CATEGORIES (IMPLANTS & DSD FIRST, VERTICAL CLEAN GRID, CAPTURAS 06-09) */}
+      <section id="services" className="py-20 lg:py-28 bg-[#F8FAFC] border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -330,7 +381,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             </p>
           </div>
 
-          {/* 4 Cards Grid with Real Clinic Photos and Exact Copy from Frame 04s */}
+          {/* 4 Cards Grid with Real Clinic Photos and Exact Copy from Client Mockups */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8">
             {approvedServices.map((svc) => (
               <div
@@ -377,14 +428,14 @@ export const HomePage: React.FC<HomePageProps> = ({
                 {/* Card Footer Link */}
                 <div className="p-6 pt-0 flex items-center justify-between">
                   <button
-                    onClick={() => onOpenBooking({ treatment: svc.title })}
+                    onClick={() => onNavigate('/treatments')}
                     className="text-xs font-bold text-[#2BB4A7] hover:text-[#0E2B4C] transition-colors flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 uppercase tracking-wider"
                   >
                     <span>Learn more →</span>
                   </button>
                   <button
                     onClick={() => onOpenBooking({ treatment: svc.title })}
-                    className="px-3 py-1.5 rounded-full bg-slate-50 hover:bg-[#0E2B4C] text-slate-700 hover:text-white text-[11px] font-bold border border-slate-200 transition-colors cursor-pointer"
+                    className="px-3.5 py-1.5 rounded-full bg-slate-50 hover:bg-[#0E2B4C] text-slate-700 hover:text-white text-[11px] font-bold border border-slate-200 transition-colors cursor-pointer"
                   >
                     Book
                   </button>
@@ -399,7 +450,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               onClick={() => onNavigate('/treatments')}
               className="px-8 py-3.5 rounded-full bg-white hover:bg-slate-50 text-[#0E2B4C] font-bold text-xs uppercase tracking-wider border border-slate-300 transition-all cursor-pointer shadow-sm inline-flex items-center gap-2 hover:scale-102"
             >
-              <span>Explore All Clinical Services & Specialties</span>
+              <span>Explore All Clinical Services &amp; Specialties</span>
               <ArrowRight className="w-4 h-4 text-[#2BB4A7]" />
             </button>
           </div>
@@ -407,27 +458,193 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 4. FOR ANXIOUS PATIENTS: SAFE, GENTLE HANDS (MATCHING APPROVED FIGMA FRAME 08s) */}
+      {/* 5. DSD SIGNATURE TREATMENT SECTION (CAPTURA 10) */}
+      <section className="py-20 lg:py-28 bg-[#0E2B4C] text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center mb-16">
+            <div className="lg:col-span-6">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-4">
+                DIGITAL SMILE DESIGN
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-6 font-heading leading-tight">
+                See your new smile <br />
+                <span className="text-[#2BB4A7]">before we touch a tooth</span>
+              </h2>
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-body">
+                Digital Smile Design (DSD) uses facial 3D scanning and computer modeling to design restorations that harmonize with your natural facial proportions. You preview, adjust and approve your new smile before treatment begins.
+              </p>
+
+              <div className="space-y-3 mb-8">
+                {[
+                  "Designed to your facial symmetry, not a generic template",
+                  "Try on your temporary mockup smile in person",
+                  "Precision-engineered ceramic veneers and crowns",
+                  "Planned jointly with our surgical team when implants are needed"
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-3 text-xs sm:text-sm text-slate-200">
+                    <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                onClick={() => onOpenBooking({ treatment: 'Digital Smile Design & Restorative Dentistry' })}
+                className="px-8 py-4 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg cursor-pointer hover:scale-105"
+              >
+                Experience Digital Smile Design
+              </button>
+            </div>
+
+            <div className="lg:col-span-6">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 aspect-[4/3] sm:aspect-[16/11]">
+                <img
+                  src={getAssetUrl('clinic/md_3d_scanner_and_pt.jpg')}
+                  alt="Digital Smile Design scanning chairside with patient"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-4 left-4 px-3.5 py-1 rounded-full bg-[#0E2B4C]/90 backdrop-blur-md text-white text-xs font-bold border border-white/20">
+                  3D Face &amp; Smile Digital Planning
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 4 Steps Process Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-12 border-t border-white/10">
+            {[
+              { num: "01", title: "3D Facial & Dental Scan", desc: "Digital intraoral scan and high-definition facial photography capture your natural smile dynamics." },
+              { num: "02", title: "Digital Aesthetic Simulation", desc: "Using advanced DSD software, we design the ideal length, width, and contours suited to your face." },
+              { num: "03", title: "Realistic Clinical Mock-up", desc: "A physical trial smile is placed directly in your mouth so you can evaluate the look and feel." },
+              { num: "04", title: "Precision Ceramic Placement", desc: "Once you approve the design, custom ceramic veneers or crowns are milled and placed." }
+            ].map((step, idx) => (
+              <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors">
+                <span className="text-[#2BB4A7] text-xs font-extrabold tracking-widest block mb-2 font-mono">
+                  [ STEP {step.num} ]
+                </span>
+                <h3 className="text-base font-bold text-white mb-2 font-heading">
+                  {step.title}
+                </h3>
+                <p className="text-xs text-slate-300 leading-relaxed font-body">
+                  {step.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 6. CARE WITHOUT COMPROMISE (WHY CHOOSE DIU, CAPTURA 11) */}
+      <section className="py-20 lg:py-28 bg-[#F8FAFC] border-b border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center mb-16">
+            <div className="lg:col-span-6">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-4">
+                WHY PATIENTS CHOOSE DIU
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0E2B4C] mb-6 font-heading leading-tight">
+                Care without <br />
+                <span className="text-[#2BB4A7]">compromise</span>
+              </h2>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-body">
+                We believe exceptional dentistry relies on three essentials: meticulous clinical skill, state-of-the-art diagnostic technology, and a hospital setting that guarantees total safety and peace of mind.
+              </p>
+            </div>
+
+            <div className="lg:col-span-6">
+              <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200 aspect-[16/10] bg-slate-100">
+                <img
+                  src={getAssetUrl('clinic/scanner_screen.jpg')}
+                  alt="3D Dental Scanner Diagnostic Screen"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-4 left-4 px-3.5 py-1 rounded-full bg-white/95 backdrop-blur-md text-[#0E2B4C] text-xs font-bold uppercase tracking-wider border border-slate-200 shadow-2xs">
+                  Advanced 3D Optical Diagnostics
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 4 Pillars Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <div className="bg-white p-7 rounded-3xl border border-slate-200/90 shadow-sm text-center flex flex-col items-center">
+              <div className="w-14 h-14 rounded-2xl bg-teal-50 border border-teal-200 text-[#2BB4A7] flex items-center justify-center mb-4">
+                <Cpu className="w-7 h-7" />
+              </div>
+              <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading">
+                Modern technology
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
+                3D dental scanner, crowns in a single visit with CAD/CAM technology, and 3D X-ray (CBCT).
+              </p>
+            </div>
+
+            <div className="bg-white p-7 rounded-3xl border border-slate-200/90 shadow-sm text-center flex flex-col items-center">
+              <div className="w-14 h-14 rounded-2xl bg-teal-50 border border-teal-200 text-[#2BB4A7] flex items-center justify-center mb-4">
+                <Heart className="w-7 h-7" />
+              </div>
+              <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading">
+                Anxious–patient care
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
+                Sedation with a consultant anaesthetist for nervous patients.
+              </p>
+            </div>
+
+            <div className="bg-white p-7 rounded-3xl border border-slate-200/90 shadow-sm text-center flex flex-col items-center">
+              <div className="w-14 h-14 rounded-2xl bg-teal-50 border border-teal-200 text-[#2BB4A7] flex items-center justify-center mb-4">
+                <Users className="w-7 h-7" />
+              </div>
+              <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading">
+                Multidisciplinary team
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
+                Complex cases planned as a specialist team, all under one roof.
+              </p>
+            </div>
+
+            <div className="bg-white p-7 rounded-3xl border border-slate-200/90 shadow-sm text-center flex flex-col items-center">
+              <div className="w-14 h-14 rounded-2xl bg-teal-50 border border-teal-200 text-[#2BB4A7] flex items-center justify-center mb-4">
+                <Shield className="w-7 h-7" />
+              </div>
+              <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading">
+                Hospital–level safety
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
+                Based inside St James Hospital, Sliema, trusted since 1999.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* 7. FOR ANXIOUS PATIENTS: SAFE, GENTLE HANDS (CAPTURA 12 & 13) */}
       <section className="py-20 lg:py-28 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
-            {/* Left Image: The Actual Waiting Room 2 Lounge (Frame 08s) */}
+            {/* Dr Mark explaining jaw model to patient */}
             <div className="lg:col-span-6">
               <div className="rounded-3xl overflow-hidden shadow-xl border border-slate-200 bg-slate-100 relative aspect-[4/3] sm:aspect-[16/11]">
                 <img
-                  src={getAssetUrl('clinic/waiting_room_2.jpg')}
-                  alt="DiU Clinic Malta Private Patient Waiting Lounge"
+                  src={getAssetUrl('clinic/dr_mark_patient_model.jpg')}
+                  alt="Dr Mark Diacono explaining procedure gently to patient"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute top-4 left-4 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#0E2B4C] text-xs font-bold uppercase tracking-wider border border-slate-200 shadow-2xs">
-                  Serene Hospital Waiting Lounge
+                  Unhurried Patient Care
                 </div>
               </div>
             </div>
 
-            {/* Right Text Content (Exact Text from Frame 08s) */}
+            {/* Exact Client Text */}
             <div className="lg:col-span-6">
               <div className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-4">
                 FOR ANXIOUS PATIENTS
@@ -468,71 +685,8 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 5. FOUR PILLARS OF EXCELLENCE (MATCHING APPROVED FIGMA FRAME 12s) */}
-      <section className="py-16 sm:py-20 bg-[#F8FAFC] border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            {/* Pillar 1: Modern technology */}
-            <div className="bg-white p-7 rounded-3xl border border-slate-200/90 shadow-sm text-center flex flex-col items-center">
-              <div className="w-14 h-14 rounded-2xl bg-teal-50 border border-teal-200 text-[#2BB4A7] flex items-center justify-center mb-4">
-                <Cpu className="w-7 h-7" />
-              </div>
-              <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading">
-                Modern technology
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
-                3D dental scanner, crowns in a single visit with CAD/CAM technology, and 3D X-ray (CBCT).
-              </p>
-            </div>
-
-            {/* Pillar 2: Anxious-patient care */}
-            <div className="bg-white p-7 rounded-3xl border border-slate-200/90 shadow-sm text-center flex flex-col items-center">
-              <div className="w-14 h-14 rounded-2xl bg-teal-50 border border-teal-200 text-[#2BB4A7] flex items-center justify-center mb-4">
-                <Heart className="w-7 h-7" />
-              </div>
-              <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading">
-                Anxious–patient care
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
-                Sedation with a consultant anaesthetist for nervous patients.
-              </p>
-            </div>
-
-            {/* Pillar 3: Multidisciplinary team */}
-            <div className="bg-white p-7 rounded-3xl border border-slate-200/90 shadow-sm text-center flex flex-col items-center">
-              <div className="w-14 h-14 rounded-2xl bg-teal-50 border border-teal-200 text-[#2BB4A7] flex items-center justify-center mb-4">
-                <Users className="w-7 h-7" />
-              </div>
-              <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading">
-                Multidisciplinary team
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
-                Complex cases planned as a specialist team, all under one roof.
-              </p>
-            </div>
-
-            {/* Pillar 4: Hospital-level safety */}
-            <div className="bg-white p-7 rounded-3xl border border-slate-200/90 shadow-sm text-center flex flex-col items-center">
-              <div className="w-14 h-14 rounded-2xl bg-teal-50 border border-teal-200 text-[#2BB4A7] flex items-center justify-center mb-4">
-                <Shield className="w-7 h-7" />
-              </div>
-              <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading">
-                Hospital–level safety
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
-                Based inside St James Hospital, Sliema, trusted since 1999.
-              </p>
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* 6. OUR CLINICIANS & TEAM (MATCHING APPROVED FIGMA FRAME 16s) */}
-      <section id="our-team" className="py-20 lg:py-28 bg-white border-b border-slate-100">
+      {/* 8. OUR CLINICIANS & TEAM (MATCHING APPROVED FIGMA FRAME 16s) */}
+      <section id="our-team" className="py-20 lg:py-28 bg-[#F8FAFC] border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
@@ -554,7 +708,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             {featuredClinicians.map((person) => (
               <div
                 key={person.id}
-                className="rounded-3xl bg-[#F8FAFC] border border-slate-200/80 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1"
+                className="rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1"
               >
                 <div>
                   <div className="relative aspect-[4/4] overflow-hidden bg-slate-200">
@@ -582,7 +736,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <div className="p-4 sm:p-5 pt-0">
                   <button
                     onClick={() => onOpenBooking({ doctor: person.name, treatment: person.treatmentDefault })}
-                    className="w-full py-2.5 rounded-full bg-white hover:bg-[#0E2B4C] text-[#0E2B4C] hover:text-white font-bold text-[11px] uppercase tracking-wider border border-slate-200 transition-colors cursor-pointer"
+                    className="w-full py-2.5 rounded-full bg-slate-50 hover:bg-[#0E2B4C] text-[#0E2B4C] hover:text-white font-bold text-[11px] uppercase tracking-wider border border-slate-200 transition-colors cursor-pointer"
                   >
                     Inquire
                   </button>
@@ -606,106 +760,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 7. AWARD-WINNING RESTORATIONS (BEFORE & AFTER SLIDER WITH ROUNDED CORNERS) */}
-      <section className="py-20 lg:py-28 bg-[#F8FAFC] border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-3">
-              Real Clinical Restorations
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0E2B4C] font-heading">
-              Award-Winning Restorations
-            </h2>
-            <p className="text-slate-600 text-sm sm:text-base mt-2 font-body max-w-xl mx-auto">
-              Drag the center slider to inspect how our surgical and ceramic restorative team restored missing teeth to natural function.
-            </p>
-          </div>
-
-          {/* Interactive Before & After Slider */}
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white p-5 sm:p-8 rounded-3xl border border-slate-200 shadow-xl">
-              
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-100">
-                <div>
-                  <div className="text-xs font-bold uppercase tracking-wider text-[#2BB4A7]">
-                    Fixed Swiss Dental Implants Case
-                  </div>
-                  <div className="text-xl sm:text-2xl font-bold text-[#0E2B4C] font-heading">
-                    3 Missing Teeth Restored to Fixed Perfection
-                  </div>
-                </div>
-                <span className="px-3 py-1 rounded-full bg-teal-50 text-[#0E2B4C] text-xs font-bold border border-teal-200 self-start sm:self-auto">
-                  Immediate Ceramic Loading
-                </span>
-              </div>
-
-              {/* Slider Viewport */}
-              <div
-                ref={sliderContainerRef}
-                onMouseMove={(e) => handleSliderMove(e.clientX)}
-                onTouchMove={(e) => handleSliderMove(e.touches[0].clientX)}
-                onTouchStart={(e) => handleSliderMove(e.touches[0].clientX)}
-                className="relative rounded-2xl overflow-hidden aspect-[4/3] sm:aspect-[16/9] border border-slate-200 shadow-lg cursor-ew-resize select-none bg-slate-100 touch-none"
-              >
-                {/* AFTER: Base Image */}
-                <img
-                  src={getAssetUrl('dental_case_after.jpg')}
-                  alt="After: Permanent Ceramic Dental Implant Restoration"
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-
-                {/* BEFORE: Clipped Layer */}
-                <div
-                  className="absolute inset-0 overflow-hidden"
-                  style={{ width: `${sliderPosition}%` }}
-                >
-                  <img
-                    src={getAssetUrl('dental_case_before.jpg')}
-                    alt="Before: 3-Tooth Absence Case"
-                    className="absolute inset-0 w-full h-full object-cover max-w-none"
-                    style={{ width: sliderContainerRef.current ? `${sliderContainerRef.current.clientWidth}px` : '100%' }}
-                  />
-                </div>
-
-                {/* Center Divider */}
-                <div
-                  className="absolute top-0 bottom-0 w-1 bg-white shadow-2xl cursor-ew-resize flex items-center justify-center z-20"
-                  style={{ left: `${sliderPosition}%` }}
-                >
-                  <div className="w-10 h-10 rounded-full bg-[#0E2B4C] text-white flex items-center justify-center shadow-xl border-2 border-white text-xs font-bold">
-                    ⇄
-                  </div>
-                </div>
-
-                {/* Badges */}
-                <div className="absolute top-3 left-3 z-10 px-3 py-1 rounded-full bg-white/95 text-slate-900 text-xs font-bold border border-slate-200 shadow-md">
-                  BEFORE: Missing Teeth
-                </div>
-                <div className="absolute top-3 right-3 z-10 px-3 py-1 rounded-full bg-[#0E2B4C] text-white text-xs font-bold border border-blue-400/40 shadow-md">
-                  AFTER: Fixed Teeth
-                </div>
-              </div>
-
-              <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800">
-                <div className="text-xs sm:text-sm text-slate-700">
-                  <strong className="text-[#0E2B4C]">Hospital Protocol:</strong> 3D CBCT guided implantology • German CEREC single-visit milling • St. James Hospital
-                </div>
-                <button
-                  onClick={() => onOpenBooking({ treatment: 'Dental Implant & Oral Surgery' })}
-                  className="px-6 py-2.5 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-xs shrink-0"
-                >
-                  Inquire About This Case
-                </button>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 8. PATIENT INFORMATION (MATCHING APPROVED FIGMA FRAME 24s) */}
+      {/* 9. PATIENT INFORMATION (MATCHING APPROVED FIGMA FRAME 24s) */}
       <section className="py-20 lg:py-28 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -760,20 +815,20 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
             </div>
 
-            {/* Card 4: Dental emergencies */}
+            {/* Card 4: Dental emergencies (Clean, calm hospital support) */}
             <div 
               onClick={onOpenEmergency}
-              className="p-7 rounded-3xl bg-rose-50/60 border border-rose-200/80 shadow-xs hover:shadow-md transition-all cursor-pointer group"
+              className="p-7 rounded-3xl bg-teal-50/50 border border-teal-200/80 shadow-xs hover:shadow-md transition-all cursor-pointer group"
             >
-              <h3 className="text-lg font-bold text-rose-950 mb-2 font-heading group-hover:text-rose-700 transition-colors">
+              <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading group-hover:text-[#2BB4A7] transition-colors">
                 Dental emergencies
               </h3>
-              <p className="text-xs text-rose-900 leading-relaxed font-body mb-2">
-                During opening hours: <strong className="underline">2329 1029</strong> <br />
-                WhatsApp: <strong className="underline">9999 1029</strong>
+              <p className="text-xs text-slate-700 leading-relaxed font-body mb-2">
+                During opening hours: <strong className="underline text-[#0E2B4C]">2329 1029</strong> <br />
+                WhatsApp: <strong className="underline text-[#0E2B4C]">9999 1029</strong>
               </p>
-              <p className="text-xs text-rose-800 font-body">
-                Out of hours: <strong className="underline">2329 1000</strong>
+              <p className="text-xs text-slate-600 font-body">
+                Out of hours: <strong className="underline text-[#0E2B4C]">2329 1000</strong>
               </p>
             </div>
 
@@ -782,7 +837,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 9. HOW TO FIND US INSIDE ST. JAMES HOSPITAL (FRAME 28s) */}
+      {/* 10. HOW TO FIND US INSIDE ST. JAMES HOSPITAL (CAPTURA 28) */}
       <section className="py-20 lg:py-28 bg-[#F8FAFC] border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -864,7 +919,40 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 10. BOOK A CONSULTATION SECTION (MATCHING APPROVED FIGMA FRAME 28s & 32s) */}
+      {/* 11. PERSONAL ESTIMATE CTA STRIP */}
+      <section className="bg-white py-12 border-b border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="rounded-3xl bg-slate-50 border border-slate-200/90 p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="max-w-xl">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#2BB4A7]">
+                Transparent Pricing Guarantee
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-bold text-[#0E2B4C] font-heading mt-1">
+                Ask us for a personal estimate
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 mt-2 font-body leading-relaxed">
+                Every treatment plan is personal. Call us on <strong>2329 1029</strong>, message on WhatsApp, or send an inquiry — you will receive a transparent written plan with no hidden extras.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
+              <button
+                onClick={() => onNavigate('/prices')}
+                className="px-6 py-3.5 rounded-full bg-white hover:bg-slate-100 text-[#0E2B4C] font-bold text-xs uppercase tracking-wider border border-slate-300 transition-colors shadow-2xs"
+              >
+                View Fees &amp; Prices
+              </button>
+              <button
+                onClick={() => onOpenBooking()}
+                className="px-7 py-3.5 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md"
+              >
+                Request an Estimate
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 12. BOOK A CONSULTATION SECTION (MATCHING APPROVED FIGMA FRAME 28s & 32s) */}
       <section id="contact-booking" className="py-20 lg:py-28 bg-[#0E2B4C] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -921,7 +1009,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   <span>Fri, Sat</span>
                   <span className="text-white font-medium">9:00 – 13:30</span>
                 </div>
-                <div className="flex justify-between text-rose-300">
+                <div className="flex justify-between text-slate-400">
                   <span>Sunday</span>
                   <span>Closed</span>
                 </div>

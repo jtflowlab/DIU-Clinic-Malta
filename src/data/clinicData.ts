@@ -224,28 +224,10 @@ export const cliniciansList: Clinician[] = [
   }
 ];
 
-// Approved Treatments Matching Client Figma Frame 04s + Real Clinic Photos
+// Approved Treatments Matching Client Layout - Implants & DSD First
 export const approvedServices: ServiceItem[] = [
   {
     num: "01",
-    id: "FAMILY",
-    title: "Family & General Dentistry",
-    tagline: "Everyday Care & Prevention",
-    image: "clinic/examination_for_fading_background.jpg",
-    bgClass: "bg-white",
-    accentColor: "#2BB4A7",
-    summary: "Everyday care to keep teeth and gums healthy at every age, with regular check-ups, hygienist visits, fillings and gentle dentistry for children.",
-    bullets: [
-      "Regular check-ups and preventative screenings",
-      "Ultrasonic hygiene cleanings and stain removal",
-      "Gentle paediatric dentistry for infants and children",
-      "Minimally invasive tooth-coloured fillings"
-    ],
-    desc: "Our general dental team provides attentive, long-term oral care for your entire family. From routine hygiene cleanings and preventive fluoride treatments to paediatric appointments designed to make children feel at home, we protect your oral health at every stage of life.",
-    clinicians: ["Dr Michael Rafferty (General Dentist)", "Dr Lisa Gatt (General Dentist)", "Mrs Mary-Jane Galea (Dental Hygienist)"]
-  },
-  {
-    num: "02",
     id: "IMPLANTS",
     title: "Dental Implant & Oral Surgery",
     tagline: "Specialist Surgical Care",
@@ -255,31 +237,49 @@ export const approvedServices: ServiceItem[] = [
     summary: "Oral surgery and implants, from a single tooth to full-mouth reconstruction, with specialist care.",
     bullets: [
       "Single tooth implants with Swiss biocompatible titanium",
-      "Same-day All-on-4 / All-on-6 full arch fixed teeth",
+      "Full-mouth reconstruction and immediate loading",
       "Hospital-grade 3D CBCT bone diagnostics",
       "Sterile operating theatre surgical safety"
     ],
-    desc: "Led by Dr. Mark Diacono and our consultant surgical team at St. James Hospital. We restore missing teeth with permanent, rock-solid implants. Using 3D computer-guided planning, our patients can receive immediate-load fixed teeth without removable dentures.",
-    clinicians: ["Dr Mark Diacono (Principal Specialist Oral Surgeon)", "Prof. Nikolai Attard (Specialist Prosthodontist)", "Dr Fokion Iatridis (Specialist Prosthodontist)"]
+    desc: "From replacing a single tooth to rebuilding a full smile, our oral surgeon and prosthodontists plan and carry out your treatment together, in the safe setting of St James Hospital, Sliema.",
+    clinicians: ["Dr Mark Diacono (Oral Surgeon)", "Prof. Nikolai Attard (Prosthodontist)", "Dr Fokion Iatridis (Prosthodontist)"]
   },
   {
-    num: "03",
+    num: "02",
     id: "DSD",
-    title: "Digital Smile Design & Restorative",
-    tagline: "Facially Driven Smile Mockup",
+    title: "Digital Smile Design & Restorative Dentistry",
+    tagline: "Facially Driven Smile Design",
     image: "clinic/md_3d_scanner_and_pt.jpg",
     bgClass: "bg-white",
     accentColor: "#2BB4A7",
     isGold: true,
     summary: "Facially driven smile design, veneers, crowns, bridges, full-mouth reconstruction, root canal treatment and composite bonding.",
     bullets: [
-      "3D facial dynamic scan and cosmetic harmony analysis",
-      "Try on a temporary test-drive smile in your mouth first",
+      "Designed around your face, lips and smile dynamics",
+      "Test-drive your mock-up smile in your mouth first",
       "CEREC 1-hour German porcelain crowns & veneers",
-      "Biomimetic aesthetic composite bonding"
+      "Aesthetic biomimetic composite bonding"
     ],
-    desc: "Led by Dr. Susanna Diacono, Malta's pioneer Digital Smile Design Master. We record your facial features and lip symmetry to craft a customized smile mockup that you can test-drive in the mirror before any permanent treatment begins.",
-    clinicians: ["Dr Susanna Diacono (Restorative Dentist & DSD Master)", "Dr Laura Cuschieri (Digital Dentistry & Composite Bonding)"]
+    desc: "Your new smile, designed around your face. As a certified Digital Smile Design clinic, we plan your smile on screen, then make a mock-up in your mouth so you can see it before treatment begins.",
+    clinicians: ["Dr Susanna Diacono (DSD & Full Mouth)", "Dr Laura Cuschieri (Composite Bonding)", "Dr Susanna Diacono (Root Canal Treatment)"]
+  },
+  {
+    num: "03",
+    id: "FAMILY",
+    title: "Family & General Dentistry",
+    tagline: "Everyday Care & Prevention",
+    image: "clinic/examination_for_fading_background.jpg",
+    bgClass: "bg-white",
+    accentColor: "#2BB4A7",
+    summary: "Everyday care to keep teeth and gums healthy at every age, with regular check-ups, hygienist visits, fillings and gentle dentistry for children.",
+    bullets: [
+      "Regular check-ups and thorough examinations",
+      "Hygienist visits and periodontal gum maintenance",
+      "Tooth-coloured composite fillings",
+      "Gentle, reassuring dentistry for children"
+    ],
+    desc: "Everyday care to keep teeth and gums healthy at every age, with regular check-ups, hygienist visits, fillings and gentle dentistry for children in a calm hospital environment.",
+    clinicians: ["Dr Michael Rafferty (General Dentist)", "Dr Lisa Carabott (General Dentist)", "Mrs Mary-Jane Galea (Dental Hygienist)"]
   },
   {
     num: "04",
@@ -291,90 +291,225 @@ export const approvedServices: ServiceItem[] = [
     accentColor: "#0E2B4C",
     summary: "Using sedation with a consultant anaesthetist, in a safe, hospital-based clinic. Available for all our treatments.",
     bullets: [
-      "Consultant hospital anaesthetist stays by your side",
-      "Drift into a peaceful, pain-free twilight sleep",
-      "Zero frightening drill sounds, zero anxiety",
-      "Complete multiple treatments in a single calm visit"
+      "Supervised by a consultant hospital anaesthetist",
+      "Peaceful, calm twilight relaxation state",
+      "Zero pain, zero distress, zero dental anxiety",
+      "Available for all routine and complex treatments"
     ],
-    desc: "If dental fear has caused you to put off needed treatment, our hospital-based IV sedation program ensures you feel completely safe and serene. You drift into a restful twilight state while our clinicians complete your care effortlessly.",
-    clinicians: ["Supervised by Consultant Hospital Anaesthetists inside St. James Hospital"]
+    desc: "Dental anxiety is common, and you are not alone. We offer sedation with a consultant anaesthetist, so you can receive the care you need feeling completely supported.",
+    clinicians: ["With our consultant anaesthetist"]
   }
 ];
 
-// All booking treatment options (with General Consultation as #1 default per client notes)
+// All booking treatment options (with Consultation as default)
 export const bookingTreatmentOptions = [
   "Initial Dental Consultation & Check-up",
-  "Family & General Dentistry",
   "Dental Implant & Oral Surgery",
   "Digital Smile Design & Restorative Dentistry",
+  "Family & General Dentistry",
   "Treatment for Anxious Patients (Sedation)",
-  "CEREC 3D Ceramics & Single-Visit Crowns",
-  "Dental Emergency & Urgent Care",
-  "Periodontal Hygiene & Cleaning"
+  "Composite Bonding & Veneers",
+  "Hygiene & Gum Care"
 ];
 
-// Hospital Fees & Prices
+// Official Hospital Treatment Prices Matching Client Fees Sheets (Capturas 11-16)
 export const feesCategories: FeeCategory[] = [
   {
-    title: "Consultation & 3D Diagnostics",
-    description: "Thorough clinical examination, digital imaging, and transparent treatment plan",
+    title: "Dental Implant & Oral Surgery",
+    description: "with Dr Mark Diacono (Principal Specialist Oral Surgeon)",
     items: [
       {
-        name: "Initial Comprehensive Dental Consultation & Examination",
+        name: "Implant consultation",
         price: "€75",
-        features: ["Full mouth examination by doctor", "Written treatment plan with exact fees", "Direct clinician discussion"]
+        features: ["Specialist surgical consultation", "Examination and 3D CBCT review", "Written personal plan"]
       },
       {
-        name: "Hospital Low-Dose 3D CBCT Bone Scan",
-        price: "€120",
-        features: ["Low-radiation 3D diagnostic scan", "Precise anatomical bone measurement", "Immediate digital report"]
+        name: "Single implant including implant crown",
+        price: "from €2,400",
+        features: ["Swiss biocompatible titanium implant", "Custom ceramic implant crown", "Hospital sterile theatre protocol"]
       },
       {
-        name: "Digital Smile Design (DSD Mockup Preview)",
-        price: "from €150",
-        features: ["Facial dynamic video analysis", "Physical test-drive smile in your mouth", "Mirror preview before any procedure"]
+        name: "Full-mouth implants (including final restoration)",
+        price: "from €4,500",
+        features: ["Complete arch fixed reconstruction", "Surgeon and prosthodontist planned", "Immediate functional support"]
       }
     ]
   },
   {
-    title: "Dental Implants & Restorative Dentistry",
-    description: "Swiss biocompatible implants and German CEREC CAD/CAM porcelain ceramics",
+    title: "Digital Smile Design (DSD)",
+    description: "with Dr Susanna Diacono (Restorative Dentist & DSD Master)",
     items: [
       {
-        name: "Single Swiss Titanium Implant",
-        price: "from €850",
-        features: ["Swiss biocompatible fixture", "Sterile hospital operating theatre", "Long-term clinical registry"]
+        name: "DSD consultation",
+        price: "€400",
+        features: ["Facial dynamic photography & video", "3D digital intraoral scan", "Computer-aided smile design"]
       },
       {
-        name: "CEREC Same-Day 3D Porcelain Crown",
-        price: "from €550",
-        features: ["Diamond-milled on-site in 60 minutes", "No messy impression trays", "Natural aesthetic shade match"]
-      },
-      {
-        name: "All-on-4 / All-on-6 Full Arch Same-Day Teeth",
-        price: "Personalised Consultation",
-        features: ["Fixed teeth loaded on the same day", "No removable dentures", "Consultant surgical & prosthodontic team"]
+        name: "DSD smile mock-up",
+        price: "€100",
+        features: ["Physical 3D smile model in your mouth", "Test-drive your smile in the mirror", "Agreed design before any procedure"]
       }
     ]
   },
   {
-    title: "Sedation, Hygiene & General Care",
-    description: "Hospital consultant sedation protocols and gentle preventive dental care",
+    title: "General Dentistry",
+    description: "Dr Michael Rafferty · Dr Lisa Carabott · Dr Francesca Schembri",
     items: [
       {
-        name: "Consultant Anaesthetist IV Sedation",
-        price: "from €350",
-        features: ["Certified hospital anaesthetist", "Twilight relaxation state", "100% pain & anxiety free"]
+        name: "New patient examination (includes X-rays)",
+        price: "€50",
+        features: ["Complete mouth assessment", "Digital diagnostic X-rays included", "Written treatment plan with costs"]
       },
       {
-        name: "Preventive Dental Hygiene & Air-Flow Polish",
+        name: "Dental examination",
+        price: "€50",
+        features: ["Routine follow-up check-up", "Gum and tooth health screening", "Personalized hygiene advice"]
+      },
+      {
+        name: "Emergency appointment (excluding treatment)",
+        price: "from €50",
+        features: ["Prompt pain relief assessment", "Diagnostic X-ray review", "Clear immediate treatment options"]
+      },
+      {
+        name: "Fillings (each)",
+        price: "from €50",
+        features: ["Gentle decay removal", "Tooth preservation protocol", "Local anaesthetic included"]
+      },
+      {
+        name: "Tooth-coloured (composite) fillings (each)",
         price: "€70",
-        features: ["Ultrasonic gentle clean", "Stain removal & plaque polishing", "Gum health assessment"]
+        features: ["Natural tooth-coloured composite resin", "Seamless aesthetic match", "Bonded directly to enamel"]
+      }
+    ]
+  },
+  {
+    title: "Hygiene & Gum Care",
+    description: "with Dental Hygienist Mrs Mary-Jane Galea",
+    items: [
+      {
+        name: "Hygiene appointment",
+        price: "€60",
+        features: ["Ultrasonic gentle plaque removal", "Stain removal and polishing", "Gum pocket screening"]
       },
       {
-        name: "Surgical Wisdom Tooth Removal",
-        price: "from €180",
-        features: ["Ultrasonic bone-sparing instruments", "Sterile hospital suite", "Gentle, comfortable recovery"]
+        name: "Periodontal treatment session (per session)",
+        price: "€60",
+        features: ["Deep scaling and root debridement", "Gum inflammation treatment", "Personal home care regimen"]
+      },
+      {
+        name: "Maintenance hygiene",
+        price: "€60",
+        features: ["Routine periodontal maintenance", "Implant care and cleaning", "Long-term gum protection"]
+      }
+    ]
+  },
+  {
+    title: "Composite Bonding",
+    description: "with Restorative Team (Dr Susanna Diacono & Dr Laura Cuschieri)",
+    items: [
+      {
+        name: "Consultation",
+        price: "€50",
+        features: ["Aesthetic smile assessment", "Colour and shape matching", "Single-visit option review"]
+      },
+      {
+        name: "Composite edging",
+        price: "from €120",
+        features: ["Repair minor chips or uneven edges", "Minimally invasive, no enamel removed", "Hand-sculpted in one visit"]
+      },
+      {
+        name: "Composite bonding & veneers",
+        price: "from €250",
+        features: ["Full tooth composite surface facing", "Closes gaps and refreshes shade", "Reversible aesthetic enhancement"]
+      }
+    ]
+  },
+  {
+    title: "Porcelain Veneers, Crowns & Bridges",
+    description: "with Restorative Team",
+    items: [
+      {
+        name: "Consultation",
+        price: "€50",
+        features: ["Restorative diagnosis and planning", "Digital 3D intraoral scan", "Ceramic shade and bite evaluation"]
+      },
+      {
+        name: "Porcelain veneers & crowns (per tooth)",
+        price: "from €450",
+        features: ["High-strength German ceramic", "Natural light reflection and translucency", "15+ year durable lifespan"]
+      },
+      {
+        name: "Bridges (per unit)",
+        price: "from €450",
+        features: ["Fixed replacement for missing teeth", "All-ceramic or zirconia construction", "Precision CAD/CAM milling"]
+      }
+    ]
+  },
+  {
+    title: "Teeth Whitening",
+    description: "Safe, effective clinical whitening",
+    items: [
+      {
+        name: "Consultation",
+        price: "€50",
+        features: ["Enamel and gum shade assessment", "Sensitivity prevention protocol", "Shade guide expectation"]
+      },
+      {
+        name: "Home whitening system",
+        price: "from €125",
+        features: ["Custom-moulded dental trays", "Professional whitening gel", "Gentle, gradual, brilliant results"]
+      }
+    ]
+  },
+  {
+    title: "Dentures",
+    description: "with Prosthodontist Team (Prof. Nikolai Attard & Dr Fokion Iatridis)",
+    items: [
+      {
+        name: "Consultation",
+        price: "€ —",
+        features: ["Specialist prosthodontic examination", "Full mouth bite and ridge assessment", "Individualized quotation"]
+      },
+      {
+        name: "Partial denture",
+        price: "from € —",
+        features: ["Custom chrome or acrylic fit", "Secure retention", "Natural tooth appearance"]
+      },
+      {
+        name: "Full (complete) denture",
+        price: "from € —",
+        features: ["Upper or lower complete arch", "Facially contoured aesthetic teeth", "Comfortable suction fit"]
+      },
+      {
+        name: "Implant-retained denture",
+        price: "from € —",
+        features: ["Locators or bar attachment", "Rock-solid stability, zero slipping", "No need for adhesives"]
+      }
+    ]
+  },
+  {
+    title: "Root Canal Treatment",
+    description: "with Dr Susanna Diacono",
+    items: [
+      {
+        name: "Root canal treatment (depends on the tooth)",
+        price: "from €200",
+        features: ["Saves infected or broken natural teeth", "Gentle local anaesthetic procedure", "Precision rotary instrumentation"]
+      }
+    ]
+  },
+  {
+    title: "Sedation with Consultant Anaesthetist",
+    description: "Safe hospital twilight sleep dentistry for anxious patients",
+    items: [
+      {
+        name: "Intravenous (IV) sedation (per hour)",
+        price: "€180",
+        features: [
+          "Administered by a consultant hospital anaesthetist",
+          "Deep twilight relaxation, zero anxiety or pain",
+          "Excluding dental treatment and medication used"
+        ]
       }
     ]
   }
@@ -437,74 +572,103 @@ export const faqsData: FaqItem[] = [
   }
 ];
 
-// Clinical Blog Posts / Articles (For SEO / Dedicated Blog Page)
+// Clinical Blog Posts / Articles (Matching Client News & Insights Mockup Capturas 27-35)
 export const blogPosts: BlogPost[] = [
   {
-    id: "sedation-guide",
-    slug: "complete-guide-to-sleep-dentistry-iv-sedation-malta",
-    title: "The Complete Guide to Sleep Dentistry & IV Sedation at St. James Hospital",
-    excerpt: "Overcome severe dental anxiety with consultant anaesthetist-supervised sedation. Discover how patients complete complex treatments in complete comfort.",
-    category: "Anxious Patient Care",
-    readTime: "5 min read",
-    date: "May 2026",
-    author: "Dr. Mark Diacono",
-    authorRole: "Principal Oral Surgeon",
-    image: "clinic/waiting_room_2.jpg",
-    content: [
-      "Dental phobia affects over 30% of the population, often leading individuals to delay crucial dental care until severe pain or infection develops. At DiU Clinic, located inside St. James Hospital in Sliema, our conscious IV sedation protocol provides a calm, hospital-backed solution.",
-      "Administered exclusively by consultant anaesthetists, IV sedation places you in a deeply relaxed twilight state. You breathe independently and remain safely monitored throughout, while experiencing zero pain, anxiety, or unpleasant clinical sensations.",
-      "Whether you require multiple surgical extractions, dental implants, or intensive restorative work, treatment can be completed in a single, peaceful visit. You wake with your care accomplished and minimal recollection of the procedure."
-    ]
-  },
-  {
-    id: "dsd-test-drive",
-    slug: "how-digital-smile-design-lets-you-test-drive-your-smile",
-    title: "How Digital Smile Design Lets You Test-Drive Your Smile Before Treatment",
-    excerpt: "Learn how 3D facial video analysis and intraoral scanning allow you to look in the mirror and preview your new smile before any permanent work is started.",
-    category: "Cosmetic & Digital Dentistry",
-    readTime: "4 min read",
-    date: "April 2026",
-    author: "Dr. Susanna Diacono",
+    id: "worn-teeth-guide",
+    slug: "composite-bonding-veneers-or-crowns-rebuilding-worn-teeth",
+    title: "Composite bonding, veneers or crowns? Rebuilding worn teeth",
+    excerpt: "How the three options compare, why teeth become short through wear and acid erosion, and how we rebuild a worn bite with ceramics.",
+    category: "Veneers & crowns",
+    readTime: "7 min read",
+    date: "6 October 2026",
+    author: "Dr Susanna Diacono",
     authorRole: "Restorative Dentist & DSD Master",
     image: "clinic/md_3d_scanner_and_pt.jpg",
     content: [
-      "Traditional aesthetic dentistry relied heavily on dental wax-ups that patients couldn't test in real life. Digital Smile Design (DSD), pioneered in Malta by Dr. Susanna Diacono, revolutionizes this approach by framing teeth around your unique facial dynamics.",
-      "During your initial DSD consultation, high-resolution photographs and 3D intraoral scans capture your smile during natural speech, laughter, and resting expressions. We then print a temporary mock-up that comfortably clips over your existing teeth.",
-      "This trial smile lets you look in the mirror, evaluate proportions, share photos with loved ones, and request adjustments before any ceramic veneer or crown is manufactured."
+      "Composite bonding, ceramic veneers and crowns can all change the shape, colour and length of your teeth. The right choice depends less on the look you want and more on how much healthy tooth you have left, and how your teeth meet when you bite.",
+      "For small changes on healthy teeth, bonding is often ideal. But when teeth have become short and flat through years of wear or acid erosion, the problem is no longer just cosmetic. The whole bite has collapsed a little, and rebuilding it properly usually calls for ceramics.",
+      "Composite bonding uses a tooth-coloured resin that the dentist sculpts directly onto your teeth in a single visit. It is bonded to the enamel, so little or no healthy tooth needs to be removed. It shines for closing small gaps, repairing chips, reshaping uneven edges, and for young patients wanting a reversible change.",
+      "However, resin is softer than enamel and ceramic, so it wears and chips more easily under heavy biting forces and typically needs polishing or maintenance every 5 to 7 years.",
+      "Ceramic restorations (veneers and crowns) are designed digitally and made in a dental laboratory from high-strength porcelain or lithium disilicate. As hard as natural enamel, they resist wear, do not stain, reflect light naturally, and with good care commonly last 15 years or more.",
+      "When teeth become short through wear (attrition from grinding) and acid erosion (citrus fruits, wine, carbonated drinks), rebuilding the bite with ceramic onlays or crowns restores the lost vertical height so teeth meet in harmony with your lips and face."
     ]
   },
   {
-    id: "all-on-4-guide",
-    slug: "all-on-4-dental-implants-same-day-fixed-teeth-malta",
-    title: "All-on-4 Dental Implants: From Missing Teeth to Fixed Teeth in One Day",
-    excerpt: "A detailed breakdown of immediate-load full arch implantology. How modern surgical planning restores full chewing function without removable plates.",
-    category: "Implantology & Surgery",
-    readTime: "6 min read",
-    date: "March 2026",
-    author: "Prof. Nikolai Attard",
-    authorRole: "Specialist Prosthodontist",
+    id: "implant-consultation",
+    slug: "what-happens-at-your-first-implant-consultation",
+    title: "What happens at your first implant consultation",
+    excerpt: "From the 3D scan to your written plan: a step-by-step look at how we assess you for dental implants.",
+    category: "Implants",
+    readTime: "5 min read",
+    date: "October 2026",
+    author: "Dr Mark Diacono",
+    authorRole: "Principal Specialist Oral Surgeon",
     image: "clinic/scanning_in_surgery.jpg",
     content: [
-      "For patients suffering from multiple missing teeth or failing dental bridges, removable dentures often present significant challenges with stability, speech, and comfort. The All-on-4 protocol provides a permanent, fixed alternative.",
-      "By strategically placing four to six titanium dental implants using 3D CBCT diagnostic planning, our surgical and prosthodontic team secures a complete arch of replacement teeth on the very day of surgery.",
-      "The results restore over 90% of natural chewing capacity and deliver a youthful, supported facial profile, all performed within the sterile operating theatres of St. James Hospital."
+      "At your initial implant consultation, our surgeon and prosthodontist examine your mouth, review your medical history, and evaluate bone density using a hospital 3D CBCT scan.",
+      "You receive a clear, written plan with transparent costs before deciding on any procedure. Everything is explained in plain, comforting language."
     ]
   },
   {
-    id: "cerec-single-visit",
-    slug: "cerec-porcelain-crowns-in-60-minutes-no-impressions",
-    title: "CEREC Porcelain Crowns in About an Hour: The End of Messy Impression Trays",
-    excerpt: "Explore in-house CAD/CAM diamond milling technology that delivers permanent German porcelain restorations in a single 60-minute appointment.",
-    category: "Restorative Technology",
+    id: "dsd-works",
+    slug: "how-digital-smile-design-works",
+    title: "How Digital Smile Design works",
+    excerpt: "How we design your new smile on screen and let you try it in your mouth before any treatment begins.",
+    category: "Digital Smile Design",
     readTime: "4 min read",
-    date: "February 2026",
-    author: "Dr. Laura Cuschieri",
-    authorRole: "Digital Dentistry Specialist",
-    image: "clinic/explaining_treatment_to_pt.jpg",
+    date: "October 2026",
+    author: "Dr Susanna Diacono",
+    authorRole: "Restorative Dentist & DSD Master",
+    image: "clinic/md_3d_scanner_and_pt.jpg",
     content: [
-      "In conventional dentistry, getting a dental crown required messy silicone impressions, two weeks of wearing fragile temporary plastic caps, and multiple injections across separate visits.",
-      "With German CEREC CAD/CAM technology at DiU Clinic, we scan the prepared tooth with an optical 3D camera in seconds, design the ceramic restoration on-screen, and diamond-mill a solid block of dental porcelain right in our on-site lab.",
-      "Within 60 minutes, the permanent ceramic crown is glazed, polished, and permanently bonded. Patients leave with their permanent restoration completed in a single visit."
+      "Digital Smile Design (DSD) is a facially driven approach. Using photographs, video and digital 3D scans, we plan your new smile in harmony with your facial proportions.",
+      "We 3D print a temporary mock-up you can actually test-drive directly in your mouth before any permanent work starts, ensuring total predictability."
+    ]
+  },
+  {
+    id: "child-first-visit",
+    slug: "your-childs-first-dental-visit",
+    title: "Your child’s first dental visit",
+    excerpt: "Simple tips to make the first visit a happy one, and what we check at each age.",
+    category: "Family dentistry",
+    readTime: "4 min read",
+    date: "October 2026",
+    author: "Dr Francesca Schembri",
+    authorRole: "General Dentist",
+    image: "clinic/examination_for_fading_background.jpg",
+    content: [
+      "We believe children’s first dental visit should be fun, gentle and reassuring. We count teeth, demonstrate fun brushing games, and help kids feel proud of their smiles."
+    ]
+  },
+  {
+    id: "anxious-care",
+    slug: "nervous-about-the-dentist-you-are-not-alone",
+    title: "Nervous about the dentist? You are not alone",
+    excerpt: "How we help anxious patients feel in control, from the first phone call to the end of treatment.",
+    category: "Anxious patients",
+    readTime: "5 min read",
+    date: "October 2026",
+    author: "Dr Mark Diacono",
+    authorRole: "Principal Specialist Oral Surgeon",
+    image: "clinic/dr_mark_patient_model.jpg",
+    content: [
+      "Dental anxiety is very common. We offer calm pre-treatment chats away from the chair, and hospital IV sedation with a consultant anaesthetist for peaceful twilight sleep."
+    ]
+  },
+  {
+    id: "hygiene-matters",
+    slug: "why-your-hygiene-visit-matters",
+    title: "Why your hygiene visit matters",
+    excerpt: "What a hygienist does, how often to come, and how it protects your teeth and gums.",
+    category: "Prevention",
+    readTime: "4 min read",
+    date: "October 2026",
+    author: "Mrs Mary-Jane Galea",
+    authorRole: "Dental Hygienist",
+    image: "clinic/examination_for_fading_background.jpg",
+    content: [
+      "Professional hygiene visits protect your natural teeth and dental implants from periodontal disease, removing hardened tartar and polishing away stains safely."
     ]
   }
 ];

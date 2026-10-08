@@ -84,22 +84,12 @@ export const Header: React.FC<HeaderProps> = ({
         </nav>
 
         {/* Action Controls & CTAs */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        <div className="flex items-center gap-2.5 sm:gap-4 shrink-0">
           
-          {/* Urgent Care Button */}
-          <button
-            onClick={onOpenEmergency}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-full font-bold text-xs uppercase tracking-wider transition-all bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 cursor-pointer shadow-xs hover:scale-102"
-          >
-            <AlertCircle className="w-3.5 h-3.5 text-rose-600 shrink-0" />
-            <span className="hidden sm:inline">Urgent Care</span>
-            <span className="sm:hidden">Urgent</span>
-          </button>
-
           {/* Hospital Direct Telephone */}
           <a
             href="tel:35623291029"
-            className="hidden xl:flex items-center gap-1.5 text-xs font-semibold px-2 py-1.5 text-[#0E2B4C] hover:text-[#2BB4A7] transition-colors no-underline tracking-wide"
+            className="hidden md:flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-full text-[#0E2B4C] hover:text-[#2BB4A7] hover:bg-slate-50 transition-colors no-underline tracking-wide border border-slate-200/60"
           >
             <Phone className="w-3.5 h-3.5 text-[#2BB4A7]" />
             <span>+356 2329 1029</span>
@@ -108,7 +98,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Book Consultation Button */}
           <button
             onClick={onOpenBooking}
-            className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-2 sm:py-2.5 rounded-full font-bold text-xs uppercase tracking-wider transition-all bg-[#0E2B4C] hover:bg-[#07192d] text-white border border-[#0E2B4C] shadow-sm hover:shadow hover:scale-102 cursor-pointer shrink-0"
+            className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-bold text-xs uppercase tracking-wider transition-all bg-[#0E2B4C] hover:bg-[#07192d] text-white border border-[#0E2B4C] shadow-sm hover:shadow hover:scale-102 cursor-pointer shrink-0"
           >
             <Calendar className="w-3.5 h-3.5 text-[#2BB4A7]" />
             <span className="hidden sm:inline">Book a Consultation</span>
@@ -156,23 +146,12 @@ export const Header: React.FC<HeaderProps> = ({
             })}
 
             <div className="pt-3 border-t border-slate-100 flex flex-col gap-2.5">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenEmergency();
-                }}
-                className="w-full py-3 rounded-full bg-rose-50 text-rose-800 font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 border border-rose-200 cursor-pointer"
-              >
-                <AlertCircle className="w-4 h-4 text-rose-600" />
-                <span>🚨 Urgent Dental Emergency</span>
-              </button>
-
               <a
                 href="tel:35623291029"
-                className="flex items-center justify-center gap-2 py-2 text-xs font-bold text-[#0E2B4C] no-underline"
+                className="flex items-center justify-center gap-2 py-3 rounded-full bg-slate-100 hover:bg-slate-200 text-xs font-bold text-[#0E2B4C] no-underline transition-colors"
               >
                 <Phone className="w-4 h-4 text-[#2BB4A7]" />
-                <span>Hospital Desk: (+356) 2329 1029</span>
+                <span>Call Us: (+356) 2329 1029</span>
               </a>
 
               <button

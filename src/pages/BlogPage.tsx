@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { 
   ChevronRight, 
-  Calendar, 
   Clock, 
-  User, 
   ArrowRight, 
-  Sparkles,
-  BookOpen,
-  X
+  X,
+  CheckCircle2,
+  Table
 } from 'lucide-react';
 import { blogPosts, getAssetUrl } from '@/data/clinicData';
 import { BlogPost } from '@/types';
@@ -24,7 +22,15 @@ export const BlogPage: React.FC<BlogPageProps> = ({
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('all');
 
-  const categories = ['all', 'Anxious Patient Care', 'Cosmetic & Digital Dentistry', 'Implantology & Surgery', 'Restorative Technology'];
+  const categories = [
+    'all', 
+    'Veneers & crowns', 
+    'Implants', 
+    'Digital Smile Design', 
+    'Family dentistry', 
+    'Anxious patients', 
+    'Prevention'
+  ];
 
   const filteredPosts = blogPosts.filter(p => {
     if (activeCategory === 'all') return true;
@@ -47,7 +53,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({
               Home
             </button>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-[#0E2B4C] font-bold">Blog &amp; Dental Guides</span>
+            <span className="text-[#0E2B4C] font-bold">News &amp; Insights</span>
           </div>
 
           <div className="max-w-3xl">
@@ -88,7 +94,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({
           </div>
 
           {/* Posts Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {filteredPosts.map((post) => (
               <article
                 key={post.id}
@@ -107,7 +113,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({
                     </div>
                   </div>
 
-                  <div className="p-6 sm:p-8">
+                  <div className="p-6 sm:p-7">
                     <div className="flex items-center gap-4 text-xs text-slate-500 mb-3">
                       <span className="flex items-center gap-1">
                         <Clock className="w-3.5 h-3.5 text-[#2BB4A7]" />
@@ -121,7 +127,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({
                       {post.title}
                     </h2>
 
-                    <p className="text-slate-600 text-sm leading-relaxed mb-6 font-body">
+                    <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6 font-body line-clamp-3">
                       {post.excerpt}
                     </p>
 
@@ -134,12 +140,12 @@ export const BlogPage: React.FC<BlogPageProps> = ({
                   </div>
                 </div>
 
-                <div className="p-6 sm:p-8 pt-0">
+                <div className="p-6 sm:p-7 pt-0">
                   <button
                     onClick={() => setSelectedPost(post)}
                     className="w-full py-3 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-2"
                   >
-                    <span>Read Complete Article</span>
+                    <span>Read Article</span>
                     <ArrowRight className="w-4 h-4 text-[#2BB4A7]" />
                   </button>
                 </div>
@@ -162,8 +168,8 @@ export const BlogPage: React.FC<BlogPageProps> = ({
 
       {/* Article Reader Modal */}
       {selectedPost && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/70 backdrop-blur-md overflow-y-auto">
-          <div className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl p-6 sm:p-10 text-slate-900 my-8 max-h-[90vh] overflow-y-auto border border-slate-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/75 backdrop-blur-md overflow-y-auto">
+          <div className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl p-6 sm:p-10 text-slate-900 my-8 max-h-[92vh] overflow-y-auto border border-slate-200">
             
             <button
               onClick={() => setSelectedPost(null)}
@@ -177,26 +183,125 @@ export const BlogPage: React.FC<BlogPageProps> = ({
               <span className="inline-block px-3 py-1 rounded-full bg-teal-50 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-3 border border-teal-200">
                 {selectedPost.category}
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-[#0E2B4C] font-heading mb-3">
+              <h2 className="text-2xl sm:text-4xl font-bold text-[#0E2B4C] font-heading mb-3 leading-tight">
                 {selectedPost.title}
               </h2>
               <div className="flex items-center gap-3 text-xs text-slate-500 pb-4 border-b border-slate-100">
                 <span>By <strong>{selectedPost.author}</strong> ({selectedPost.authorRole})</span>
                 <span>•</span>
+                <span>{selectedPost.date}</span>
+                <span>•</span>
                 <span>{selectedPost.readTime}</span>
               </div>
             </div>
 
+            {/* Featured Image */}
+            <div className="rounded-2xl overflow-hidden aspect-[16/9] mb-8 bg-slate-100 border border-slate-200">
+              <img
+                src={getAssetUrl(selectedPost.image)}
+                alt={selectedPost.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Body Text */}
             <div className="space-y-4 text-slate-700 text-sm sm:text-base leading-relaxed font-body mb-8">
               {selectedPost.content.map((paragraph, idx) => (
                 <p key={idx}>{paragraph}</p>
               ))}
             </div>
 
-            <div className="p-6 rounded-2xl bg-[#E8F8F6] border border-[#C5EDE8] flex flex-col sm:flex-row items-center justify-between gap-4">
+            {/* If Worn Teeth Article: Include Full Comparison Table from Client Sheet */}
+            {selectedPost.id === 'worn-teeth-guide' && (
+              <div className="my-8 pt-6 border-t border-slate-200">
+                <div className="flex items-center gap-2 mb-4">
+                  <Table className="w-5 h-5 text-[#2BB4A7]" />
+                  <h3 className="text-xl font-bold text-[#0E2B4C] font-heading">
+                    At a glance: comparing the options
+                  </h3>
+                </div>
+
+                <div className="overflow-x-auto rounded-2xl border border-slate-200">
+                  <table className="w-full text-left text-xs sm:text-sm">
+                    <thead className="bg-[#0E2B4C] text-white uppercase text-[11px] tracking-wider">
+                      <tr>
+                        <th className="p-3.5">Option</th>
+                        <th className="p-3.5">Best For</th>
+                        <th className="p-3.5">Durability</th>
+                        <th className="p-3.5">Tooth Prep</th>
+                        <th className="p-3.5">Reversibility</th>
+                        <th className="p-3.5">Starting Cost</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 bg-white">
+                      <tr className="hover:bg-slate-50">
+                        <td className="p-3.5 font-bold text-[#0E2B4C]">Composite bonding</td>
+                        <td className="p-3.5 text-slate-600">Small chips, gaps, minor edge reshaping</td>
+                        <td className="p-3.5 text-slate-600">5–7 years</td>
+                        <td className="p-3.5 text-slate-600">Minimal or none</td>
+                        <td className="p-3.5 text-emerald-600 font-semibold">Yes</td>
+                        <td className="p-3.5 font-bold text-[#0E2B4C]">from €120 / €250</td>
+                      </tr>
+                      <tr className="hover:bg-slate-50">
+                        <td className="p-3.5 font-bold text-[#0E2B4C]">Ceramic veneers</td>
+                        <td className="p-3.5 text-slate-600">Discoloured teeth, uneven shape, front aesthetics</td>
+                        <td className="p-3.5 text-slate-600">10–15+ years</td>
+                        <td className="p-3.5 text-slate-600">Thin enamel layer</td>
+                        <td className="p-3.5 text-slate-500">Irreversible</td>
+                        <td className="p-3.5 font-bold text-[#0E2B4C]">from €450</td>
+                      </tr>
+                      <tr className="hover:bg-slate-50">
+                        <td className="p-3.5 font-bold text-[#0E2B4C]">Full ceramic crowns</td>
+                        <td className="p-3.5 text-slate-600">Severely worn, broken teeth, bite reconstruction</td>
+                        <td className="p-3.5 text-slate-600">15+ years</td>
+                        <td className="p-3.5 text-slate-600">Circumferential prep</td>
+                        <td className="p-3.5 text-slate-500">Irreversible</td>
+                        <td className="p-3.5 font-bold text-[#0E2B4C]">from €450</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Educational Clinical Case Images */}
+                <div className="mt-8 p-6 rounded-2xl bg-slate-50 border border-slate-200">
+                  <div className="text-xs font-bold uppercase tracking-wider text-[#2BB4A7] mb-2">
+                    Clinical Case Study · Dr Susanna Diacono
+                  </div>
+                  <div className="text-sm font-semibold text-[#0E2B4C] mb-4">
+                    Reconstruction of worn teeth using high-strength biocompatible ceramics:
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="rounded-xl overflow-hidden border border-slate-200">
+                      <img
+                        src={getAssetUrl('dental_case_before.jpg')}
+                        alt="Before treatment: Worn tooth structure"
+                        className="w-full aspect-[4/3] object-cover"
+                      />
+                      <div className="p-2.5 bg-white text-[11px] font-bold text-slate-600 text-center">
+                        Initial presentation with severe incisal wear
+                      </div>
+                    </div>
+                    <div className="rounded-xl overflow-hidden border border-slate-200">
+                      <img
+                        src={getAssetUrl('dental_case_after.jpg')}
+                        alt="After treatment: Ceramic reconstruction"
+                        className="w-full aspect-[4/3] object-cover"
+                      />
+                      <div className="p-2.5 bg-white text-[11px] font-bold text-[#0E2B4C] text-center">
+                        Restored anatomical tooth height &amp; balanced bite
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            )}
+
+            {/* CTA Box */}
+            <div className="p-6 rounded-2xl bg-[#E8F8F6] border border-[#C5EDE8] flex flex-col sm:flex-row items-center justify-between gap-4 mt-8">
               <div>
                 <div className="text-sm font-bold text-[#0E2B4C]">Have questions about this treatment?</div>
-                <div className="text-xs text-slate-600">Consult with {selectedPost.author} at St. James Hospital.</div>
+                <div className="text-xs text-slate-600">Consult with {selectedPost.author} at St. James Hospital, Sliema.</div>
               </div>
               <button
                 onClick={() => {
@@ -204,7 +309,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({
                   setSelectedPost(null);
                   onOpenBooking({ doctor: doctorName });
                 }}
-                className="px-6 py-2.5 rounded-full bg-[#0E2B4C] text-white font-bold text-xs uppercase tracking-wider cursor-pointer shrink-0"
+                className="px-6 py-2.5 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider cursor-pointer shrink-0 transition-colors"
               >
                 Book Consultation
               </button>

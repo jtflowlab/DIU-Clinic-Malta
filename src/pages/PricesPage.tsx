@@ -1,13 +1,10 @@
 import React from 'react';
 import { 
-  CreditCard, 
   Check, 
   ShieldCheck, 
   Calendar, 
-  Phone, 
   ChevronRight, 
-  FileText,
-  AlertCircle
+  Phone
 } from 'lucide-react';
 import { feesCategories } from '@/data/clinicData';
 
@@ -23,7 +20,7 @@ export const PricesPage: React.FC<PricesPageProps> = ({
   return (
     <div className="pt-24 pb-28 bg-[#F8FAFC] text-slate-900 font-body">
       
-      {/* 1. Header Banner */}
+      {/* 1. Header Banner with Exact Client Statement */}
       <section className="bg-white border-b border-slate-200 py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -44,31 +41,33 @@ export const PricesPage: React.FC<PricesPageProps> = ({
               Clear &amp; Honest Pricing
             </span>
             <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-[#0E2B4C] font-heading mb-6 leading-tight">
-              Hospital Treatment <span className="text-[#2BB4A7]">Fees &amp; Pricing</span>
+              Hospital Treatment <span className="text-[#2BB4A7]">Fees &amp; Prices</span>
             </h1>
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-body">
-              We believe in complete financial transparency. You will receive a comprehensive written treatment plan with transparent fees before any clinical procedure begins at St. James Hospital.
-            </p>
+            
+            {/* Exact Client Disclaimer Quote from Mockups */}
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-700 text-sm sm:text-base leading-relaxed font-body">
+              <strong className="text-[#0E2B4C]">Every treatment plan is personal, so these are starting prices.</strong> You will receive a written plan with the full cost before treatment begins. Let us know if you have insurance.
+            </div>
           </div>
 
         </div>
       </section>
 
-      {/* 2. Fee Cards Grid */}
+      {/* 2. Fee Cards Grid (All 10 Categories from Client Sheets) */}
       <section className="py-16 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {feesCategories.map((cat, idx) => (
               <div
                 key={idx}
-                className="rounded-3xl border border-slate-200 bg-white p-7 sm:p-9 flex flex-col justify-between shadow-sm hover:shadow-xl transition-all duration-300"
+                className="rounded-3xl border border-slate-200 bg-white p-7 sm:p-8 flex flex-col justify-between shadow-sm hover:shadow-xl transition-all duration-300"
               >
                 <div>
                   <span className="text-xs font-extrabold uppercase tracking-wider text-[#2BB4A7] mb-1 block">
-                    [ Category 0{idx + 1} ]
+                    [ 0{idx + 1} ]
                   </span>
-                  <h2 className="text-2xl font-bold text-[#0E2B4C] mb-2 font-heading">
+                  <h2 className="text-2xl font-bold text-[#0E2B4C] mb-1 font-heading">
                     {cat.title}
                   </h2>
                   <p className="text-xs text-slate-500 mb-6 font-body leading-relaxed">
@@ -108,7 +107,7 @@ export const PricesPage: React.FC<PricesPageProps> = ({
                     className="w-full py-3.5 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-2 border border-[#0E2B4C]"
                   >
                     <Calendar className="w-4 h-4 text-[#2BB4A7]" />
-                    <span>Book For This Category</span>
+                    <span>Inquire About {cat.title.split('(')[0].trim()}</span>
                   </button>
                 </div>
 
@@ -153,12 +152,21 @@ export const PricesPage: React.FC<PricesPageProps> = ({
                 <p className="text-xs text-slate-600 leading-relaxed">
                   Before beginning any complex treatment—including dental implants, ceramic crowns, or full mouth rehabilitation—you will receive a detailed printed estimate with zero hidden extras.
                 </p>
-                <button
-                  onClick={() => onOpenBooking({ notes: 'Requesting treatment estimate & insurance claim details' })}
-                  className="w-full py-3.5 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
-                >
-                  Request a Written Treatment Estimate
-                </button>
+                <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                  <button
+                    onClick={() => onOpenBooking({ notes: 'Requesting treatment estimate & insurance claim details' })}
+                    className="flex-1 py-3.5 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer text-center"
+                  >
+                    Request a Written Estimate
+                  </button>
+                  <a
+                    href="tel:35623291029"
+                    className="px-5 py-3.5 rounded-full bg-slate-50 hover:bg-slate-100 text-slate-800 font-bold text-xs uppercase tracking-wider border border-slate-200 transition-colors flex items-center justify-center gap-2 no-underline"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-[#2BB4A7]" />
+                    <span>2329 1029</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
