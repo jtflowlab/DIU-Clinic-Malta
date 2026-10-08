@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
   Calendar, 
@@ -59,6 +59,36 @@ export const HomePage: React.FC<HomePageProps> = ({
   const heroSectionRef = useRef<HTMLDivElement>(null);
   const servicesSectionRef = useRef<HTMLDivElement>(null);
   const teamSectionRef = useRef<HTMLDivElement>(null);
+  const servicesTrackRef = useRef<HTMLDivElement>(null);
+  const teamTrackRef = useRef<HTMLDivElement>(null);
+
+  const [servicesDistance, setServicesDistance] = useState(1150);
+  const [teamDistance, setTeamDistance] = useState(1050);
+
+  useEffect(() => {
+    const updateDistances = () => {
+      if (servicesTrackRef.current) {
+        const parentW = servicesTrackRef.current.parentElement?.clientWidth || window.innerWidth;
+        const totalW = servicesTrackRef.current.scrollWidth;
+        const overflow = Math.max(0, totalW - parentW + 40);
+        setServicesDistance(overflow);
+      }
+      if (teamTrackRef.current) {
+        const parentW = teamTrackRef.current.parentElement?.clientWidth || window.innerWidth;
+        const totalW = teamTrackRef.current.scrollWidth;
+        const overflow = Math.max(0, totalW - parentW + 40);
+        setTeamDistance(overflow);
+      }
+    };
+
+    updateDistances();
+    window.addEventListener('resize', updateDistances);
+    const timer = setTimeout(updateDistances, 400);
+    return () => {
+      window.removeEventListener('resize', updateDistances);
+      clearTimeout(timer);
+    };
+  }, []);
 
   // 1. Hero Scroll Downscaling Dock (scales from 1.0 down to 0.93, corners 0px -> 28px)
   const { scrollYProgress: heroProgress } = useScroll({
@@ -75,14 +105,22 @@ export const HomePage: React.FC<HomePageProps> = ({
     target: servicesSectionRef,
     offset: ["start start", "end end"]
   });
-  const servicesX = useTransform(servicesProgress, [0, 1], ["0%", "-58%"]);
+  const servicesX = useTransform(servicesProgress, (v) => {
+    if (v <= 0) return 0;
+    if (v >= 0.85) return -servicesDistance;
+    return -(v / 0.85) * servicesDistance;
+  });
 
   // 3. Scroll-Driven Horizontal Translation for Specialist Doctors & Medical Team (Track #2)
   const { scrollYProgress: teamProgress } = useScroll({
     target: teamSectionRef,
     offset: ["start start", "end end"]
   });
-  const teamX = useTransform(teamProgress, [0, 1], ["0%", "-52%"]);
+  const teamX = useTransform(teamProgress, (v) => {
+    if (v <= 0) return 0;
+    if (v >= 0.85) return -teamDistance;
+    return -(v / 0.85) * teamDistance;
+  });
 
   // 5 Leading Clinicians matching client mockup
   const featuredClinicians = cliniciansList.slice(0, 5);
@@ -415,6 +453,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           {/* Desktop Scroll-Driven Horizontal Translation Track */}
           <div className="hidden lg:block w-full overflow-hidden">
             <motion.div 
+              ref={servicesTrackRef}
               style={{ x: servicesX }}
               className="flex gap-6 xl:gap-8 will-change-transform pr-24"
             >
@@ -823,6 +862,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           {/* Desktop Scroll-Driven Horizontal Translation Track */}
           <div className="hidden lg:block w-full overflow-hidden">
             <motion.div 
+              ref={teamTrackRef}
               style={{ x: teamX }}
               className="flex gap-6 xl:gap-8 will-change-transform pr-24"
             >
