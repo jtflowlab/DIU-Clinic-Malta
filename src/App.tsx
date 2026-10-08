@@ -184,6 +184,7 @@ export default function App() {
       {/* 3. CINEMATIC FOOTER */}
       <CinematicFooter
         onOpenWhatsApp={() => handleOpenBooking()}
+        onNavigate={navigateTo}
         onScrollToSection={(id) => {
           if (currentRoute !== '/') {
             navigateTo('/');

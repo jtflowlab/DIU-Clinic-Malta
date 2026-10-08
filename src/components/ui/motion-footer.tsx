@@ -244,6 +244,7 @@ export interface CinematicFooterProps {
   heading?: string;
   onOpenWhatsApp?: () => void;
   onScrollToSection?: (id: string) => void;
+  onNavigate?: (route: string) => void;
 }
 
 export function CinematicFooter({
@@ -251,76 +252,11 @@ export function CinematicFooter({
   heading = "Ready for Your New Smile?",
   onOpenWhatsApp,
   onScrollToSection,
+  onNavigate,
 }: CinematicFooterProps) {
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const giantTextRef = useRef<HTMLDivElement>(null);
-  const headingRef = useRef<HTMLHeadingElement>(null);
-  const linksRef = useRef<HTMLDivElement>(null);
-
-  const [isDesktop, setIsDesktop] = React.useState(false);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const checkDesktop = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-    };
-    checkDesktop();
-    window.addEventListener("resize", checkDesktop);
-    return () => window.removeEventListener("resize", checkDesktop);
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined" || !isDesktop) return;
-    if (!wrapperRef.current) return;
-
-    const ctx = gsap.context(() => {
-      // Background Parallax
-      gsap.fromTo(
-        giantTextRef.current,
-        { y: "8vh", scale: 0.85, opacity: 0 },
-        {
-          y: "0vh",
-          scale: 1,
-          opacity: 1,
-          ease: "power1.out",
-          scrollTrigger: {
-            trigger: wrapperRef.current,
-            start: "top 85%",
-            end: "bottom bottom",
-            scrub: 1,
-          },
-        }
-      );
-
-      // Staggered Content Reveal
-      gsap.fromTo(
-        [headingRef.current, linksRef.current],
-        { y: 40, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: wrapperRef.current,
-            start: "top 45%",
-            end: "bottom bottom",
-            scrub: 1,
-          },
-        }
-      );
-    }, wrapperRef);
-
-    return () => ctx.revert();
-  }, [isDesktop]);
-
   const scrollToTop = () => {
     if (typeof window !== "undefined") {
-      gsap.to(window, {
-        scrollTo: { y: 0 },
-        duration: 1.2,
-        ease: "power3.inOut"
-      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -347,153 +283,145 @@ export function CinematicFooter({
     <>
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
       
-      {/* Responsive Curtain Reveal Wrapper (Desktop) / Fluid Block (Mobile) */}
-      <div
-        ref={wrapperRef}
-        className="relative lg:h-screen w-full overflow-visible"
-        style={isDesktop ? { clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" } : undefined}
-      >
-        {/* Footer: Flows naturally on mobile with ample bottom padding; Fixed curtain on desktop */}
-        <footer className="relative lg:fixed lg:bottom-0 lg:left-0 flex min-h-fit lg:h-screen w-full flex-col justify-between overflow-visible lg:overflow-hidden bg-[#F8FAFC] text-slate-900 cinematic-footer-wrapper select-none pt-12 sm:pt-16 lg:pt-0 pb-28 sm:pb-32 lg:pb-0">
+      {/* Reliable, full-width luxury footer */}
+      <footer className="relative flex min-h-fit lg:min-h-[640px] w-full flex-col justify-between overflow-hidden bg-[#F8FAFC] text-slate-900 cinematic-footer-wrapper select-none pt-12 sm:pt-16 pb-28 sm:pb-32 lg:pb-6 border-t border-slate-200/90">
+        
+        {/* Ambient Soft Light & Grid Background */}
+        <div className="footer-aurora absolute left-1/2 top-1/2 h-[65vh] w-[85vw] -translate-x-1/2 -translate-y-1/2 animate-footer-breathe rounded-[50%] blur-[90px] pointer-events-none z-0" />
+        <div className="footer-bg-grid absolute inset-0 z-0 pointer-events-none" />
+
+        {/* Giant background text (DIU CLINIC) */}
+        <div
+          className="footer-giant-bg-text absolute bottom-[4vh] left-1/2 -translate-x-1/2 whitespace-nowrap z-0 pointer-events-none select-none text-center hidden lg:block opacity-75"
+        >
+          {giantText}
+        </div>
+
+        {/* 1. Sleek Marquee Strip (Top of footer) */}
+        <div className="relative w-full overflow-hidden border-y border-slate-200/90 bg-white/85 backdrop-blur-md py-3.5 z-10 shadow-2xs mb-6 sm:mb-8">
+          <div className="flex w-max animate-footer-scroll-marquee text-[11px] md:text-xs font-black tracking-[0.25em] text-slate-600 uppercase">
+            <MarqueeItem />
+            <MarqueeItem />
+            <MarqueeItem />
+          </div>
+        </div>
+
+        {/* 2. Main Center Content: Clean, Big Letters, Light Palette */}
+        <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 sm:px-6 my-6 sm:my-8 w-full max-w-5xl mx-auto">
           
-          {/* Ambient Soft Light & Grid Background */}
-          <div className="footer-aurora absolute left-1/2 top-1/2 h-[65vh] w-[85vw] -translate-x-1/2 -translate-y-1/2 animate-footer-breathe rounded-[50%] blur-[90px] pointer-events-none z-0" />
-          <div className="footer-bg-grid absolute inset-0 z-0 pointer-events-none" />
+          {/* Minimal Sub-Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold uppercase tracking-widest mb-6 shadow-2xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#00A896]" />
+            <span>St. James Hospital Network • Est. 1999</span>
+          </div>
 
-          {/* Giant background text (DIU CLINIC) */}
-          <div
-            ref={giantTextRef}
-            className="footer-giant-bg-text absolute -bottom-[3vh] left-1/2 -translate-x-1/2 whitespace-nowrap z-0 pointer-events-none select-none text-center hidden lg:block"
+          {/* Giant Clean Heading in Dark Slate */}
+          <h2
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal font-editorial footer-text-glow tracking-tight mb-8 sm:mb-10 text-center leading-[1.05]"
           >
-            {giantText}
-          </div>
+            {heading}
+          </h2>
 
-          {/* 1. Diagonal Sleek Marquee (Top of footer) */}
-          <div className="relative lg:absolute top-0 lg:top-8 sm:lg:top-12 left-0 w-full overflow-hidden border-y border-slate-200/90 bg-white/85 backdrop-blur-md py-3.5 z-10 lg:-rotate-1 sm:lg:-rotate-2 scale-100 lg:scale-105 shadow-sm mb-6 lg:mb-0">
-            <div className="flex w-max animate-footer-scroll-marquee text-[11px] md:text-xs font-black tracking-[0.25em] text-slate-600 uppercase">
-              <MarqueeItem />
-              <MarqueeItem />
-            </div>
-          </div>
-
-          {/* 2. Main Center Content: Clean, Big Letters, Light Palette */}
-          <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 sm:px-6 mt-16 sm:mt-20 w-full max-w-5xl mx-auto">
+          {/* Interactive Magnetic Pills */}
+          <div className="flex flex-col items-center gap-5 w-full">
             
-            {/* Minimal Sub-Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-teal-900 text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-[#00A896]" />
-              <span>St. James Hospital Network • Est. 1999</span>
-            </div>
-
-            {/* Giant Clean Heading in Dark Slate */}
-            <h2
-              ref={headingRef}
-              className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal font-editorial footer-text-glow tracking-tight mb-8 sm:mb-10 text-center leading-[1.05]"
-            >
-              {heading}
-            </h2>
-
-            {/* Interactive Magnetic Pills */}
-            <div ref={linksRef} className="flex flex-col items-center gap-5 w-full">
+            {/* Primary Action Pills */}
+            <div className="flex flex-wrap justify-center gap-3.5 sm:gap-4 w-full">
               
-              {/* Primary Action Pills */}
-              <div className="flex flex-wrap justify-center gap-3.5 sm:gap-4 w-full">
-                
-                {/* Book WhatsApp Button */}
-                <MagneticButton 
-                  as="button" 
-                  onClick={handleWhatsAppClick}
-                  className="whatsapp-magnetic-pill px-8 sm:px-10 py-4 sm:py-4.5 rounded-full text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2.5 transition-transform"
-                >
-                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-slate-950 fill-current" />
-                  <span>Book via WhatsApp</span>
-                </MagneticButton>
-                
-                {/* Direct Telephone Sliema */}
-                <MagneticButton 
-                  as="a" 
-                  href="tel:35623291029" 
-                  className="footer-glass-pill px-7 sm:px-9 py-4 sm:py-4.5 rounded-full text-slate-900 font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2.5 group shadow-sm hover:border-[#3EA3AC]"
-                >
-                  <Phone className="w-4 h-4 text-[#3EA3AC] group-hover:scale-110 transition-transform" />
-                  <span>St. James Hospital (+356) 2329 1029</span>
-                </MagneticButton>
-              </div>
-
-              {/* Secondary Navigation Pills */}
-              <div className="flex flex-wrap justify-center gap-2 sm:gap-3 w-full mt-2">
-                <MagneticButton 
-                  as="button" 
-                  onClick={handleNavClick('smile-results')}
-                  className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-full text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
-                >
-                  Restorations
-                </MagneticButton>
-                
-                <MagneticButton 
-                  as="button" 
-                  onClick={handleNavClick('why-diu-container')}
-                  className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-full text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
-                >
-                  Why DiU Clinic
-                </MagneticButton>
-                
-                <MagneticButton 
-                  as="button" 
-                  onClick={handleNavClick('clinics')}
-                  className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-full text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
-                >
-                  Hospital Suites
-                </MagneticButton>
-                
-                <MagneticButton 
-                  as="button" 
-                  onClick={handleNavClick('reviews')}
-                  className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-full text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
-                >
-                  Patient Reviews
-                </MagneticButton>
-
-                <MagneticButton 
-                  as="button" 
-                  onClick={handleNavClick('faqs')}
-                  className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-full text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
-                >
-                  FAQ
-                </MagneticButton>
-              </div>
-
-            </div>
-          </div>
-
-          {/* 3. Bottom Bar / Credits */}
-          <div className="relative z-20 w-full pb-6 sm:pb-8 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-slate-200/70 pt-4 bg-white/40">
-            
-            {/* Copyright */}
-            <div className="text-slate-500 text-[10px] md:text-xs font-semibold tracking-widest uppercase order-2 md:order-1 text-center md:text-left">
-              © 2026 DiU Clinic Malta • St. James Hospital Network. All rights reserved.
+              {/* Book WhatsApp Button */}
+              <MagneticButton 
+                as="button" 
+                onClick={handleWhatsAppClick}
+                className="whatsapp-magnetic-pill px-8 sm:px-10 py-4 sm:py-4.5 rounded-full text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2.5 transition-transform"
+              >
+                <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-slate-950 fill-current" />
+                <span>Book via WhatsApp</span>
+              </MagneticButton>
+              
+              {/* Direct Telephone Sliema */}
+              <MagneticButton 
+                as="a" 
+                href="tel:35623291029" 
+                className="footer-glass-pill px-7 sm:px-9 py-4 sm:py-4.5 rounded-full text-slate-900 font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2.5 group shadow-sm hover:border-[#3EA3AC]"
+              >
+                <Phone className="w-4 h-4 text-[#3EA3AC] group-hover:scale-110 transition-transform" />
+                <span>St. James Hospital (+356) 2329 1029</span>
+              </MagneticButton>
             </div>
 
-            {/* "Made with Love" Badge */}
-            <div className="footer-glass-pill px-5 py-2.5 rounded-full flex items-center gap-2 order-1 md:order-2 cursor-default border-slate-200 bg-white">
-              <span className="text-slate-500 text-[10px] md:text-xs font-bold uppercase tracking-widest">Excellence by</span>
-              <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 animate-footer-heartbeat" />
-              <span className="text-slate-900 font-black text-xs md:text-sm tracking-normal ml-0.5">Dr. Mark Diacono</span>
-            </div>
+            {/* Secondary Navigation Pills */}
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 w-full mt-2">
+              <MagneticButton 
+                as="button" 
+                onClick={() => onNavigate ? onNavigate('/treatments') : handleNavClick('services')}
+                className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-full text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
+              >
+                Treatments
+              </MagneticButton>
+              
+              <MagneticButton 
+                as="button" 
+                onClick={() => onNavigate ? onNavigate('/prices') : handleNavClick('prices')}
+                className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-full text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
+              >
+                Fees &amp; Prices
+              </MagneticButton>
+              
+              <MagneticButton 
+                as="button" 
+                onClick={() => onNavigate ? onNavigate('/team') : handleNavClick('our-team')}
+                className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-full text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
+              >
+                Our Team
+              </MagneticButton>
+              
+              <MagneticButton 
+                as="button" 
+                onClick={handleNavClick('reviews')}
+                className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-full text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
+              >
+                Patient Reviews
+              </MagneticButton>
 
-            {/* Back to top */}
-            <MagneticButton
-              as="button"
-              onClick={scrollToTop}
-              className="w-11 h-11 rounded-full footer-glass-pill flex items-center justify-center text-slate-700 hover:text-slate-950 group order-3 border-slate-200 shadow-sm"
-              aria-label="Scroll back to top"
-            >
-              <ArrowUp className="w-4 h-4 transform group-hover:-translate-y-1 transition-transform duration-300 text-[#00A896]" />
-            </MagneticButton>
+              <MagneticButton 
+                as="button" 
+                onClick={handleNavClick('faqs')}
+                className="footer-glass-pill px-5 sm:px-6 py-2.5 rounded-full text-slate-600 font-semibold text-xs hover:text-slate-950 hover:bg-white"
+              >
+                FAQ
+              </MagneticButton>
+            </div>
 
           </div>
-        </footer>
-      </div>
+        </div>
+
+        {/* 3. Bottom Bar / Credits */}
+        <div className="relative z-20 w-full pb-4 sm:pb-6 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-slate-200/70 pt-4 bg-white/40">
+          
+          {/* Copyright */}
+          <div className="text-slate-500 text-[10px] md:text-xs font-semibold tracking-widest uppercase order-2 md:order-1 text-center md:text-left">
+            © 2026 DiU Clinic Malta • St. James Hospital Network. All rights reserved.
+          </div>
+
+          {/* "Made with Love" Badge */}
+          <div className="footer-glass-pill px-5 py-2.5 rounded-full flex items-center gap-2 order-1 md:order-2 cursor-default border-slate-200 bg-white">
+            <span className="text-slate-500 text-[10px] md:text-xs font-bold uppercase tracking-widest">Excellence by</span>
+            <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 animate-footer-heartbeat" />
+            <span className="text-slate-900 font-black text-xs md:text-sm tracking-normal ml-0.5">Dr. Mark Diacono</span>
+          </div>
+
+          {/* Back to top */}
+          <MagneticButton
+            as="button"
+            onClick={scrollToTop}
+            className="w-11 h-11 rounded-full footer-glass-pill flex items-center justify-center text-slate-700 hover:text-slate-950 group order-3 border-slate-200 shadow-2xs"
+            aria-label="Scroll back to top"
+          >
+            <ArrowUp className="w-4 h-4 transform group-hover:-translate-y-1 transition-transform duration-300 text-[#00A896]" />
+          </MagneticButton>
+
+        </div>
+      </footer>
     </>
   );
 }
