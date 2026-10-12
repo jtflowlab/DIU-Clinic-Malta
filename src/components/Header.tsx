@@ -25,6 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
     { label: 'Treatments', route: '/treatments' },
     { label: 'Our Team', route: '/team' },
     { label: 'Fees & Prices', route: '/prices' },
+    { label: 'Referral', route: '/referral' },
     { label: 'Blog', route: '/blog' }
   ];
 

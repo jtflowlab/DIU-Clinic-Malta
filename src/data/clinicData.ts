@@ -23,7 +23,7 @@ export const cliniciansList: Clinician[] = [
   {
     id: 'dr-susanna',
     name: 'Dr. Susanna Diacono',
-    category: 'specialists',
+    category: 'restorative',
     role: 'Restorative Dentist & DSD Master',
     qualifications: 'DDS (Gothenburg), LDS (Sweden), M.Dent.Sci Restorative (Leeds)',
     badge: 'Co-Founder & DSD Lead',
@@ -34,7 +34,7 @@ export const cliniciansList: Clinician[] = [
   {
     id: 'prof-nikolai',
     name: 'Prof. Nikolai Attard',
-    category: 'specialists',
+    category: 'restorative',
     role: 'Specialist Prosthodontist',
     qualifications: 'BChD Hons (Melit), MSc (Toronto), PhD (Toronto)',
     badge: 'Prosthodontic Consultant',
@@ -45,7 +45,7 @@ export const cliniciansList: Clinician[] = [
   {
     id: 'dr-fokion',
     name: 'Dr. Fokion Iatridis',
-    category: 'specialists',
+    category: 'restorative',
     role: 'Specialist Prosthodontist',
     qualifications: 'DDS, CAGS',
     badge: 'Fixed & Removable Prosthetics',
@@ -56,7 +56,7 @@ export const cliniciansList: Clinician[] = [
   {
     id: 'dr-laura',
     name: 'Dr. Laura Cuschieri',
-    category: 'specialists',
+    category: 'restorative',
     role: 'Digital Dentistry & Composite Bonding',
     qualifications: 'MDS (Melit), MSc Digital Dentistry (Melit) with Distinction',
     badge: 'Aesthetic & Digital Specialist',
@@ -65,7 +65,7 @@ export const cliniciansList: Clinician[] = [
     treatmentDefault: 'Digital Smile Design & Restorative Dentistry'
   },
 
-  // 2. General & Paediatric Dentists
+  // 2. General & Paediatric Dentists (3)
   {
     id: 'dr-lisa',
     name: 'Dr. Lisa Gatt',
@@ -99,10 +99,12 @@ export const cliniciansList: Clinician[] = [
     bio: 'Passionate about creating positive dental experiences for infants, children, and nervous young teens in a comforting, friendly environment.',
     treatmentDefault: 'Family & General Dentistry'
   },
+
+  // 3. Registered Dental Hygienist (1)
   {
     id: 'mrs-mary-jane',
     name: 'Mrs. Mary-Jane Galea',
-    category: 'general',
+    category: 'hygienist',
     role: 'Registered Dental Hygienist',
     qualifications: 'Registered Dental Hygienist',
     badge: 'Periodontal Prevention',
@@ -669,6 +671,24 @@ export const blogPosts: BlogPost[] = [
     image: "clinic/examination_for_fading_background.jpg",
     content: [
       "Professional hygiene visits protect your natural teeth and dental implants from periodontal disease, removing hardened tartar and polishing away stains safely."
+    ]
+  },
+  {
+    id: "dental-implants-csi",
+    slug: "dental-implants-csi-treatment",
+    title: "Dental Implants & CSI Protocol: Rebuilding Teeth with Hospital Precision",
+    excerpt: "From individual Swiss titanium implants to full-arch restorations and the Cortical-Spongiosa Immediate (CSI) protocol under conscious sedation.",
+    category: "Implants",
+    readTime: "6 min read",
+    date: "October 2026",
+    author: "Dr Mark Diacono",
+    authorRole: "Principal Specialist Oral Surgeon",
+    image: "clinic/scanning_in_surgery.jpg",
+    content: [
+      "Dental implants represent the gold standard for replacing missing teeth, restoring not just chewing efficiency and aesthetics, but also preserving underlying alveolar bone volume that naturally deteriorates after tooth loss.",
+      "At DiU Clinic inside St James Hospital, implant procedures benefit from direct hospital infrastructure: on-site 3D CBCT diagnostic bone scans, dedicated sterile operating theatres, and IV sedation administered by consultant hospital anaesthetists for anxious patients.",
+      "The CSI (Cortical-Spongiosa Immediate) implant treatment protocol leverages high-density cortical bone anchorage combined with biocompatible Swiss titanium fixtures. This enables immediate primary stability, often allowing temporary fixed teeth to be loaded on the very same day.",
+      "Whether you require a single implant to replace an isolated tooth or a full-arch rehabilitation (such as All-on-4 or All-on-6), our multidisciplinary surgical and prosthodontic team plans every millimeter digitally beforehand to ensure unmatched aesthetic harmony and lifetime longevity."
     ]
   }
 ];

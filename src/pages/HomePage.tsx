@@ -55,6 +55,10 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [homeFormSuccess, setHomeFormSuccess] = useState(false);
   const [homeFormError, setHomeFormError] = useState<string | null>(null);
 
+  // Digital Smile Design Before & After comparison state
+  const [dsdSliderPos, setDsdSliderPos] = useState(50);
+  const [dsdActiveTab, setDsdActiveTab] = useState<'slider' | 'book'>('slider');
+
   const heroVideoRef = useRef<HTMLVideoElement>(null);
   const heroSectionRef = useRef<HTMLDivElement>(null);
   const servicesSectionRef = useRef<HTMLDivElement>(null);
@@ -159,133 +163,162 @@ export const HomePage: React.FC<HomePageProps> = ({
   return (
     <div className="bg-[#F8FAFC] text-slate-900 font-body">
 
-      {/* 1. HERO SECTION: FULL-BLEED CINEMATIC 4K VIDEO HERO WITH OVERLAID TEXT + SCROLL DOCK */}
+      {/* 1. HERO SECTION: 2-COLUMN SPLIT (EDITORIAL & DSD HIGHLIGHT ON LEFT, 4K VIDEO PLAYER ON RIGHT) */}
       <div 
         id="hero" 
         ref={heroSectionRef} 
-        className="relative w-full h-[140vh] bg-[#F8FAFC]"
+        className="relative w-full min-h-[92vh] lg:h-[135vh] bg-[#F8FAFC]"
       >
-        <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center p-0">
+        <div className="lg:sticky lg:top-0 lg:h-screen w-full overflow-hidden flex items-center justify-center p-0">
           
           <motion.div 
             style={{ 
               scale: heroScale,
               borderRadius: heroRadius
             }}
-            className="relative w-full h-full overflow-hidden shadow-2xl bg-slate-900 will-change-transform flex items-center justify-start"
+            className="relative w-full h-full overflow-hidden shadow-2xl bg-gradient-to-br from-[#07192D] via-[#0E2B4C] to-[#133A63] will-change-transform flex items-center"
           >
-            {/* Bright, Crystal-Clear 4K Hero Video (Occupies entire screen) */}
-            <video
-              ref={heroVideoRef}
-              src={getAssetUrl('video_hero_optimized.mp4')}
-              poster={getAssetUrl('hero_poster_4k.jpg')}
-              autoPlay
-              muted={isVideoMuted}
-              playsInline
-              loop
-              className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none z-0"
-            />
-            
-            {/* Subtle Directional Scrim: Gentle darkening on far left so video stays bright, and physical glass letters remain visible */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0E2B4C]/80 via-[#0E2B4C]/35 to-transparent pointer-events-none z-[1]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0E2B4C]/60 via-transparent to-black/15 pointer-events-none z-[1]" />
+            {/* Subtle architectural ambient lights in background */}
+            <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#2BB4A7]/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
-            {/* Overlaid Editorial Content: Constrained to max-w-xl on left */}
+            {/* Content Container (2-Column Grid) */}
             <motion.div 
               style={{ y: heroContentY, opacity: heroContentOpacity }}
-              className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 sm:pt-24 pb-12"
+              className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 sm:py-20 lg:py-0"
             >
-              <div className="max-w-xl lg:max-w-2xl">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 
-                {/* 1. Hospital Location Pill */}
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/60 text-[#0E2B4C] text-[11px] font-bold uppercase tracking-widest mb-5 shadow-sm"
-                >
-                  <span className="w-2 h-2 rounded-full bg-[#2BB4A7] animate-pulse" />
-                  <span>ST JAMES HOSPITAL, SLIEMA</span>
-                </motion.div>
-
-                {/* 2. Main Headline */}
-                <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-[1.08] mb-5 font-heading drop-shadow-lg"
-                >
-                  Dental care done properly. <br />
-                  <span className="text-[#2BB4A7] drop-shadow-md">With one team under one roof.</span>
-                </motion.h1>
-
-                {/* 3. Subtitle */}
-                <motion.p
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  className="text-sm sm:text-base md:text-lg text-slate-100 font-normal leading-relaxed mb-7 max-w-xl font-body drop-shadow"
-                >
-                  From your family’s check-ups and children’s dentistry to smile design, implants and full-mouth reconstruction, one team plans your care together.
-                </motion.p>
-
-                {/* 4. Action Pill Buttons */}
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  className="flex flex-wrap items-center gap-3.5 mb-6"
-                >
-                  <button
-                    onClick={() => onOpenBooking()}
-                    className="px-7 sm:px-8 py-3.5 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-lg cursor-pointer border border-[#2BB4A7] hover:scale-105 active:scale-95"
+                {/* Left Column (55% / 7 cols): Headline, DSD Gold Badge, CTAs, Sedation Notice */}
+                <div className="lg:col-span-7">
+                  
+                  {/* Location & DSD Highlights */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                    className="flex flex-wrap items-center gap-2.5 mb-6"
                   >
-                    Book a consultation
-                  </button>
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/60 text-[#0E2B4C] text-[11px] font-bold uppercase tracking-widest shadow-sm">
+                      <span className="w-2 h-2 rounded-full bg-[#2BB4A7] animate-pulse" />
+                      <span>At St James Hospital, Sliema</span>
+                    </div>
 
-                  <button
-                    onClick={() => onNavigate('/treatments')}
-                    className="px-7 sm:px-8 py-3.5 rounded-full bg-white/95 hover:bg-white text-[#0E2B4C] font-bold text-xs uppercase tracking-wider transition-all duration-200 border border-white/80 cursor-pointer shadow-md backdrop-blur-md hover:scale-105 active:scale-95"
+                    <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-amber-400/25 to-amber-500/20 border border-amber-300/50 text-amber-200 text-[11px] font-bold uppercase tracking-widest shadow-sm backdrop-blur-md">
+                      <span className="text-amber-300">★</span>
+                      <span>Digital Smile Design Signature Centre</span>
+                    </div>
+                  </motion.div>
+
+                  {/* Main Headline (Exact Client Text: "The Dental Care You Need Under One Roof", No Subheader) */}
+                  <motion.h1
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight text-white leading-[1.06] mb-8 font-heading drop-shadow-md"
                   >
-                    Smile design around your face
-                  </button>
-                </motion.div>
+                    The Dental Care You Need <br />
+                    <span className="text-[#2BB4A7] drop-shadow-md">Under One Roof.</span>
+                  </motion.h1>
 
-                {/* 5. Sedation Notice */}
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.5 }}
-                  className="rounded-2xl bg-white/95 backdrop-blur-md border border-white/60 p-4 flex items-start gap-3.5 text-slate-800 shadow-lg max-w-lg"
-                >
-                  <div className="w-8 h-8 rounded-full bg-[#2BB4A7]/15 border border-[#2BB4A7]/30 flex items-center justify-center shrink-0 mt-0.5 text-[#2BB4A7]">
-                    <Smile className="w-4 h-4 text-[#2BB4A7]" />
-                  </div>
-                  <div className="text-xs leading-relaxed text-slate-700">
-                    <strong className="text-[#0E2B4C] font-bold">Nervous about the dentist?</strong> All our treatments are available under sedation, with a consultant anaesthetist, in a hospital setting.
-                  </div>
-                </motion.div>
+                  {/* Action Buttons */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    className="flex flex-wrap items-center gap-3.5 mb-7"
+                  >
+                    <button
+                      onClick={() => onOpenBooking()}
+                      className="px-7 sm:px-8 py-3.5 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-lg cursor-pointer border border-[#2BB4A7] hover:scale-105 active:scale-95"
+                    >
+                      Book a consultation
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        const el = document.getElementById('dsd-signature');
+                        if (el) {
+                          el.scrollIntoView({ behavior: 'smooth' });
+                        } else {
+                          onOpenBooking({ treatment: 'Digital Smile Design & Restorative Dentistry' });
+                        }
+                      }}
+                      className="px-7 sm:px-8 py-3.5 rounded-full bg-amber-400/20 hover:bg-amber-400/30 text-amber-100 font-bold text-xs uppercase tracking-wider transition-all duration-200 border border-amber-400/50 cursor-pointer shadow-md backdrop-blur-md hover:scale-105 active:scale-95 flex items-center gap-2"
+                    >
+                      <span>Experience the Test Drive of Your Future Smile</span>
+                      <span>→</span>
+                    </button>
+                  </motion.div>
+
+                  {/* Sedation Hospital Notice */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                    className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 p-4 flex items-start gap-3.5 text-slate-200 shadow-lg max-w-lg"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-[#2BB4A7]/20 border border-[#2BB4A7]/40 flex items-center justify-center shrink-0 mt-0.5 text-[#2BB4A7]">
+                      <Smile className="w-4 h-4 text-[#2BB4A7]" />
+                    </div>
+                    <div className="text-xs leading-relaxed text-slate-200">
+                      <strong className="text-white font-bold">Nervous about the dentist?</strong> All our treatments are available under sedation, with a consultant anaesthetist, in a hospital setting.
+                    </div>
+                  </motion.div>
+
+                </div>
+
+                {/* Right Column (45% / 5 cols): Video Player with Floating Controls */}
+                <div className="lg:col-span-5">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.7, delay: 0.2 }}
+                    className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/20 aspect-[16/11] sm:aspect-[4/3] lg:aspect-[4/3] bg-slate-900 group"
+                  >
+                    <video
+                      ref={heroVideoRef}
+                      src={getAssetUrl('video_hero_optimized.mp4')}
+                      poster={getAssetUrl('hero_poster_4k.jpg')}
+                      autoPlay
+                      muted={isVideoMuted}
+                      playsInline
+                      loop
+                      className="w-full h-full object-cover object-center"
+                    />
+
+                    {/* Gradient Rim */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent pointer-events-none" />
+
+                    {/* Top Tag */}
+                    <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[#2BB4A7] animate-pulse" />
+                      <span>At St James Hospital</span>
+                    </div>
+
+                    {/* Media Controls inside video player */}
+                    <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2">
+                      <button
+                        onClick={toggleVideoPlay}
+                        className="p-2.5 rounded-full bg-white/90 hover:bg-white text-[#0E2B4C] shadow-lg backdrop-blur-md cursor-pointer border border-white/50 transition-transform hover:scale-110 active:scale-95"
+                        aria-label={isVideoPlaying ? "Pause video" : "Play video"}
+                      >
+                        {isVideoPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 ml-0.5" />}
+                      </button>
+                      <button
+                        onClick={toggleVideoMute}
+                        className="p-2.5 rounded-full bg-white/90 hover:bg-white text-[#0E2B4C] shadow-lg backdrop-blur-md cursor-pointer border border-white/50 transition-transform hover:scale-110 active:scale-95"
+                        aria-label={isVideoMuted ? "Unmute video" : "Mute video"}
+                      >
+                        {isVideoMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+                      </button>
+                    </div>
+
+                  </motion.div>
+                </div>
 
               </div>
             </motion.div>
-
-            {/* Bottom Right Floating Media Controls */}
-            <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 z-20 flex items-center gap-2">
-              <button
-                onClick={toggleVideoPlay}
-                className="p-3 rounded-full bg-white/90 hover:bg-white text-[#0E2B4C] shadow-lg backdrop-blur-md cursor-pointer border border-white/50 transition-transform hover:scale-110 active:scale-95"
-                aria-label={isVideoPlaying ? "Pause video" : "Play video"}
-              >
-                {isVideoPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
-              </button>
-              <button
-                onClick={toggleVideoMute}
-                className="p-3 rounded-full bg-white/90 hover:bg-white text-[#0E2B4C] shadow-lg backdrop-blur-md cursor-pointer border border-white/50 transition-transform hover:scale-110 active:scale-95"
-                aria-label={isVideoMuted ? "Unmute video" : "Mute video"}
-              >
-                {isVideoMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-              </button>
-            </div>
 
           </motion.div>
         </div>
@@ -361,7 +394,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div className="lg:col-span-6">
               <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200 aspect-[4/3] sm:aspect-[16/12] bg-slate-100">
                 <img
-                  src={getAssetUrl('clinic/founders_diacono.jpg')}
+                  src={getAssetUrl('clinic/founders_clean_linen.jpg')}
                   alt="Dr Mark Diacono and Dr Susanna Diacono - Co-Founders of Dental and Implantology Unit"
                   className="w-full h-full object-cover"
                 />
@@ -370,7 +403,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     Dr Mark Diacono &amp; Dr Susanna Diacono
                   </div>
                   <div className="text-xs text-slate-500 font-medium">
-                    Founders &amp; Clinical Directors · St James Hospital, Sliema (Est. 1999)
+                    Founders &amp; Clinical Directors · At St James Hospital, Sliema (Est. 1999)
                   </div>
                 </div>
               </div>
@@ -604,61 +637,248 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </div>
 
-      {/* 5. DSD SIGNATURE TREATMENT SECTION (CAPTURA 10) */}
-      <section className="py-20 lg:py-28 bg-[#0E2B4C] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 5. DSD SIGNATURE TREATMENT: INTERACTIVE BEFORE & AFTER COMPARISON (CLIENT ITEMS B, C & I) */}
+      <section id="dsd-signature" className="py-20 lg:py-28 bg-[#0E2B4C] text-white relative overflow-hidden border-b border-[#07192D]">
+        
+        {/* Ambient background glows */}
+        <div className="absolute top-0 right-10 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-10 left-10 w-96 h-96 bg-[#2BB4A7]/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center mb-16">
-            <div className="lg:col-span-6">
-              <span className="inline-block px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-4">
-                DIGITAL SMILE DESIGN
-              </span>
-              <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-6 font-heading leading-tight">
-                See your new smile <br />
-                <span className="text-[#2BB4A7]">before we touch a tooth</span>
-              </h2>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-body">
-                Digital Smile Design (DSD) uses facial 3D scanning and computer modeling to design restorations that harmonize with your natural facial proportions. You preview, adjust and approve your new smile before treatment begins.
-              </p>
-
-              <div className="space-y-3 mb-8">
-                {[
-                  "Designed to your facial symmetry, not a generic template",
-                  "Try on your temporary mockup smile in person",
-                  "Precision-engineered ceramic veneers and crowns",
-                  "Planned jointly with our surgical team when implants are needed"
-                ].map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-3 text-xs sm:text-sm text-slate-200">
-                    <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-
-              <button
-                onClick={() => onOpenBooking({ treatment: 'Digital Smile Design & Restorative Dentistry' })}
-                className="px-8 py-4 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg cursor-pointer hover:scale-105"
-              >
-                Experience Digital Smile Design
-              </button>
+          {/* Header & Golden Signature Badge */}
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-500/20 via-amber-400/30 to-amber-500/20 border-2 border-amber-400/60 text-amber-300 text-xs font-black uppercase tracking-widest shadow-lg shadow-amber-950/20 backdrop-blur-md mb-6">
+              <span className="text-amber-300 text-base">★</span>
+              <span>SIGNATURE FEATURE SERVICE · MASTER IN DIGITAL SMILE DESIGN</span>
+              <span className="text-amber-300 text-base">★</span>
             </div>
 
-            <div className="lg:col-span-6">
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 aspect-[4/3] sm:aspect-[16/11]">
-                <img
-                  src={getAssetUrl('clinic/md_3d_scanner_and_pt.jpg')}
-                  alt="Digital Smile Design scanning chairside with patient"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute top-4 left-4 px-3.5 py-1 rounded-full bg-[#0E2B4C]/90 backdrop-blur-md text-white text-xs font-bold border border-white/20">
-                  3D Face &amp; Smile Digital Planning
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6 font-heading leading-tight">
+              Experience the Test Drive <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2BB4A7] via-teal-300 to-amber-300">
+                of Your Future Smile.
+              </span>
+            </h2>
+
+            <p className="text-slate-200 text-base sm:text-lg leading-relaxed font-body">
+              Digital Smile Design (DSD) uses facial 3D scanning and computer modeling to engineer restorations that harmonise with your natural facial proportions. Preview, adjust, and test-drive your new smile before treatment ever begins.
+            </p>
+
+            {/* View Mode Switcher: Interactive Slider vs Book-Style Split */}
+            <div className="inline-flex items-center p-1 rounded-full bg-white/10 border border-white/20 mt-8 backdrop-blur-md">
+              <button
+                onClick={() => setDsdActiveTab('slider')}
+                className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                  dsdActiveTab === 'slider' 
+                    ? 'bg-[#2BB4A7] text-white shadow-md' 
+                    : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                Interactive Wipe Slider
+              </button>
+              <button
+                onClick={() => setDsdActiveTab('book')}
+                className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                  dsdActiveTab === 'book' 
+                    ? 'bg-[#2BB4A7] text-white shadow-md' 
+                    : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                Book-Style Side-by-Side
+              </button>
+            </div>
+          </div>
+
+          {/* Interactive Before & After Showcase */}
+          <div className="mb-16">
+            {dsdActiveTab === 'slider' ? (
+              <div className="max-w-4xl mx-auto">
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20 aspect-[16/11] sm:aspect-[16/10] bg-slate-950 select-none group">
+                  
+                  {/* AFTER Image (Full width background) */}
+                  <img
+                    src={getAssetUrl('clinic/dsd_after_patient.jpg')}
+                    alt="After: Radiant transformed smile via Digital Smile Design"
+                    className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+                  />
+                  
+                  {/* BEFORE Image (Clipped overlay based on dsdSliderPos %) */}
+                  <div 
+                    className="absolute inset-0 overflow-hidden pointer-events-none"
+                    style={{ width: `${dsdSliderPos}%` }}
+                  >
+                    <img
+                      src={getAssetUrl('clinic/dsd_before_patient.jpg')}
+                      alt="Before: Initial presentation prior to Digital Smile Design"
+                      className="absolute inset-0 w-full h-full object-cover object-center max-w-none"
+                      style={{ width: '100%', height: '100%', objectPosition: 'center' }}
+                    />
+                  </div>
+
+                  {/* Divider Line & Handle */}
+                  <div 
+                    className="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_15px_rgba(255,255,255,0.8)] z-10 pointer-events-none"
+                    style={{ left: `${dsdSliderPos}%` }}
+                  >
+                    <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white text-[#0E2B4C] shadow-2xl flex items-center justify-center font-bold text-xs border-2 border-[#2BB4A7]">
+                      ⇄
+                    </div>
+                  </div>
+
+                  {/* Pills overlay */}
+                  <div className="absolute top-4 left-4 z-20 px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-[11px] font-bold uppercase tracking-wider">
+                    Before: Initial Smile
+                  </div>
+                  <div className="absolute top-4 right-4 z-20 px-3.5 py-1.5 rounded-full bg-amber-500/90 backdrop-blur-md border border-white/20 text-slate-950 text-[11px] font-extrabold uppercase tracking-wider">
+                    ★ After: DSD Smile Design
+                  </div>
+
+                  {/* Range Slider for drag / touch */}
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={dsdSliderPos}
+                    onChange={(e) => setDsdSliderPos(Number(e.target.value))}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30"
+                    aria-label="Drag to compare before and after"
+                  />
+                </div>
+
+                {/* Quick Toggle Preset Buttons */}
+                <div className="flex items-center justify-center gap-3 mt-4">
+                  <button
+                    onClick={() => setDsdSliderPos(100)}
+                    className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                      dsdSliderPos === 100 
+                        ? 'bg-white text-[#0E2B4C] border-white' 
+                        : 'bg-white/10 text-slate-300 border-white/20 hover:bg-white/20'
+                    }`}
+                  >
+                    Show Before
+                  </button>
+                  <button
+                    onClick={() => setDsdSliderPos(50)}
+                    className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                      dsdSliderPos === 50 
+                        ? 'bg-[#2BB4A7] text-white border-[#2BB4A7]' 
+                        : 'bg-white/10 text-slate-300 border-white/20 hover:bg-white/20'
+                    }`}
+                  >
+                    50 / 50 Comparison
+                  </button>
+                  <button
+                    onClick={() => setDsdSliderPos(0)}
+                    className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                      dsdSliderPos === 0 
+                        ? 'bg-amber-400 text-slate-950 border-amber-400 font-extrabold' 
+                        : 'bg-white/10 text-slate-300 border-white/20 hover:bg-white/20'
+                    }`}
+                  >
+                    Show After
+                  </button>
                 </div>
               </div>
+            ) : (
+              /* Book-Style Dual Layout */
+              <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Book Page Left: Before */}
+                <div className="bg-white/5 border border-white/15 rounded-3xl p-6 overflow-hidden flex flex-col justify-between shadow-xl">
+                  <div>
+                    <div className="relative rounded-2xl overflow-hidden aspect-[4/3] mb-4 bg-slate-900 border border-white/10">
+                      <img
+                        src={getAssetUrl('clinic/dsd_before_patient.jpg')}
+                        alt="Before: Patient initial smile presentation"
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider">
+                        Initial Presentation
+                      </div>
+                    </div>
+                    <h3 className="text-lg font-bold text-white font-heading mb-1">
+                      Before: Aesthetic Disharmony &amp; Wear
+                    </h3>
+                    <p className="text-xs text-slate-300 leading-relaxed font-body">
+                      Patient presented with uneven incisal margins, discolouration, and collapsed bite proportions.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Book Page Right: After */}
+                <div className="bg-gradient-to-br from-amber-500/10 via-white/5 to-[#2BB4A7]/10 border-2 border-amber-400/40 rounded-3xl p-6 overflow-hidden flex flex-col justify-between shadow-2xl">
+                  <div>
+                    <div className="relative rounded-2xl overflow-hidden aspect-[4/3] mb-4 bg-slate-900 border border-amber-400/30">
+                      <img
+                        src={getAssetUrl('clinic/dsd_after_patient.jpg')}
+                        alt="After: Radiant result via Digital Smile Design"
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-[10px] font-extrabold uppercase tracking-wider shadow">
+                        ★ DSD Result
+                      </div>
+                    </div>
+                    <h3 className="text-lg font-bold text-amber-200 font-heading mb-1">
+                      After: Radiant Symmetrical Smile
+                    </h3>
+                    <p className="text-xs text-slate-300 leading-relaxed font-body">
+                      Custom biocompatible ceramic veneers restored natural luminosity, lip support, and harmonious facial balance.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* DSD Signature Key Points & Prominent Call to Action */}
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 sm:p-12 mb-16">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              
+              <div className="lg:col-span-8">
+                <span className="text-amber-300 text-xs font-bold uppercase tracking-wider block mb-2 font-mono">
+                  ★ Certified DSD Master Protocol
+                </span>
+                <h3 className="text-2xl sm:text-3xl font-bold text-white font-heading mb-4">
+                  Why test-drive your smile before treatment?
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-200">
+                  <div className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
+                    <span>Designed to your facial symmetry, not a generic template</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
+                    <span>Physical trial smile mockup worn in your mouth before any tooth is touched</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
+                    <span>Precision German CAD/CAM ceramic milling with lifetime durability</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
+                    <span>Joint surgical-restorative planning when implants are required</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:col-span-4 flex flex-col items-start lg:items-end justify-center">
+                <button
+                  onClick={() => onOpenBooking({ treatment: 'Digital Smile Design & Restorative Dentistry' })}
+                  className="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-[#2BB4A7] to-teal-500 hover:from-[#23998e] hover:to-teal-600 text-white font-extrabold text-xs uppercase tracking-wider transition-all shadow-xl shadow-teal-950/40 cursor-pointer hover:scale-105 active:scale-95 flex items-center justify-center gap-2.5"
+                >
+                  <span>Experience the Test Drive of Your Future Smile</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+                <div className="text-[11px] text-slate-400 mt-2 text-center lg:text-right">
+                  Conducted by Dr Susanna Diacono · At St James Hospital
+                </div>
+              </div>
+
             </div>
           </div>
 
           {/* 4 Steps Process Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-12 border-t border-white/10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-4">
             {[
               { num: "01", title: "3D Facial & Dental Scan", desc: "Digital intraoral scan and high-definition facial photography capture your natural smile dynamics." },
               { num: "02", title: "Digital Aesthetic Simulation", desc: "Using advanced DSD software, we design the ideal length, width, and contours suited to your face." },
@@ -696,19 +916,19 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <span className="text-[#2BB4A7]">compromise</span>
               </h2>
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-body">
-                We believe exceptional dentistry relies on three essentials: meticulous clinical skill, state-of-the-art diagnostic technology, and a hospital setting that guarantees total safety and peace of mind.
+                We believe exceptional dentistry relies on three essentials: meticulous clinical skill, advanced diagnostic technology, and a hospital setting that guarantees total safety and peace of mind.
               </p>
             </div>
 
             <div className="lg:col-span-6">
-              <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200 aspect-[16/10] bg-slate-100">
+              <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200 aspect-[16/11] bg-slate-100">
                 <img
-                  src={getAssetUrl('clinic/scanner_screen.jpg')}
-                  alt="3D Dental Scanner Diagnostic Screen"
-                  className="w-full h-full object-cover"
+                  src={getAssetUrl('patient_elena.jpg')}
+                  alt="Confident, natural smile results achieved at DiU Clinic Malta"
+                  className="w-full h-full object-cover object-top"
                 />
                 <div className="absolute top-4 left-4 px-3.5 py-1 rounded-full bg-white/95 backdrop-blur-md text-[#0E2B4C] text-xs font-bold uppercase tracking-wider border border-slate-200 shadow-2xs">
-                  Advanced 3D Optical Diagnostics
+                  Natural Aesthetic Excellence
                 </div>
               </div>
             </div>
@@ -722,7 +942,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <Cpu className="w-7 h-7" />
               </div>
               <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading">
-                Modern technology
+                Advanced Technology
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
                 3D dental scanner, crowns in a single visit with CAD/CAM technology, and 3D X-ray (CBCT).
@@ -770,18 +990,18 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 7. FOR ANXIOUS PATIENTS: SAFE, GENTLE HANDS (CAPTURA 12 & 13) */}
+      {/* 7. YOU ARE IN SAFE HANDS (DEDICATED REASSURANCE SECTION, CLIENT ITEM E) */}
       <section className="py-20 lg:py-28 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
-            {/* Dr Mark explaining jaw model to patient */}
+            {/* Reassuring Clinician Photo */}
             <div className="lg:col-span-6">
               <div className="rounded-3xl overflow-hidden shadow-xl border border-slate-200 bg-slate-100 relative aspect-[4/3] sm:aspect-[16/11]">
                 <img
-                  src={getAssetUrl('clinic/dr_mark_patient_model.jpg')}
-                  alt="Dr Mark Diacono explaining procedure gently to patient"
+                  src={getAssetUrl('clinic/explaining_treatment_to_pt.jpg')}
+                  alt="Doctor explaining treatment gently and reassuringly to patient"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute top-4 left-4 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#0E2B4C] text-xs font-bold uppercase tracking-wider border border-slate-200 shadow-2xs">
@@ -790,23 +1010,23 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
             </div>
 
-            {/* Exact Client Text */}
+            {/* Exact Client Reassurance Copy */}
             <div className="lg:col-span-6">
               <div className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-4">
-                FOR ANXIOUS PATIENTS
+                HOSPITAL SAFETY &amp; COMFORT
               </div>
 
               <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#0E2B4C] mb-6 font-heading leading-tight">
-                You’re in safe, <br />
-                <span className="text-[#2BB4A7]">gentle hands</span>
+                You are in <br />
+                <span className="text-[#2BB4A7]">safe hands</span>
               </h2>
 
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-4 font-body">
-                Dental anxiety is common, and you are not alone. We’re known for our calm, patient approach with nervous patients, and we offer sedation with a consultant anaesthetist, so you can receive the care you need feeling completely supported.
+                Dental anxiety is very common, and you are never alone. We are widely recognised for our calm, gentle manner with nervous patients, offering hospital-grade conscious sedation administered directly by certified consultant anaesthetists.
               </p>
 
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-8 font-body">
-                Prefer to start with a relaxed chat away from the dental chair? We offer an informal pre-treatment consultation to ease you in, at your pace.
+                Prefer to start with a relaxed conversation away from the dental chair? We offer an informal pre-treatment consultation to understand your feelings, answer questions, and plan treatment entirely at your pace.
               </p>
 
               <div className="flex flex-wrap items-center gap-4">
@@ -1091,6 +1311,20 @@ export const HomePage: React.FC<HomePageProps> = ({
               </a>
             </div>
 
+            {/* Interactive Embedded Google Maps (Client Item H) */}
+            <div className="w-full h-80 sm:h-96 rounded-2xl overflow-hidden border border-slate-300 shadow-md mb-8 bg-slate-100">
+              <iframe
+                title="DiU Clinic Location at St James Hospital Sliema"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3238.163456209865!2d14.500222!3d35.912639!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x130e4539655f4621%3A0xd677e1919efec5cf!2sSaint%20James%20Hospital%20Sliema!5e0!3m2!1sen!2smt!4v1710000000000!5m2!1sen!2smt"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={true}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+
             {/* 3 Steps Visuals */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               
@@ -1170,6 +1404,107 @@ export const HomePage: React.FC<HomePageProps> = ({
                 className="px-7 py-3.5 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md"
               >
                 Request an Estimate
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 12. AFTERCARE & CLINICAL GUARANTEE (CLIENT ITEM F) */}
+      <section className="bg-slate-50 py-16 sm:py-20 border-b border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-3">
+              POST-TREATMENT SUPPORT
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#0E2B4C] font-heading mb-3">
+              Dedicated Aftercare &amp; Clinical Guarantees
+            </h2>
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-body">
+              Our clinical responsibility does not end when your appointment finishes. We ensure structured aftercare, follow-up check-ups, and guaranteed materials for long-term peace of mind.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div className="p-7 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 text-[#2BB4A7] flex items-center justify-center mb-4">
+                  <Shield className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-[#0E2B4C] font-heading mb-2">
+                  Material &amp; Implant Warranty
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
+                  All Swiss titanium implants and CEREC diamond-milled ceramic restorations carry official manufacturer warranties against structural defects and material failures.
+                </p>
+              </div>
+              <div className="mt-4 pt-4 border-t border-slate-100 text-xs font-semibold text-[#0E2B4C]">
+                ✓ Written warranty passport provided
+              </div>
+            </div>
+
+            <div className="p-7 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 text-[#2BB4A7] flex items-center justify-center mb-4">
+                  <Heart className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-[#0E2B4C] font-heading mb-2">
+                  Complimentary Follow-ups
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
+                  Following oral surgery or smile rehabilitation, all post-operative reviews, suture removals, and healing assessments are included at no additional fee.
+                </p>
+              </div>
+              <div className="mt-4 pt-4 border-t border-slate-100 text-xs font-semibold text-[#0E2B4C]">
+                ✓ Scheduled recovery consultations
+              </div>
+            </div>
+
+            <div className="p-7 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 text-[#2BB4A7] flex items-center justify-center mb-4">
+                  <Phone className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-[#0E2B4C] font-heading mb-2">
+                  24/7 Hospital Emergency Line
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
+                  Inside St James Hospital, emergency medical support is on-site 24 hours a day. Should you need immediate post-treatment advice, hospital medical staff are always available.
+                </p>
+              </div>
+              <div className="mt-4 pt-4 border-t border-slate-100 text-xs font-semibold text-[#0E2B4C]">
+                ✓ Direct line: <strong className="underline">2329 1000</strong>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* 13. HEALTH INSURANCE & CROSS-BORDER REIMBURSEMENT (CLIENT ITEM 6) */}
+      <section className="py-16 sm:py-20 bg-gradient-to-r from-[#0E2B4C] via-[#123961] to-[#0E2B4C] text-white border-b border-[#07192D] shadow-inner">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 sm:p-12 border border-white/20 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-2xl">
+            <div className="max-w-2xl">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#2BB4A7]/20 border border-[#2BB4A7]/40 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-3">
+                INSURANCE COVERAGE &amp; CROSS-BORDER REIMBURSEMENT
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-bold font-heading text-white mb-3">
+                Do You Have Private Health Insurance?
+              </h2>
+              <p className="text-slate-200 text-sm sm:text-base leading-relaxed font-body">
+                Find out whether you may be eligible for dental care coverage or reimbursement. We provide complete itemised hospital medical receipts, ICD-10 diagnostic coding, and documentation for local insurers (Bupa Malta, Atlas, GasanMamo) and international schemes (AXA, Allianz, Cigna, EU Cross-Border Directive).
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row items-center gap-4 shrink-0">
+              <button
+                onClick={() => onNavigate('/prices')}
+                className="px-8 py-4 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-extrabold text-xs uppercase tracking-wider transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer whitespace-nowrap"
+              >
+                See If You're Eligible. Learn More. →
               </button>
             </div>
           </div>

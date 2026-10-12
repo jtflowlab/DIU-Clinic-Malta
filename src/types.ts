@@ -1,7 +1,7 @@
 export interface Clinician {
   id: string;
   name: string;
-  category: 'specialists' | 'general' | 'support';
+  category: 'specialists' | 'restorative' | 'general' | 'hygienist' | 'support';
   role: string;
   qualifications: string;
   badge: string;

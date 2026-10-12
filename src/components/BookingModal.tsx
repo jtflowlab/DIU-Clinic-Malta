@@ -307,17 +307,21 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 </div>
               </div>
 
-              {/* Treatment Selection with General Consultation as #1 Default */}
+              {/* Treatment Selection with Automatic Preselection */}
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                   <Smile className="w-3.5 h-3.5 text-[#2BB4A7]" />
-                  <span>Interested in *</span>
+                  <span>Interested in Treatment *</span>
                 </label>
                 <select
                   value={formData.treatment}
                   onChange={(e) => setFormData({ ...formData, treatment: e.target.value })}
                   className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm font-semibold focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7]"
                 >
+                  {/* If custom preselected treatment passed from card, ensure it is in the list */}
+                  {formData.treatment && !bookingTreatmentOptions.includes(formData.treatment) && (
+                    <option value={formData.treatment}>{formData.treatment}</option>
+                  )}
                   {bookingTreatmentOptions.map((opt, i) => (
                     <option key={i} value={opt}>{opt}</option>
                   ))}
@@ -340,6 +344,21 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                   <option value="Next week">🗓️ Next week</option>
                   <option value="Planning ahead (Within this month)">🔍 Planning ahead (Within this month)</option>
                 </select>
+              </div>
+
+              {/* Free-text Patient Needs, Concerns or Questions (Client Requested) */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <MessageSquare className="w-3.5 h-3.5 text-[#2BB4A7]" />
+                  <span>Your Needs, Concerns or Questions (Optional)</span>
+                </label>
+                <textarea
+                  rows={3}
+                  placeholder="Explain any specific symptoms, anxiety concerns, or what you'd like to achieve with your consultation..."
+                  value={formData.notes}
+                  onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7] focus:border-transparent font-body resize-y"
+                />
               </div>
 
               {/* Terms and Conditions Checkbox */}

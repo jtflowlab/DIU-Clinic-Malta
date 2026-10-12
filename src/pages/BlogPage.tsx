@@ -13,14 +13,47 @@ import { BlogPost } from '@/types';
 interface BlogPageProps {
   onOpenBooking: (defaults?: any) => void;
   onNavigate: (route: string) => void;
+  currentRoute?: string;
 }
 
 export const BlogPage: React.FC<BlogPageProps> = ({
   onOpenBooking,
-  onNavigate
+  onNavigate,
+  currentRoute
 }) => {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('all');
+
+  // Handle direct URL slug resolution (e.g. /blog/veneers, /blog/dental-implants-csi-treatment)
+  React.useEffect(() => {
+    if (currentRoute && currentRoute.startsWith('/blog/')) {
+      const slug = currentRoute.replace('/blog/', '').toLowerCase().trim();
+      if (!slug) return;
+      const matched = blogPosts.find(p => 
+        p.slug.toLowerCase() === slug || 
+        p.id.toLowerCase() === slug ||
+        (slug === 'veneers' && p.id === 'worn-teeth-guide') ||
+        (slug === 'implants' && (p.id === 'dental-implants-csi' || p.id === 'implant-consultation')) ||
+        (slug === 'csi' && p.id === 'dental-implants-csi') ||
+        (slug === 'dsd' && p.id === 'dsd-works')
+      );
+      if (matched) {
+        setSelectedPost(matched);
+      }
+    } else if (currentRoute === '/blog') {
+      setSelectedPost(null);
+    }
+  }, [currentRoute]);
+
+  const handleSelectPost = (post: BlogPost) => {
+    setSelectedPost(post);
+    onNavigate(`/blog/${post.slug}`);
+  };
+
+  const handleClosePost = () => {
+    setSelectedPost(null);
+    onNavigate('/blog');
+  };
 
   const categories = [
     'all', 
@@ -142,7 +175,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({
 
                 <div className="p-6 sm:p-7 pt-0">
                   <button
-                    onClick={() => setSelectedPost(post)}
+                    onClick={() => handleSelectPost(post)}
                     className="w-full py-3 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-2"
                   >
                     <span>Read Article</span>
@@ -172,7 +205,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({
           <div className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl p-6 sm:p-10 text-slate-900 my-8 max-h-[92vh] overflow-y-auto border border-slate-200">
             
             <button
-              onClick={() => setSelectedPost(null)}
+              onClick={handleClosePost}
               className="absolute top-5 right-5 p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer border border-slate-200 transition-colors"
               aria-label="Close article"
             >
@@ -306,7 +339,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({
               <button
                 onClick={() => {
                   const doctorName = selectedPost.author;
-                  setSelectedPost(null);
+                  handleClosePost();
                   onOpenBooking({ doctor: doctorName });
                 }}
                 className="px-6 py-2.5 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider cursor-pointer shrink-0 transition-colors"

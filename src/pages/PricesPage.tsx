@@ -20,43 +20,121 @@ export const PricesPage: React.FC<PricesPageProps> = ({
   return (
     <div className="pt-24 pb-28 bg-[#F8FAFC] text-slate-900 font-body">
       
-      {/* 1. Header Banner with Exact Client Statement */}
-      <section className="bg-white border-b border-slate-200 py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 1. High-Contrast Deep Navy Blue Header Banner (Client Requested) */}
+      <section className="bg-[#0E2B4C] text-white border-b border-slate-800 py-16 sm:py-20 relative overflow-hidden">
+        {/* Subtle decorative glow */}
+        <div className="absolute -right-20 -top-20 w-96 h-96 bg-[#2BB4A7]/10 rounded-full blur-3xl pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-6">
+          <div className="flex items-center gap-2 text-xs font-semibold text-slate-300 mb-6">
             <button 
               onClick={() => onNavigate('/')}
-              className="hover:text-[#0E2B4C] cursor-pointer bg-transparent border-none p-0"
+              className="hover:text-[#2BB4A7] cursor-pointer bg-transparent border-none p-0 text-slate-300"
             >
               Home
             </button>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-[#0E2B4C] font-bold">Fees &amp; Prices</span>
+            <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+            <span className="text-white font-bold">Fees &amp; Prices</span>
           </div>
 
           <div className="max-w-3xl">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-3">
-              Clear &amp; Honest Pricing
+            <span className="inline-block px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-4">
+              Clear &amp; Honest Pricing At St James Hospital
             </span>
-            <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-[#0E2B4C] font-heading mb-6 leading-tight">
-              Hospital Treatment <span className="text-[#2BB4A7]">Fees &amp; Prices</span>
+            
+            {/* "Fees & Prices" below "Hospital Treatment" as requested */}
+            <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-white font-heading mb-6 leading-tight">
+              Hospital Treatment <br />
+              <span className="text-[#2BB4A7]">Fees &amp; Prices</span>
             </h1>
             
-            {/* Exact Client Disclaimer Quote from Mockups */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-700 text-sm sm:text-base leading-relaxed font-body">
-              <strong className="text-[#0E2B4C]">Every treatment plan is personal, so these are starting prices.</strong> You will receive a written plan with the full cost before treatment begins. Let us know if you have insurance.
+            {/* Client Disclaimer Quote with High Contrast */}
+            <div className="p-5 sm:p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-slate-200 text-sm sm:text-base leading-relaxed font-body shadow-lg">
+              <strong className="text-white font-semibold">Every treatment plan is personal, so these are starting prices.</strong> You will receive a written plan with the full cost before treatment begins. Let us know if you have insurance.
             </div>
           </div>
 
         </div>
       </section>
 
-      {/* 2. Fee Cards Grid (All 10 Categories from Client Sheets) */}
+      {/* 2. Health Insurance & Cross-Border Reimbursement (Positioned Prominently at Top) */}
+      <section className="py-12 bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-r from-teal-50/80 via-white to-slate-50 p-8 sm:p-10 rounded-3xl border border-teal-200/80 shadow-md">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              
+              <div className="lg:col-span-8">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0E2B4C] text-[#2BB4A7] text-[11px] font-bold uppercase tracking-wider mb-3">
+                  <ShieldCheck className="w-4 h-4" />
+                  <span>Private Health Insurance Eligibility</span>
+                </div>
+                
+                <h2 className="text-2xl sm:text-4xl font-bold text-[#0E2B4C] font-heading mb-3">
+                  Do You Have Private Health Insurance?
+                </h2>
+                
+                <p className="text-base text-slate-700 font-medium mb-4 font-body leading-relaxed">
+                  Find out whether you may be eligible for dental care coverage or reimbursement.
+                </p>
+
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body mb-5 max-w-2xl">
+                  Because DIU Clinic is fully integrated inside St. James Hospital in Sliema, our surgical treatments, diagnostic scans, and hospital consultations qualify for coverage and claim itemization under both Maltese and international private health insurance policies.
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-slate-700 font-semibold mb-2">
+                  <div className="flex items-center gap-2 bg-white px-3.5 py-2 rounded-xl border border-slate-200">
+                    <Check className="w-4 h-4 text-[#2BB4A7] shrink-0" />
+                    <span>Official medical itemization</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-white px-3.5 py-2 rounded-xl border border-slate-200">
+                    <Check className="w-4 h-4 text-[#2BB4A7] shrink-0" />
+                    <span>European S2 forms support</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-white px-3.5 py-2 rounded-xl border border-slate-200">
+                    <Check className="w-4 h-4 text-[#2BB4A7] shrink-0" />
+                    <span>Hospital theatre invoicing</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:col-span-4 flex flex-col justify-center items-start lg:items-end">
+                <button
+                  onClick={() => onOpenBooking({
+                    treatment: 'Private Health Insurance Consultation & Claim Verification'
+                  })}
+                  className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#2BB4A7] hover:bg-[#23998e] text-white font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-lg hover:scale-102 flex items-center justify-center gap-2 text-center"
+                >
+                  <span>See If You're Eligible. Learn More.</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+                <div className="text-[11px] text-slate-500 mt-2.5 text-center lg:text-right w-full">
+                  Speak directly with our hospital insurance coordination desk.
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Fee Cards Grid (All 10 Categories from Client Sheets) */}
       <section className="py-16 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#2BB4A7] block mb-2">
+              Transparent Fees
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#0E2B4C] font-heading">
+              Clinical Procedures &amp; Starting Fees
+            </h2>
+            <p className="text-sm text-slate-600 mt-2">
+              Every procedure is delivered to hospital-grade sterilization and surgical standards.
+            </p>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {feesCategories.map((cat, idx) => (
               <div
@@ -67,9 +145,9 @@ export const PricesPage: React.FC<PricesPageProps> = ({
                   <span className="text-xs font-extrabold uppercase tracking-wider text-[#2BB4A7] mb-1 block">
                     [ 0{idx + 1} ]
                   </span>
-                  <h2 className="text-2xl font-bold text-[#0E2B4C] mb-1 font-heading">
+                  <h3 className="text-2xl font-bold text-[#0E2B4C] mb-1 font-heading">
                     {cat.title}
-                  </h2>
+                  </h3>
                   <p className="text-xs text-slate-500 mb-6 font-body leading-relaxed">
                     {cat.description}
                   </p>
@@ -103,10 +181,10 @@ export const PricesPage: React.FC<PricesPageProps> = ({
 
                 <div className="pt-6 mt-6 border-t border-slate-100">
                   <button
-                    onClick={() => onOpenBooking({ treatment: cat.items[0].name })}
-                    className="w-full py-3.5 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-2 border border-[#0E2B4C]"
+                    onClick={() => onOpenBooking({ treatment: cat.items[0]?.name || cat.title })}
+                    className="w-full py-3.5 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center justify-center gap-2 border border-[#0E2B4C] hover:border-[#2BB4A7]"
                   >
-                    <Calendar className="w-4 h-4 text-[#2BB4A7]" />
+                    <Calendar className="w-4 h-4 text-[#2BB4A7] group-hover:text-white" />
                     <span>Inquire About {cat.title.split('(')[0].trim()}</span>
                   </button>
                 </div>
@@ -115,60 +193,22 @@ export const PricesPage: React.FC<PricesPageProps> = ({
             ))}
           </div>
 
-          {/* 3. Insurance & Hospital Billing Details */}
-          <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200 shadow-md">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-3">
-                  <ShieldCheck className="w-4 h-4" />
-                  <span>Private Insurance Coverage</span>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-bold text-[#0E2B4C] font-heading mb-3">
-                  Insurance &amp; Cross-Border Medical Reimbursement
-                </h3>
-                <p className="text-sm text-slate-600 leading-relaxed font-body mb-4">
-                  Because our clinic is fully integrated into St. James Hospital in Sliema, our surgical treatments and consultations are eligible for coverage under local and international private healthcare policies.
-                </p>
-                <div className="space-y-2 text-xs text-slate-700">
-                  <div className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#2BB4A7]" />
-                    <span>Official medical receipts &amp; diagnostic itemization</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#2BB4A7]" />
-                    <span>European S2 forms and private insurance claim validation</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-[#2BB4A7]" />
-                    <span>Hospital theatre sedation invoicing</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-[#F8FAFC] p-6 sm:p-8 rounded-2xl border border-slate-200 space-y-4">
-                <div className="text-sm font-bold text-[#0E2B4C] font-heading">
-                  Written Estimate Guarantee
-                </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Before beginning any complex treatment—including dental implants, ceramic crowns, or full mouth rehabilitation—you will receive a detailed printed estimate with zero hidden extras.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                  <button
-                    onClick={() => onOpenBooking({ notes: 'Requesting treatment estimate & insurance claim details' })}
-                    className="flex-1 py-3.5 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer text-center"
-                  >
-                    Request a Written Estimate
-                  </button>
-                  <a
-                    href="tel:35623291029"
-                    className="px-5 py-3.5 rounded-full bg-slate-50 hover:bg-slate-100 text-slate-800 font-bold text-xs uppercase tracking-wider border border-slate-200 transition-colors flex items-center justify-center gap-2 no-underline"
-                  >
-                    <Phone className="w-3.5 h-3.5 text-[#2BB4A7]" />
-                    <span>2329 1029</span>
-                  </a>
-                </div>
-              </div>
+          {/* 4. Written Estimate Guarantee Box */}
+          <div className="bg-[#0E2B4C] text-white p-8 sm:p-10 rounded-3xl shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+              <h3 className="text-2xl font-bold font-heading mb-2">
+                Written Estimate Guarantee Before Treatment
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 max-w-xl font-body leading-relaxed">
+                No unexpected costs. You receive an itemized clinical treatment plan with fixed fees and diagnostic explanations prior to starting any procedure At St James Hospital.
+              </p>
             </div>
+            <button
+              onClick={() => onOpenBooking({ treatment: 'Initial Consultation & Diagnostic Estimate' })}
+              className="px-8 py-4 rounded-full bg-[#2BB4A7] hover:bg-[#23998e] text-white font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md shrink-0 hover:scale-102"
+            >
+              Book Diagnostic Consultation
+            </button>
           </div>
 
         </div>

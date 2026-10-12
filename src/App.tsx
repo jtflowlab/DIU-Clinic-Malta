@@ -10,6 +10,7 @@ import { TreatmentsPage } from '@/pages/TreatmentsPage';
 import { PricesPage } from '@/pages/PricesPage';
 import { TeamPage } from '@/pages/TeamPage';
 import { BlogPage } from '@/pages/BlogPage';
+import { ReferralPage } from '@/pages/ReferralPage';
 import { BookingFormData } from '@/types';
 
 // SEO Title & Description Map
@@ -30,6 +31,10 @@ const SEO_METADATA: Record<string, { title: string; description: string }> = {
     title: 'Our Dentists, Specialists & Surgeons | DiU Clinic Malta',
     description: 'Meet our multidisciplinary team of 19 oral surgeons, prosthodontists, general dentists, hygienists and clinical care coordinators at St. James Hospital.'
   },
+  '/referral': {
+    title: 'Dentist Referral Portal | DiU Clinic Malta • St. James Hospital Sliema',
+    description: 'Colleague referral portal for dental practitioners for oral surgery, complex implants, CBCT diagnostics, DSD rehabilitation, and hospital IV sedation.'
+  },
   '/blog': {
     title: 'Dental Insights, Guides & Articles | DiU Clinic Malta',
     description: 'Expert dental health articles, IV sedation advice, smile design previews and patient care guides authored by DiU Clinic specialists.'
@@ -42,7 +47,7 @@ const parseRouteFromLocation = (): string => {
   
   // Check hash first (e.g., #/treatments or #treatments)
   const hash = window.location.hash.replace(/^#\/?/, '/');
-  if (hash === '/treatments' || hash === '/prices' || hash === '/team' || hash === '/blog') {
+  if (hash === '/treatments' || hash === '/prices' || hash === '/team' || hash === '/referral' || hash.startsWith('/blog')) {
     return hash;
   }
   
@@ -51,7 +56,8 @@ const parseRouteFromLocation = (): string => {
   if (path.endsWith('/treatments')) return '/treatments';
   if (path.endsWith('/prices') || path.endsWith('/fees-and-prices')) return '/prices';
   if (path.endsWith('/team')) return '/team';
-  if (path.endsWith('/blog')) return '/blog';
+  if (path.endsWith('/referral')) return '/referral';
+  if (path.includes('/blog')) return path;
   
   return '/';
 };
@@ -165,10 +171,17 @@ export default function App() {
           />
         )}
 
-        {currentRoute === '/blog' && (
+        {currentRoute === '/referral' && (
+          <ReferralPage
+            onNavigate={navigateTo}
+          />
+        )}
+
+        {currentRoute.startsWith('/blog') && (
           <BlogPage
             onOpenBooking={handleOpenBooking}
             onNavigate={navigateTo}
+            currentRoute={currentRoute}
           />
         )}
 
