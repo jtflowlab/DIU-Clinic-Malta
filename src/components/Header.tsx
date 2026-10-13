@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, Calendar, AlertCircle, Menu, X, ChevronRight } from 'lucide-react';
+import { Phone, Calendar, Menu, X, ChevronRight } from 'lucide-react';
 import { getAssetUrl } from '@/data/clinicData';
 
 interface HeaderProps {
@@ -15,53 +15,58 @@ export const Header: React.FC<HeaderProps> = ({
   currentRoute,
   onNavigate,
   onOpenBooking,
-  onOpenEmergency,
   isScrolled
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Exact menu items requested in Worksheet: ABOUT US, TREATMENTS, PRICES, REFERRALS, BLOG, CONTACT
   const navItems = [
-    { label: 'Home', route: '/' },
-    { label: 'Treatments', route: '/treatments' },
-    { label: 'Our Team', route: '/team' },
-    { label: 'Fees & Prices', route: '/prices' },
-    { label: 'Referral', route: '/referral' },
-    { label: 'Blog', route: '/blog' }
+    { label: 'ABOUT US', route: '/team' },
+    { label: 'TREATMENTS', route: '/treatments' },
+    { label: 'PRICES', route: '/prices' },
+    { label: 'REFERRALS', route: '/referral' },
+    { label: 'BLOG', route: '/blog' },
+    { label: 'CONTACT', route: 'contact' }
   ];
 
   const handleNavClick = (route: string) => {
-    onNavigate(route);
     setMobileMenuOpen(false);
+    if (route === 'contact') {
+      if (currentRoute !== '/') {
+        onNavigate('/');
+        setTimeout(() => {
+          const el = document.getElementById('contact-booking');
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 350);
+      } else {
+        const el = document.getElementById('contact-booking');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+      return;
+    }
+    onNavigate(route);
   };
 
   return (
     <header
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/95 backdrop-blur-xl border-b border-slate-200/90 py-3 shadow-[0_4px_25px_rgba(14,43,76,0.08)] text-slate-800'
-          : 'bg-white/90 backdrop-blur-md border-b border-slate-200/60 py-4 text-slate-900 shadow-sm'
+          ? 'bg-white/95 backdrop-blur-xl border-b border-slate-200/90 py-2 sm:py-2.5 shadow-[0_4px_25px_rgba(14,43,76,0.08)] text-slate-800'
+          : 'bg-white/95 backdrop-blur-md border-b border-slate-200/60 py-3 sm:py-3.5 text-slate-900 shadow-sm'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
         
-        {/* Official Clinic Logo */}
+        {/* DiU Logo - Made prominent so Dental & Implantology Unit is clearly readable */}
         <div
           onClick={() => handleNavClick('/')}
-          className="flex items-center gap-3 cursor-pointer group shrink-0"
+          className="flex items-center cursor-pointer group shrink-0"
         >
           <img
-            src={getAssetUrl('full_logo.png')}
-            alt="DiU Dental & Implantology Unit - St. James Hospital Sliema"
-            className="h-9 sm:h-10 w-auto object-contain transition-transform group-hover:scale-102"
+            src={getAssetUrl('DiU_Logo_Full_Colour.png')}
+            alt="DiU Dental & Implantology Unit - At St James Hospital, Sliema"
+            className="h-11 sm:h-12 md:h-14 w-auto object-contain transition-transform group-hover:scale-102"
           />
-          <div className="hidden lg:block border-l border-slate-200 pl-3">
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[#2BB4A7] block leading-tight">
-              St. James Hospital Network
-            </span>
-            <span className="text-[11px] font-semibold text-slate-500 block leading-tight">
-              Sliema Flagship
-            </span>
-          </div>
         </div>
 
         {/* Desktop Nav Links */}
@@ -70,7 +75,7 @@ export const Header: React.FC<HeaderProps> = ({
             const isActive = currentRoute === item.route;
             return (
               <button
-                key={item.route}
+                key={item.label}
                 onClick={() => handleNavClick(item.route)}
                 className={`px-3.5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
                   isActive
@@ -87,7 +92,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Action Controls & CTAs */}
         <div className="flex items-center gap-2.5 sm:gap-4 shrink-0">
           
-          {/* Hospital Direct Telephone */}
+          {/* Direct Telephone */}
           <a
             href="tel:35623291029"
             className="hidden md:flex items-center gap-1.5 text-xs font-bold px-3 py-2 rounded-full text-[#0E2B4C] hover:text-[#2BB4A7] hover:bg-slate-50 transition-colors no-underline tracking-wide border border-slate-200/60"
@@ -102,7 +107,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-bold text-xs uppercase tracking-wider transition-all bg-[#0E2B4C] hover:bg-[#07192d] text-white border border-[#0E2B4C] shadow-sm hover:shadow hover:scale-102 cursor-pointer shrink-0"
           >
             <Calendar className="w-3.5 h-3.5 text-[#2BB4A7]" />
-            <span className="hidden sm:inline">Book a Consultation</span>
+            <span className="hidden sm:inline">Book a consultation</span>
             <span className="sm:hidden">Book</span>
           </button>
 
@@ -132,7 +137,7 @@ export const Header: React.FC<HeaderProps> = ({
               const isActive = currentRoute === item.route;
               return (
                 <button
-                  key={item.route}
+                  key={item.label}
                   onClick={() => handleNavClick(item.route)}
                   className={`text-left py-2.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-between border cursor-pointer ${
                     isActive
@@ -163,7 +168,7 @@ export const Header: React.FC<HeaderProps> = ({
                 className="w-full py-3.5 rounded-full bg-[#0E2B4C] text-white font-extrabold text-center text-xs uppercase tracking-wider cursor-pointer shadow-md flex items-center justify-center gap-2"
               >
                 <Calendar className="w-4 h-4 text-[#2BB4A7]" />
-                <span>Book a Consultation</span>
+                <span>Book a consultation</span>
               </button>
             </div>
           </motion.div>

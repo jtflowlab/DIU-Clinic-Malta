@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Phone, MessageSquare } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { Header } from '@/components/Header';
 import { CinematicFooter } from '@/components/ui/motion-footer';
 import { BookingModal } from '@/components/BookingModal';
@@ -12,32 +10,33 @@ import { TeamPage } from '@/pages/TeamPage';
 import { BlogPage } from '@/pages/BlogPage';
 import { ReferralPage } from '@/pages/ReferralPage';
 import { BookingFormData } from '@/types';
+import { blogPosts } from '@/data/clinicData';
 
-// SEO Title & Description Map
+// SEO Title & Description Map (strictly avoiding hospital ownership claims)
 const SEO_METADATA: Record<string, { title: string; description: string }> = {
   '/': {
-    title: 'DiU Clinic Malta | Dental & Implantology Unit • St. James Hospital Sliema',
-    description: 'Trusted by families for over 25 years. Specialist dental implants, CEREC same-day crowns, digital smile design and conscious sedation inside St. James Hospital Sliema.'
+    title: 'DiU Clinic Malta | Dental & Implantology Unit at St James Hospital, Sliema',
+    description: 'Trusted by families for over 25 years. Specialist dental implants, same-day crowns, digital smile design and conscious sedation at St James Hospital, Sliema.'
   },
   '/treatments': {
-    title: 'Clinical Dental Treatments & Specialties | DiU Clinic Malta',
-    description: 'Explore our dental treatments: Family dentistry, Swiss dental implants, All-on-4 fixed teeth, CEREC porcelain crowns, sedation and orthodontics.'
+    title: 'Dental Treatments & Specialties | DiU Clinic Malta',
+    description: 'Explore our dental treatments: Family dentistry, dental implants, Digital Smile Design, IV sedation, crowns and veneers at St James Hospital.'
   },
   '/prices': {
-    title: 'Treatment Fees & Transparent Pricing Guide | DiU Clinic Malta',
-    description: 'Transparent hospital dental fees, consultation costs, Swiss implants, CEREC restorations, IV sedation and private medical insurance coverage.'
+    title: 'Treatment Fees & Prices | DiU Clinic Malta',
+    description: 'Clear dental fees, consultation costs, implants, smile design, restorations, IV sedation and private medical insurance coverage.'
   },
   '/team': {
-    title: 'Our Dentists, Specialists & Surgeons | DiU Clinic Malta',
-    description: 'Meet our multidisciplinary team of 19 oral surgeons, prosthodontists, general dentists, hygienists and clinical care coordinators at St. James Hospital.'
+    title: 'Our Dental Team | DiU Clinic Malta',
+    description: 'Meet our multidisciplinary team of oral surgeons, prosthodontists, general dentists, hygienists and clinical care coordinators at St James Hospital.'
   },
   '/referral': {
-    title: 'Dentist Referral Portal | DiU Clinic Malta • St. James Hospital Sliema',
-    description: 'Colleague referral portal for dental practitioners for oral surgery, complex implants, CBCT diagnostics, DSD rehabilitation, and hospital IV sedation.'
+    title: 'Dentist Referral Portal | DiU Clinic Malta at St James Hospital, Sliema',
+    description: 'Colleague referral portal for dental practitioners for oral surgery, complex implants, CBCT diagnostics, DSD rehabilitation, and IV sedation.'
   },
   '/blog': {
-    title: 'Dental Insights, Guides & Articles | DiU Clinic Malta',
-    description: 'Expert dental health articles, IV sedation advice, smile design previews and patient care guides authored by DiU Clinic specialists.'
+    title: 'Dental Insights & Articles | DiU Clinic Malta',
+    description: 'Expert dental health articles, IV sedation advice, smile design previews and patient care guides authored by DiU Clinic clinicians.'
   }
 };
 
@@ -65,7 +64,6 @@ const parseRouteFromLocation = (): string => {
 export default function App() {
   const [currentRoute, setCurrentRoute] = useState<string>(parseRouteFromLocation);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [showBottomBar, setShowBottomBar] = useState(false);
 
   // Modals state
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
@@ -88,9 +86,28 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // Update Document Title and Meta Description for SEO
-    const meta = SEO_METADATA[currentRoute] || SEO_METADATA['/'];
-    document.title = meta.title;
+    // Check if currentRoute is a specific blog post
+    let title = 'DiU Clinic Malta | Dental & Implantology Unit at St James Hospital, Sliema';
+    let description = 'Specialist dental care, dental implants, and Digital Smile Design at St James Hospital, Sliema.';
+
+    if (currentRoute.startsWith('/blog/')) {
+      const slug = currentRoute.replace('/blog/', '').replace(/^\//, '');
+      const post = blogPosts.find(p => p.slug === slug);
+      if (post) {
+        title = `${post.title} | DiU Clinic Malta`;
+        description = post.excerpt;
+      } else {
+        const meta = SEO_METADATA['/blog'];
+        title = meta.title;
+        description = meta.description;
+      }
+    } else {
+      const meta = SEO_METADATA[currentRoute] || SEO_METADATA['/'];
+      title = meta.title;
+      description = meta.description;
+    }
+
+    document.title = title;
 
     let descMeta = document.querySelector('meta[name="description"]');
     if (!descMeta) {
@@ -98,20 +115,15 @@ export default function App() {
       descMeta.setAttribute('name', 'description');
       document.head.appendChild(descMeta);
     }
-    descMeta.setAttribute('content', meta.description);
+    descMeta.setAttribute('content', description);
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentRoute]);
 
-  // Scroll Listener
+  // Scroll Listener for header styling
   useEffect(() => {
     const onScroll = () => {
-      const scrollPos = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight;
-      const winHeight = window.innerHeight;
-      const isNearBottom = (scrollPos + winHeight) >= (docHeight - 160);
-      setIsScrolled(scrollPos > 40);
-      setShowBottomBar(scrollPos > 600 && !isNearBottom);
+      setIsScrolled(window.scrollY > 40);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -212,34 +224,7 @@ export default function App() {
         }}
       />
 
-      {/* 4. FLOATING QUICK CONVERSION BAR (Visible after scroll) */}
-      <AnimatePresence>
-        {showBottomBar && (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 30 }}
-            className="fixed bottom-4 inset-x-4 max-w-md mx-auto z-40 bg-white/95 backdrop-blur-md p-2 rounded-full border border-slate-200/90 shadow-2xl flex items-center justify-between gap-2 text-slate-900"
-          >
-            <a
-              href="tel:35623291029"
-              className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-[#0E2B4C] hover:text-[#2BB4A7] no-underline"
-            >
-              <Phone className="w-3.5 h-3.5 text-[#2BB4A7]" />
-              <span>2329 1029</span>
-            </a>
-
-            <button
-              onClick={() => handleOpenBooking()}
-              className="px-5 py-2.5 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md flex items-center gap-2"
-            >
-              <span>Book Consultation</span>
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* 5. INTERACTIVE MODALS */}
+      {/* 4. INTERACTIVE MODALS */}
       <BookingModal
         isOpen={bookingModalOpen}
         onClose={() => setBookingModalOpen(false)}

@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { 
   X, 
   User, 
   MessageSquare, 
   Phone, 
   Mail, 
-  Building2, 
   Smile, 
   Clock, 
   CheckCircle2, 
@@ -30,14 +29,16 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   onClose,
   initialDefaults
 }) => {
+  const defaultTreatment = initialDefaults?.treatment || 'Dental Implants & Oral Surgery';
+
   const [formData, setFormData] = useState<BookingFormData>({
     firstName: initialDefaults?.firstName || '',
     lastName: initialDefaults?.lastName || '',
     phone: initialDefaults?.phone || '',
     email: initialDefaults?.email || '',
     contactPreference: initialDefaults?.contactPreference || 'WhatsApp',
-    clinic: 'St. James Hospital (Sliema Flagship)',
-    treatment: initialDefaults?.treatment || 'Initial Dental Consultation & Check-up',
+    clinic: 'At St James Hospital, Sliema',
+    treatment: defaultTreatment,
     doctor: initialDefaults?.doctor || '',
     urgency: initialDefaults?.urgency || 'This week (Monday – Friday)',
     notes: initialDefaults?.notes || ''
@@ -48,17 +49,39 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const [copySuccess, setCopySuccess] = useState(false);
   const [isSubmittedDirectly, setIsSubmittedDirectly] = useState(false);
 
-  // Reset or initialize on open
-  React.useEffect(() => {
-    if (initialDefaults) {
+  // Close on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
+  // Reset or initialize when modal opens or defaults change
+  useEffect(() => {
+    if (isOpen) {
       setFormData(prev => ({
         ...prev,
-        ...initialDefaults
+        firstName: initialDefaults?.firstName ?? prev.firstName,
+        lastName: initialDefaults?.lastName ?? prev.lastName,
+        phone: initialDefaults?.phone ?? prev.phone,
+        email: initialDefaults?.email ?? prev.email,
+        contactPreference: initialDefaults?.contactPreference ?? prev.contactPreference,
+        clinic: 'At St James Hospital, Sliema',
+        treatment: initialDefaults?.treatment || prev.treatment || 'Dental Implants & Oral Surgery',
+        doctor: initialDefaults?.doctor ?? prev.doctor,
+        urgency: initialDefaults?.urgency ?? prev.urgency,
+        notes: initialDefaults?.notes ?? prev.notes
       }));
+      setFormValidationWarning(null);
+      setAcceptedTerms(false);
+      setIsSubmittedDirectly(false);
     }
-    setFormValidationWarning(null);
-    setAcceptedTerms(false);
-    setIsSubmittedDirectly(false);
   }, [isOpen, initialDefaults]);
 
   if (!isOpen) return null;
@@ -70,8 +93,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     const phoneText = formData.phone.trim() || '[Phone Number]';
     const emailText = formData.email.trim() ? `\n✉️ *Email:* ${formData.email.trim()}` : '';
     const preference = formData.contactPreference;
-    const clinicName = 'St. James Hospital (Sliema Flagship)';
-    const treatmentText = formData.treatment || 'Initial Dental Consultation & Check-up';
+    const clinicName = 'At St James Hospital, Sliema';
+    const treatmentText = formData.treatment || 'Dental Implants & Oral Surgery';
     const doctorText = formData.doctor ? `\n👨‍⚕️ *Requested Clinician:* ${formData.doctor}` : '';
     const urgencyText = formData.urgency || 'This week';
     const notesText = formData.notes.trim() ? `\n📝 *Notes:* ${formData.notes.trim()}` : '';
@@ -81,11 +104,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 👤 *Patient:* ${patientName}
 📱 *Phone:* ${phoneText}${emailText}
 🔔 *Preferred Contact Method:* ${preference}
-🏛️ *Hospital Centre:* ${clinicName}
+🏛️ *Location:* ${clinicName}
 🦷 *Treatment:* ${treatmentText}${doctorText}
 ⏰ *Timeline / Urgency:* ${urgencyText}${notesText}
 ━━━━━━━━━━━━━━━━━━
-_Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). Please confirm appointment availability._`;
+_Sent via the official portal of DiU Clinic Malta. Please confirm appointment availability._`;
   };
 
   const handleSendWhatsApp = () => {
@@ -126,8 +149,12 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/60 backdrop-blur-md overflow-y-auto">
+    <div 
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/60 backdrop-blur-md overflow-y-auto"
+    >
       <motion.div
+        onClick={(e) => e.stopPropagation()}
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -146,19 +173,19 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-3">
             <img
-              src={getAssetUrl('full_logo.png')}
+              src={getAssetUrl('DiU_Logo_Full_Colour.png')}
               alt="DiU Dental & Implantology Unit"
-              className="h-8 w-auto object-contain"
+              className="h-9 w-auto object-contain"
             />
             <span className="text-[11px] font-bold uppercase tracking-widest text-[#2BB4A7] px-3 py-1 bg-teal-50 border border-teal-200 rounded-full">
-              Hospital Appointment Desk
+              APPOINTMENTS
             </span>
           </div>
           <h3 className="text-2xl sm:text-4xl font-extrabold text-slate-950 font-heading tracking-tight">
             Book a Consultation
           </h3>
           <p className="text-slate-600 text-sm mt-1 font-body">
-            Submit your details directly or connect via our official hospital WhatsApp service.
+            Submit your details directly or connect via our WhatsApp service.
           </p>
         </div>
 
@@ -176,7 +203,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
               Appointment Request Received
             </h4>
             <p className="text-slate-700 text-sm sm:text-base max-w-lg mx-auto mb-6">
-              Thank you, <strong>{formData.firstName} {formData.lastName}</strong>. Our patient care coordinators at St. James Hospital (Sliema) have received your inquiry.
+              Thank you, <strong>{formData.firstName} {formData.lastName}</strong>. Our patient care coordinators at St James Hospital (Sliema) have received your enquiry.
             </p>
 
             <div className="bg-white p-5 rounded-2xl border border-teal-100 max-w-md mx-auto text-left text-xs space-y-2 mb-6 shadow-sm">
@@ -189,8 +216,8 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 <span className="font-bold text-[#0E2B4C]">{formData.contactPreference} ({formData.phone})</span>
               </div>
               <div className="flex justify-between border-b border-slate-100 pb-2">
-                <span className="text-slate-500 font-medium">Hospital Centre:</span>
-                <span className="font-bold text-[#0E2B4C]">St. James Hospital, Sliema</span>
+                <span className="text-slate-500 font-medium">Location:</span>
+                <span className="font-bold text-[#0E2B4C]">At St James Hospital, Sliema</span>
               </div>
               <div className="flex justify-between pt-1">
                 <span className="text-slate-500 font-medium">Urgency:</span>
@@ -299,7 +326,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                   </label>
                   <input
                     type="email"
-                    placeholder="e.g. appointment@dentalunitmalta.com"
+                    placeholder="e.g. appointments@dentalunitmalta.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7] focus:border-transparent"
@@ -307,7 +334,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 </div>
               </div>
 
-              {/* Treatment Selection with Automatic Preselection */}
+              {/* Treatment Selection with Automatic Preselection matching 10 price categories */}
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                   <Smile className="w-3.5 h-3.5 text-[#2BB4A7]" />
@@ -346,7 +373,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                 </select>
               </div>
 
-              {/* Free-text Patient Needs, Concerns or Questions (Client Requested) */}
+              {/* Free-text Patient Needs, Concerns or Questions */}
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                   <MessageSquare className="w-3.5 h-3.5 text-[#2BB4A7]" />
@@ -371,7 +398,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                     className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#2BB4A7] focus:ring-[#2BB4A7] cursor-pointer shrink-0"
                   />
                   <span className="text-xs text-slate-600 leading-snug">
-                    I accept the <strong className="text-[#0E2B4C] underline">Terms &amp; Conditions</strong> and consent to DiU Clinic Malta processing my details for appointment arrangement.
+                    I accept the <strong className="text-[#0E2B4C] underline">Terms &amp; Conditions</strong> and consent to DiU Clinic processing my details for appointment arrangement.
                   </span>
                 </label>
               </div>
@@ -443,7 +470,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                     </div>
                     <div className="text-[10px] text-emerald-400 flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      <span>St. James Hospital Network</span>
+                      <span>At St James Hospital, Sliema</span>
                     </div>
                   </div>
                 </div>
@@ -457,7 +484,7 @@ _Sent via the official portal of DiU Clinic Malta (St. James Hospital Network). 
                     <div>👤 <strong>Patient:</strong> {`${formData.firstName} ${formData.lastName}`.trim() || '[Your Name]'}</div>
                     <div>📱 <strong>Phone:</strong> {formData.phone.trim() || '[Your Phone]'}</div>
                     <div>🔔 <strong>Preferred Contact:</strong> {formData.contactPreference}</div>
-                    <div>🏛️ <strong>Location:</strong> St. James Hospital (Sliema)</div>
+                    <div>🏛️ <strong>Location:</strong> At St James Hospital, Sliema</div>
                     <div>🦷 <strong>Treatment:</strong> {formData.treatment}</div>
                     <div>⏰ <strong>Timeline:</strong> {formData.urgency}</div>
                     <div className="text-right text-[9px] text-emerald-300 mt-2">

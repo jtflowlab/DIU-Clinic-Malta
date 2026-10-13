@@ -14,11 +14,12 @@ import {
   Cpu,
   Heart,
   Users,
-  Shield,
+  ShieldCheck,
   Volume2,
   VolumeX,
   Play,
-  Pause
+  Pause,
+  X
 } from 'lucide-react';
 import { 
   getAssetUrl, 
@@ -26,6 +27,7 @@ import {
   cliniciansList, 
   bookingTreatmentOptions
 } from '@/data/clinicData';
+import { Clinician } from '@/types';
 
 interface HomePageProps {
   onNavigate: (route: string) => void;
@@ -41,14 +43,17 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [isVideoMuted, setIsVideoMuted] = useState(true);
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
 
-  // Home Page Direct Form State (with First & Last name separated + Contact Preference + Terms Checkbox)
+  // Selected bio modal state
+  const [selectedBio, setSelectedBio] = useState<Clinician | null>(null);
+
+  // Home Page Direct Form State
   const [homeForm, setHomeForm] = useState({
     firstName: '',
     lastName: '',
     phone: '',
     email: '',
     contactPreference: 'WhatsApp' as 'WhatsApp' | 'Call Back' | 'Email',
-    treatment: 'Initial Dental Consultation & Check-up',
+    treatment: 'Dental Implants & Oral Surgery',
     message: ''
   });
   const [homeTermsAccepted, setHomeTermsAccepted] = useState(false);
@@ -67,7 +72,10 @@ export const HomePage: React.FC<HomePageProps> = ({
   const teamTrackRef = useRef<HTMLDivElement>(null);
 
   const [servicesDistance, setServicesDistance] = useState(1150);
-  const [teamDistance, setTeamDistance] = useState(1050);
+  const [teamDistance, setTeamDistance] = useState(1400);
+
+  // Clinicians for Home: All 9 clinicians (specialists, general, hygienist)
+  const homeClinicians = cliniciansList.filter(c => c.category !== 'support');
 
   useEffect(() => {
     const updateDistances = () => {
@@ -94,7 +102,7 @@ export const HomePage: React.FC<HomePageProps> = ({
     };
   }, []);
 
-  // 1. Hero Scroll Downscaling Dock (scales from 1.0 down to 0.93, corners 0px -> 28px)
+  // 1. Hero Scroll Downscaling Dock
   const { scrollYProgress: heroProgress } = useScroll({
     target: heroSectionRef,
     offset: ["start start", "end start"]
@@ -125,9 +133,6 @@ export const HomePage: React.FC<HomePageProps> = ({
     if (v >= 0.85) return -teamDistance;
     return -(v / 0.85) * teamDistance;
   });
-
-  // 5 Leading Clinicians matching client mockup
-  const featuredClinicians = cliniciansList.slice(0, 5);
 
   const toggleVideoPlay = () => {
     if (!heroVideoRef.current) return;
@@ -163,7 +168,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   return (
     <div className="bg-[#F8FAFC] text-slate-900 font-body">
 
-      {/* 1. HERO SECTION: 2-COLUMN SPLIT (EDITORIAL & DSD HIGHLIGHT ON LEFT, 4K VIDEO PLAYER ON RIGHT) */}
+      {/* 1. HERO SECTION: 2-COLUMN SPLIT */}
       <div 
         id="hero" 
         ref={heroSectionRef} 
@@ -178,7 +183,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             }}
             className="relative w-full h-full overflow-hidden shadow-2xl bg-gradient-to-br from-[#07192D] via-[#0E2B4C] to-[#133A63] will-change-transform flex items-center"
           >
-            {/* Subtle architectural ambient lights in background */}
+            {/* Ambient lights */}
             <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#2BB4A7]/10 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute bottom-0 left-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -189,10 +194,10 @@ export const HomePage: React.FC<HomePageProps> = ({
             >
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 
-                {/* Left Column (55% / 7 cols): Headline, DSD Gold Badge, CTAs, Sedation Notice */}
+                {/* Left Column: Headline, DSD Gold Badge, CTAs */}
                 <div className="lg:col-span-7">
                   
-                  {/* Location & DSD Highlights */}
+                  {/* Location & DSD Highlights (Worksheet #4: LOCATED @ ST JAMES HOSPITAL, SLIEMA) */}
                   <motion.div
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -201,7 +206,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   >
                     <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/60 text-[#0E2B4C] text-[11px] font-bold uppercase tracking-widest shadow-sm">
                       <span className="w-2 h-2 rounded-full bg-[#2BB4A7] animate-pulse" />
-                      <span>At St James Hospital, Sliema</span>
+                      <span>LOCATED @ ST JAMES HOSPITAL, SLIEMA</span>
                     </div>
 
                     <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-amber-400/25 to-amber-500/20 border border-amber-300/50 text-amber-200 text-[11px] font-bold uppercase tracking-widest shadow-sm backdrop-blur-md">
@@ -210,7 +215,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     </div>
                   </motion.div>
 
-                  {/* Main Headline (Exact Client Text: "The Dental Care You Need Under One Roof", No Subheader) */}
+                  {/* Main Headline */}
                   <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -241,7 +246,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                         if (el) {
                           el.scrollIntoView({ behavior: 'smooth' });
                         } else {
-                          onOpenBooking({ treatment: 'Digital Smile Design & Restorative Dentistry' });
+                          onOpenBooking({ treatment: 'Digital Smile Design' });
                         }
                       }}
                       className="px-7 sm:px-8 py-3.5 rounded-full bg-amber-400/20 hover:bg-amber-400/30 text-amber-100 font-bold text-xs uppercase tracking-wider transition-all duration-200 border border-amber-400/50 cursor-pointer shadow-md backdrop-blur-md hover:scale-105 active:scale-95 flex items-center gap-2"
@@ -262,13 +267,13 @@ export const HomePage: React.FC<HomePageProps> = ({
                       <Smile className="w-4 h-4 text-[#2BB4A7]" />
                     </div>
                     <div className="text-xs leading-relaxed text-slate-200">
-                      <strong className="text-white font-bold">Nervous about the dentist?</strong> All our treatments are available under sedation, with a consultant anaesthetist, in a hospital setting.
+                      <strong className="text-white font-bold">Nervous about the dentist?</strong> All our treatments are available under sedation, with a consultant anaesthetist, in a calm clinical setting.
                     </div>
                   </motion.div>
 
                 </div>
 
-                {/* Right Column (45% / 5 cols): Video Player with Floating Controls */}
+                {/* Right Column: Video Player */}
                 <div className="lg:col-span-5">
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
@@ -296,7 +301,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                       <span>At St James Hospital</span>
                     </div>
 
-                    {/* Media Controls inside video player */}
+                    {/* Media Controls */}
                     <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2">
                       <button
                         onClick={toggleVideoPlay}
@@ -324,12 +329,12 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </div>
 
-      {/* 2. THREE-COLUMN NAVY SUMMARY BAR (MATCHING APPROVED FIGMA FRAME 01s) */}
+      {/* 2. SUMMARY BAR (Worksheet #6: "Book an appointment") */}
       <section className="bg-[#0E2B4C] text-white py-6 border-b border-[#07192d]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
             
-            {/* Column 1: Get an appointment */}
+            {/* Column 1: Book an appointment */}
             <div 
               onClick={() => onOpenBooking()}
               className="flex items-center gap-4 p-3 rounded-2xl hover:bg-white/5 cursor-pointer transition-colors group"
@@ -339,7 +344,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
               <div>
                 <div className="text-base font-bold text-white group-hover:text-[#2BB4A7] transition-colors font-heading">
-                  Get an appointment
+                  Book an appointment
                 </div>
                 <div className="text-xs text-slate-300 font-body">
                   Quick online booking form
@@ -385,34 +390,26 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 3. A WELCOME FROM DR MARK AND DR SUSANNA (FOUNDERS SECTION, CAPTURAS 04 & 05) */}
+      {/* 3. A WARM WELCOME FROM DR MARK & DR SUSANNA (Worksheet #7, #8, #9) */}
       <section className="py-20 lg:py-28 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
-            {/* Founders Joint Photo */}
+            {/* Founders Photo - White banner removed (#7) */}
             <div className="lg:col-span-6">
               <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200 aspect-[4/3] sm:aspect-[16/12] bg-slate-100">
                 <img
                   src={getAssetUrl('clinic/founders_clean_linen.jpg')}
-                  alt="Dr Mark Diacono and Dr Susanna Diacono - Co-Founders of Dental and Implantology Unit"
+                  alt="Dr Mark Diacono and Dr Susanna Diacono - Founders of Dental and Implantology Unit"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-md">
-                  <div className="text-sm font-bold text-[#0E2B4C] font-heading">
-                    Dr Mark Diacono &amp; Dr Susanna Diacono
-                  </div>
-                  <div className="text-xs text-slate-500 font-medium">
-                    Founders &amp; Clinical Directors · At St James Hospital, Sliema (Est. 1999)
-                  </div>
-                </div>
               </div>
             </div>
 
-            {/* Content Column with Exact Client Copy */}
+            {/* Content Column with Exact Label (#8) & Credentials (#9) */}
             <div className="lg:col-span-6">
               <span className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-4">
-                A Welcome from Dr Mark &amp; Dr Susanna
+                A WARM WELCOME FROM DR MARK &amp; DR SUSANNA
               </span>
               
               <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0E2B4C] mb-6 font-heading leading-tight">
@@ -424,27 +421,27 @@ export const HomePage: React.FC<HomePageProps> = ({
                   We founded the Dental and Implantology Unit in 1999 with a simple conviction: patients deserve unhurried, thoughtful dental care from clinicians who take the time to listen.
                 </p>
                 <p>
-                  Being based inside St James Hospital allows us to offer something rare in private practice: a complete multidisciplinary team collaborating on complex cases, access to hospital-level theatre and sedation facilities, and the reassurance of an established medical environment.
+                  Being based at St James Hospital allows us to offer something rare in private practice: a complete multidisciplinary team collaborating on complex cases, access to hospital-level theatre and sedation facilities, and the reassurance of an established medical environment.
                 </p>
                 <p>
                   Whether you’re visiting for a regular check-up or embarking on a full smile reconstruction, you’re in caring, experienced hands.
                 </p>
               </div>
 
-              {/* Doctor Signatures / Credentials */}
+              {/* Exact Credentials as Worksheet #9 */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-slate-100">
                 <div>
                   <div className="font-bold text-[#0E2B4C] text-sm font-heading">Dr Mark Diacono</div>
                   <div className="text-xs text-slate-500 leading-snug">
-                    B.Ch.D. (Hons), M.Sc. (Lond.), F.D.S.R.C.S. (Eng.) <br />
+                    RGN, BChD Hons (Leeds), FDS RCPS (Glasgow) <br />
                     <span className="text-[#2BB4A7] font-semibold">Specialist in Oral Surgery</span>
                   </div>
                 </div>
                 <div>
                   <div className="font-bold text-[#0E2B4C] text-sm font-heading">Dr Susanna Diacono</div>
                   <div className="text-xs text-slate-500 leading-snug">
-                    B.Ch.D. (Hons), M.Sc. Restorative (Lond.) <br />
-                    <span className="text-[#2BB4A7] font-semibold">Master in Digital Smile Design</span>
+                    DDS (Gothenburg), LDS (Sweden), M.Dent.Sci Restorative (Leeds) <br />
+                    <span className="text-[#2BB4A7] font-semibold">Restorative Dentist, Digital Smile Design</span>
                   </div>
                 </div>
               </div>
@@ -455,11 +452,11 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 4. FOUR CORE TREATMENT CATEGORIES (SCROLL-DRIVEN HORIZONTAL TRACK #1) */}
+      {/* 4. OUR DENTAL TREATMENTS (SCROLL-DRIVEN HORIZONTAL TRACK #1 - Worksheet #10, #12) */}
       <div 
         id="services" 
         ref={servicesSectionRef} 
-        className="relative lg:h-[260vh] bg-[#F8FAFC] border-b border-slate-200/80"
+        className="relative lg:h-[240vh] bg-[#F8FAFC] border-b border-slate-200/80"
       >
         <div className="lg:sticky lg:top-0 lg:h-screen w-full overflow-hidden flex flex-col justify-center py-20 lg:py-0 px-4 sm:px-8 lg:px-14">
           
@@ -471,19 +468,25 @@ export const HomePage: React.FC<HomePageProps> = ({
               <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0E2B4C] font-heading">
                 Our Dental Treatments
               </h2>
+              {/* Exact Intro Text Worksheet #10 */}
               <p className="text-slate-600 text-xs sm:text-sm mt-2 max-w-xl font-body">
-                Specialists and general dentists working under one hospital roof, tailoring each treatment to your comfort.
+                Specialist and general dentist working as a team, tailoring each treatment to your needs.
               </p>
             </div>
 
-            {/* Desktop Dynamic Scroll Prompt */}
-            <div className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-xs text-xs font-semibold text-slate-700">
-              <span>Scroll vertically to glide through treatments</span>
-              <ChevronRight className="w-4 h-4 text-[#2BB4A7] animate-pulse" />
+            {/* Clean View all treatments link (#12) */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => onNavigate('/treatments')}
+                className="px-5 py-2.5 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
+              >
+                <span>View all treatments</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
             </div>
           </div>
 
-          {/* Desktop Scroll-Driven Horizontal Translation Track */}
+          {/* Desktop Scroll-Driven Horizontal Translation Track (4 cards only, #12) */}
           <div className="hidden lg:block w-full overflow-hidden">
             <motion.div 
               ref={servicesTrackRef}
@@ -496,7 +499,6 @@ export const HomePage: React.FC<HomePageProps> = ({
                   className="w-[410px] xl:w-[450px] shrink-0 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1.5"
                 >
                   <div>
-                    {/* Real Clinic Photo */}
                     <div className="relative aspect-[16/11] overflow-hidden bg-slate-100">
                       <img
                         src={getAssetUrl(svc.image)}
@@ -509,7 +511,6 @@ export const HomePage: React.FC<HomePageProps> = ({
                       </div>
                     </div>
 
-                    {/* Card Content */}
                     <div className="p-6">
                       <h3 className="text-xl font-bold text-[#0E2B4C] mb-2.5 font-heading group-hover:text-[#2BB4A7] transition-colors leading-snug">
                         {svc.title}
@@ -518,7 +519,6 @@ export const HomePage: React.FC<HomePageProps> = ({
                         {svc.summary}
                       </p>
 
-                      {/* Clinicians Attribution */}
                       {svc.clinicians && (
                         <div className="pt-3.5 border-t border-slate-100 space-y-1 mb-2 text-[11px] text-slate-500 font-medium">
                           {svc.clinicians.map((c, i) => (
@@ -532,7 +532,6 @@ export const HomePage: React.FC<HomePageProps> = ({
                     </div>
                   </div>
 
-                  {/* Card Footer Link */}
                   <div className="p-6 pt-0 flex items-center justify-between">
                     <button
                       onClick={() => onNavigate('/treatments')}
@@ -544,35 +543,12 @@ export const HomePage: React.FC<HomePageProps> = ({
                       onClick={() => onOpenBooking({ treatment: svc.title })}
                       className="px-4 py-2 rounded-full bg-slate-50 hover:bg-[#0E2B4C] text-slate-700 hover:text-white text-xs font-bold border border-slate-200 transition-colors cursor-pointer"
                     >
-                      Book
+                      Enquire
                     </button>
                   </div>
 
                 </div>
               ))}
-
-              {/* Final 5th CTA Card in the Horizontal Track */}
-              <div className="w-[360px] xl:w-[400px] shrink-0 rounded-3xl bg-[#0E2B4C] text-white p-8 flex flex-col justify-between shadow-xl">
-                <div>
-                  <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-[#2BB4A7] text-[10px] font-bold uppercase tracking-wider mb-4 border border-white/20">
-                    Hospital Specialties
-                  </span>
-                  <h3 className="text-2xl font-bold font-heading mb-3 leading-snug">
-                    Explore All Treatments &amp; Procedures
-                  </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed font-body">
-                    Detailed clinical procedures, fees itemization, and multidisciplinary planning inside St. James Hospital.
-                  </p>
-                </div>
-                <button
-                  onClick={() => onNavigate('/treatments')}
-                  className="w-full py-4 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 hover:scale-102"
-                >
-                  <span>View All Treatments</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-
             </motion.div>
           </div>
 
@@ -627,7 +603,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     onClick={() => onOpenBooking({ treatment: svc.title })}
                     className="px-3.5 py-1.5 rounded-full bg-slate-50 text-slate-700 text-xs font-bold border border-slate-200"
                   >
-                    Book
+                    Enquire
                   </button>
                 </div>
               </div>
@@ -637,7 +613,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </div>
 
-      {/* 5. DSD SIGNATURE TREATMENT: INTERACTIVE BEFORE & AFTER COMPARISON (CLIENT ITEMS B, C & I) */}
+      {/* 5. DSD SIGNATURE TREATMENT: BEFORE & AFTER (Worksheet #13, #14) */}
       <section id="dsd-signature" className="py-20 lg:py-28 bg-[#0E2B4C] text-white relative overflow-hidden border-b border-[#07192D]">
         
         {/* Ambient background glows */}
@@ -646,11 +622,11 @@ export const HomePage: React.FC<HomePageProps> = ({
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
-          {/* Header & Golden Signature Badge */}
+          {/* Header & Signature Badge */}
           <div className="text-center max-w-3xl mx-auto mb-14">
             <div className="inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-500/20 via-amber-400/30 to-amber-500/20 border-2 border-amber-400/60 text-amber-300 text-xs font-black uppercase tracking-widest shadow-lg shadow-amber-950/20 backdrop-blur-md mb-6">
               <span className="text-amber-300 text-base">★</span>
-              <span>SIGNATURE FEATURE SERVICE · MASTER IN DIGITAL SMILE DESIGN</span>
+              <span>SIGNATURE FEATURE SERVICE · DIGITAL SMILE DESIGN</span>
               <span className="text-amber-300 text-base">★</span>
             </div>
 
@@ -665,7 +641,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               Digital Smile Design (DSD) uses facial 3D scanning and computer modeling to engineer restorations that harmonise with your natural facial proportions. Preview, adjust, and test-drive your new smile before treatment ever begins.
             </p>
 
-            {/* View Mode Switcher: Interactive Slider vs Book-Style Split */}
+            {/* View Mode Switcher */}
             <div className="inline-flex items-center p-1 rounded-full bg-white/10 border border-white/20 mt-8 backdrop-blur-md">
               <button
                 onClick={() => setDsdActiveTab('slider')}
@@ -696,14 +672,14 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="max-w-4xl mx-auto">
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20 aspect-[16/11] sm:aspect-[16/10] bg-slate-950 select-none group">
                   
-                  {/* AFTER Image (Full width background) */}
+                  {/* AFTER Image */}
                   <img
                     src={getAssetUrl('clinic/dsd_after_patient.jpg')}
                     alt="After: Radiant transformed smile via Digital Smile Design"
                     className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
                   />
                   
-                  {/* BEFORE Image (Clipped overlay based on dsdSliderPos %) */}
+                  {/* BEFORE Image */}
                   <div 
                     className="absolute inset-0 overflow-hidden pointer-events-none"
                     style={{ width: `${dsdSliderPos}%` }}
@@ -783,7 +759,6 @@ export const HomePage: React.FC<HomePageProps> = ({
             ) : (
               /* Book-Style Dual Layout */
               <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Book Page Left: Before */}
                 <div className="bg-white/5 border border-white/15 rounded-3xl p-6 overflow-hidden flex flex-col justify-between shadow-xl">
                   <div>
                     <div className="relative rounded-2xl overflow-hidden aspect-[4/3] mb-4 bg-slate-900 border border-white/10">
@@ -797,15 +772,14 @@ export const HomePage: React.FC<HomePageProps> = ({
                       </div>
                     </div>
                     <h3 className="text-lg font-bold text-white font-heading mb-1">
-                      Before: Aesthetic Disharmony &amp; Wear
+                      Before: Initial Presentation
                     </h3>
                     <p className="text-xs text-slate-300 leading-relaxed font-body">
-                      Patient presented with uneven incisal margins, discolouration, and collapsed bite proportions.
+                      Patient presented with uneven margins, wear, and aesthetic disharmony.
                     </p>
                   </div>
                 </div>
 
-                {/* Book Page Right: After */}
                 <div className="bg-gradient-to-br from-amber-500/10 via-white/5 to-[#2BB4A7]/10 border-2 border-amber-400/40 rounded-3xl p-6 overflow-hidden flex flex-col justify-between shadow-2xl">
                   <div>
                     <div className="relative rounded-2xl overflow-hidden aspect-[4/3] mb-4 bg-slate-900 border border-amber-400/30">
@@ -822,7 +796,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                       After: Radiant Symmetrical Smile
                     </h3>
                     <p className="text-xs text-slate-300 leading-relaxed font-body">
-                      Custom biocompatible ceramic veneers restored natural luminosity, lip support, and harmonious facial balance.
+                      Custom ceramic restorations restored natural luminosity, lip support, and harmonious facial balance.
                     </p>
                   </div>
                 </div>
@@ -836,7 +810,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               
               <div className="lg:col-span-8">
                 <span className="text-amber-300 text-xs font-bold uppercase tracking-wider block mb-2 font-mono">
-                  ★ Certified DSD Master Protocol
+                  ★ Facially Driven Treatment
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-bold text-white font-heading mb-4">
                   Why test-drive your smile before treatment?
@@ -848,11 +822,11 @@ export const HomePage: React.FC<HomePageProps> = ({
                   </div>
                   <div className="flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
-                    <span>Physical trial smile mockup worn in your mouth before any tooth is touched</span>
+                    <span>Physical trial smile mockup worn in your mouth before any permanent work starts</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
-                    <span>Precision German CAD/CAM ceramic milling with lifetime durability</span>
+                    <span>High-precision ceramic restorations matching your natural dynamics</span>
                   </div>
                   <div className="flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
@@ -863,7 +837,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
               <div className="lg:col-span-4 flex flex-col items-start lg:items-end justify-center">
                 <button
-                  onClick={() => onOpenBooking({ treatment: 'Digital Smile Design & Restorative Dentistry' })}
+                  onClick={() => onOpenBooking({ treatment: 'Digital Smile Design' })}
                   className="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-[#2BB4A7] to-teal-500 hover:from-[#23998e] hover:to-teal-600 text-white font-extrabold text-xs uppercase tracking-wider transition-all shadow-xl shadow-teal-950/40 cursor-pointer hover:scale-105 active:scale-95 flex items-center justify-center gap-2.5"
                 >
                   <span>Experience the Test Drive of Your Future Smile</span>
@@ -877,13 +851,29 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
           </div>
 
-          {/* 4 Steps Process Cards */}
+          {/* 4 Steps Process Cards (Worksheet #14 Exact Texts) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-4">
             {[
-              { num: "01", title: "3D Facial & Dental Scan", desc: "Digital intraoral scan and high-definition facial photography capture your natural smile dynamics." },
-              { num: "02", title: "Digital Aesthetic Simulation", desc: "Using advanced DSD software, we design the ideal length, width, and contours suited to your face." },
-              { num: "03", title: "Realistic Clinical Mock-up", desc: "A physical trial smile is placed directly in your mouth so you can evaluate the look and feel." },
-              { num: "04", title: "Precision Ceramic Placement", desc: "Once you approve the design, custom ceramic veneers or crowns are milled and placed." }
+              { 
+                num: "01", 
+                title: "Facial Images and Dental Scan", 
+                desc: "Digital intraoral scan and high-definition facial photography with appropriate x-rays captures your natural smile dynamics." 
+              },
+              { 
+                num: "02", 
+                title: "Digital Aesthetic Simulation", 
+                desc: "Using advanced DSD software, we design the ideal length, width, and contours suited to your face." 
+              },
+              { 
+                num: "03", 
+                title: "Realistic Clinical Mock-up", 
+                desc: "A physical trial smile is placed directly in your mouth so you can test drive the look." 
+              },
+              { 
+                num: "04", 
+                title: "Your New Smile", 
+                desc: "Once you approved the design, your veneers, crowns or bridges are crafted to match it and carefully fitted." 
+              }
             ].map((step, idx) => (
               <div key={idx} className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors">
                 <span className="text-[#2BB4A7] text-xs font-extrabold tracking-widest block mb-2 font-mono">
@@ -902,7 +892,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 6. CARE WITHOUT COMPROMISE (WHY CHOOSE DIU, CAPTURA 11) */}
+      {/* 6. WHY PATIENTS CHOOSE DIU (Worksheet #15, #16) */}
       <section className="py-20 lg:py-28 bg-[#F8FAFC] border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -915,11 +905,13 @@ export const HomePage: React.FC<HomePageProps> = ({
                 Care without <br />
                 <span className="text-[#2BB4A7]">compromise</span>
               </h2>
+              {/* Exact paragraph Worksheet #15 */}
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-body">
-                We believe exceptional dentistry relies on three essentials: meticulous clinical skill, advanced diagnostic technology, and a hospital setting that guarantees total safety and peace of mind.
+                We believe exceptional dentistry relies on meticulous clinical skills and advanced diagnostic technology. Every treatment is planned with precision and delivered with personal care.
               </p>
             </div>
 
+            {/* Photo - White banner removed (#15) */}
             <div className="lg:col-span-6">
               <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200 aspect-[16/11] bg-slate-100">
                 <img
@@ -927,9 +919,6 @@ export const HomePage: React.FC<HomePageProps> = ({
                   alt="Confident, natural smile results achieved at DiU Clinic Malta"
                   className="w-full h-full object-cover object-top"
                 />
-                <div className="absolute top-4 left-4 px-3.5 py-1 rounded-full bg-white/95 backdrop-blur-md text-[#0E2B4C] text-xs font-bold uppercase tracking-wider border border-slate-200 shadow-2xs">
-                  Natural Aesthetic Excellence
-                </div>
               </div>
             </div>
           </div>
@@ -973,15 +962,16 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
             </div>
 
+            {/* Hospital-level safety card exact Worksheet #16 (Shield with tick + exact text) */}
             <div className="bg-white p-7 rounded-3xl border border-slate-200/90 shadow-sm text-center flex flex-col items-center">
               <div className="w-14 h-14 rounded-2xl bg-teal-50 border border-teal-200 text-[#2BB4A7] flex items-center justify-center mb-4">
-                <Shield className="w-7 h-7" />
+                <ShieldCheck className="w-7 h-7" />
               </div>
               <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading">
                 Hospital–level safety
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
-                Based inside St James Hospital, Sliema, trusted since 1999.
+                Trusted since 1999, more than 25 years of high quality care with returning patients.
               </p>
             </div>
 
@@ -990,13 +980,13 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 7. YOU ARE IN SAFE HANDS (DEDICATED REASSURANCE SECTION, CLIENT ITEM E) */}
+      {/* 7. YOU ARE IN SAFE HANDS (Worksheet #17) */}
       <section className="py-20 lg:py-28 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
-            {/* Reassuring Clinician Photo */}
+            {/* Reassuring Clinician Photo - White banner removed (#17) */}
             <div className="lg:col-span-6">
               <div className="rounded-3xl overflow-hidden shadow-xl border border-slate-200 bg-slate-100 relative aspect-[4/3] sm:aspect-[16/11]">
                 <img
@@ -1004,16 +994,13 @@ export const HomePage: React.FC<HomePageProps> = ({
                   alt="Doctor explaining treatment gently and reassuringly to patient"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute top-4 left-4 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#0E2B4C] text-xs font-bold uppercase tracking-wider border border-slate-200 shadow-2xs">
-                  Unhurried Patient Care
-                </div>
               </div>
             </div>
 
-            {/* Exact Client Reassurance Copy */}
+            {/* Exact Reassurance Copy (#17) */}
             <div className="lg:col-span-6">
               <div className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-4">
-                HOSPITAL SAFETY &amp; COMFORT
+                SAFETY &amp; COMFORT
               </div>
 
               <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#0E2B4C] mb-6 font-heading leading-tight">
@@ -1021,17 +1008,19 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <span className="text-[#2BB4A7]">safe hands</span>
               </h2>
 
+              {/* Exact first paragraph #17 */}
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-4 font-body">
-                Dental anxiety is very common, and you are never alone. We are widely recognised for our calm, gentle manner with nervous patients, offering hospital-grade conscious sedation administered directly by certified consultant anaesthetists.
+                Dental anxiety, or phobia is common, and many people avoid the dentist because of it, often leading to gum disease, infection and more complex treatment needs. Modern dentistry offers many ways to make your visit calm and comfortable.
               </p>
 
+              {/* Second paragraph kept #17 */}
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-8 font-body">
                 Prefer to start with a relaxed conversation away from the dental chair? We offer an informal pre-treatment consultation to understand your feelings, answer questions, and plan treatment entirely at your pace.
               </p>
 
               <div className="flex flex-wrap items-center gap-4">
                 <button
-                  onClick={() => onOpenBooking({ treatment: 'Treatment for Anxious Patients (Sedation)' })}
+                  onClick={() => onOpenBooking({ treatment: 'IV Sedation' })}
                   className="px-7 py-3.5 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-md cursor-pointer border border-[#0E2B4C] hover:scale-102"
                 >
                   Learn about sedation options
@@ -1051,11 +1040,11 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 8. OUR CLINICIANS & MEDICAL TEAM (SCROLL-DRIVEN HORIZONTAL TRACK #2) */}
+      {/* 8. OUR DENTISTS AND HYGIENIST (Worksheet #18, #19, #20) */}
       <div 
         id="our-team" 
         ref={teamSectionRef} 
-        className="relative lg:h-[260vh] bg-white border-b border-slate-200/80"
+        className="relative lg:h-[280vh] bg-white border-b border-slate-200/80"
       >
         <div className="lg:sticky lg:top-0 lg:h-screen w-full overflow-hidden flex flex-col justify-center py-20 lg:py-0 px-4 sm:px-8 lg:px-14">
           
@@ -1072,10 +1061,15 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
             </div>
 
-            {/* Desktop Dynamic Scroll Prompt */}
-            <div className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 shadow-xs text-xs font-semibold text-slate-700">
-              <span>Scroll vertically to meet our clinical team</span>
-              <ChevronRight className="w-4 h-4 text-[#2BB4A7] animate-pulse" />
+            {/* View Full Team link */}
+            <div className="hidden lg:flex items-center gap-3">
+              <button
+                onClick={() => onNavigate('/team')}
+                className="px-5 py-2.5 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
+              >
+                <span>VIEW FULL TEAM</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
             </div>
           </div>
 
@@ -1086,17 +1080,18 @@ export const HomePage: React.FC<HomePageProps> = ({
               style={{ x: teamX }}
               className="flex gap-6 xl:gap-8 will-change-transform pr-24"
             >
-              {featuredClinicians.map((person) => (
+              {homeClinicians.map((person) => (
                 <div
                   key={person.id}
                   className="w-[320px] xl:w-[350px] shrink-0 rounded-3xl bg-[#F8FAFC] border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1.5"
                 >
                   <div>
-                    <div className="relative aspect-[4/4] overflow-hidden bg-slate-200">
+                    {/* Centered photo (#18) */}
+                    <div className="relative aspect-[4/4] overflow-hidden bg-slate-200 flex items-center justify-center">
                       <img
                         src={getAssetUrl(person.photo)}
                         alt={person.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                         loading="lazy"
                       />
                     </div>
@@ -1114,28 +1109,29 @@ export const HomePage: React.FC<HomePageProps> = ({
                     </div>
                   </div>
 
+                  {/* Read bio button (#18) */}
                   <div className="p-5 pt-0">
                     <button
-                      onClick={() => onOpenBooking({ doctor: person.name, treatment: person.treatmentDefault })}
-                      className="w-full py-2.5 rounded-full bg-white hover:bg-[#0E2B4C] text-[#0E2B4C] hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 transition-colors cursor-pointer"
+                      onClick={() => setSelectedBio(person)}
+                      className="w-full py-2.5 rounded-full bg-white hover:bg-[#0E2B4C] text-[#0E2B4C] hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 transition-colors cursor-pointer text-center"
                     >
-                      Inquire
+                      Read bio
                     </button>
                   </div>
                 </div>
               ))}
 
-              {/* Final 6th Card: View Full 19 Clinicians Directory */}
+              {/* Final Team Teaser Card (Worksheet #19, #20) */}
               <div className="w-[320px] xl:w-[350px] shrink-0 rounded-3xl bg-[#0E2B4C] text-white p-7 flex flex-col justify-between shadow-xl">
                 <div>
                   <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-[#2BB4A7] text-[10px] font-bold uppercase tracking-wider mb-4 border border-white/20">
-                    Hospital Staff Directory
+                    OUR TEAM
                   </span>
                   <h3 className="text-2xl font-bold font-heading mb-3 leading-snug">
-                    Meet Our Entire Medical Team
+                    Meet the People Behind Your Smile
                   </h3>
                   <p className="text-xs text-slate-300 leading-relaxed font-body">
-                    19 specialists, general dentists, dental hygienist, theatre surgical nurses, and patient care coordinators.
+                    Specialists and general dentists working with a fantastic support team.
                   </p>
                 </div>
                 <button
@@ -1143,7 +1139,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   className="w-full py-3.5 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 hover:scale-102"
                 >
                   <Users className="w-4 h-4" />
-                  <span>View Full Team (19)</span>
+                  <span>VIEW FULL TEAM</span>
                 </button>
               </div>
 
@@ -1152,17 +1148,17 @@ export const HomePage: React.FC<HomePageProps> = ({
 
           {/* Mobile / Tablet Responsive Horizontal Carousel with Touch Scroll */}
           <div className="lg:hidden flex gap-5 overflow-x-auto no-scrollbar pb-6 pt-2 scroll-smooth">
-            {featuredClinicians.map((person) => (
+            {homeClinicians.map((person) => (
               <div
                 key={person.id}
                 className="w-[78vw] max-w-[280px] shrink-0 rounded-3xl bg-[#F8FAFC] border border-slate-200/90 shadow-sm flex flex-col justify-between overflow-hidden"
               >
                 <div>
-                  <div className="relative aspect-[4/4] overflow-hidden bg-slate-200">
+                  <div className="relative aspect-[4/4] overflow-hidden bg-slate-200 flex items-center justify-center">
                     <img
                       src={getAssetUrl(person.photo)}
                       alt={person.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-center"
                       loading="lazy"
                     />
                   </div>
@@ -1181,10 +1177,10 @@ export const HomePage: React.FC<HomePageProps> = ({
 
                 <div className="p-4 pt-0">
                   <button
-                    onClick={() => onOpenBooking({ doctor: person.name, treatment: person.treatmentDefault })}
-                    className="w-full py-2 rounded-full bg-white text-[#0E2B4C] font-bold text-xs border border-slate-200"
+                    onClick={() => setSelectedBio(person)}
+                    className="w-full py-2 rounded-full bg-white text-[#0E2B4C] font-bold text-xs border border-slate-200 text-center"
                   >
-                    Inquire
+                    Read bio
                   </button>
                 </div>
               </div>
@@ -1196,7 +1192,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               onClick={() => onNavigate('/team')}
               className="px-6 py-3 rounded-full bg-[#0E2B4C] text-white font-bold text-xs uppercase tracking-wider inline-flex items-center gap-2"
             >
-              <span>View Full Team (19)</span>
+              <span>VIEW FULL TEAM</span>
               <ArrowRight className="w-4 h-4 text-[#2BB4A7]" />
             </button>
           </div>
@@ -1204,7 +1200,78 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </div>
 
-      {/* 9. PATIENT INFORMATION (MATCHING APPROVED FIGMA FRAME 24s) */}
+      {/* Individual Clinician Biography Modal on Home */}
+      {selectedBio && (
+        <div 
+          className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
+          onClick={() => setSelectedBio(null)}
+        >
+          <div 
+            className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative border border-slate-200 my-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setSelectedBio(null)}
+              className="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold cursor-pointer transition-colors"
+            >
+              ✕
+            </button>
+
+            <div className="flex flex-col sm:flex-row gap-6 items-start">
+              <div className="w-full sm:w-48 aspect-[4/4] rounded-2xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200 shadow-sm flex items-center justify-center">
+                <img
+                  src={getAssetUrl(selectedBio.photo)}
+                  alt={selectedBio.name}
+                  className="w-full h-full object-cover object-center"
+                />
+              </div>
+
+              <div className="flex-1">
+                <span className="inline-block px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-[10px] font-bold uppercase tracking-wider mb-2">
+                  {selectedBio.badge}
+                </span>
+                <h3 className="text-2xl sm:text-3xl font-bold text-[#0E2B4C] font-heading mb-1">
+                  {selectedBio.name}
+                </h3>
+                <div className="text-xs font-bold text-[#2BB4A7] uppercase tracking-wider mb-2 font-heading">
+                  {selectedBio.role}
+                </div>
+                <div className="text-xs text-slate-500 font-semibold mb-4 pb-3 border-b border-slate-100">
+                  {selectedBio.qualifications}
+                </div>
+                <p className="text-sm text-slate-600 leading-relaxed font-body mb-6">
+                  {selectedBio.bio}
+                </p>
+
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button
+                    onClick={() => {
+                      const person = selectedBio;
+                      setSelectedBio(null);
+                      onOpenBooking({
+                        doctor: person.name,
+                        treatment: person.treatmentDefault
+                      });
+                    }}
+                    className="px-6 py-3 rounded-full bg-[#2BB4A7] hover:bg-[#23998e] text-white font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md flex items-center justify-center gap-2"
+                  >
+                    <span>Book Consultation with {selectedBio.name.split(' ')[0]}</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => setSelectedBio(null)}
+                    className="px-5 py-3 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 9. PATIENT INFORMATION */}
       <section className="py-20 lg:py-28 bg-[#F8FAFC] border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -1217,10 +1284,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             </h2>
           </div>
 
-          {/* 4 Cards Grid from Frame 24s */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            {/* Card 1: Your first visit */}
             <div 
               onClick={() => onOpenBooking()}
               className="p-7 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group"
@@ -1233,7 +1297,6 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
             </div>
 
-            {/* Card 2: Fees and insurance */}
             <div 
               onClick={() => onNavigate('/prices')}
               className="p-7 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group"
@@ -1246,7 +1309,6 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
             </div>
 
-            {/* Card 3: Aftercare */}
             <div 
               onClick={() => onNavigate('/blog')}
               className="p-7 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group"
@@ -1259,7 +1321,6 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
             </div>
 
-            {/* Card 4: Dental emergencies */}
             <div 
               onClick={onOpenEmergency}
               className="p-7 rounded-3xl bg-teal-50/50 border border-teal-200/80 shadow-xs hover:shadow-md transition-all cursor-pointer group"
@@ -1275,13 +1336,12 @@ export const HomePage: React.FC<HomePageProps> = ({
                 Out of hours: <strong className="underline text-[#0E2B4C]">2329 1000</strong>
               </p>
             </div>
-
           </div>
 
         </div>
       </section>
 
-      {/* 10. HOW TO FIND US INSIDE ST. JAMES HOSPITAL (CAPTURA 28) */}
+      {/* 10. HOW TO FIND US AT ST JAMES HOSPITAL */}
       <section className="py-20 lg:py-28 bg-white border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -1290,7 +1350,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-slate-200">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-[#2BB4A7]">
-                  Location Guide • St. James Hospital Sliema
+                  Location Guide • St James Hospital Sliema
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-bold text-[#0E2B4C] font-heading mt-1">
                   How to Find DiU Clinic on Arrival
@@ -1311,7 +1371,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               </a>
             </div>
 
-            {/* Interactive Embedded Google Maps (Client Item H) */}
+            {/* Embedded Google Maps */}
             <div className="w-full h-80 sm:h-96 rounded-2xl overflow-hidden border border-slate-300 shadow-md mb-8 bg-slate-100">
               <iframe
                 title="DiU Clinic Location at St James Hospital Sliema"
@@ -1327,12 +1387,11 @@ export const HomePage: React.FC<HomePageProps> = ({
 
             {/* 3 Steps Visuals */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              
               <div className="rounded-2xl overflow-hidden border border-slate-200 bg-white">
                 <div className="aspect-[16/10] overflow-hidden">
                   <img
                     src={getAssetUrl('clinic/st_james_main_entrance.jpg')}
-                    alt="1. Main entrance St. James Hospital Sliema"
+                    alt="1. Main entrance St James Hospital Sliema"
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -1352,7 +1411,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </div>
                 <div className="p-4">
                   <div className="text-sm font-bold text-[#0E2B4C]">2 · Lift down to LG</div>
-                  <div className="text-xs text-slate-600 mt-1">Take the main hospital elevators down to the Lower Ground floor (LG).</div>
+                  <div className="text-xs text-slate-600 mt-1">Take the main elevators down to the Lower Ground floor (LG).</div>
                 </div>
               </div>
 
@@ -1369,7 +1428,6 @@ export const HomePage: React.FC<HomePageProps> = ({
                   <div className="text-xs text-slate-600 mt-1">Our dedicated reception desk is immediately visible as you exit the lifts.</div>
                 </div>
               </div>
-
             </div>
 
           </div>
@@ -1377,126 +1435,22 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 11. PERSONAL ESTIMATE CTA STRIP */}
-      <section className="bg-white py-12 border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-3xl bg-slate-50 border border-slate-200/90 p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="max-w-xl">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#2BB4A7]">
-                Transparent Pricing Guarantee
-              </span>
-              <h3 className="text-2xl sm:text-3xl font-bold text-[#0E2B4C] font-heading mt-1">
-                Ask us for a personal estimate
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 mt-2 font-body leading-relaxed">
-                Every treatment plan is personal. Call us on <strong>2329 1029</strong>, message on WhatsApp, or send an inquiry — you will receive a transparent written plan with no hidden extras.
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-3 shrink-0">
-              <button
-                onClick={() => onNavigate('/prices')}
-                className="px-6 py-3.5 rounded-full bg-white hover:bg-slate-100 text-[#0E2B4C] font-bold text-xs uppercase tracking-wider border border-slate-300 transition-colors shadow-2xs"
-              >
-                View Fees &amp; Prices
-              </button>
-              <button
-                onClick={() => onOpenBooking()}
-                className="px-7 py-3.5 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md"
-              >
-                Request an Estimate
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 12. AFTERCARE & CLINICAL GUARANTEE (CLIENT ITEM F) */}
-      <section className="bg-slate-50 py-16 sm:py-20 border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-3">
-              POST-TREATMENT SUPPORT
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#0E2B4C] font-heading mb-3">
-              Dedicated Aftercare &amp; Clinical Guarantees
-            </h2>
-            <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-body">
-              Our clinical responsibility does not end when your appointment finishes. We ensure structured aftercare, follow-up check-ups, and guaranteed materials for long-term peace of mind.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <div className="p-7 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 text-[#2BB4A7] flex items-center justify-center mb-4">
-                  <Shield className="w-6 h-6" />
-                </div>
-                <h3 className="text-lg font-bold text-[#0E2B4C] font-heading mb-2">
-                  Material &amp; Implant Warranty
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
-                  All Swiss titanium implants and CEREC diamond-milled ceramic restorations carry official manufacturer warranties against structural defects and material failures.
-                </p>
-              </div>
-              <div className="mt-4 pt-4 border-t border-slate-100 text-xs font-semibold text-[#0E2B4C]">
-                ✓ Written warranty passport provided
-              </div>
-            </div>
-
-            <div className="p-7 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 text-[#2BB4A7] flex items-center justify-center mb-4">
-                  <Heart className="w-6 h-6" />
-                </div>
-                <h3 className="text-lg font-bold text-[#0E2B4C] font-heading mb-2">
-                  Complimentary Follow-ups
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
-                  Following oral surgery or smile rehabilitation, all post-operative reviews, suture removals, and healing assessments are included at no additional fee.
-                </p>
-              </div>
-              <div className="mt-4 pt-4 border-t border-slate-100 text-xs font-semibold text-[#0E2B4C]">
-                ✓ Scheduled recovery consultations
-              </div>
-            </div>
-
-            <div className="p-7 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 text-[#2BB4A7] flex items-center justify-center mb-4">
-                  <Phone className="w-6 h-6" />
-                </div>
-                <h3 className="text-lg font-bold text-[#0E2B4C] font-heading mb-2">
-                  24/7 Hospital Emergency Line
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
-                  Inside St James Hospital, emergency medical support is on-site 24 hours a day. Should you need immediate post-treatment advice, hospital medical staff are always available.
-                </p>
-              </div>
-              <div className="mt-4 pt-4 border-t border-slate-100 text-xs font-semibold text-[#0E2B4C]">
-                ✓ Direct line: <strong className="underline">2329 1000</strong>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* 13. HEALTH INSURANCE & CROSS-BORDER REIMBURSEMENT (CLIENT ITEM 6) */}
+      {/* 11. INSURANCE AND CLAIMS SECTION (Worksheet #96: Uses owner's text) */}
       <section className="py-16 sm:py-20 bg-gradient-to-r from-[#0E2B4C] via-[#123961] to-[#0E2B4C] text-white border-b border-[#07192D] shadow-inner">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 sm:p-12 border border-white/20 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-2xl">
             <div className="max-w-2xl">
               <span className="inline-block px-3.5 py-1 rounded-full bg-[#2BB4A7]/20 border border-[#2BB4A7]/40 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-3">
-                INSURANCE COVERAGE &amp; CROSS-BORDER REIMBURSEMENT
+                INSURANCE &amp; CLAIMS
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold font-heading text-white mb-3">
-                Do You Have Private Health Insurance?
+                Insurance and claims
               </h2>
-              <p className="text-slate-200 text-sm sm:text-base leading-relaxed font-body">
-                Find out whether you may be eligible for dental care coverage or reimbursement. We provide complete itemised hospital medical receipts, ICD-10 diagnostic coding, and documentation for local insurers (Bupa Malta, Atlas, GasanMamo) and international schemes (AXA, Allianz, Cigna, EU Cross-Border Directive).
+              <p className="text-slate-200 text-sm sm:text-base leading-relaxed font-body mb-3">
+                If you have private health insurance, check whether it includes dental cover. We work with the major insurers in Malta and overseas, and we're happy to help with your claim.
+              </p>
+              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-body">
+                Oral surgery procedures, such as wisdom tooth removal, biopsies and surgical removal of roots, are often covered by private health insurance even when routine dental care is not.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-4 shrink-0">
@@ -1504,20 +1458,20 @@ export const HomePage: React.FC<HomePageProps> = ({
                 onClick={() => onNavigate('/prices')}
                 className="px-8 py-4 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-extrabold text-xs uppercase tracking-wider transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer whitespace-nowrap"
               >
-                See If You're Eligible. Learn More. →
+                View Fees &amp; Prices →
               </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 12. BOOK A CONSULTATION SECTION (MATCHING APPROVED FIGMA FRAME 28s & 32s + TERMS CHECKBOX) */}
+      {/* 12. BOOK A CONSULTATION SECTION (Worksheet #36, #37: email appointments@dentalunitmalta.com) */}
       <section id="contact-booking" className="py-20 lg:py-28 bg-[#0E2B4C] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             
-            {/* Left Contact Info (Frame 28s) */}
+            {/* Left Contact Info */}
             <div className="lg:col-span-5">
               <h2 className="text-4xl sm:text-6xl font-bold tracking-tight text-white mb-6 font-heading">
                 Book a <span className="text-[#2BB4A7]">consultation</span>
@@ -1548,8 +1502,8 @@ export const HomePage: React.FC<HomePageProps> = ({
 
                 <div>
                   <div className="text-xs text-slate-400 uppercase tracking-wider">Email:</div>
-                  <a href="mailto:appointment@dentalunitmalta.com" className="text-white hover:text-[#2BB4A7] font-semibold text-base transition-colors underline">
-                    appointment@dentalunitmalta.com
+                  <a href="mailto:appointments@dentalunitmalta.com" className="text-white hover:text-[#2BB4A7] font-semibold text-base transition-colors underline">
+                    appointments@dentalunitmalta.com
                   </a>
                 </div>
               </div>
@@ -1575,12 +1529,12 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
             </div>
 
-            {/* Right Contact Form with Terms & Conditions Checkbox */}
+            {/* Right Contact Form */}
             <div className="lg:col-span-7">
               <div className="bg-white text-slate-900 p-8 sm:p-12 rounded-3xl shadow-2xl border border-slate-200">
                 
                 <h3 className="text-2xl sm:text-3xl font-bold text-[#0E2B4C] font-heading mb-1">
-                  Book a visit
+                  Book an appointment
                 </h3>
                 <p className="text-slate-600 text-xs sm:text-sm mb-6 font-body">
                   We’ll call you back to arrange a time.
@@ -1595,19 +1549,19 @@ export const HomePage: React.FC<HomePageProps> = ({
                       Request Received!
                     </h4>
                     <p className="text-xs sm:text-sm text-slate-700 max-w-sm mx-auto mb-4">
-                      Thank you, {homeForm.firstName}. Our hospital coordinator will contact you via {homeForm.contactPreference} shortly.
+                      Thank you, {homeForm.firstName}. Our coordinator will contact you via {homeForm.contactPreference} shortly.
                     </p>
                     <button
                       onClick={() => setHomeFormSuccess(false)}
                       className="px-6 py-2.5 rounded-full bg-[#0E2B4C] text-white font-bold text-xs uppercase tracking-wider cursor-pointer"
                     >
-                      Send Another Inquiry
+                      Send Another Request
                     </button>
                   </div>
                 ) : (
                   <form onSubmit={handleHomeFormSubmit} className="space-y-4">
                     
-                    {/* Separate First & Last Name */}
+                    {/* First & Last Name */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
@@ -1689,10 +1643,10 @@ export const HomePage: React.FC<HomePageProps> = ({
                       </div>
                     </div>
 
-                    {/* Interested in */}
+                    {/* Interested in (10 Price options) */}
                     <div>
                       <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                        Interested in *
+                        Interested in Treatment *
                       </label>
                       <select
                         value={homeForm.treatment}
@@ -1705,10 +1659,10 @@ export const HomePage: React.FC<HomePageProps> = ({
                       </select>
                     </div>
 
-                    {/* Message / Symptoms */}
+                    {/* Message */}
                     <div>
                       <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                        Message
+                        Message (Optional)
                       </label>
                       <textarea
                         rows={3}
@@ -1729,7 +1683,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                           className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#2BB4A7] focus:ring-[#2BB4A7] cursor-pointer shrink-0"
                         />
                         <span className="text-xs text-slate-600 leading-snug">
-                          I accept the <strong className="text-[#0E2B4C] underline">Terms &amp; Conditions</strong> and consent to DiU Clinic Malta contacting me regarding this dental appointment request.
+                          I accept the <strong className="text-[#0E2B4C] underline">Terms &amp; Conditions</strong> and consent to DiU Clinic contacting me regarding this appointment request.
                         </span>
                       </label>
                     </div>
@@ -1753,7 +1707,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                       <button
                         type="button"
                         onClick={() => onOpenBooking(homeForm)}
-                        className="py-4 px-6 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer border border-emerald-600/30 flex items-center justify-center gap-2"
+                        className="py-4 px-6 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer border border-emerald-600/30 flex items-center justify-center gap-2"
                       >
                         <span>WhatsApp Instead</span>
                       </button>
@@ -1773,3 +1727,4 @@ export const HomePage: React.FC<HomePageProps> = ({
     </div>
   );
 };
+export default HomePage;

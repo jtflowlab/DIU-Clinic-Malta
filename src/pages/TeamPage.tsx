@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
 import { 
-  Users, 
-  ArrowRight, 
-  Calendar, 
-  ChevronRight, 
-  Building2, 
-  Award,
-  Sparkles,
-  Phone
+  ChevronRight
 } from 'lucide-react';
 import { cliniciansList, getAssetUrl } from '@/data/clinicData';
 import { Clinician } from '@/types';
@@ -32,32 +25,35 @@ export const TeamPage: React.FC<TeamPageProps> = ({
   return (
     <div className="pt-24 pb-28 bg-[#F8FAFC] text-slate-900 font-body">
       
-      {/* 1. Header Banner */}
+      {/* 1. Header Banner (Worksheet #19, #20) */}
       <section className="bg-white border-b border-slate-200 py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Breadcrumb */}
+          {/* Breadcrumb exact: "Home > Our Dental Team" */}
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-6">
             <button 
               onClick={() => onNavigate('/')}
-              className="hover:text-[#0E2B4C] cursor-pointer bg-transparent border-none p-0"
+              className="hover:text-[#0E2B4C] cursor-pointer bg-transparent border-none p-0 text-slate-500 hover:underline"
             >
               Home
             </button>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-[#0E2B4C] font-bold">Our Medical Team</span>
+            <span className="text-[#0E2B4C] font-bold">Our Dental Team</span>
           </div>
 
           <div className="max-w-3xl">
+            {/* Label exact: "MULTIDISCIPLINARY TEAM" */}
             <span className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-3">
-              19 Dental Specialists &amp; Hospital Staff
+              MULTIDISCIPLINARY TEAM
             </span>
+            {/* Heading exact: "Meet the people behind your smile." */}
             <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-[#0E2B4C] font-heading mb-6 leading-tight">
-              Our Dentists, Specialists <br />
-              <span className="text-[#2BB4A7]">&amp; Clinical Coordinators</span>
+              Meet the people <br />
+              <span className="text-[#2BB4A7]">behind your smile.</span>
             </h1>
+            {/* Intro text exact */}
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-body">
-              Specialists and general dentists working side by side inside St. James Hospital in Sliema, so your entire family's dental care is seamlessly managed by the right clinician under one roof.
+              Specialists and general dentist working with a fantastic support team side by side, so every member of your family sees the right expert, all in one clinic.
             </p>
           </div>
 
@@ -68,7 +64,7 @@ export const TeamPage: React.FC<TeamPageProps> = ({
       <section className="py-12 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Category Tabs with High Visual Contrast */}
+          {/* Category Tabs */}
           <div className="flex flex-wrap gap-2.5 mb-12 pb-4 border-b border-slate-200">
             <button
               onClick={() => setActiveTab('all')}
@@ -88,7 +84,7 @@ export const TeamPage: React.FC<TeamPageProps> = ({
                   : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
               }`}
             >
-              Specialists &amp; Surgeons (1)
+              Specialists &amp; Surgeons
             </button>
             <button
               onClick={() => setActiveTab('general')}
@@ -98,7 +94,7 @@ export const TeamPage: React.FC<TeamPageProps> = ({
                   : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
               }`}
             >
-              General &amp; Paediatric Dentists (3)
+              General Dentists
             </button>
             <button
               onClick={() => setActiveTab('hygienist')}
@@ -108,7 +104,7 @@ export const TeamPage: React.FC<TeamPageProps> = ({
                   : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
               }`}
             >
-              Dental Hygienist (1)
+              Dental Hygienist
             </button>
             <button
               onClick={() => setActiveTab('restorative')}
@@ -118,7 +114,7 @@ export const TeamPage: React.FC<TeamPageProps> = ({
                   : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
               }`}
             >
-              Restorative &amp; Digital Smile Design (4)
+              Restorative &amp; Smile Design
             </button>
             <button
               onClick={() => setActiveTab('support')}
@@ -128,7 +124,7 @@ export const TeamPage: React.FC<TeamPageProps> = ({
                   : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
               }`}
             >
-              Care &amp; Nursing Team (10)
+              Support Team
             </button>
           </div>
 
@@ -141,18 +137,18 @@ export const TeamPage: React.FC<TeamPageProps> = ({
                 className="rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1 cursor-pointer"
               >
                 <div>
-                  {/* Clean Framed Portrait Photo (No overlays or signs covering faces) */}
-                  <div className="relative aspect-[4/4] overflow-hidden bg-slate-100">
+                  {/* Photo centred, faces fully visible, no banners over heads (#21) */}
+                  <div className="relative aspect-[4/4] overflow-hidden bg-slate-100 flex items-center justify-center">
                     <img
                       src={getAssetUrl(person.photo)}
                       alt={person.name}
-                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                     />
                   </div>
 
-                  {/* Clean Info: Titles and Badges Placed Neatly Below the Photo */}
-                  <div className="p-5 sm:p-6">
+                  {/* Clean Info: badge, name, role, qualifications (no short description text on card, #21) */}
+                  <div className="p-5 sm:p-6 pb-2">
                     <div className="inline-block px-2.5 py-0.5 rounded-full bg-slate-100 text-[#0E2B4C] text-[10px] font-bold uppercase tracking-wider mb-2 border border-slate-200">
                       {person.badge}
                     </div>
@@ -161,43 +157,26 @@ export const TeamPage: React.FC<TeamPageProps> = ({
                       {person.name}
                     </h3>
                     
-                    {/* Job Title Below Photo */}
                     <div className="text-xs font-bold text-[#2BB4A7] uppercase tracking-wider mb-1 font-heading">
                       {person.role}
                     </div>
 
-                    <div className="text-[11px] text-slate-500 font-medium mb-3 leading-snug line-clamp-2">
+                    <div className="text-[11px] text-slate-500 font-medium leading-snug">
                       {person.qualifications}
                     </div>
-
-                    <p className="text-xs text-slate-600 leading-relaxed font-body line-clamp-3">
-                      {person.bio}
-                    </p>
                   </div>
                 </div>
 
-                {/* Footer Action */}
-                <div className="p-5 sm:p-6 pt-0 flex gap-2">
+                {/* Footer Action: ONLY "VIEW BIO" button (Book button removed, #21) */}
+                <div className="p-5 sm:p-6 pt-4">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedClinician(person);
                     }}
-                    className="flex-1 py-2 rounded-full bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold text-[11px] uppercase tracking-wider border border-slate-200 transition-colors"
+                    className="w-full py-2.5 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer text-center"
                   >
                     View Bio
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onOpenBooking({
-                        doctor: person.name,
-                        treatment: person.treatmentDefault
-                      });
-                    }}
-                    className="flex-1 py-2 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white font-bold text-[11px] uppercase tracking-wider transition-colors"
-                  >
-                    Book
                   </button>
                 </div>
               </div>
@@ -225,11 +204,11 @@ export const TeamPage: React.FC<TeamPageProps> = ({
             </button>
 
             <div className="flex flex-col sm:flex-row gap-6 items-start">
-              <div className="w-full sm:w-48 aspect-[4/4] rounded-2xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200 shadow-sm">
+              <div className="w-full sm:w-48 aspect-[4/4] rounded-2xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200 shadow-sm flex items-center justify-center">
                 <img
                   src={getAssetUrl(selectedClinician.photo)}
                   alt={selectedClinician.name}
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-cover object-center"
                 />
               </div>
 
@@ -278,15 +257,15 @@ export const TeamPage: React.FC<TeamPageProps> = ({
         </div>
       )}
 
-      {/* 3. Bottom Consultation Callout */}
+      {/* 3. Bottom Call to Action (Worksheet #22: "Ready to meet your Dental Team?") */}
       <section className="py-16 bg-[#0E2B4C] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <h3 className="text-2xl sm:text-3xl font-bold font-heading mb-2">
-              Ready to meet your chosen clinician?
+              Ready to meet your Dental Team?
             </h3>
             <p className="text-sm text-slate-300 max-w-xl font-body">
-              Schedule your consultation online or speak with our hospital coordination desk at St. James Hospital in Sliema.
+              Schedule your consultation online or speak with our team at St James Hospital in Sliema.
             </p>
           </div>
           <button
@@ -301,3 +280,4 @@ export const TeamPage: React.FC<TeamPageProps> = ({
     </div>
   );
 };
+export default TeamPage;

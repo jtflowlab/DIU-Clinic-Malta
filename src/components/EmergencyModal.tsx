@@ -35,13 +35,13 @@ export const EmergencyModal: React.FC<EmergencyModalProps> = ({
         <div className="mb-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-900 text-xs font-bold uppercase tracking-wider mb-3 border border-rose-200">
             <AlertCircle className="w-4 h-4 text-rose-600" />
-            <span>St. James Hospital • Emergency Dental Care</span>
+            <span>At St James Hospital • Emergency Dental Care</span>
           </div>
           <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-950 font-heading tracking-tight">
             Toothache, a broken tooth or a lost filling?
           </h3>
           <p className="text-slate-600 text-sm mt-2 font-body leading-relaxed">
-            We provide urgent treatment for severe pain, dental infections, knocked-out teeth, and facial trauma inside St. James Hospital in Sliema.
+            We provide urgent treatment for severe pain, dental infections, knocked-out teeth, and facial trauma inside St James Hospital in Sliema.
           </p>
         </div>
 
@@ -81,7 +81,7 @@ export const EmergencyModal: React.FC<EmergencyModalProps> = ({
                 (+356) 2329 1000
               </div>
               <div className="text-xs text-rose-800 mt-0.5">
-                St. James Hospital 24-hour medical emergency triage admission
+                St James Hospital 24-hour medical emergency triage admission
               </div>
             </div>
             <a
@@ -122,12 +122,12 @@ export const EmergencyModal: React.FC<EmergencyModalProps> = ({
         <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
           <div className="flex items-center gap-1.5">
             <MapPin className="w-4 h-4 text-[#0E2B4C]" />
-            <span>Lower Ground Floor, St. James Hospital, Sliema, Malta</span>
+            <span>Lower Ground Floor, At St James Hospital, Sliema, Malta</span>
           </div>
           <div className="flex items-center gap-1.5">
             <Mail className="w-4 h-4 text-[#2BB4A7]" />
-            <a href="mailto:appointment@dentalunitmalta.com" className="text-[#0E2B4C] hover:underline font-semibold">
-              appointment@dentalunitmalta.com
+            <a href="mailto:appointments@dentalunitmalta.com" className="text-[#0E2B4C] hover:underline font-semibold">
+              appointments@dentalunitmalta.com
             </a>
           </div>
         </div>

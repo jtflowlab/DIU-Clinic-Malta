@@ -11,218 +11,218 @@ export const cliniciansList: Clinician[] = [
   // 1. Specialists & Surgeons
   {
     id: 'dr-mark',
-    name: 'Dr. Mark Diacono',
+    name: 'Dr Mark Diacono',
     category: 'specialists',
-    role: 'Principal Specialist Oral Surgeon',
-    qualifications: 'RGN, BChD Hons (Leeds), FDS RCPS (Glasg)',
+    role: 'Specialist in Oral Surgery',
+    qualifications: 'RGN, BChD Hons (Leeds), FDS RCPS (Glasgow)',
     badge: 'Co-Founder & Clinical Director',
     photo: 'team/dr_mark_diacono_principle_oral_surgeon.jpg',
-    bio: 'Over 25 years specializing in surgical implantology, immediate All-on-4 loading, bone grafting and hospital surgeries inside St. James Hospital.',
-    treatmentDefault: 'Dental Implant & Oral Surgery'
+    bio: 'Over 25 years specializing in surgical implantology, immediate All-on-4 loading, bone grafting and surgical dental procedures at St James Hospital.',
+    treatmentDefault: 'Dental Implants & Oral Surgery'
   },
   {
     id: 'dr-susanna',
-    name: 'Dr. Susanna Diacono',
+    name: 'Dr Susanna Diacono',
     category: 'restorative',
-    role: 'Restorative Dentist & DSD Master',
+    role: 'Restorative Dentist, Digital Smile Design',
     qualifications: 'DDS (Gothenburg), LDS (Sweden), M.Dent.Sci Restorative (Leeds)',
     badge: 'Co-Founder & DSD Lead',
     photo: 'team/dr._susanna_diacono_principle_restoratve_dentist_&_co-founder.jpg',
-    bio: 'Pioneered Digital Smile Design in Malta. Master in Scandinavian restorative dentistry, CEREC CAD/CAM ceramics, and aesthetic veneers.',
-    treatmentDefault: 'Digital Smile Design & Restorative Dentistry'
+    bio: 'Pioneered Digital Smile Design in Malta. Specialist in Scandinavian restorative dentistry, CEREC CAD/CAM ceramics, and aesthetic veneers.',
+    treatmentDefault: 'Digital Smile Design'
   },
   {
     id: 'prof-nikolai',
-    name: 'Prof. Nikolai Attard',
+    name: 'Prof Nikolai Attard',
     category: 'restorative',
     role: 'Specialist Prosthodontist',
     qualifications: 'BChD Hons (Melit), MSc (Toronto), PhD (Toronto)',
     badge: 'Prosthodontic Consultant',
     photo: 'team/prof_nikolai_attard.jpg',
     bio: 'Internationally recognized academic and clinician specializing in complex implant prosthetics, full arch oral rehabilitation and occlusal restoration.',
-    treatmentDefault: 'Dental Implant & Oral Surgery'
+    treatmentDefault: 'Dental Implants & Oral Surgery'
   },
   {
     id: 'dr-fokion',
-    name: 'Dr. Fokion Iatridis',
+    name: 'Dr Fokion Iatridis',
     category: 'restorative',
     role: 'Specialist Prosthodontist',
-    qualifications: 'DDS, CAGS',
+    qualifications: 'DDS (Thessaloniki), CAGS (Tufts Boston USA)',
     badge: 'Fixed & Removable Prosthetics',
     photo: 'team/dr_fokion_iatridis.jpg',
     bio: 'Specialist in full aesthetic transformations, high-precision CEREC crowns, inlays, and fixed prosthetic reconstructions.',
-    treatmentDefault: 'Dental Implant & Oral Surgery'
+    treatmentDefault: 'Dentures'
   },
   {
     id: 'dr-laura',
-    name: 'Dr. Laura Cuschieri',
+    name: 'Dr Laura Cuschieri',
     category: 'restorative',
     role: 'Digital Dentistry & Composite Bonding',
     qualifications: 'MDS (Melit), MSc Digital Dentistry (Melit) with Distinction',
     badge: 'Aesthetic & Digital Specialist',
     photo: 'team/dr_laura_cuschieri.jpg',
     bio: 'Specializing in minimally invasive smile enhancements, optical 3D digital impressions, and biomimetic cosmetic composite bonding.',
-    treatmentDefault: 'Digital Smile Design & Restorative Dentistry'
+    treatmentDefault: 'Composite Bonding'
   },
 
-  // 2. General & Paediatric Dentists (3)
-  {
-    id: 'dr-lisa',
-    name: 'Dr. Lisa Gatt',
-    category: 'general',
-    role: 'General & Aesthetic Dentist',
-    qualifications: 'BChD, Restorative Practice',
-    badge: 'Family & Preventive Care',
-    photo: 'team/dr._lisa_gatt_general_dentist.jpg',
-    bio: 'Dedicated to thorough clinical check-ups, aesthetic ceramic restorations, and gentle preventive dentistry for patients of all ages.',
-    treatmentDefault: 'Family & General Dentistry'
-  },
+  // 2. General & Paediatric Dentists
   {
     id: 'dr-michael',
-    name: 'Dr. Michael Rafferty',
+    name: 'Dr Michael Rafferty',
     category: 'general',
     role: 'General Dentist',
     qualifications: 'BChD, Comprehensive Dental Care',
     badge: 'General & Restorative Practice',
     photo: 'team/dr._michael_rafferty_general_dentist.jpg',
     bio: 'Committed to comprehensive family dental health, minimally invasive tooth preservation, and patient-centered clinical care.',
-    treatmentDefault: 'Family & General Dentistry'
+    treatmentDefault: 'General Dentistry'
+  },
+  {
+    id: 'dr-lisa',
+    name: 'Dr Lisa Carabott',
+    category: 'general',
+    role: 'General & Aesthetic Dentist',
+    qualifications: 'BChD, Restorative Practice',
+    badge: 'Family & Preventive Care',
+    photo: 'team/dr._lisa_gatt_general_dentist.jpg',
+    bio: 'Dedicated to thorough clinical check-ups, aesthetic ceramic restorations, and gentle preventive dentistry for patients of all ages.',
+    treatmentDefault: 'General Dentistry'
   },
   {
     id: 'dr-francesca',
-    name: 'Dr. Francesca Schembri',
+    name: 'Dr Francesca Schembri',
     category: 'general',
     role: 'General & Paediatric Dentist',
     qualifications: 'BChD, Special Interest in Children’s Dentistry',
     badge: 'Paediatric & Gentle Care',
     photo: 'team/dr.francesca_schembri_general_and_paediatric_dentist.jpg',
     bio: 'Passionate about creating positive dental experiences for infants, children, and nervous young teens in a comforting, friendly environment.',
-    treatmentDefault: 'Family & General Dentistry'
+    treatmentDefault: 'General Dentistry'
   },
 
-  // 3. Registered Dental Hygienist (1)
+  // 3. Registered Dental Hygienist
   {
-    id: 'mrs-mary-jane',
-    name: 'Mrs. Mary-Jane Galea',
+    id: 'mary-jane-galea',
+    name: 'Mary-Jane Galea',
     category: 'hygienist',
-    role: 'Registered Dental Hygienist',
+    role: 'Dental Hygienist',
     qualifications: 'Registered Dental Hygienist',
     badge: 'Periodontal Prevention',
     photo: 'team/mrs_mary-jane_galea_dental_hyginist.jpg',
     bio: 'Specialist in ultrasonic periodontal hygiene, gentle stain removal, implant maintenance, and personalized oral preventive regimens.',
-    treatmentDefault: 'Family & General Dentistry'
+    treatmentDefault: 'Hygiene & Gum Care'
   },
 
-  // 3. Clinical Support & Nursing Team
+  // 4. Clinical Support & Nursing Team
   {
     id: 'ms-aneta',
-    name: 'Ms. Aneta Mileska',
+    name: 'Ms Aneta Mileska',
     category: 'support',
     role: 'Dental Nurse & DSD Coordinator',
     qualifications: 'Lead DSD Digital Workflow Coordinator',
     badge: 'Smile Design Coordinator',
     photo: 'team/ms_aneta_mileska_dsd_coordinator.jpg',
     bio: 'Guides patients step-by-step through 3D facial aesthetic capture, virtual smile mockups, and coordinated clinician treatment plans.',
-    treatmentDefault: 'Digital Smile Design & Restorative Dentistry'
+    treatmentDefault: 'Digital Smile Design'
   },
   {
     id: 'mrs-sue',
-    name: 'Mrs. Sue Lanzon',
+    name: 'Mrs Sue Lanzon',
     category: 'support',
     role: 'Clinic Manager',
     qualifications: 'Clinical Operations Director',
-    badge: 'Hospital Operations',
+    badge: 'Clinic Operations',
     photo: 'team/mrs_sue_lanzon_clinic_manager.jpg',
-    bio: 'Oversees patient coordination, clinical standards, and hospital operating theatre scheduling inside St. James Hospital, Sliema.',
-    treatmentDefault: 'Initial Dental Consultation & Check-up'
+    bio: 'Oversees patient coordination, clinical standards, and appointment logistics at St James Hospital, Sliema.',
+    treatmentDefault: 'General Dentistry'
   },
   {
-    id: 'mrs-christa',
-    name: 'Mrs. Christa Rudrum',
+    id: 'christa-muscat',
+    name: 'Christa Muscat',
     category: 'support',
     role: 'Patient Reception Coordinator',
     qualifications: 'Front-of-House Patient Care',
     badge: 'Welcoming Team',
     photo: 'team/mrs_christa_rudrum_reception.jpg',
-    bio: 'Welcomes patients to St. James Hospital, coordinates appointment logistics, and ensures a seamless, serene visit from arrival to departure.',
-    treatmentDefault: 'Initial Dental Consultation & Check-up'
+    bio: 'Welcomes patients at St James Hospital, coordinates appointment logistics, and ensures a seamless, serene visit from arrival to departure.',
+    treatmentDefault: 'General Dentistry'
   },
   {
-    id: 'mrs-diane',
-    name: 'Mrs. Diane Capello',
+    id: 'diane-cappello',
+    name: 'Diane Cappello',
     category: 'support',
     role: 'Patient Reception Coordinator',
     qualifications: 'Front-of-House Patient Care',
     badge: 'Welcoming Team',
     photo: 'team/mrs_diane_capello_reception.jpg',
-    bio: 'Dedicated patient coordinator assisting with insurance inquiries, scheduling, and ensuring warm hospitable patient intake.',
-    treatmentDefault: 'Initial Dental Consultation & Check-up'
+    bio: 'Dedicated patient coordinator assisting with insurance enquiries, scheduling, and ensuring warm hospitable patient intake.',
+    treatmentDefault: 'General Dentistry'
   },
   {
     id: 'ms-candy',
-    name: 'Ms. Candy Dowling',
+    name: 'Ms Candy Dowling',
     category: 'support',
     role: 'Head Nurse',
     qualifications: 'Senior Clinical Nursing Lead',
     badge: 'Clinical Lead',
     photo: 'team/ms_candy_dowling_head_nurse.jpg',
     bio: 'Oversees surgical nurse teams, sterilization compliance, and patient comfort protocols during all dental operations.',
-    treatmentDefault: 'Treatment for Anxious Patients (Sedation)'
+    treatmentDefault: 'IV Sedation'
   },
   {
     id: 'maria-camilleri',
-    name: 'Ms. Maria Camilleri',
+    name: 'Ms Maria Camilleri',
     category: 'support',
     role: 'Surgical Dental Nurse',
-    qualifications: 'Hospital Surgical Nurse',
+    qualifications: 'Surgical Dental Nurse',
     badge: 'Surgical Theatre',
     photo: 'team/maria_camilleri_surgical_nurse.jpg',
-    bio: 'Assists senior oral surgeons during implantology and maxillofacial surgeries inside St. James Hospital sterile theatres.',
-    treatmentDefault: 'Dental Implant & Oral Surgery'
+    bio: 'Assists senior oral surgeons during implantology and maxillofacial surgeries at St James Hospital.',
+    treatmentDefault: 'Dental Implants & Oral Surgery'
   },
   {
     id: 'mrs-sonia',
-    name: 'Mrs. Sonia Madiona',
+    name: 'Mrs Sonia Madiona',
     category: 'support',
     role: 'Restorative Dental Nurse',
     qualifications: 'Restorative Care Nurse',
     badge: 'Clinical Nursing',
     photo: 'team/mrs_sonia_madiona_restorative_dental_nurse.jpg',
     bio: 'Assists during CEREC ceramic restorations and aesthetic chairside procedures with attentive, compassionate care.',
-    treatmentDefault: 'Digital Smile Design & Restorative Dentistry'
+    treatmentDefault: 'Digital Smile Design'
   },
   {
     id: 'ms-charlotte',
-    name: 'Ms. Charlotte Camenzuli',
+    name: 'Ms Charlotte Camenzuli',
     category: 'support',
     role: 'Restorative Dental Nurse',
     qualifications: 'Restorative Care Nurse',
     badge: 'Clinical Nursing',
     photo: 'team/ms_charlotte_camenzuli_restorative_dental_nurse.jpg',
     bio: 'Provides focused chairside nursing assistance and patient reassurance during restorative dental treatments.',
-    treatmentDefault: 'Digital Smile Design & Restorative Dentistry'
+    treatmentDefault: 'Digital Smile Design'
   },
   {
     id: 'ms-kelly',
-    name: 'Ms. Kelly Grech',
+    name: 'Ms Kelly Grech',
     category: 'support',
     role: 'Restorative & Surgical Nurse',
     qualifications: 'Dual Specialty Nurse',
     badge: 'Clinical Nursing',
     photo: 'team/ms_kelly_grech_restorative_dental_nurse.jpg',
     bio: 'Cross-trained across surgical implant suites and restorative CEREC procedures, ensuring impeccable patient safety.',
-    treatmentDefault: 'Dental Implant & Oral Surgery'
+    treatmentDefault: 'Dental Implants & Oral Surgery'
   },
   {
-    id: 'ms-rachael',
-    name: 'Ms. Rachael Bornel',
+    id: 'rachel-bornel',
+    name: 'Rachel Bornel',
     category: 'support',
     role: 'Restorative Dental Nurse',
     qualifications: 'Restorative Care Nurse',
     badge: 'Clinical Nursing',
     photo: 'team/ms_rachael_restorative_dental_nurse.jpg',
     bio: 'Dedicated to patient comfort, gentle chairside care, and clinical efficiency in the restorative department.',
-    treatmentDefault: 'Digital Smile Design & Restorative Dentistry'
+    treatmentDefault: 'Digital Smile Design'
   }
 ];
 
@@ -231,39 +231,39 @@ export const approvedServices: ServiceItem[] = [
   {
     num: "01",
     id: "IMPLANTS",
-    title: "Dental Implant & Oral Surgery",
+    title: "Dental Implants & Oral Surgery",
     tagline: "Specialist Surgical Care",
     image: "clinic/scanning_in_surgery.jpg",
     bgClass: "bg-white",
     accentColor: "#0E2B4C",
-    summary: "Oral surgery and implants, from a single tooth to full-mouth reconstruction, with specialist care.",
+    summary: "Whether you need wisdom teeth removal or a complete new smile, our oral surgery and prosthetic team plan and carry out your care together.",
     bullets: [
-      "Single tooth implants with Swiss biocompatible titanium",
+      "Single-tooth implant",
       "Full-mouth reconstruction and immediate loading",
-      "Hospital-grade 3D CBCT bone diagnostics",
-      "Sterile operating theatre surgical safety"
+      "Crowns and bridges designed and made by our prosthetic team",
+      "3D CBCT, dental scans and Digital Smile Design for precise planning"
     ],
-    desc: "From replacing a single tooth to rebuilding a full smile, our oral surgeon and prosthodontists plan and carry out your treatment together, in the safe setting of St James Hospital, Sliema.",
-    clinicians: ["Dr Mark Diacono (Oral Surgeon)", "Prof. Nikolai Attard (Prosthodontist)", "Dr Fokion Iatridis (Prosthodontist)"]
+    desc: "Whether you need wisdom teeth removal or a complete new smile, our oral surgery and prosthetic team plan and carry out your care together at St James Hospital, Sliema.",
+    clinicians: ["Dr Mark Diacono, Oral Surgeon", "Prof. Nikolai Attard, Prosthodontist", "Dr Fokion Iatridis, Prosthodontist"]
   },
   {
     num: "02",
     id: "DSD",
-    title: "Digital Smile Design & Restorative Dentistry",
-    tagline: "Facially Driven Smile Design",
+    title: "Digital Smile Design",
+    tagline: "Signature Treatment",
     image: "clinic/md_3d_scanner_and_pt.jpg",
     bgClass: "bg-white",
     accentColor: "#2BB4A7",
     isGold: true,
-    summary: "Facially driven smile design, veneers, crowns, bridges, full-mouth reconstruction, root canal treatment and composite bonding.",
+    summary: "Your new smile, designed around your face. Plan your smile on screen and test drive the look before treatment begins.",
     bullets: [
       "Designed around your face, lips and smile dynamics",
-      "Test-drive your mock-up smile in your mouth first",
-      "CEREC 1-hour German porcelain crowns & veneers",
-      "Aesthetic biomimetic composite bonding"
+      "Test drive your new smile before treatment begins",
+      "Same day all ceramic crowns, inlays and onlays",
+      "Tooth coloured natural looking composite bonding"
     ],
-    desc: "Your new smile, designed around your face. As a certified Digital Smile Design clinic, we plan your smile on screen, then make a mock-up in your mouth so you can see it before treatment begins.",
-    clinicians: ["Dr Susanna Diacono (DSD & Full Mouth)", "Dr Laura Cuschieri (Composite Bonding)", "Dr Susanna Diacono (Root Canal Treatment)"]
+    desc: "Your new smile, designed around your face. We plan your smile on screen, then make a mock-up in your mouth so you can test drive the look before treatment begins.",
+    clinicians: ["Dr Susanna Diacono (Restorative Dentist with DSD)", "Dr Laura Cuschieri (composite bonding)"]
   },
   {
     num: "03",
@@ -273,245 +273,251 @@ export const approvedServices: ServiceItem[] = [
     image: "clinic/examination_for_fading_background.jpg",
     bgClass: "bg-white",
     accentColor: "#2BB4A7",
-    summary: "Everyday care to keep teeth and gums healthy at every age, with regular check-ups, hygienist visits, fillings and gentle dentistry for children.",
+    summary: "Everyday care to keep teeth and gums healthy at every age, from regular check-ups and hygiene visits to fillings and gentle dentistry for children, in a calm, welcoming setting.",
     bullets: [
       "Regular check-ups and thorough examinations",
-      "Hygienist visits and periodontal gum maintenance",
-      "Tooth-coloured composite fillings",
-      "Gentle, reassuring dentistry for children"
+      "Hygiene visit and gum care",
+      "Tooth coloured fillings",
+      "Gentle, friendly dentistry for children",
+      "Same day emergency appointment"
     ],
-    desc: "Everyday care to keep teeth and gums healthy at every age, with regular check-ups, hygienist visits, fillings and gentle dentistry for children in a calm hospital environment.",
-    clinicians: ["Dr Michael Rafferty (General Dentist)", "Dr Lisa Carabott (General Dentist)", "Mrs Mary-Jane Galea (Dental Hygienist)"]
+    desc: "Everyday care to keep teeth and gums healthy at every age, from regular check-ups and hygiene visits to fillings and gentle dentistry for children, in a calm, welcoming setting.",
+    clinicians: ["Dr Michael Rafferty", "Dr Lisa Carabott", "Dr Francesca Schembri", "Mary-Jane Galea (Dental Hygienist)"]
   },
   {
     num: "04",
     id: "ANXIOUS",
-    title: "Treatment for Anxious Patients",
-    tagline: "Hospital IV Sedation",
+    title: "Gentle Care for Nervous Patients",
+    tagline: "IV Sedation",
     image: "clinic/waiting_room_2.jpg",
     bgClass: "bg-white",
     accentColor: "#0E2B4C",
-    summary: "Using sedation with a consultant anaesthetist, in a safe, hospital-based clinic. Available for all our treatments.",
+    summary: "Feeling anxious about the dentist is common, and you are not alone. We offer IV sedation given by a consultant anaesthetist, so you can have the treatment you need while feeling calm and cared for.",
     bullets: [
-      "Supervised by a consultant hospital anaesthetist",
-      "Peaceful, calm twilight relaxation state",
-      "Zero pain, zero distress, zero dental anxiety",
-      "Available for all routine and complex treatments"
+      "Sedation given and monitored by a consultant anaesthetist",
+      "A calm, deeply relaxed state throughout treatment",
+      "Little or no memory of the procedure afterwards",
+      "Available for both routine and complex treatments"
     ],
-    desc: "Dental anxiety is common, and you are not alone. We offer sedation with a consultant anaesthetist, so you can receive the care you need feeling completely supported.",
-    clinicians: ["With our consultant anaesthetist"]
+    desc: "Feeling anxious about the dentist is common, and you are not alone. We offer IV sedation given by a consultant anaesthetist, so you can have the treatment you need while feeling calm and cared for.",
+    clinicians: ["Your dentist, together with our consultant anaesthetist"]
   }
 ];
 
-// All booking treatment options (with Consultation as default)
+// All 10 booking treatment options matching the price categories exactly
 export const bookingTreatmentOptions = [
-  "Initial Dental Consultation & Check-up",
-  "Dental Implant & Oral Surgery",
-  "Digital Smile Design & Restorative Dentistry",
-  "Family & General Dentistry",
-  "Treatment for Anxious Patients (Sedation)",
-  "Composite Bonding & Veneers",
-  "Hygiene & Gum Care"
+  "Dental Implants & Oral Surgery",
+  "Digital Smile Design",
+  "General Dentistry",
+  "Hygiene & Gum Care",
+  "Composite Bonding",
+  "Porcelain Veneers, Crowns & Bridges",
+  "Teeth Whitening",
+  "Dentures",
+  "Root Canal Treatment",
+  "IV Sedation"
 ];
 
-// Official Hospital Treatment Prices Matching Client Fees Sheets (Capturas 11-16)
+// 10 Official Treatment Fee Categories in Premium Menu Style
 export const feesCategories: FeeCategory[] = [
   {
-    title: "Dental Implant & Oral Surgery",
-    description: "with Dr Mark Diacono (Principal Specialist Oral Surgeon)",
+    title: "DENTAL IMPLANTS AND ORAL SURGERY",
+    clinician: "With Dr Mark Diacono, Specialist Oral Surgeon",
+    buttonText: "Enquire about implants",
+    treatmentDefault: "Dental Implants & Oral Surgery",
     items: [
       {
         name: "Implant consultation",
-        price: "€75",
-        features: ["Specialist surgical consultation", "Examination and 3D CBCT review", "Written personal plan"]
+        description: "Specialist assessment, 3D scan review and a written treatment plan",
+        price: "€75"
       },
       {
-        name: "Single implant including implant crown",
-        price: "from €2,400",
-        features: ["Swiss biocompatible titanium implant", "Custom ceramic implant crown", "Hospital sterile theatre protocol"]
+        name: "Single implant with crown",
+        description: "Titanium implant with a custom ceramic crown",
+        price: "from €2,400"
       },
       {
-        name: "Full-mouth implants (including final restoration)",
-        price: "from €4,500",
-        features: ["Complete arch fixed reconstruction", "Surgeon and prosthodontist planned", "Immediate functional support"]
+        name: "Full-arch implants",
+        description: "A complete fixed set of teeth, planned by surgeon and prosthodontist",
+        price: "from €4,500"
+      },
+      {
+        name: "Wisdom tooth removal",
+        description: "Surgical removal, with sedation available",
+        price: "from €200"
       }
     ]
   },
   {
-    title: "Digital Smile Design (DSD)",
-    description: "with Dr Susanna Diacono (Restorative Dentist & DSD Master)",
+    title: "DIGITAL SMILE DESIGN",
+    clinician: "With Dr Susanna Diacono, Restorative Dentist",
+    buttonText: "Enquire about smile design",
+    treatmentDefault: "Digital Smile Design",
     items: [
       {
-        name: "DSD consultation",
-        price: "€400",
-        features: ["Facial dynamic photography & video", "3D digital intraoral scan", "Computer-aided smile design"]
+        name: "Smile design consultation",
+        description: "Facial photography and video, a 3D digital scan for planning your smile"
       },
       {
-        name: "DSD smile mock-up",
-        price: "€100",
-        features: ["Physical 3D smile model in your mouth", "Test-drive your smile in the mirror", "Agreed design before any procedure"]
+        name: "Smile mock-up",
+        description: "Try your new smile in your mouth and see with photography before any treatment begins"
       }
     ]
   },
   {
-    title: "General Dentistry",
-    description: "Dr Michael Rafferty · Dr Lisa Carabott · Dr Francesca Schembri",
+    title: "GENERAL DENTISTRY",
+    buttonText: "Enquire about general dentistry",
+    treatmentDefault: "General Dentistry",
     items: [
       {
-        name: "New patient examination (includes X-rays)",
-        price: "€50",
-        features: ["Complete mouth assessment", "Digital diagnostic X-rays included", "Written treatment plan with costs"]
+        name: "New patient examination",
+        description: "A full check of your mouth, X-rays and a written treatment plan with costs"
       },
       {
-        name: "Dental examination",
-        price: "€50",
-        features: ["Routine follow-up check-up", "Gum and tooth health screening", "Personalized hygiene advice"]
+        name: "Routine check-up",
+        description: "Teeth and gum check with personalised hygiene advice"
       },
       {
-        name: "Emergency appointment (excluding treatment)",
-        price: "from €50",
-        features: ["Prompt pain relief assessment", "Diagnostic X-ray review", "Clear immediate treatment options"]
+        name: "Emergency appointment",
+        description: "Prompt assessment, X-ray and clear options to relieve your pain. Treatment charged separately",
+        price: "from €50"
       },
       {
-        name: "Fillings (each)",
-        price: "from €50",
-        features: ["Gentle decay removal", "Tooth preservation protocol", "Local anaesthetic included"]
-      },
-      {
-        name: "Tooth-coloured (composite) fillings (each)",
-        price: "€70",
-        features: ["Natural tooth-coloured composite resin", "Seamless aesthetic match", "Bonded directly to enamel"]
+        name: "Tooth-coloured fillings",
+        description: "Natural-looking fillings that keep as much of your own tooth as possible"
       }
     ]
   },
   {
-    title: "Hygiene & Gum Care",
-    description: "with Dental Hygienist Mrs Mary-Jane Galea",
+    title: "HYGIENE & GUM CARE",
+    clinician: "With Mary-Jane Galea, Hygienist",
+    buttonText: "Book a hygiene appointment",
+    treatmentDefault: "Hygiene & Gum Care",
     items: [
       {
-        name: "Hygiene appointment",
-        price: "€60",
-        features: ["Ultrasonic gentle plaque removal", "Stain removal and polishing", "Gum pocket screening"]
+        name: "Hygiene and gum care appointment",
+        description: "Gentle cleaning, stain removal and polishing, with a full gum check and ongoing care for the gums, implants with a personal home-care plan",
+        price: "€60"
       },
       {
-        name: "Periodontal treatment session (per session)",
-        price: "€60",
-        features: ["Deep scaling and root debridement", "Gum inflammation treatment", "Personal home care regimen"]
-      },
-      {
-        name: "Maintenance hygiene",
-        price: "€60",
-        features: ["Routine periodontal maintenance", "Implant care and cleaning", "Long-term gum protection"]
+        name: "Gum treatment",
+        description: "Deep cleaning below the gum line to treat inflamed gums, with a personal home-care plan",
+        price: "€120 (per session)"
       }
     ]
   },
   {
-    title: "Composite Bonding",
-    description: "with Restorative Team (Dr Susanna Diacono & Dr Laura Cuschieri)",
+    title: "COMPOSITE BONDING",
+    clinician: "With Dr Susanna Diacono and Dr Laura Cuschieri",
+    buttonText: "Book a bonding consultation",
+    treatmentDefault: "Composite Bonding",
     items: [
       {
-        name: "Consultation",
-        price: "€50",
-        features: ["Aesthetic smile assessment", "Colour and shape matching", "Single-visit option review"]
+        name: "Bonding consultation",
+        description: "Smile assessment, colour and shape matching, and a review of your options"
       },
       {
-        name: "Composite edging",
-        price: "from €120",
-        features: ["Repair minor chips or uneven edges", "Minimally invasive, no enamel removed", "Hand-sculpted in one visit"]
+        name: "Edge bonding",
+        description: "Repairs small chips and uneven edges, sculpted by hand in one visit with minimal drilling"
       },
       {
-        name: "Composite bonding & veneers",
-        price: "from €250",
-        features: ["Full tooth composite surface facing", "Closes gaps and refreshes shade", "Reversible aesthetic enhancement"]
+        name: "Composite veneers",
+        description: "Covers the whole front of the tooth to close gaps and improve shape and colour"
       }
     ]
   },
   {
-    title: "Porcelain Veneers, Crowns & Bridges",
-    description: "with Restorative Team",
+    title: "PORCELAIN VENEERS, CROWNS AND BRIDGES",
+    clinician: "With our restorative team",
+    buttonText: "Book a restorative consultation",
+    treatmentDefault: "Porcelain Veneers, Crowns & Bridges",
     items: [
       {
-        name: "Consultation",
-        price: "€50",
-        features: ["Restorative diagnosis and planning", "Digital 3D intraoral scan", "Ceramic shade and bite evaluation"]
+        name: "Restorative consultation",
+        description: "Full assessment, 3D digital scan and check of your bite and tooth shade"
       },
       {
-        name: "Porcelain veneers & crowns (per tooth)",
-        price: "from €450",
-        features: ["High-strength German ceramic", "Natural light reflection and translucency", "15+ year durable lifespan"]
+        name: "Porcelain veneers and crowns",
+        description: "High-strength ceramic that reflects light like a natural tooth"
       },
       {
-        name: "Bridges (per unit)",
-        price: "from €450",
-        features: ["Fixed replacement for missing teeth", "All-ceramic or zirconia construction", "Precision CAD/CAM milling"]
+        name: "Bridges",
+        description: "A fixed replacement for missing teeth, made in all-ceramic or zirconia"
       }
     ]
   },
   {
-    title: "Teeth Whitening",
-    description: "Safe, effective clinical whitening",
+    title: "TEETH WHITENING",
+    clinician: "Safe, effective professional whitening",
+    buttonText: "Book a whitening consultation",
+    treatmentDefault: "Teeth Whitening",
     items: [
       {
-        name: "Consultation",
-        price: "€50",
-        features: ["Enamel and gum shade assessment", "Sensitivity prevention protocol", "Shade guide expectation"]
+        name: "Whitening consultation",
+        description: "A check that whitening is right for you, your current shade recorded, and advice on avoiding sensitivity"
       },
       {
-        name: "Home whitening system",
-        price: "from €125",
-        features: ["Custom-moulded dental trays", "Professional whitening gel", "Gentle, gradual, brilliant results"]
+        name: "Home whitening",
+        description: "Custom-made trays and professional whitening gel for gentle gradual results"
+      },
+      {
+        name: "In-Clinic Whitening",
+        description: "A single visit with professional-strength gel, for noticeably whiter teeth in about 90 min",
+        price: "from €350"
       }
     ]
   },
   {
-    title: "Dentures",
-    description: "with Prosthodontist Team (Prof. Nikolai Attard & Dr Fokion Iatridis)",
+    title: "DENTURES",
+    clinician: "With Dr Fokion Iatridis and Prof. Nikolai Attard",
+    buttonText: "Book denture consultation",
+    treatmentDefault: "Dentures",
     items: [
       {
-        name: "Consultation",
-        price: "€ —",
-        features: ["Specialist prosthodontic examination", "Full mouth bite and ridge assessment", "Individualized quotation"]
+        name: "Denture consultation",
+        description: "Specialist examination, bite assessment and a personal quotation",
+        price: "€75"
       },
       {
         name: "Partial denture",
-        price: "from € —",
-        features: ["Custom chrome or acrylic fit", "Secure retention", "Natural tooth appearance"]
+        description: "Replaces some missing teeth, in acrylic or chrome, with natural look and secure fit",
+        price: "from €250"
       },
       {
-        name: "Full (complete) denture",
-        price: "from € —",
-        features: ["Upper or lower complete arch", "Facially contoured aesthetic teeth", "Comfortable suction fit"]
+        name: "Full denture",
+        description: "A complete upper or lower set, shaped to suit your face, with a comfortable, natural fit",
+        price: "from €650"
       },
       {
-        name: "Implant-retained denture",
-        price: "from € —",
-        features: ["Locators or bar attachment", "Rock-solid stability, zero slipping", "No need for adhesives"]
+        name: "Implant retained denture",
+        description: "Clips securely onto implants for a stable, confident fit, with no need for adhesive",
+        price: "from €3,200"
       }
     ]
   },
   {
-    title: "Root Canal Treatment",
-    description: "with Dr Susanna Diacono",
+    title: "ROOT CANAL TREATMENT",
+    clinician: "With Dr Susanna Diacono",
+    buttonText: "Book a root canal consultation",
+    treatmentDefault: "Root Canal Treatment",
     items: [
       {
-        name: "Root canal treatment (depends on the tooth)",
-        price: "from €200",
-        features: ["Saves infected or broken natural teeth", "Gentle local anaesthetic procedure", "Precision rotary instrumentation"]
+        name: "Root canal treatment",
+        description: "Saves an infected or damaged tooth, carried out gently under local anaesthetic with precision instruments and magnification",
+        price: "from €200, depending on the tooth"
       }
     ]
   },
   {
-    title: "Sedation with Consultant Anaesthetist",
-    description: "Safe hospital twilight sleep dentistry for anxious patients",
+    title: "IV SEDATION",
+    clinician: "Relaxing sedation for anxious patients, given by a consultant anaesthetist",
+    buttonText: "Book a sedation consultation",
+    treatmentDefault: "IV Sedation",
     items: [
       {
-        name: "Intravenous (IV) sedation (per hour)",
-        price: "€180",
-        features: [
-          "Administered by a consultant hospital anaesthetist",
-          "Deep twilight relaxation, zero anxiety or pain",
-          "Excluding dental treatment and medication used"
-        ]
+        name: "Intravenous (IV) sedation",
+        description: "Given and monitored throughout by a consultant anaesthetist, so you stay calm and deeply relaxed during treatment. Dental treatment and medication charged separately",
+        price: "€180 per hour"
       }
     ]
   }
@@ -523,15 +529,15 @@ export const verifiedReviews: PatientReview[] = [
     author: "Christopher M.",
     photo: "patient_christopher.jpg",
     treatment: "All-on-4 Full Arch Implants",
-    clinic: "St. James Hospital, Sliema",
-    text: "After years of struggling with missing teeth and dentists who only offered removable plates, Dr. Mark Diacono completely changed my life. I had surgery under IV sedation in the morning and walked out with a fixed, beautiful set of teeth by afternoon. Zero pain, zero anxiety.",
+    clinic: "At St James Hospital, Sliema",
+    text: "After years of struggling with missing teeth and dentists who only offered removable plates, Dr Mark Diacono completely changed my life. I had surgery under IV sedation in the morning and walked out with a fixed, beautiful set of teeth by afternoon. Zero pain, zero anxiety.",
     rating: 5
   },
   {
     author: "Elena Vassallo",
     photo: "patient_elena.jpg",
-    treatment: "CEREC Ceramic Crown in 1 Visit",
-    clinic: "St. James Hospital, Sliema",
+    treatment: "Ceramic Crown in 1 Visit",
+    clinic: "At St James Hospital, Sliema",
     text: "I chipped a front tooth right before an overseas flight. The team scanned it with their 3D optical camera, milled the porcelain crown right there in their clinic lab, and bonded it in less than an hour! It matches my other teeth seamlessly. Incredible technology.",
     rating: 5
   },
@@ -539,8 +545,8 @@ export const verifiedReviews: PatientReview[] = [
     author: "Mark Cassar",
     photo: "patient_mark.jpg",
     treatment: "Surgical Wisdom Extraction & IV Sedation",
-    clinic: "St. James Hospital, Sliema",
-    text: "As someone who suffers from severe dental phobia, having an anaesthetist administer IV sedation gave me total peace of mind. I remember lying down peacefully, and the next moment I was waking up with all 4 impacted teeth removed. The medical care was exemplary.",
+    clinic: "At St James Hospital, Sliema",
+    text: "As someone who suffers from dental anxiety, having an anaesthetist administer IV sedation gave me total peace of mind. I remember lying down peacefully, and the next moment I was waking up with all 4 impacted teeth removed. The care was exemplary.",
     rating: 5
   }
 ];
@@ -549,43 +555,43 @@ export const verifiedReviews: PatientReview[] = [
 export const faqsData: FaqItem[] = [
   {
     num: "01",
-    q: "Can I really receive a fixed set of teeth or crown in one single day?",
-    a: "Yes. Using our in-house German CEREC CAD/CAM 3D milling lab and immediate-load implant protocols (All-on-4), single crowns and full arch restorations can be digitally designed, diamond-milled, and fitted in a single appointment. This avoids gooey impression trays and weeks of temporary teeth."
+    q: "Can I receive a fixed set of teeth or crown in one visit?",
+    a: "Yes. Using in-house CAD/CAM 3D milling and immediate-load implant protocols, single crowns and full arch restorations can often be digitally designed, milled, and fitted in a single appointment, avoiding weeks of temporary teeth."
   },
   {
     num: "02",
-    q: "How does the certified IV sedation work for nervous or anxious patients?",
-    a: "IV sedation is supervised directly on-site by certified consultant hospital anaesthetists. A gentle sedative is administered through an IV line, causing you to enter a relaxed twilight sleep state. You remain responsive but feel no discomfort, hear no dental drill sounds, and will have zero recollection of pain afterwards."
+    q: "How does IV sedation work for nervous or anxious patients?",
+    a: "IV sedation is administered and monitored directly by a consultant anaesthetist. A gentle sedative is administered through an IV line, causing you to enter a deeply relaxed state. You remain responsive but feel no discomfort, and will have little or no memory of the procedure afterwards."
   },
   {
     num: "03",
-    q: "What makes being located inside St. James Hospital a decisive advantage?",
-    a: "Being directly situated within Malta's premier private hospital ensures the strictest medical sterility, backup medical services, emergency hospital operating theatres, on-site 3D diagnostic imaging, and private recovery suites that typical street clinics simply cannot match."
+    q: "What are the advantages of being located at St James Hospital?",
+    a: "Being located at St James Hospital in Sliema provides convenient access to hospital-standard diagnostic imaging, dedicated sterile facilities, and medical support in a reassuring, professional private hospital setting."
   },
   {
     num: "04",
-    q: "What is Digital Smile Design (DSD) and how does it help me before treatment?",
-    a: "DSD is a 3D aesthetic simulation system. By recording your facial gestures, lip dynamics, and facial symmetry, we generate a physical mock-up you can test-drive in your mouth. You see and feel exactly how your smile will look before any procedure is started."
+    q: "What is Digital Smile Design (DSD) and how does it help before treatment?",
+    a: "DSD is a facially driven aesthetic simulation system. By recording your facial gestures, lip dynamics, and symmetry, we plan your smile on screen and generate a physical trial smile you can test drive in your mouth before any permanent treatment begins."
   },
   {
     num: "05",
     q: "How do I schedule an appointment and what are the consultation details?",
-    a: "Consultations can be booked through our online booking form or via our official WhatsApp service (+356 9999 1029) or phone (+356 2329 1029). Our hospital patient coordinators will confirm a specialist slot within minutes."
+    a: "Consultations can be booked through our online booking form or via our WhatsApp or phone (+356 2329 1029). Our patient coordinators will confirm a suitable appointment slot promptly."
   }
 ];
 
-// Clinical Blog Posts / Articles (Matching Client News & Insights Mockup Capturas 27-35)
+// Clinical Blog Posts with exact short slugs
 export const blogPosts: BlogPost[] = [
   {
     id: "worn-teeth-guide",
-    slug: "composite-bonding-veneers-or-crowns-rebuilding-worn-teeth",
+    slug: "veneers",
     title: "Composite bonding, veneers or crowns? Rebuilding worn teeth",
     excerpt: "How the three options compare, why teeth become short through wear and acid erosion, and how we rebuild a worn bite with ceramics.",
     category: "Veneers & crowns",
     readTime: "7 min read",
     date: "6 October 2026",
     author: "Dr Susanna Diacono",
-    authorRole: "Restorative Dentist & DSD Master",
+    authorRole: "Restorative Dentist",
     image: "clinic/md_3d_scanner_and_pt.jpg",
     content: [
       "Composite bonding, ceramic veneers and crowns can all change the shape, colour and length of your teeth. The right choice depends less on the look you want and more on how much healthy tooth you have left, and how your teeth meet when you bite.",
@@ -598,46 +604,46 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: "implant-consultation",
-    slug: "what-happens-at-your-first-implant-consultation",
+    slug: "implant-consultation",
     title: "What happens at your first implant consultation",
     excerpt: "From the 3D scan to your written plan: a step-by-step look at how we assess you for dental implants.",
     category: "Implants",
     readTime: "5 min read",
     date: "October 2026",
     author: "Dr Mark Diacono",
-    authorRole: "Principal Specialist Oral Surgeon",
+    authorRole: "Specialist Oral Surgeon",
     image: "clinic/scanning_in_surgery.jpg",
     content: [
-      "At your initial implant consultation, our surgeon and prosthodontist examine your mouth, review your medical history, and evaluate bone density using a hospital 3D CBCT scan.",
+      "At your initial implant consultation, our surgeon and prosthodontist examine your mouth, review your medical history, and evaluate bone density using a 3D CBCT scan.",
       "You receive a clear, written plan with transparent costs before deciding on any procedure. Everything is explained in plain, comforting language."
     ]
   },
   {
     id: "dsd-works",
-    slug: "how-digital-smile-design-works",
+    slug: "digital-smile-design",
     title: "How Digital Smile Design works",
     excerpt: "How we design your new smile on screen and let you try it in your mouth before any treatment begins.",
     category: "Digital Smile Design",
     readTime: "4 min read",
     date: "October 2026",
     author: "Dr Susanna Diacono",
-    authorRole: "Restorative Dentist & DSD Master",
+    authorRole: "Restorative Dentist",
     image: "clinic/md_3d_scanner_and_pt.jpg",
     content: [
       "Digital Smile Design (DSD) is a facially driven approach. Using photographs, video and digital 3D scans, we plan your new smile in harmony with your facial proportions.",
-      "We 3D print a temporary mock-up you can actually test-drive directly in your mouth before any permanent work starts, ensuring total predictability."
+      "We produce a trial smile mock-up you can actually test drive directly in your mouth before any permanent work starts, ensuring total predictability and confidence."
     ]
   },
   {
     id: "child-first-visit",
-    slug: "your-childs-first-dental-visit",
+    slug: "childs-first-visit",
     title: "Your child’s first dental visit",
     excerpt: "Simple tips to make the first visit a happy one, and what we check at each age.",
     category: "Family dentistry",
     readTime: "4 min read",
     date: "October 2026",
     author: "Dr Francesca Schembri",
-    authorRole: "General Dentist",
+    authorRole: "General & Paediatric Dentist",
     image: "clinic/examination_for_fading_background.jpg",
     content: [
       "We believe children’s first dental visit should be fun, gentle and reassuring. We count teeth, demonstrate fun brushing games, and help kids feel proud of their smiles."
@@ -645,28 +651,28 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: "anxious-care",
-    slug: "nervous-about-the-dentist-you-are-not-alone",
+    slug: "nervous-patients",
     title: "Nervous about the dentist? You are not alone",
     excerpt: "How we help anxious patients feel in control, from the first phone call to the end of treatment.",
     category: "Anxious patients",
     readTime: "5 min read",
     date: "October 2026",
     author: "Dr Mark Diacono",
-    authorRole: "Principal Specialist Oral Surgeon",
+    authorRole: "Specialist Oral Surgeon",
     image: "clinic/dr_mark_patient_model.jpg",
     content: [
-      "Dental anxiety is very common. We offer calm pre-treatment chats away from the chair, and hospital IV sedation with a consultant anaesthetist for peaceful twilight sleep."
+      "Dental anxiety is very common. We offer calm pre-treatment chats away from the chair, and IV sedation with a consultant anaesthetist for peaceful relaxation."
     ]
   },
   {
     id: "hygiene-matters",
-    slug: "why-your-hygiene-visit-matters",
+    slug: "hygiene-visit",
     title: "Why your hygiene visit matters",
     excerpt: "What a hygienist does, how often to come, and how it protects your teeth and gums.",
     category: "Prevention",
     readTime: "4 min read",
     date: "October 2026",
-    author: "Mrs Mary-Jane Galea",
+    author: "Mary-Jane Galea",
     authorRole: "Dental Hygienist",
     image: "clinic/examination_for_fading_background.jpg",
     content: [
@@ -675,20 +681,20 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: "dental-implants-csi",
-    slug: "dental-implants-csi-treatment",
-    title: "Dental Implants & CSI Protocol: Rebuilding Teeth with Hospital Precision",
-    excerpt: "From individual Swiss titanium implants to full-arch restorations and the Cortical-Spongiosa Immediate (CSI) protocol under conscious sedation.",
+    slug: "csi-implants",
+    title: "Dental Implants & CSI Protocol: Rebuilding Teeth with Precision",
+    excerpt: "From individual titanium implants to full-arch restorations and the Cortical-Spongiosa Immediate (CSI) protocol under sedation.",
     category: "Implants",
     readTime: "6 min read",
     date: "October 2026",
     author: "Dr Mark Diacono",
-    authorRole: "Principal Specialist Oral Surgeon",
+    authorRole: "Specialist Oral Surgeon",
     image: "clinic/scanning_in_surgery.jpg",
     content: [
-      "Dental implants represent the gold standard for replacing missing teeth, restoring not just chewing efficiency and aesthetics, but also preserving underlying alveolar bone volume that naturally deteriorates after tooth loss.",
-      "At DiU Clinic inside St James Hospital, implant procedures benefit from direct hospital infrastructure: on-site 3D CBCT diagnostic bone scans, dedicated sterile operating theatres, and IV sedation administered by consultant hospital anaesthetists for anxious patients.",
-      "The CSI (Cortical-Spongiosa Immediate) implant treatment protocol leverages high-density cortical bone anchorage combined with biocompatible Swiss titanium fixtures. This enables immediate primary stability, often allowing temporary fixed teeth to be loaded on the very same day.",
-      "Whether you require a single implant to replace an isolated tooth or a full-arch rehabilitation (such as All-on-4 or All-on-6), our multidisciplinary surgical and prosthodontic team plans every millimeter digitally beforehand to ensure unmatched aesthetic harmony and lifetime longevity."
+      "Dental implants represent the gold standard for replacing missing teeth, restoring chewing efficiency and aesthetics, while preserving underlying jawbone health.",
+      "At DiU Clinic at St James Hospital, implant procedures benefit from modern 3D CBCT diagnostic imaging, dedicated surgical facilities, and IV sedation administered by consultant anaesthetists for anxious patients.",
+      "The CSI (Cortical-Spongiosa Immediate) implant treatment protocol leverages cortical bone stability combined with biocompatible titanium fixtures, enabling immediate primary stability.",
+      "Whether you require a single implant to replace an isolated tooth or a full-arch rehabilitation, our surgical and prosthodontic team plans every millimeter digitally beforehand."
     ]
   }
 ];

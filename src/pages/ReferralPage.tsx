@@ -97,7 +97,7 @@ export const ReferralPage: React.FC<ReferralPageProps> = ({ onNavigate }) => {
               Dentist <span className="text-[#2BB4A7]">Referral Form</span>
             </h1>
             <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-body">
-              We work collaboratively with dental practitioners across Malta and Europe. When you refer a patient to Dr. Mark Diacono and our multidisciplinary hospital team, we treat them exclusively for the requested procedure and return them to your ongoing care with comprehensive clinical notes.
+              We work collaboratively with dental practitioners across Malta and Europe. When you refer a patient to Dr. Mark Diacono and our multidisciplinary clinical team, we treat them exclusively for the requested procedure and return them to your ongoing care with comprehensive clinical notes.
             </p>
           </div>
         </div>
@@ -428,7 +428,7 @@ export const ReferralPage: React.FC<ReferralPageProps> = ({ onNavigate }) => {
                   Hospital Facilities
                 </h4>
                 <p className="text-xs text-slate-600 leading-relaxed font-body mb-3">
-                  Located inside St. James Hospital, Sliema, our clinic offers immediate access to:
+                  Located inside St James Hospital, Sliema, our clinic offers immediate access to:
                 </p>
                 <ul className="space-y-1.5 text-xs text-slate-600">
                   <li className="flex items-center gap-2">

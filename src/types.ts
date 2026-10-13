@@ -27,13 +27,17 @@ export interface ServiceItem {
 
 export interface FeeItem {
   name: string;
-  price: string;
-  features: string[];
+  description?: string;
+  price?: string;
+  features?: string[];
 }
 
 export interface FeeCategory {
   title: string;
-  description: string;
+  clinician?: string;
+  description?: string;
+  buttonText?: string;
+  treatmentDefault?: string;
   items: FeeItem[];
 }
 
