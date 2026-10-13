@@ -248,7 +248,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#2BB4A7]/15 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
-          {/* STAGE 1 (Initial View at Scroll 0): Only Single Call to Action Button */}
+          {/* STAGE 1 (Initial View at Scroll 0): Only Single Call to Action Button (Centered Bottom) */}
           <motion.div
             style={{
               opacity: initialCtaOpacity,
@@ -256,7 +256,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               scale: initialCtaScale,
               display: initialCtaDisplay
             }}
-            className="absolute z-20 flex flex-col items-center justify-center text-center px-4 max-w-xl mx-auto"
+            className="absolute bottom-12 sm:bottom-16 md:bottom-20 inset-x-0 z-20 flex flex-col items-center justify-center text-center px-4 max-w-xl mx-auto"
           >
             <button
               onClick={() => onOpenBooking()}
@@ -274,7 +274,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   window.scrollTo({ top: targetY, behavior: 'smooth' });
                 }
               }}
-              className="mt-8 flex flex-col items-center gap-2 text-white/80 animate-pulse text-xs tracking-widest uppercase font-semibold cursor-pointer hover:text-white transition-colors"
+              className="mt-4 sm:mt-5 flex flex-col items-center gap-1.5 text-white/80 animate-pulse text-xs tracking-widest uppercase font-semibold cursor-pointer hover:text-white transition-colors"
             >
               <span>Scroll to explore</span>
               <ChevronDown className="w-4 h-4 text-[#2BB4A7] animate-bounce" />
