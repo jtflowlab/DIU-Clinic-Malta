@@ -257,15 +257,16 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
             </div>
 
-            {/* Main Headline Centered */}
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.08] mb-6 font-heading drop-shadow-xl">
-              The Dental Care You Need <br />
-              <span className="text-[#2BB4A7] drop-shadow-xl">Under One Roof.</span>
+            {/* Main Headline Centered - "Smile" in the center */}
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.1] mb-6 font-heading drop-shadow-xl text-center">
+              One Team for Every <br />
+              <span className="text-[#2BB4A7] drop-shadow-xl inline-block my-1">Smile</span> <br />
+              <span className="text-white drop-shadow-xl">Under One Roof.</span>
             </h1>
 
             {/* Reassuring Subtitle */}
             <p className="max-w-2xl text-base sm:text-lg md:text-xl text-slate-200 leading-relaxed font-body mb-8 drop-shadow">
-              Specialist oral surgery, Digital Smile Design, and gentle sedation in a calm hospital setting. One multidisciplinary team for every smile.
+              Specialist oral surgery, Digital Smile Design, and gentle sedation in a calm hospital setting At St James Hospital, Sliema.
             </p>
 
             {/* Action Buttons */}
