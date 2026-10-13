@@ -20,13 +20,17 @@ import {
   VolumeX,
   Play,
   Pause,
-  X
+  X,
+  Plus,
+  Minus,
+  HelpCircle
 } from 'lucide-react';
 import { 
   getAssetUrl, 
   approvedServices, 
   cliniciansList, 
-  bookingTreatmentOptions
+  bookingTreatmentOptions,
+  faqsData
 } from '@/data/clinicData';
 import { Clinician } from '@/types';
 
@@ -46,6 +50,9 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   // Selected bio modal state
   const [selectedBio, setSelectedBio] = useState<Clinician | null>(null);
+
+  // Interactive FAQ Accordion State (first item open by default)
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   // Home Page Direct Form State
   const [homeForm, setHomeForm] = useState({
@@ -67,41 +74,9 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   const heroVideoRef = useRef<HTMLVideoElement>(null);
   const heroSectionRef = useRef<HTMLDivElement>(null);
-  const servicesSectionRef = useRef<HTMLDivElement>(null);
-  const teamSectionRef = useRef<HTMLDivElement>(null);
-  const servicesTrackRef = useRef<HTMLDivElement>(null);
-  const teamTrackRef = useRef<HTMLDivElement>(null);
-
-  const [servicesDistance, setServicesDistance] = useState(1150);
-  const [teamDistance, setTeamDistance] = useState(1400);
 
   // Clinicians for Home: All 9 clinicians (specialists, general, hygienist)
   const homeClinicians = cliniciansList.filter(c => c.category !== 'support');
-
-  useEffect(() => {
-    const updateDistances = () => {
-      if (servicesTrackRef.current) {
-        const parentW = servicesTrackRef.current.parentElement?.clientWidth || window.innerWidth;
-        const totalW = servicesTrackRef.current.scrollWidth;
-        const overflow = Math.max(0, totalW - parentW + 40);
-        setServicesDistance(overflow);
-      }
-      if (teamTrackRef.current) {
-        const parentW = teamTrackRef.current.parentElement?.clientWidth || window.innerWidth;
-        const totalW = teamTrackRef.current.scrollWidth;
-        const overflow = Math.max(0, totalW - parentW + 40);
-        setTeamDistance(overflow);
-      }
-    };
-
-    updateDistances();
-    window.addEventListener('resize', updateDistances);
-    const timer = setTimeout(updateDistances, 400);
-    return () => {
-      window.removeEventListener('resize', updateDistances);
-      clearTimeout(timer);
-    };
-  }, []);
 
   // 1. Full-Bleed Video Hero Scroll-Driven Transformations
   const { scrollYProgress: heroProgress } = useScroll({
@@ -153,28 +128,6 @@ export const HomePage: React.FC<HomePageProps> = ({
     [0.93, 1, 1, 0.96]
   );
   const heroTextDisplay = useTransform(heroProgress, (v) => (v < 0.07 || v > 0.99) ? 'none' : 'flex');
-
-  // 2. Scroll-Driven Horizontal Translation for Clinical Treatments (Track #1)
-  const { scrollYProgress: servicesProgress } = useScroll({
-    target: servicesSectionRef,
-    offset: ["start start", "end end"]
-  });
-  const servicesX = useTransform(servicesProgress, (v) => {
-    if (v <= 0) return 0;
-    if (v >= 0.85) return -servicesDistance;
-    return -(v / 0.85) * servicesDistance;
-  });
-
-  // 3. Scroll-Driven Horizontal Translation for Specialist Doctors & Medical Team (Track #2)
-  const { scrollYProgress: teamProgress } = useScroll({
-    target: teamSectionRef,
-    offset: ["start start", "end end"]
-  });
-  const teamX = useTransform(teamProgress, (v) => {
-    if (v <= 0) return 0;
-    if (v >= 0.85) return -teamDistance;
-    return -(v / 0.85) * teamDistance;
-  });
 
   const toggleVideoPlay = () => {
     if (!heroVideoRef.current) return;
@@ -493,15 +446,14 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 4. OUR DENTAL TREATMENTS (SCROLL-DRIVEN HORIZONTAL TRACK #1 - Worksheet #10, #12) */}
-      <div 
+      {/* 4. OUR DENTAL TREATMENTS (High Contrast Grid) */}
+      <section 
         id="services" 
-        ref={servicesSectionRef} 
-        className="relative lg:h-[240vh] bg-[#F8FAFC] border-b border-slate-200/80"
+        className="py-20 lg:py-28 bg-[#F8FAFC] border-b border-slate-200/80"
       >
-        <div className="lg:sticky lg:top-0 lg:h-screen w-full overflow-hidden flex flex-col justify-center py-20 lg:py-0 px-4 sm:px-8 lg:px-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="max-w-7xl mx-auto w-full mb-8 lg:mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="max-w-7xl mx-auto w-full mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <span className="inline-block px-4 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-widest mb-3">
                 Comprehensive Care
@@ -510,7 +462,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 Our Dental Treatments
               </h2>
               {/* Exact Intro Text Worksheet #10 */}
-              <p className="text-slate-600 text-xs sm:text-sm mt-2 max-w-xl font-body">
+              <p className="text-slate-600 text-sm sm:text-base mt-2 max-w-xl font-body">
                 Specialist and general dentist working as a team, tailoring each treatment to your needs.
               </p>
             </div>
@@ -519,7 +471,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div className="flex items-center gap-3">
               <button
                 onClick={() => onNavigate('/treatments')}
-                className="px-5 py-2.5 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
+                className="px-6 py-3 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer shadow-md hover:scale-102"
               >
                 <span>View all treatments</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -527,132 +479,60 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
           </div>
 
-          {/* Desktop Scroll-Driven Horizontal Translation Track (4 cards only, #12) */}
-          <div className="hidden lg:block w-full overflow-hidden">
-            <motion.div 
-              ref={servicesTrackRef}
-              style={{ x: servicesX }}
-              className="flex gap-6 xl:gap-8 will-change-transform pr-24"
-            >
-              {approvedServices.map((svc) => (
-                <div
-                  key={svc.id}
-                  className="w-[410px] xl:w-[450px] shrink-0 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1.5"
-                >
-                  <div>
-                    <div className="relative aspect-[16/11] overflow-hidden bg-slate-100">
-                      <img
-                        src={getAssetUrl(svc.image)}
-                        alt={svc.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                      <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-[#0E2B4C] text-[10px] font-extrabold uppercase tracking-wider border border-slate-200 shadow-2xs">
-                        [ {svc.num} ]
-                      </div>
-                    </div>
-
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold text-[#0E2B4C] mb-2.5 font-heading group-hover:text-[#2BB4A7] transition-colors leading-snug">
-                        {svc.title}
-                      </h3>
-                      <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5 font-body line-clamp-3">
-                        {svc.summary}
-                      </p>
-
-                      {svc.clinicians && (
-                        <div className="pt-3.5 border-t border-slate-100 space-y-1 mb-2 text-[11px] text-slate-500 font-medium">
-                          {svc.clinicians.map((c, i) => (
-                            <div key={i} className="flex items-center gap-1.5">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#2BB4A7]" />
-                              <span className="truncate">{c}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="p-6 pt-0 flex items-center justify-between">
-                    <button
-                      onClick={() => onNavigate('/treatments')}
-                      className="text-xs font-bold text-[#2BB4A7] hover:text-[#0E2B4C] transition-colors flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 uppercase tracking-wider"
-                    >
-                      <span>Learn more →</span>
-                    </button>
-                    <button
-                      onClick={() => onOpenBooking({ treatment: svc.title })}
-                      className="px-4 py-2 rounded-full bg-slate-50 hover:bg-[#0E2B4C] text-slate-700 hover:text-white text-xs font-bold border border-slate-200 transition-colors cursor-pointer"
-                    >
-                      Enquire
-                    </button>
-                  </div>
-
-                </div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Mobile / Tablet Responsive Horizontal Carousel with Touch Scroll */}
-          <div className="lg:hidden flex gap-5 overflow-x-auto no-scrollbar pb-6 pt-2 scroll-smooth">
+          {/* High Contrast 4-Card Grid - All treatments immediately visible */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8">
             {approvedServices.map((svc) => (
               <div
                 key={svc.id}
-                className="w-[85vw] max-w-[340px] shrink-0 rounded-3xl bg-white border border-slate-200/90 shadow-sm flex flex-col justify-between overflow-hidden"
+                className="rounded-3xl bg-white border-2 border-slate-200/90 hover:border-[#2BB4A7] shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1.5"
               >
                 <div>
+                  {/* High Contrast Gradient Top Accent */}
+                  <div className="h-1.5 w-full bg-gradient-to-r from-[#0E2B4C] via-[#2BB4A7] to-[#0E2B4C]" />
+
                   <div className="relative aspect-[16/11] overflow-hidden bg-slate-100">
                     <img
                       src={getAssetUrl(svc.image)}
                       alt={svc.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                     />
-                    <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-[#0E2B4C] text-[10px] font-extrabold uppercase tracking-wider border border-slate-200 shadow-2xs">
+                    <div className="absolute top-3 left-3 px-3.5 py-1.5 rounded-full bg-[#0E2B4C]/95 backdrop-blur-md text-white text-xs font-black uppercase tracking-wider border border-[#2BB4A7]/50 shadow-md">
                       [ {svc.num} ]
                     </div>
                   </div>
 
-                  <div className="p-5">
-                    <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading leading-snug">
+                  <div className="p-6">
+                    <h3 className="text-xl sm:text-2xl font-bold text-[#0E2B4C] mb-3 font-heading group-hover:text-[#2BB4A7] transition-colors leading-snug">
                       {svc.title}
                     </h3>
-                    <p className="text-slate-600 text-xs leading-relaxed mb-4 font-body line-clamp-3">
+                    <p className="text-slate-700 text-sm sm:text-base leading-relaxed mb-4 font-body">
                       {svc.summary}
                     </p>
-                    {svc.clinicians && (
-                      <div className="pt-3 border-t border-slate-100 space-y-1 mb-2 text-[10px] text-slate-500 font-medium">
-                        {svc.clinicians.map((c, i) => (
-                          <div key={i} className="flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#2BB4A7]" />
-                            <span className="truncate">{c}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
                   </div>
                 </div>
 
-                <div className="p-5 pt-0 flex items-center justify-between">
+                <div className="p-6 pt-0 flex items-center justify-between border-t border-slate-100 mt-2">
                   <button
                     onClick={() => onNavigate('/treatments')}
-                    className="text-xs font-bold text-[#2BB4A7] uppercase tracking-wider"
+                    className="text-xs sm:text-sm font-black text-[#0E2B4C] hover:text-[#2BB4A7] transition-colors flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 uppercase tracking-wider"
                   >
-                    Learn more →
+                    <span>Learn more →</span>
                   </button>
                   <button
                     onClick={() => onOpenBooking({ treatment: svc.title })}
-                    className="px-3.5 py-1.5 rounded-full bg-slate-50 text-slate-700 text-xs font-bold border border-slate-200"
+                    className="px-5 py-2.5 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white text-xs sm:text-sm font-bold transition-all cursor-pointer shadow-sm hover:scale-105"
                   >
                     Enquire
                   </button>
                 </div>
+
               </div>
             ))}
           </div>
 
         </div>
-      </div>
+      </section>
 
       {/* 5. DSD SIGNATURE TREATMENT: BEFORE & AFTER (Worksheet #13, #14) */}
       <section id="dsd-signature" className="py-20 lg:py-28 bg-[#0E2B4C] text-white relative overflow-hidden border-b border-[#07192D]">
@@ -1082,14 +962,13 @@ export const HomePage: React.FC<HomePageProps> = ({
       </section>
 
       {/* 8. OUR DENTISTS AND HYGIENIST (Worksheet #18, #19, #20) */}
-      <div 
+      <section 
         id="our-team" 
-        ref={teamSectionRef} 
-        className="relative lg:h-[280vh] bg-white border-b border-slate-200/80"
+        className="py-20 lg:py-28 bg-white border-b border-slate-200/80"
       >
-        <div className="lg:sticky lg:top-0 lg:h-screen w-full overflow-hidden flex flex-col justify-center py-20 lg:py-0 px-4 sm:px-8 lg:px-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="max-w-7xl mx-auto w-full mb-8 lg:mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <span className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-3">
                 OUR CLINICIANS
@@ -1097,16 +976,16 @@ export const HomePage: React.FC<HomePageProps> = ({
               <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0E2B4C] font-heading">
                 Our dentists <span className="text-[#2BB4A7]">&amp; hygienist</span>
               </h2>
-              <p className="text-slate-600 text-xs sm:text-sm mt-2 max-w-md font-body">
+              <p className="text-slate-600 text-sm sm:text-base mt-2 max-w-md font-body">
                 Specialists and general dentists working side by side, so every treatment is planned by the right person.
               </p>
             </div>
 
             {/* View Full Team link */}
-            <div className="hidden lg:flex items-center gap-3">
+            <div className="flex items-center gap-3">
               <button
                 onClick={() => onNavigate('/team')}
-                className="px-5 py-2.5 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
+                className="px-6 py-3 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer shadow-md hover:scale-102"
               >
                 <span>VIEW FULL TEAM</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -1114,132 +993,74 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
           </div>
 
-          {/* Desktop Scroll-Driven Horizontal Translation Track */}
-          <div className="hidden lg:block w-full overflow-hidden">
-            <motion.div 
-              ref={teamTrackRef}
-              style={{ x: teamX }}
-              className="flex gap-6 xl:gap-8 will-change-transform pr-24"
-            >
-              {homeClinicians.map((person) => (
-                <div
-                  key={person.id}
-                  className="w-[320px] xl:w-[350px] shrink-0 rounded-3xl bg-[#F8FAFC] border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1.5"
-                >
-                  <div>
-                    {/* Centered photo (#18) */}
-                    <div className="relative aspect-[4/4] overflow-hidden bg-slate-200 flex items-center justify-center">
-                      <img
-                        src={getAssetUrl(person.photo)}
-                        alt={person.name}
-                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                    </div>
-
-                    <div className="p-5">
-                      <h3 className="text-lg font-bold text-[#0E2B4C] font-heading group-hover:text-[#2BB4A7] transition-colors leading-snug">
-                        {person.name}
-                      </h3>
-                      <div className="text-[11px] text-slate-500 font-medium mt-0.5 leading-snug line-clamp-2">
-                        {person.qualifications}
-                      </div>
-                      <div className="text-xs font-bold text-[#2BB4A7] mt-2 font-heading">
-                        {person.role}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Read bio button (#18) */}
-                  <div className="p-5 pt-0">
-                    <button
-                      onClick={() => setSelectedBio(person)}
-                      className="w-full py-2.5 rounded-full bg-white hover:bg-[#0E2B4C] text-[#0E2B4C] hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 transition-colors cursor-pointer text-center"
-                    >
-                      Read bio
-                    </button>
-                  </div>
-                </div>
-              ))}
-
-              {/* Final Team Teaser Card (Worksheet #19, #20) */}
-              <div className="w-[320px] xl:w-[350px] shrink-0 rounded-3xl bg-[#0E2B4C] text-white p-7 flex flex-col justify-between shadow-xl">
-                <div>
-                  <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-[#2BB4A7] text-[10px] font-bold uppercase tracking-wider mb-4 border border-white/20">
-                    OUR TEAM
-                  </span>
-                  <h3 className="text-2xl font-bold font-heading mb-3 leading-snug">
-                    Meet the People Behind Your Smile
-                  </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed font-body">
-                    Specialists and general dentists working with a fantastic support team.
-                  </p>
-                </div>
-                <button
-                  onClick={() => onNavigate('/team')}
-                  className="w-full py-3.5 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 hover:scale-102"
-                >
-                  <Users className="w-4 h-4" />
-                  <span>VIEW FULL TEAM</span>
-                </button>
-              </div>
-
-            </motion.div>
-          </div>
-
-          {/* Mobile / Tablet Responsive Horizontal Carousel with Touch Scroll */}
-          <div className="lg:hidden flex gap-5 overflow-x-auto no-scrollbar pb-6 pt-2 scroll-smooth">
+          {/* Clean Responsive Grid - All clinicians visible without horizontal scroll lock */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 xl:gap-8">
             {homeClinicians.map((person) => (
               <div
                 key={person.id}
-                className="w-[78vw] max-w-[280px] shrink-0 rounded-3xl bg-[#F8FAFC] border border-slate-200/90 shadow-sm flex flex-col justify-between overflow-hidden"
+                className="rounded-3xl bg-[#F8FAFC] border-2 border-slate-200/90 hover:border-[#2BB4A7] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1"
               >
                 <div>
+                  {/* Centered photo */}
                   <div className="relative aspect-[4/4] overflow-hidden bg-slate-200 flex items-center justify-center">
                     <img
                       src={getAssetUrl(person.photo)}
                       alt={person.name}
-                      className="w-full h-full object-cover object-center"
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                     />
                   </div>
-                  <div className="p-4">
-                    <h3 className="text-base font-bold text-[#0E2B4C] font-heading leading-snug">
+
+                  <div className="p-5">
+                    <h3 className="text-lg font-bold text-[#0E2B4C] font-heading group-hover:text-[#2BB4A7] transition-colors leading-snug">
                       {person.name}
                     </h3>
-                    <div className="text-[10px] text-slate-500 font-medium mt-0.5 line-clamp-2">
+                    <div className="text-xs text-slate-500 font-medium mt-1 leading-snug line-clamp-2">
                       {person.qualifications}
                     </div>
-                    <div className="text-xs font-bold text-[#2BB4A7] mt-1.5 font-heading">
+                    <div className="text-xs font-bold text-[#2BB4A7] mt-2 font-heading">
                       {person.role}
                     </div>
                   </div>
                 </div>
 
-                <div className="p-4 pt-0">
+                {/* Read bio button */}
+                <div className="p-5 pt-0">
                   <button
                     onClick={() => setSelectedBio(person)}
-                    className="w-full py-2 rounded-full bg-white text-[#0E2B4C] font-bold text-xs border border-slate-200 text-center"
+                    className="w-full py-2.5 rounded-full bg-white hover:bg-[#0E2B4C] text-[#0E2B4C] hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 transition-colors cursor-pointer text-center"
                   >
                     Read bio
                   </button>
                 </div>
               </div>
             ))}
-          </div>
 
-          <div className="mt-8 text-center lg:hidden">
-            <button
-              onClick={() => onNavigate('/team')}
-              className="px-6 py-3 rounded-full bg-[#0E2B4C] text-white font-bold text-xs uppercase tracking-wider inline-flex items-center gap-2"
-            >
-              <span>VIEW FULL TEAM</span>
-              <ArrowRight className="w-4 h-4 text-[#2BB4A7]" />
-            </button>
+            {/* Final Team Teaser Card */}
+            <div className="rounded-3xl bg-[#0E2B4C] text-white p-7 flex flex-col justify-between shadow-xl min-h-[360px]">
+              <div>
+                <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-[#2BB4A7] text-[10px] font-bold uppercase tracking-wider mb-4 border border-white/20">
+                  OUR TEAM
+                </span>
+                <h3 className="text-2xl font-bold font-heading mb-3 leading-snug">
+                  Meet the People Behind Your Smile
+                </h3>
+                <p className="text-sm text-slate-300 leading-relaxed font-body">
+                  Specialists and general dentists working with a fantastic support team.
+                </p>
+              </div>
+              <button
+                onClick={() => onNavigate('/team')}
+                className="w-full py-3.5 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 hover:scale-102"
+              >
+                <Users className="w-4 h-4" />
+                <span>VIEW FULL TEAM</span>
+              </button>
+            </div>
           </div>
 
         </div>
-      </div>
+      </section>
 
       {/* Individual Clinician Biography Modal on Home */}
       {selectedBio && (
@@ -1248,7 +1069,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           onClick={() => setSelectedBio(null)}
         >
           <div 
-            className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative border border-slate-200 my-8"
+            className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative border border-slate-200 my-8 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -1312,70 +1133,117 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       )}
 
-      {/* 9. PATIENT INFORMATION */}
-      <section className="py-20 lg:py-28 bg-[#F8FAFC] border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 9. FREQUENTLY ASKED QUESTIONS (High-Contrast Interactive Section) */}
+      <section id="faq" className="py-20 lg:py-28 bg-[#0B1E36] text-white relative overflow-hidden border-b border-[#07192D]">
+        
+        {/* Ambient glow effects for luxury contrast */}
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#2BB4A7]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
-          <div className="mb-14">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-3">
-              PATIENT INFORMATION
+          {/* Section Header */}
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-500/20 border border-teal-500/30 text-[#2BB4A7] text-xs font-bold uppercase tracking-widest mb-4">
+              <HelpCircle className="w-3.5 h-3.5 text-[#2BB4A7]" />
+              <span>FREQUENTLY ASKED QUESTIONS</span>
             </span>
-            <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0E2B4C] font-heading">
-              Everything you need <span className="text-[#2BB4A7]">before your visit</span>
+            <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white font-heading leading-tight mb-4">
+              Everything You Need <span className="text-[#2BB4A7]">to Know</span>
             </h2>
+            <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-body">
+              Clear answers regarding our treatments, single-visit ceramics, sedation options, fees, and hospital location.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div 
-              onClick={() => onOpenBooking()}
-              className="p-7 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group"
-            >
-              <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading group-hover:text-[#2BB4A7] transition-colors">
-                Your first visit
+          {/* Interactive Accordion List */}
+          <div className="space-y-4 mb-14">
+            {[
+              {
+                q: "Can I get crowns, veneers, or teeth restorations in a single visit?",
+                a: "Yes. With our in-house CEREC CAD/CAM 3D scanning and precision milling unit, we can digitally design, craft, and fit permanent ceramic crowns, onlays, and inlays in about an hour—meaning zero uncomfortable putty impressions and no need for temporary teeth."
+              },
+              {
+                q: "How does IV sedation work for nervous or anxious patients?",
+                a: "We offer conscious Intravenous (IV) sedation administered and continuously monitored by a consultant hospital anaesthetist. You will feel peaceful and completely relaxed throughout treatment, with virtually no memory of the procedure afterwards."
+              },
+              {
+                q: "What are the benefits of being located inside St James Hospital?",
+                a: "Our clinic operates within St James Hospital in Sliema, providing hospital-grade sterility, access to medical imaging (low-dose 3D CBCT scans), multidisciplinary surgical support, and hospital theatre admission if required, with convenient parking nearby at Victoria Hotel."
+              },
+              {
+                q: "What is Digital Smile Design (DSD) and can I preview my smile before treatment?",
+                a: "Digital Smile Design is our signature facially guided aesthetic protocol. We record high-resolution facial dynamics and 3D intraoral scans to create a digital simulation and a physical 3D mock-up you can test drive in your mouth before any permanent treatment begins."
+              },
+              {
+                q: "How transparent are treatment fees and do you work with private health insurance?",
+                a: "We believe in honest, upfront pricing. Every patient receives a comprehensive written treatment plan with transparent costs before treatment begins. We assist with private medical insurance claims in Malta and internationally to help process your claim documentation."
+              },
+              {
+                q: "What should I do in case of a dental emergency or severe toothache?",
+                a: "We reserve priority slots daily for emergencies such as severe toothache, infections, trauma, or broken teeth. You can reach our clinic reception during opening hours at (+356) 2329 1029 or message us on WhatsApp at (+356) 9999 1029. Out of hours, St James Hospital provides 24/7 medical emergency admission."
+              }
+            ].map((faq, idx) => {
+              const isOpen = openFaqIndex === idx;
+              return (
+                <div
+                  key={idx}
+                  className={`rounded-2xl transition-all duration-300 border overflow-hidden ${
+                    isOpen 
+                      ? 'bg-[#132C4A] border-[#2BB4A7]/60 shadow-xl shadow-teal-950/20' 
+                      : 'bg-[#0E243E] border-slate-700/80 hover:border-teal-500/40 hover:bg-[#122a46]'
+                  }`}
+                >
+                  <button
+                    onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
+                    className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 cursor-pointer focus:outline-none"
+                    aria-expanded={isOpen}
+                  >
+                    <span className="text-base sm:text-lg font-bold text-white font-heading leading-snug">
+                      {faq.q}
+                    </span>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${
+                      isOpen ? 'bg-[#2BB4A7] text-[#0E2B4C] rotate-180' : 'bg-white/10 text-[#2BB4A7]'
+                    }`}>
+                      <ChevronDown className="w-4 h-4" />
+                    </div>
+                  </button>
+
+                  {isOpen && (
+                    <div className="px-5 sm:px-6 pb-6 pt-1 text-slate-200 text-sm sm:text-base leading-relaxed font-body border-t border-slate-700/50 mt-1">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Quick Consultation & WhatsApp Reassurance Banner inside FAQ */}
+          <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-[#113155] via-[#153a63] to-[#113155] border border-teal-500/30 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+            <div>
+              <h3 className="text-xl sm:text-2xl font-bold text-white font-heading mb-1.5">
+                Still have questions about your dental care?
               </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
-                What to expect at your first appointment.
+              <p className="text-xs sm:text-sm text-slate-300 max-w-lg">
+                Our patient care team at St James Hospital is always available to assist with treatment options, costs, or urgent appointments.
               </p>
             </div>
-
-            <div 
-              onClick={() => onNavigate('/prices')}
-              className="p-7 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group"
-            >
-              <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading group-hover:text-[#2BB4A7] transition-colors">
-                Fees and insurance
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
-                Let us know if you have insurance.
-              </p>
-            </div>
-
-            <div 
-              onClick={() => onNavigate('/blog')}
-              className="p-7 rounded-3xl bg-white border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group"
-            >
-              <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading group-hover:text-[#2BB4A7] transition-colors">
-                Aftercare
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-body">
-                Looking after your teeth after treatment.
-              </p>
-            </div>
-
-            <div 
-              onClick={onOpenEmergency}
-              className="p-7 rounded-3xl bg-teal-50/50 border border-teal-200/80 shadow-xs hover:shadow-md transition-all cursor-pointer group"
-            >
-              <h3 className="text-lg font-bold text-[#0E2B4C] mb-2 font-heading group-hover:text-[#2BB4A7] transition-colors">
-                Dental emergencies
-              </h3>
-              <p className="text-xs text-slate-700 leading-relaxed font-body mb-2">
-                During opening hours: <strong className="underline text-[#0E2B4C]">2329 1029</strong> <br />
-                WhatsApp: <strong className="underline text-[#0E2B4C]">9999 1029</strong>
-              </p>
-              <p className="text-xs text-slate-600 font-body">
-                Out of hours: <strong className="underline text-[#0E2B4C]">2329 1000</strong>
-              </p>
+            <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
+              <a
+                href="https://wa.me/35699991029?text=Hello%20DiU%20Clinic%2C%20I%20have%20a%20question%20about%20your%20treatments."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md no-underline flex items-center gap-2 hover:scale-105"
+              >
+                <span>Ask on WhatsApp</span>
+              </a>
+              <button
+                onClick={() => onOpenBooking()}
+                className="px-6 py-3.5 rounded-full bg-[#2BB4A7] hover:bg-[#23998e] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer hover:scale-105"
+              >
+                Book Consultation
+              </button>
             </div>
           </div>
 
@@ -1402,29 +1270,41 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
 
               <a
-                href="https://maps.google.com/?q=St+James+Hospital+Sliema+Malta"
+                href="https://www.google.com/maps/search/?api=1&query=Saint+James+Hospital+George+Borg+Olivier+Street+Sliema+Malta"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3 rounded-full bg-[#2BB4A7] hover:bg-[#23998e] text-white font-bold text-xs uppercase tracking-wider transition-colors no-underline flex items-center gap-2 self-start sm:self-auto shrink-0 shadow-xs"
+                className="px-6 py-3 rounded-full bg-[#2BB4A7] hover:bg-[#23998e] text-white font-bold text-xs uppercase tracking-wider transition-colors no-underline flex items-center gap-2 self-start sm:self-auto shrink-0 shadow-xs hover:scale-102"
               >
                 <Navigation className="w-4 h-4" />
                 <span>Get directions in Google Maps ↗</span>
               </a>
             </div>
 
-            {/* Embedded Google Maps */}
-            <div className="w-full h-80 sm:h-96 rounded-2xl overflow-hidden border border-slate-300 shadow-md mb-8 bg-slate-100">
+            {/* Embedded Google Maps with Clickable Direct Link Overlay */}
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Saint+James+Hospital+George+Borg+Olivier+Street+Sliema+Malta"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Open DiU Clinic at Saint James Hospital Sliema on Google Maps"
+              className="relative block w-full h-80 sm:h-96 rounded-2xl overflow-hidden border border-slate-300 shadow-md mb-8 bg-slate-100 group cursor-pointer"
+            >
               <iframe
                 title="DiU Clinic Location at St James Hospital Sliema"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3238.163456209865!2d14.500222!3d35.912639!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x130e4539655f4621%3A0xd677e1919efec5cf!2sSaint%20James%20Hospital%20Sliema!5e0!3m2!1sen!2smt!4v1710000000000!5m2!1sen!2smt"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
-                allowFullScreen={true}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
+                className="w-full h-full pointer-events-none"
               />
-            </div>
+              <div className="absolute inset-0 bg-transparent group-hover:bg-slate-900/10 transition-colors flex items-end justify-end p-4">
+                <span className="px-4 py-2 rounded-full bg-white/95 backdrop-blur-md text-[#0E2B4C] text-xs font-bold uppercase tracking-wider shadow-md border border-slate-200 group-hover:bg-[#2BB4A7] group-hover:text-white transition-all flex items-center gap-2">
+                  <Navigation className="w-3.5 h-3.5" />
+                  <span>Open in Google Maps ↗</span>
+                </span>
+              </div>
+            </a>
 
             {/* 3 Steps Visuals */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

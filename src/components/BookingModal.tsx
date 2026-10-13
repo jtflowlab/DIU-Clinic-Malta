@@ -158,33 +158,33 @@ _Sent via the official portal of DiU Clinic Malta. Please confirm appointment av
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="relative w-full max-w-4xl bg-white border border-slate-200/90 rounded-3xl shadow-2xl p-6 sm:p-10 text-slate-900 my-8 max-h-[92vh] overflow-y-auto"
+        className="relative w-full max-w-4xl bg-white border border-slate-200/90 rounded-3xl shadow-2xl p-5 sm:p-7 text-slate-900 my-4 max-h-[92vh] overflow-y-auto"
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer border border-slate-200 transition-colors"
+          className="absolute top-4 right-4 p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer border border-slate-200 transition-colors"
           aria-label="Close modal"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Modal Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-3">
+        <div className="mb-4">
+          <div className="flex items-center gap-2.5 mb-1.5">
             <img
               src={getAssetUrl('DiU_Logo_Full_Colour.png')}
               alt="DiU Dental & Implantology Unit"
-              className="h-9 w-auto object-contain"
+              className="h-7 sm:h-8 w-auto object-contain"
             />
-            <span className="text-[11px] font-bold uppercase tracking-widest text-[#2BB4A7] px-3 py-1 bg-teal-50 border border-teal-200 rounded-full">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#2BB4A7] px-2.5 py-0.5 bg-teal-50 border border-teal-200 rounded-full">
               APPOINTMENTS
             </span>
           </div>
-          <h3 className="text-2xl sm:text-4xl font-extrabold text-slate-950 font-heading tracking-tight">
+          <h3 className="text-xl sm:text-3xl font-extrabold text-slate-950 font-heading tracking-tight">
             Book a Consultation
           </h3>
-          <p className="text-slate-600 text-sm mt-1 font-body">
+          <p className="text-slate-500 text-xs sm:text-sm mt-0.5 font-body">
             Submit your details directly or connect via our WhatsApp service.
           </p>
         </div>
@@ -194,28 +194,28 @@ _Sent via the official portal of DiU Clinic Malta. Please confirm appointment av
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="p-8 sm:p-10 rounded-2xl bg-[#E8F8F6] border border-[#C5EDE8] text-center"
+            className="p-6 sm:p-8 rounded-2xl bg-[#E8F8F6] border border-[#C5EDE8] text-center"
           >
-            <div className="w-16 h-16 rounded-full bg-[#2BB4A7] text-white flex items-center justify-center mx-auto mb-5 shadow-lg">
-              <CheckCircle2 className="w-8 h-8" />
+            <div className="w-14 h-14 rounded-full bg-[#2BB4A7] text-white flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <CheckCircle2 className="w-7 h-7" />
             </div>
-            <h4 className="text-2xl sm:text-3xl font-bold text-[#0E2B4C] mb-2 font-heading">
+            <h4 className="text-xl sm:text-2xl font-bold text-[#0E2B4C] mb-2 font-heading">
               Appointment Request Received
             </h4>
-            <p className="text-slate-700 text-sm sm:text-base max-w-lg mx-auto mb-6">
+            <p className="text-slate-700 text-xs sm:text-sm max-w-lg mx-auto mb-5">
               Thank you, <strong>{formData.firstName} {formData.lastName}</strong>. Our patient care coordinators at St James Hospital (Sliema) have received your enquiry.
             </p>
 
-            <div className="bg-white p-5 rounded-2xl border border-teal-100 max-w-md mx-auto text-left text-xs space-y-2 mb-6 shadow-sm">
-              <div className="flex justify-between border-b border-slate-100 pb-2">
+            <div className="bg-white p-4 rounded-xl border border-teal-100 max-w-md mx-auto text-left text-xs space-y-2 mb-5 shadow-xs">
+              <div className="flex justify-between border-b border-slate-100 pb-1.5">
                 <span className="text-slate-500 font-medium">Selected Treatment:</span>
                 <span className="font-bold text-[#0E2B4C]">{formData.treatment}</span>
               </div>
-              <div className="flex justify-between border-b border-slate-100 pb-2">
+              <div className="flex justify-between border-b border-slate-100 pb-1.5">
                 <span className="text-slate-500 font-medium">Preferred Contact:</span>
                 <span className="font-bold text-[#0E2B4C]">{formData.contactPreference} ({formData.phone})</span>
               </div>
-              <div className="flex justify-between border-b border-slate-100 pb-2">
+              <div className="flex justify-between border-b border-slate-100 pb-1.5">
                 <span className="text-slate-500 font-medium">Location:</span>
                 <span className="font-bold text-[#0E2B4C]">At St James Hospital, Sliema</span>
               </div>
@@ -228,13 +228,13 @@ _Sent via the official portal of DiU Clinic Malta. Please confirm appointment av
             <div className="flex flex-wrap justify-center gap-3">
               <button
                 onClick={handleSendWhatsApp}
-                className="px-6 py-3 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-sm cursor-pointer"
+                className="px-5 py-2.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-xs cursor-pointer"
               >
                 <span>Also Open in WhatsApp</span>
               </button>
               <button
                 onClick={onClose}
-                className="px-6 py-3 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider cursor-pointer"
+                className="px-5 py-2.5 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-bold text-xs uppercase tracking-wider cursor-pointer"
               >
                 Done / Close
               </button>
@@ -242,15 +242,15 @@ _Sent via the official portal of DiU Clinic Malta. Please confirm appointment av
           </motion.div>
         ) : (
           /* Main Interactive Split Grid */
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             
             {/* Form Left Side */}
-            <form onSubmit={handleDirectSubmit} className="lg:col-span-7 space-y-4">
+            <form onSubmit={handleDirectSubmit} className="lg:col-span-7 space-y-3">
               
               {/* Separate First Name & Last Name */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
                     <User className="w-3.5 h-3.5 text-[#2BB4A7]" />
                     <span>First Name *</span>
                   </label>
@@ -260,11 +260,11 @@ _Sent via the official portal of DiU Clinic Malta. Please confirm appointment av
                     placeholder="e.g. Susanna"
                     value={formData.firstName}
                     onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7] focus:border-transparent"
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-xs sm:text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7] focus:border-transparent"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
                     <User className="w-3.5 h-3.5 text-[#2BB4A7]" />
                     <span>Last Name *</span>
                   </label>
@@ -274,14 +274,14 @@ _Sent via the official portal of DiU Clinic Malta. Please confirm appointment av
                     placeholder="e.g. Diacono"
                     value={formData.lastName}
                     onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7] focus:border-transparent"
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-xs sm:text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7] focus:border-transparent"
                   />
                 </div>
               </div>
 
               {/* Preferred Contact Method */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
                   <MessageSquare className="w-3.5 h-3.5 text-[#2BB4A7]" />
                   <span>How do you prefer to be contacted? *</span>
                 </label>
@@ -291,22 +291,22 @@ _Sent via the official portal of DiU Clinic Malta. Please confirm appointment av
                       key={method}
                       type="button"
                       onClick={() => setFormData({ ...formData, contactPreference: method })}
-                      className={`py-2.5 px-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border text-center ${
+                      className={`py-2 px-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border text-center ${
                         formData.contactPreference === method
                           ? 'bg-[#0E2B4C] text-white border-[#0E2B4C] shadow-xs'
                           : 'bg-slate-50 text-slate-700 border-slate-300 hover:bg-slate-100'
                       }`}
                     >
-                      {method === 'WhatsApp' ? '💬 WhatsApp' : method === 'Call Back' ? '📞 Call Back' : '✉️ Email'}
+                      {method === 'WhatsApp' ? '💬 WhatsApp' : method === 'Call Back' ? '📞 Call' : '✉️ Email'}
                     </button>
                   ))}
                 </div>
               </div>
 
               {/* Phone & Email Inputs */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
                     <Phone className="w-3.5 h-3.5 text-[#2BB4A7]" />
                     <span>Phone Number *</span>
                   </label>
@@ -316,122 +316,122 @@ _Sent via the official portal of DiU Clinic Malta. Please confirm appointment av
                     placeholder="e.g. +356 9999 1029"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7] focus:border-transparent"
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-xs sm:text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7] focus:border-transparent"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
                     <Mail className="w-3.5 h-3.5 text-[#2BB4A7]" />
                     <span>Email (Optional)</span>
                   </label>
                   <input
                     type="email"
-                    placeholder="e.g. appointments@dentalunitmalta.com"
+                    placeholder="e.g. info@email.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7] focus:border-transparent"
+                    className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-xs sm:text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7] focus:border-transparent"
                   />
                 </div>
               </div>
 
-              {/* Treatment Selection with Automatic Preselection matching 10 price categories */}
-              <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                  <Smile className="w-3.5 h-3.5 text-[#2BB4A7]" />
-                  <span>Interested in Treatment *</span>
-                </label>
-                <select
-                  value={formData.treatment}
-                  onChange={(e) => setFormData({ ...formData, treatment: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm font-semibold focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7]"
-                >
-                  {/* If custom preselected treatment passed from card, ensure it is in the list */}
-                  {formData.treatment && !bookingTreatmentOptions.includes(formData.treatment) && (
-                    <option value={formData.treatment}>{formData.treatment}</option>
-                  )}
-                  {bookingTreatmentOptions.map((opt, i) => (
-                    <option key={i} value={opt}>{opt}</option>
-                  ))}
-                </select>
-              </div>
+              {/* Treatment Selection & Urgency in 2-Column Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                    <Smile className="w-3.5 h-3.5 text-[#2BB4A7]" />
+                    <span>Treatment *</span>
+                  </label>
+                  <select
+                    value={formData.treatment}
+                    onChange={(e) => setFormData({ ...formData, treatment: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-xs font-semibold focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7]"
+                  >
+                    {formData.treatment && !bookingTreatmentOptions.includes(formData.treatment) && (
+                      <option value={formData.treatment}>{formData.treatment}</option>
+                    )}
+                    {bookingTreatmentOptions.map((opt, i) => (
+                      <option key={i} value={opt}>{opt}</option>
+                    ))}
+                  </select>
+                </div>
 
-              {/* Timeline / Urgency */}
-              <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-[#2BB4A7]" />
-                  <span>Timeline or Urgency</span>
-                </label>
-                <select
-                  value={formData.urgency}
-                  onChange={(e) => setFormData({ ...formData, urgency: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm font-semibold focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7]"
-                >
-                  <option value="Urgent Dental Emergency (Today / Tomorrow)">🚨 Urgent Dental Emergency (Today / Tomorrow)</option>
-                  <option value="This week (Monday – Friday)">📅 This week (Monday – Friday)</option>
-                  <option value="Next week">🗓️ Next week</option>
-                  <option value="Planning ahead (Within this month)">🔍 Planning ahead (Within this month)</option>
-                </select>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5 text-[#2BB4A7]" />
+                    <span>Urgency</span>
+                  </label>
+                  <select
+                    value={formData.urgency}
+                    onChange={(e) => setFormData({ ...formData, urgency: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-xs font-semibold focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7]"
+                  >
+                    <option value="Urgent Dental Emergency (Today / Tomorrow)">🚨 Urgent Emergency</option>
+                    <option value="This week (Monday – Friday)">📅 This week (Mon–Fri)</option>
+                    <option value="Next week">🗓️ Next week</option>
+                    <option value="Planning ahead (Within this month)">🔍 Planning ahead</option>
+                  </select>
+                </div>
               </div>
 
               {/* Free-text Patient Needs, Concerns or Questions */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
                   <MessageSquare className="w-3.5 h-3.5 text-[#2BB4A7]" />
-                  <span>Your Needs, Concerns or Questions (Optional)</span>
+                  <span>Notes / Questions (Optional)</span>
                 </label>
                 <textarea
-                  rows={3}
-                  placeholder="Explain any specific symptoms, anxiety concerns, or what you'd like to achieve with your consultation..."
+                  rows={2}
+                  placeholder="Explain any specific symptoms, anxiety concerns, or questions..."
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7] focus:border-transparent font-body resize-y"
+                  className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-xs sm:text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#2BB4A7] focus:border-transparent font-body resize-y"
                 />
               </div>
 
               {/* Terms and Conditions Checkbox */}
-              <div className="pt-1">
-                <label className="flex items-start gap-2.5 cursor-pointer select-none">
+              <div>
+                <label className="flex items-start gap-2 cursor-pointer select-none">
                   <input
                     type="checkbox"
                     checked={acceptedTerms}
                     onChange={(e) => setAcceptedTerms(e.target.checked)}
                     className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#2BB4A7] focus:ring-[#2BB4A7] cursor-pointer shrink-0"
                   />
-                  <span className="text-xs text-slate-600 leading-snug">
-                    I accept the <strong className="text-[#0E2B4C] underline">Terms &amp; Conditions</strong> and consent to DiU Clinic processing my details for appointment arrangement.
+                  <span className="text-[11px] text-slate-600 leading-snug">
+                    I accept the <strong className="text-[#0E2B4C] underline">Terms &amp; Conditions</strong> and consent to DiU Clinic processing my details.
                   </span>
                 </label>
               </div>
 
               {/* Validation Warning */}
               {formValidationWarning && (
-                <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold flex items-center gap-2">
+                <div className="p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold flex items-center gap-2">
                   <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
                   <span>{formValidationWarning}</span>
                 </div>
               )}
 
               {/* Action Buttons: Form Submit (Direct) + WhatsApp */}
-              <div className="pt-2 flex flex-col sm:flex-row gap-3">
+              <div className="pt-1 flex flex-col sm:flex-row gap-2.5">
                 <button
                   type="submit"
-                  className="flex-1 py-3.5 px-6 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-extrabold text-xs uppercase tracking-wider transition-all duration-200 shadow-md flex items-center justify-center gap-2 cursor-pointer border border-[#0E2B4C]"
+                  className="flex-1 py-3 px-5 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-extrabold text-xs uppercase tracking-wider transition-all duration-200 shadow-md flex items-center justify-center gap-2 cursor-pointer border border-[#0E2B4C]"
                 >
                   <Calendar className="w-4 h-4 text-[#2BB4A7]" />
-                  <span>Submit Appointment Request</span>
+                  <span>Submit Request</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={handleSendWhatsApp}
-                  className="py-3.5 px-6 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs uppercase tracking-wider transition-all duration-200 shadow-md flex items-center justify-center gap-2 cursor-pointer border border-emerald-600/30"
+                  className="py-3 px-5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs uppercase tracking-wider transition-all duration-200 shadow-md flex items-center justify-center gap-2 cursor-pointer border border-emerald-600/30"
                 >
                   <Send className="w-4 h-4 text-slate-950" />
                   <span>Send via WhatsApp</span>
                 </button>
               </div>
 
-              <div className="flex items-center justify-between pt-1">
+              <div className="flex items-center justify-between pt-0.5">
                 <span className="text-[11px] text-slate-500">
                   Prefer to copy your message?
                 </span>
@@ -441,7 +441,7 @@ _Sent via the official portal of DiU Clinic Malta. Please confirm appointment av
                   className="text-[11px] font-bold text-[#0E2B4C] hover:text-[#2BB4A7] underline flex items-center gap-1 cursor-pointer bg-transparent border-none"
                 >
                   {copySuccess ? <CheckCheck className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{copySuccess ? 'Copied to Clipboard!' : 'Copy Text'}</span>
+                  <span>{copySuccess ? 'Copied!' : 'Copy Text'}</span>
                 </button>
               </div>
 
@@ -449,19 +449,19 @@ _Sent via the official portal of DiU Clinic Malta. Please confirm appointment av
 
             {/* Right Side Live Phone Preview */}
             <div className="lg:col-span-5 hidden sm:block">
-              <div className="bg-slate-900 rounded-3xl p-4 shadow-2xl border-2 border-slate-800 text-white relative">
+              <div className="bg-slate-900 rounded-3xl p-3.5 shadow-xl border-2 border-slate-800 text-white relative">
                 
                 {/* Phone Notch */}
-                <div className="flex items-center justify-between pb-3 border-b border-slate-800 text-[11px] text-slate-400">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-800 text-[10px] text-slate-400">
                   <span>09:41</span>
-                  <div className="w-16 h-3 bg-black rounded-full mx-auto" />
+                  <div className="w-14 h-2.5 bg-black rounded-full mx-auto" />
                   <span>5G 🔋</span>
                 </div>
 
                 {/* WhatsApp Bar */}
-                <div className="flex items-center gap-3 py-3 border-b border-slate-800">
-                  <div className="w-8 h-8 rounded-full bg-[#0E2B4C] flex items-center justify-center text-[#2BB4A7] border border-[#2BB4A7]/40">
-                    <span className="text-xs font-bold">DiU</span>
+                <div className="flex items-center gap-2.5 py-2.5 border-b border-slate-800">
+                  <div className="w-7 h-7 rounded-full bg-[#0E2B4C] flex items-center justify-center text-[#2BB4A7] border border-[#2BB4A7]/40 text-xs font-bold">
+                    DiU
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-xs font-bold text-white truncate flex items-center gap-1">
@@ -476,18 +476,18 @@ _Sent via the official portal of DiU Clinic Malta. Please confirm appointment av
                 </div>
 
                 {/* Message Bubble */}
-                <div className="py-4 min-h-[240px] flex flex-col justify-end">
-                  <div className="bg-[#005c4b] text-white p-3.5 rounded-2xl text-xs leading-relaxed shadow-md border border-emerald-600/40 font-mono">
-                    <div className="text-[11px] font-bold text-emerald-200 mb-1">
+                <div className="py-3 min-h-[170px] flex flex-col justify-end">
+                  <div className="bg-[#005c4b] text-white p-3 rounded-xl text-xs leading-relaxed shadow-md border border-emerald-600/40 font-mono">
+                    <div className="text-[10px] font-bold text-emerald-200 mb-1">
                       👋 CLINICAL APPOINTMENT REQUEST
                     </div>
-                    <div>👤 <strong>Patient:</strong> {`${formData.firstName} ${formData.lastName}`.trim() || '[Your Name]'}</div>
-                    <div>📱 <strong>Phone:</strong> {formData.phone.trim() || '[Your Phone]'}</div>
-                    <div>🔔 <strong>Preferred Contact:</strong> {formData.contactPreference}</div>
-                    <div>🏛️ <strong>Location:</strong> At St James Hospital, Sliema</div>
-                    <div>🦷 <strong>Treatment:</strong> {formData.treatment}</div>
-                    <div>⏰ <strong>Timeline:</strong> {formData.urgency}</div>
-                    <div className="text-right text-[9px] text-emerald-300 mt-2">
+                    <div className="text-[11px] truncate">👤 <strong>Patient:</strong> {`${formData.firstName} ${formData.lastName}`.trim() || '[Your Name]'}</div>
+                    <div className="text-[11px] truncate">📱 <strong>Phone:</strong> {formData.phone.trim() || '[Your Phone]'}</div>
+                    <div className="text-[11px] truncate">🔔 <strong>Contact:</strong> {formData.contactPreference}</div>
+                    <div className="text-[11px] truncate">🏛️ <strong>At St James Hospital</strong></div>
+                    <div className="text-[11px] truncate">🦷 <strong>Treatment:</strong> {formData.treatment}</div>
+                    <div className="text-[11px] truncate">⏰ <strong>Timeline:</strong> {formData.urgency}</div>
+                    <div className="text-right text-[9px] text-emerald-300 mt-1">
                       Now ✓✓
                     </div>
                   </div>
