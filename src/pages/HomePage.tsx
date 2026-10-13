@@ -8,6 +8,7 @@ import {
   Smile, 
   CheckCircle2, 
   ChevronRight, 
+  ChevronDown,
   AlertCircle,
   Navigation,
   Check,
@@ -102,15 +103,56 @@ export const HomePage: React.FC<HomePageProps> = ({
     };
   }, []);
 
-  // 1. Hero Scroll Downscaling Dock
+  // 1. Full-Bleed Video Hero Scroll-Driven Transformations
   const { scrollYProgress: heroProgress } = useScroll({
     target: heroSectionRef,
-    offset: ["start start", "end start"]
+    offset: ["start start", "end end"]
   });
-  const heroScale = useTransform(heroProgress, [0, 0.85], [1, 0.93]);
-  const heroRadius = useTransform(heroProgress, [0, 0.85], ["0px", "28px"]);
-  const heroContentY = useTransform(heroProgress, [0, 0.7], [0, -35]);
-  const heroContentOpacity = useTransform(heroProgress, [0, 0.75], [1, 0.45]);
+
+  // Background Video Blur (smooth cinematic blur)
+  const heroVideoBlur = useTransform(
+    heroProgress,
+    [0, 0.35],
+    ["blur(0px)", "blur(16px)"]
+  );
+
+  // Background Video Scale (avoids blurred edge artifacts)
+  const heroVideoScale = useTransform(
+    heroProgress,
+    [0, 0.35],
+    [1, 1.08]
+  );
+
+  // Background Darkening Overlay for maximum typography readability
+  const heroOverlayOpacity = useTransform(
+    heroProgress,
+    [0, 0.35],
+    [0.2, 0.65]
+  );
+
+  // Stage 1: Initial State (Only CTA button "Book an appointment" visible at start)
+  const initialCtaOpacity = useTransform(heroProgress, [0, 0.08], [1, 0]);
+  const initialCtaY = useTransform(heroProgress, [0, 0.08], [0, -20]);
+  const initialCtaScale = useTransform(heroProgress, [0, 0.08], [1, 0.92]);
+  const initialCtaDisplay = useTransform(heroProgress, (v) => v > 0.09 ? 'none' : 'flex');
+
+  // Stage 2: Hero letters appear smoothly in center as user scrolls
+  const heroTextOpacity = useTransform(
+    heroProgress,
+    [0.08, 0.28, 0.8, 0.98],
+    [0, 1, 1, 0]
+  );
+  const heroTextY = useTransform(
+    heroProgress,
+    [0.08, 0.28, 0.8, 1],
+    [40, 0, 0, -60]
+  );
+  const heroTextScale = useTransform(
+    heroProgress,
+    [0.08, 0.28, 0.85, 1],
+    [0.93, 1, 1, 0.96]
+  );
+  const heroTextDisplay = useTransform(heroProgress, (v) => (v < 0.07 || v > 0.99) ? 'none' : 'flex');
 
   // 2. Scroll-Driven Horizontal Translation for Clinical Treatments (Track #1)
   const { scrollYProgress: servicesProgress } = useScroll({
@@ -168,164 +210,163 @@ export const HomePage: React.FC<HomePageProps> = ({
   return (
     <div className="bg-[#F8FAFC] text-slate-900 font-body">
 
-      {/* 1. HERO SECTION: 2-COLUMN SPLIT */}
+      {/* 1. HERO SECTION: FULL-BLEED VIDEO WITH SCROLL-REVEAL TEXT */}
       <div 
         id="hero" 
         ref={heroSectionRef} 
-        className="relative w-full min-h-[92vh] lg:h-[135vh] bg-[#F8FAFC]"
+        className="relative w-full h-[220vh] bg-[#07192D]"
       >
-        <div className="lg:sticky lg:top-0 lg:h-screen w-full overflow-hidden flex items-center justify-center p-0">
+        <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
           
+          {/* Background Video Layer with Smooth Cinematic Blur on Scroll */}
           <motion.div 
             style={{ 
-              scale: heroScale,
-              borderRadius: heroRadius
+              filter: heroVideoBlur,
+              scale: heroVideoScale
             }}
-            className="relative w-full h-full overflow-hidden shadow-2xl bg-gradient-to-br from-[#07192D] via-[#0E2B4C] to-[#133A63] will-change-transform flex items-center"
+            className="absolute inset-0 w-full h-full overflow-hidden will-change-[filter,transform]"
           >
-            {/* Ambient lights */}
-            <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#2BB4A7]/10 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute bottom-0 left-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
-
-            {/* Content Container (2-Column Grid) */}
-            <motion.div 
-              style={{ y: heroContentY, opacity: heroContentOpacity }}
-              className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 sm:py-20 lg:py-0"
-            >
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-                
-                {/* Left Column: Headline, DSD Gold Badge, CTAs */}
-                <div className="lg:col-span-7">
-                  
-                  {/* Location & DSD Highlights (Worksheet #4: LOCATED @ ST JAMES HOSPITAL, SLIEMA) */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                    className="flex flex-wrap items-center gap-2.5 mb-6"
-                  >
-                    <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/60 text-[#0E2B4C] text-[11px] font-bold uppercase tracking-widest shadow-sm">
-                      <span className="w-2 h-2 rounded-full bg-[#2BB4A7] animate-pulse" />
-                      <span>LOCATED @ ST JAMES HOSPITAL, SLIEMA</span>
-                    </div>
-
-                    <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-amber-400/25 to-amber-500/20 border border-amber-300/50 text-amber-200 text-[11px] font-bold uppercase tracking-widest shadow-sm backdrop-blur-md">
-                      <span className="text-amber-300">★</span>
-                      <span>Digital Smile Design Signature Centre</span>
-                    </div>
-                  </motion.div>
-
-                  {/* Main Headline */}
-                  <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight text-white leading-[1.06] mb-8 font-heading drop-shadow-md"
-                  >
-                    The Dental Care You Need <br />
-                    <span className="text-[#2BB4A7] drop-shadow-md">Under One Roof.</span>
-                  </motion.h1>
-
-                  {/* Action Buttons */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    className="flex flex-wrap items-center gap-3.5 mb-7"
-                  >
-                    <button
-                      onClick={() => onOpenBooking()}
-                      className="px-7 sm:px-8 py-3.5 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-lg cursor-pointer border border-[#2BB4A7] hover:scale-105 active:scale-95"
-                    >
-                      Book a consultation
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        const el = document.getElementById('dsd-signature');
-                        if (el) {
-                          el.scrollIntoView({ behavior: 'smooth' });
-                        } else {
-                          onOpenBooking({ treatment: 'Digital Smile Design' });
-                        }
-                      }}
-                      className="px-7 sm:px-8 py-3.5 rounded-full bg-amber-400/20 hover:bg-amber-400/30 text-amber-100 font-bold text-xs uppercase tracking-wider transition-all duration-200 border border-amber-400/50 cursor-pointer shadow-md backdrop-blur-md hover:scale-105 active:scale-95 flex items-center gap-2"
-                    >
-                      <span>Experience the Test Drive of Your Future Smile</span>
-                      <span>→</span>
-                    </button>
-                  </motion.div>
-
-                  {/* Sedation Hospital Notice */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 p-4 flex items-start gap-3.5 text-slate-200 shadow-lg max-w-lg"
-                  >
-                    <div className="w-8 h-8 rounded-full bg-[#2BB4A7]/20 border border-[#2BB4A7]/40 flex items-center justify-center shrink-0 mt-0.5 text-[#2BB4A7]">
-                      <Smile className="w-4 h-4 text-[#2BB4A7]" />
-                    </div>
-                    <div className="text-xs leading-relaxed text-slate-200">
-                      <strong className="text-white font-bold">Nervous about the dentist?</strong> All our treatments are available under sedation, with a consultant anaesthetist, in a calm clinical setting.
-                    </div>
-                  </motion.div>
-
-                </div>
-
-                {/* Right Column: Video Player */}
-                <div className="lg:col-span-5">
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
-                    className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/20 aspect-[16/11] sm:aspect-[4/3] lg:aspect-[4/3] bg-slate-900 group"
-                  >
-                    <video
-                      ref={heroVideoRef}
-                      src={getAssetUrl('video_hero_optimized.mp4')}
-                      poster={getAssetUrl('hero_poster_4k.jpg')}
-                      autoPlay
-                      muted={isVideoMuted}
-                      playsInline
-                      loop
-                      className="w-full h-full object-cover object-center"
-                    />
-
-                    {/* Gradient Rim */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent pointer-events-none" />
-
-                    {/* Top Tag */}
-                    <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-[#2BB4A7] animate-pulse" />
-                      <span>At St James Hospital</span>
-                    </div>
-
-                    {/* Media Controls */}
-                    <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2">
-                      <button
-                        onClick={toggleVideoPlay}
-                        className="p-2.5 rounded-full bg-white/90 hover:bg-white text-[#0E2B4C] shadow-lg backdrop-blur-md cursor-pointer border border-white/50 transition-transform hover:scale-110 active:scale-95"
-                        aria-label={isVideoPlaying ? "Pause video" : "Play video"}
-                      >
-                        {isVideoPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 ml-0.5" />}
-                      </button>
-                      <button
-                        onClick={toggleVideoMute}
-                        className="p-2.5 rounded-full bg-white/90 hover:bg-white text-[#0E2B4C] shadow-lg backdrop-blur-md cursor-pointer border border-white/50 transition-transform hover:scale-110 active:scale-95"
-                        aria-label={isVideoMuted ? "Unmute video" : "Mute video"}
-                      >
-                        {isVideoMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
-                      </button>
-                    </div>
-
-                  </motion.div>
-                </div>
-
-              </div>
-            </motion.div>
-
+            <video
+              ref={heroVideoRef}
+              src={getAssetUrl('video_hero_optimized.mp4')}
+              poster={getAssetUrl('hero_poster_4k.jpg')}
+              autoPlay
+              muted={isVideoMuted}
+              playsInline
+              loop
+              className="w-full h-full object-cover object-center"
+            />
           </motion.div>
+
+          {/* Dynamic Darkness Overlay */}
+          <motion.div 
+            style={{ opacity: heroOverlayOpacity }}
+            className="absolute inset-0 bg-slate-950 pointer-events-none will-change-[opacity]"
+          />
+
+          {/* Ambient Lighting Accents */}
+          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#2BB4A7]/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+
+          {/* STAGE 1 (Initial View at Scroll 0): Only Single Call to Action Button */}
+          <motion.div
+            style={{
+              opacity: initialCtaOpacity,
+              y: initialCtaY,
+              scale: initialCtaScale,
+              display: initialCtaDisplay
+            }}
+            className="absolute z-20 flex flex-col items-center justify-center text-center px-4 max-w-xl mx-auto"
+          >
+            <button
+              onClick={() => onOpenBooking()}
+              className="px-8 sm:px-11 py-4 sm:py-5 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-extrabold text-sm sm:text-base uppercase tracking-wider transition-all duration-300 shadow-[0_12px_40px_rgba(43,180,167,0.55)] cursor-pointer border border-white/40 hover:scale-105 active:scale-95 flex items-center gap-3 backdrop-blur-md"
+            >
+              <Calendar className="w-5 h-5 text-white" />
+              <span>Book an appointment</span>
+            </button>
+
+            {/* Subtle Scroll Hint */}
+            <div 
+              onClick={() => {
+                if (heroSectionRef.current) {
+                  const targetY = heroSectionRef.current.offsetTop + window.innerHeight * 0.65;
+                  window.scrollTo({ top: targetY, behavior: 'smooth' });
+                }
+              }}
+              className="mt-8 flex flex-col items-center gap-2 text-white/80 animate-pulse text-xs tracking-widest uppercase font-semibold cursor-pointer hover:text-white transition-colors"
+            >
+              <span>Scroll to explore</span>
+              <ChevronDown className="w-4 h-4 text-[#2BB4A7] animate-bounce" />
+            </div>
+          </motion.div>
+
+          {/* STAGE 2 (Scroll Reveal): Hero letters appear in center when user scrolls */}
+          <motion.div
+            style={{
+              opacity: heroTextOpacity,
+              y: heroTextY,
+              scale: heroTextScale,
+              display: heroTextDisplay
+            }}
+            className="absolute z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center"
+          >
+            {/* Location & DSD Badges */}
+            <div className="flex flex-wrap items-center justify-center gap-2.5 mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/60 text-[#0E2B4C] text-[11px] font-bold uppercase tracking-widest shadow-sm">
+                <span className="w-2 h-2 rounded-full bg-[#2BB4A7] animate-pulse" />
+                <span>LOCATED @ ST JAMES HOSPITAL, SLIEMA</span>
+              </div>
+
+              <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/25 via-amber-400/30 to-amber-500/25 border border-amber-300/60 text-amber-200 text-[11px] font-bold uppercase tracking-widest shadow-sm backdrop-blur-md">
+                <span className="text-amber-300">★</span>
+                <span>Digital Smile Design Signature Centre</span>
+              </div>
+            </div>
+
+            {/* Main Headline Centered */}
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.08] mb-6 font-heading drop-shadow-xl">
+              The Dental Care You Need <br />
+              <span className="text-[#2BB4A7] drop-shadow-xl">Under One Roof.</span>
+            </h1>
+
+            {/* Reassuring Subtitle */}
+            <p className="max-w-2xl text-base sm:text-lg md:text-xl text-slate-200 leading-relaxed font-body mb-8 drop-shadow">
+              Specialist oral surgery, Digital Smile Design, and gentle sedation in a calm hospital setting. One multidisciplinary team for every smile.
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center justify-center gap-3.5 mb-6">
+              <button
+                onClick={() => onOpenBooking()}
+                className="px-8 sm:px-9 py-4 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-xl cursor-pointer border border-[#2BB4A7] hover:scale-105 active:scale-95"
+              >
+                Book a consultation
+              </button>
+
+              <button
+                onClick={() => {
+                  const el = document.getElementById('dsd-signature');
+                  if (el) {
+                    el.scrollIntoView({ behavior: 'smooth' });
+                  } else {
+                    onOpenBooking({ treatment: 'Digital Smile Design' });
+                  }
+                }}
+                className="px-7 sm:px-8 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 border border-white/30 cursor-pointer shadow-lg backdrop-blur-md hover:scale-105 active:scale-95 flex items-center gap-2"
+              >
+                <span>Experience Your Future Smile</span>
+                <span>→</span>
+              </button>
+            </div>
+
+            {/* Sedation Hospital Notice */}
+            <div className="rounded-full bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2.5 flex items-center gap-2.5 text-slate-200 text-xs shadow-md">
+              <Smile className="w-4 h-4 text-[#2BB4A7] shrink-0" />
+              <span>
+                <strong className="text-white font-semibold">Nervous about the dentist?</strong> All treatments available under sedation with a Consultant Anaesthetist.
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Discreet Media Controls (Bottom Right) */}
+          <div className="absolute bottom-6 right-6 z-30 flex items-center gap-2">
+            <button
+              onClick={toggleVideoPlay}
+              className="p-2.5 rounded-full bg-white/80 hover:bg-white text-[#0E2B4C] shadow-lg backdrop-blur-md cursor-pointer border border-white/50 transition-transform hover:scale-110 active:scale-95"
+              aria-label={isVideoPlaying ? "Pause video" : "Play video"}
+            >
+              {isVideoPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 ml-0.5" />}
+            </button>
+            <button
+              onClick={toggleVideoMute}
+              className="p-2.5 rounded-full bg-white/80 hover:bg-white text-[#0E2B4C] shadow-lg backdrop-blur-md cursor-pointer border border-white/50 transition-transform hover:scale-110 active:scale-95"
+              aria-label={isVideoMuted ? "Unmute video" : "Mute video"}
+            >
+              {isVideoMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+            </button>
+          </div>
+
         </div>
       </div>
 
@@ -990,8 +1031,8 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div className="lg:col-span-6">
               <div className="rounded-3xl overflow-hidden shadow-xl border border-slate-200 bg-slate-100 relative aspect-[4/3] sm:aspect-[16/11]">
                 <img
-                  src={getAssetUrl('clinic/explaining_treatment_to_pt.jpg')}
-                  alt="Doctor explaining treatment gently and reassuringly to patient"
+                  src={getAssetUrl('clinic/dr_mark_explaining_treatment_female_pt.jpg')}
+                  alt="Dr. Mark Diacono explaining treatment plan gently and reassuringly to patient"
                   className="w-full h-full object-cover"
                 />
               </div>
