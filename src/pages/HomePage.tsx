@@ -55,6 +55,9 @@ export const HomePage: React.FC<HomePageProps> = ({
   // Interactive FAQ Accordion State (first item open by default)
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
+  // Interactive DSD Before & After Slider State
+  const [dsdSliderPos, setDsdSliderPos] = useState<number>(50);
+
   // Home Page Direct Form State
   const [homeForm, setHomeForm] = useState({
     firstName: '',
@@ -665,54 +668,75 @@ export const HomePage: React.FC<HomePageProps> = ({
               </button>
             </div>
 
-            {/* Right Column: Clean Side-by-Side Before & After Presentation */}
+            {/* Right Column: Interactive Before & After Hover & Drag Presentation */}
             <div className="lg:col-span-7 flex flex-col justify-center">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                
-                {/* BEFORE Image Card */}
-                <div className="bg-white/5 border border-white/15 rounded-2xl p-4 overflow-hidden flex flex-col justify-between shadow-xl">
-                  <div className="relative rounded-xl overflow-hidden aspect-square max-h-[42vh] mb-3 bg-slate-900 border border-white/10">
-                    <img
-                      src={getAssetUrl('clinic/dsd_patient_before.jpg')}
-                      alt="Before: Patient initial smile presentation"
-                      className="w-full h-full object-cover object-top"
-                    />
-                    <div className="absolute top-2.5 left-2.5 px-3 py-1 rounded-full bg-slate-900/85 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider border border-white/20">
-                      Before
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold text-white font-heading">
-                      Before: Initial Presentation
-                    </h3>
-                    <p className="text-[11px] text-slate-300 leading-snug font-body mt-1">
-                      Initial tooth wear, spacing and alignment prior to clinical planning.
-                    </p>
+              <div 
+                className="relative rounded-3xl overflow-hidden aspect-[4/3] sm:aspect-[16/11] lg:aspect-[4/3] max-h-[50vh] bg-slate-950 border-2 border-white/20 shadow-2xl select-none cursor-ew-resize group"
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
+                  setDsdSliderPos((x / rect.width) * 100);
+                }}
+                onTouchMove={(e) => {
+                  if (!e.touches[0]) return;
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = Math.max(0, Math.min(rect.width, e.touches[0].clientX - rect.left));
+                  setDsdSliderPos((x / rect.width) * 100);
+                }}
+              >
+                {/* AFTER Image (Full Base Layer) */}
+                <img
+                  src={getAssetUrl('clinic/dsd_patient_after.jpg')}
+                  alt="After: Radiant transformed result via smile design"
+                  className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+                />
+
+                {/* BEFORE Image (Clipped Overlay Layer) */}
+                <div 
+                  className="absolute inset-0 pointer-events-none"
+                  style={{ clipPath: `inset(0 ${100 - dsdSliderPos}% 0 0)` }}
+                >
+                  <img
+                    src={getAssetUrl('clinic/dsd_patient_before.jpg')}
+                    alt="Before: Patient initial smile presentation"
+                    className="absolute inset-0 w-full h-full object-cover object-top"
+                  />
+                </div>
+
+                {/* Interactive Vertical Divider Line with Glow */}
+                <div 
+                  className="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_18px_rgba(255,255,255,0.95)] z-20 pointer-events-none"
+                  style={{ left: `${dsdSliderPos}%` }}
+                >
+                  {/* Floating Controller Handle */}
+                  <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-11 h-11 rounded-full bg-white text-[#0E2B4C] shadow-2xl flex items-center justify-center font-black text-xs border-2 border-[#2BB4A7] transition-transform group-hover:scale-110">
+                    <span className="tracking-tighter">◀ ▶</span>
                   </div>
                 </div>
 
-                {/* AFTER Image Card */}
-                <div className="bg-gradient-to-br from-amber-500/10 via-white/5 to-[#2BB4A7]/10 border-2 border-amber-400/40 rounded-2xl p-4 overflow-hidden flex flex-col justify-between shadow-2xl">
-                  <div className="relative rounded-xl overflow-hidden aspect-square max-h-[42vh] mb-3 bg-slate-900 border border-amber-400/30">
-                    <img
-                      src={getAssetUrl('clinic/dsd_patient_after.jpg')}
-                      alt="After: Radiant transformed result via smile design"
-                      className="w-full h-full object-cover object-center"
-                    />
-                    <div className="absolute top-2.5 left-2.5 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-[10px] font-black uppercase tracking-wider shadow">
-                      ★ After Result
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold text-amber-200 font-heading">
-                      After: Restored Harmony
-                    </h3>
-                    <p className="text-[11px] text-slate-300 leading-snug font-body mt-1">
-                      Natural aesthetic reconstruction harmonised with facial proportions.
-                    </p>
-                  </div>
+                {/* Floating Badges */}
+                <div className="absolute top-3 sm:top-4 left-3 sm:left-4 z-20 px-3.5 py-1.5 rounded-full bg-slate-950/80 backdrop-blur-md text-white text-[10px] sm:text-xs font-bold uppercase tracking-wider border border-white/20 pointer-events-none shadow-md">
+                  Before
+                </div>
+                <div className="absolute top-3 sm:top-4 right-3 sm:right-4 z-20 px-3.5 py-1.5 rounded-full bg-amber-400 text-slate-950 text-[10px] sm:text-xs font-black uppercase tracking-wider border border-amber-300 pointer-events-none shadow-lg">
+                  ★ After Result
                 </div>
 
+                {/* Micro Hint at Bottom */}
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 px-4 py-1 rounded-full bg-slate-950/80 backdrop-blur-md text-slate-200 text-[10px] sm:text-xs font-medium tracking-wide border border-white/15 pointer-events-none shadow">
+                  Move mouse or drag to compare Before &amp; After
+                </div>
+
+                {/* Invisible input range for touch drag and accessibility */}
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={dsdSliderPos}
+                  onChange={(e) => setDsdSliderPos(Number(e.target.value))}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30"
+                  aria-label="Interactive before and after comparison"
+                />
               </div>
             </div>
 
