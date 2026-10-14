@@ -699,7 +699,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   <img
                     src={getAssetUrl('clinic/dsd_patient_before.jpg')}
                     alt="Before: Patient initial smile presentation"
-                    className="absolute inset-0 w-full h-full object-cover object-top"
+                    className="absolute inset-0 w-full h-full object-cover object-center"
                   />
                 </div>
 
