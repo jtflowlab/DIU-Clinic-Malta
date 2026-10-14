@@ -69,9 +69,6 @@ export const HomePage: React.FC<HomePageProps> = ({
   const [homeFormSuccess, setHomeFormSuccess] = useState(false);
   const [homeFormError, setHomeFormError] = useState<string | null>(null);
 
-  // Digital Smile Design Before & After comparison state
-  const [dsdSliderPos, setDsdSliderPos] = useState(50);
-  const [dsdActiveTab, setDsdActiveTab] = useState<'slider' | 'book'>('slider');
 
   const heroVideoRef = useRef<HTMLVideoElement>(null);
   const heroSectionRef = useRef<HTMLDivElement>(null);
@@ -658,219 +655,96 @@ export const HomePage: React.FC<HomePageProps> = ({
                 Digital Smile Design (DSD) uses 3D facial scanning and computer modeling to engineer restorations that harmonise with your natural facial proportions. Preview and test-drive your new smile before treatment ever begins.
               </p>
 
-              {/* View Mode Switcher */}
-              <div className="inline-flex items-center p-1 rounded-full bg-white/10 border border-white/20 mb-4 backdrop-blur-md w-fit">
-                <button
-                  onClick={() => setDsdActiveTab('slider')}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                    dsdActiveTab === 'slider' 
-                      ? 'bg-[#2BB4A7] text-white shadow-md' 
-                      : 'text-slate-300 hover:text-white'
-                  }`}
-                >
-                  Wipe Slider
-                </button>
-                <button
-                  onClick={() => setDsdActiveTab('book')}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                    dsdActiveTab === 'book' 
-                      ? 'bg-[#2BB4A7] text-white shadow-md' 
-                      : 'text-slate-300 hover:text-white'
-                  }`}
-                >
-                  Side-by-Side
-                </button>
-              </div>
-
-              {/* Quick Toggle Presets when slider is active */}
-              {dsdActiveTab === 'slider' && (
-                <div className="flex items-center gap-2 mb-6">
-                  <button
-                    onClick={() => setDsdSliderPos(100)}
-                    className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                      dsdSliderPos === 100 
-                        ? 'bg-white text-[#0E2B4C] border-white' 
-                        : 'bg-white/10 text-slate-300 border-white/20 hover:bg-white/20'
-                    }`}
-                  >
-                    Before
-                  </button>
-                  <button
-                    onClick={() => setDsdSliderPos(50)}
-                    className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                      dsdSliderPos === 50 
-                        ? 'bg-[#2BB4A7] text-white border-[#2BB4A7]' 
-                        : 'bg-white/10 text-slate-300 border-white/20 hover:bg-white/20'
-                    }`}
-                  >
-                    50 / 50
-                  </button>
-                  <button
-                    onClick={() => setDsdSliderPos(0)}
-                    className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
-                      dsdSliderPos === 0 
-                        ? 'bg-amber-400 text-slate-950 border-amber-400 font-extrabold' 
-                        : 'bg-white/10 text-slate-300 border-white/20 hover:bg-white/20'
-                    }`}
-                  >
-                    After
-                  </button>
-                </div>
-              )}
-
               {/* Direct Booking CTA Button */}
               <button
                 onClick={() => onOpenBooking({ treatment: 'Digital Smile Design' })}
-                className="w-fit px-7 py-3.5 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-extrabold text-xs uppercase tracking-wider transition-all duration-200 shadow-lg flex items-center gap-2 cursor-pointer border border-teal-400/30 hover:scale-105 active:scale-95"
+                className="w-fit px-8 py-3.5 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-extrabold text-xs uppercase tracking-wider transition-all duration-200 shadow-xl flex items-center gap-2 cursor-pointer border border-teal-400/30 hover:scale-105 active:scale-95 mt-2"
               >
                 <Calendar className="w-4 h-4 text-white" />
-                <span>Book DSD Consultation</span>
+                <span>Book a Consultation</span>
               </button>
             </div>
 
-            {/* Right Column: Full Face Before & After Comparison Showcase (Fits Entirely in View) */}
+            {/* Right Column: Clean Side-by-Side Before & After Presentation */}
             <div className="lg:col-span-7 flex flex-col justify-center">
-              {dsdActiveTab === 'slider' ? (
-                <div className="w-full">
-                  <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20 aspect-[4/3] max-h-[56vh] sm:max-h-[60vh] bg-slate-950 select-none group w-full mx-auto">
-                    
-                    {/* AFTER Image */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                
+                {/* BEFORE Image Card */}
+                <div className="bg-white/5 border border-white/15 rounded-2xl p-4 overflow-hidden flex flex-col justify-between shadow-xl">
+                  <div className="relative rounded-xl overflow-hidden aspect-[4/3] max-h-[46vh] mb-3 bg-slate-900 border border-white/10">
                     <img
-                      src={getAssetUrl('clinic/dsd_after_patient.jpg')}
-                      alt="After: Radiant transformed smile via Digital Smile Design"
-                      className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+                      src={getAssetUrl('dental_case_before.jpg')}
+                      alt="Before: Patient initial smile presentation"
+                      className="w-full h-full object-cover"
                     />
-                    
-                    {/* BEFORE Image */}
-                    <div 
-                      className="absolute inset-0 overflow-hidden pointer-events-none"
-                      style={{ width: `${dsdSliderPos}%` }}
-                    >
-                      <img
-                        src={getAssetUrl('clinic/dsd_before_patient.jpg')}
-                        alt="Before: Initial presentation prior to Digital Smile Design"
-                        className="absolute inset-0 w-full h-full object-cover object-center max-w-none"
-                        style={{ width: '100%', height: '100%', objectPosition: 'center' }}
-                      />
+                    <div className="absolute top-2.5 left-2.5 px-3 py-1 rounded-full bg-slate-900/85 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider border border-white/20">
+                      Before
                     </div>
-
-                    {/* Divider Line & Handle */}
-                    <div 
-                      className="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_15px_rgba(255,255,255,0.8)] z-10 pointer-events-none"
-                      style={{ left: `${dsdSliderPos}%` }}
-                    >
-                      <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white text-[#0E2B4C] shadow-2xl flex items-center justify-center font-bold text-xs border-2 border-[#2BB4A7]">
-                        ⇄
-                      </div>
-                    </div>
-
-                    {/* Pills overlay */}
-                    <div className="absolute top-3 left-3 z-20 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold uppercase tracking-wider">
-                      Before: Initial Smile
-                    </div>
-                    <div className="absolute top-3 right-3 z-20 px-3 py-1 rounded-full bg-amber-500/90 backdrop-blur-md border border-white/20 text-slate-950 text-[10px] font-extrabold uppercase tracking-wider">
-                      ★ After: DSD Smile Design
-                    </div>
-
-                    {/* Range Slider for drag / touch */}
-                    <input
-                      type="range"
-                      min="0"
-                      max="100"
-                      value={dsdSliderPos}
-                      onChange={(e) => setDsdSliderPos(Number(e.target.value))}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30"
-                      aria-label="Drag to compare before and after"
-                    />
                   </div>
-                </div>
-              ) : (
-                /* Book-Style Dual Layout */
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                  <div className="bg-white/5 border border-white/15 rounded-2xl p-4 overflow-hidden flex flex-col justify-between shadow-xl">
-                    <div className="relative rounded-xl overflow-hidden aspect-[4/3] max-h-[46vh] mb-3 bg-slate-900 border border-white/10">
-                      <img
-                        src={getAssetUrl('clinic/dsd_before_patient.jpg')}
-                        alt="Before: Patient initial smile presentation"
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-slate-900/80 backdrop-blur-md text-white text-[9px] font-bold uppercase tracking-wider">
-                        Initial Presentation
-                      </div>
-                    </div>
+                  <div>
                     <h3 className="text-sm font-bold text-white font-heading">
                       Before: Initial Presentation
                     </h3>
-                    <p className="text-[11px] text-slate-300 leading-snug font-body">
-                      Uneven tooth margins, wear, and aesthetic disharmony.
-                    </p>
-                  </div>
-
-                  <div className="bg-gradient-to-br from-amber-500/10 via-white/5 to-[#2BB4A7]/10 border-2 border-amber-400/40 rounded-2xl p-4 overflow-hidden flex flex-col justify-between shadow-2xl">
-                    <div className="relative rounded-xl overflow-hidden aspect-[4/3] max-h-[46vh] mb-3 bg-slate-900 border border-amber-400/30">
-                      <img
-                        src={getAssetUrl('clinic/dsd_after_patient.jpg')}
-                        alt="After: Radiant result via Digital Smile Design"
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[9px] font-extrabold uppercase tracking-wider shadow">
-                        ★ DSD Result
-                      </div>
-                    </div>
-                    <h3 className="text-sm font-bold text-amber-200 font-heading">
-                      After: Radiant Symmetrical Smile
-                    </h3>
-                    <p className="text-[11px] text-slate-300 leading-snug font-body">
-                      Custom ceramic restorations restored luminosity and harmony.
+                    <p className="text-[11px] text-slate-300 leading-snug font-body mt-1">
+                      Initial tooth wear, spacing and alignment prior to clinical planning.
                     </p>
                   </div>
                 </div>
-              )}
+
+                {/* AFTER Image Card */}
+                <div className="bg-gradient-to-br from-amber-500/10 via-white/5 to-[#2BB4A7]/10 border-2 border-amber-400/40 rounded-2xl p-4 overflow-hidden flex flex-col justify-between shadow-2xl">
+                  <div className="relative rounded-xl overflow-hidden aspect-[4/3] max-h-[46vh] mb-3 bg-slate-900 border border-amber-400/30">
+                    <img
+                      src={getAssetUrl('dental_case_after.jpg')}
+                      alt="After: Radiant transformed result via smile design"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute top-2.5 left-2.5 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-[10px] font-black uppercase tracking-wider shadow">
+                      ★ After Result
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-amber-200 font-heading">
+                      After: Restored Harmony
+                    </h3>
+                    <p className="text-[11px] text-slate-300 leading-snug font-body mt-1">
+                      Natural aesthetic reconstruction harmonised with facial proportions.
+                    </p>
+                  </div>
+                </div>
+
+              </div>
             </div>
 
           </div>
 
-          {/* DSD Signature Key Points & Prominent Call to Action */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-10 mb-12 sm:mb-16">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
-              
-              <div className="lg:col-span-8">
-                <span className="text-amber-300 text-xs font-bold uppercase tracking-wider block mb-2 font-mono">
-                  ★ Facially Driven Treatment
-                </span>
-                <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white font-heading mb-3">
-                  Why test-drive your smile before treatment?
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm text-slate-200">
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
-                    <span>Designed to your facial symmetry, not a generic template</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
-                    <span>Physical trial smile mockup worn in your mouth before any permanent work starts</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
-                    <span>High-precision ceramic restorations matching your natural dynamics</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
-                    <span>Joint surgical-restorative planning when implants are required</span>
-                  </div>
+          {/* DSD Signature Key Points (Without duplicate bottom buttons) */}
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 mb-12 sm:mb-16">
+            <div>
+              <span className="text-amber-300 text-xs font-bold uppercase tracking-wider block mb-2 font-mono">
+                ★ Facially Driven Treatment
+              </span>
+              <h3 className="text-xl sm:text-2xl font-bold text-white font-heading mb-4">
+                Why test-drive your smile before treatment?
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs sm:text-sm text-slate-200">
+                <div className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
+                  <span>Designed to your facial symmetry, not a generic template</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
+                  <span>Physical trial smile mockup worn in your mouth before any permanent work starts</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
+                  <span>High-precision ceramic restorations matching your natural dynamics</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
+                  <span>Joint surgical-restorative planning when implants are required</span>
                 </div>
               </div>
-
-              <div className="lg:col-span-4 flex flex-col items-start lg:items-end justify-center">
-                <button
-                  onClick={() => onOpenBooking({ treatment: 'Digital Smile Design' })}
-                  className="px-8 py-4 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-extrabold text-xs uppercase tracking-wider transition-all shadow-xl hover:scale-105 active:scale-95 cursor-pointer border border-teal-300/40 flex items-center gap-2"
-                >
-                  <Calendar className="w-4 h-4" />
-                  <span>Request DSD Appointment</span>
-                </button>
-              </div>
-
             </div>
           </div>
           {/* 4 Steps Process Cards (Worksheet #14 Exact Texts) */}
