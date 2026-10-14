@@ -921,11 +921,11 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center mb-16">
             <div className="lg:col-span-6">
               <span className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-4">
-                WHY PATIENTS CHOOSE DIU
+                Why patients choose us – DiU
               </span>
               <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0E2B4C] mb-6 font-heading leading-tight">
-                Care without <br />
-                <span className="text-[#2BB4A7]">compromise</span>
+                Excellence by <br />
+                <span className="text-[#2BB4A7]">Reputation</span>
               </h2>
               {/* Exact paragraph Worksheet #15 */}
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-body">
@@ -933,13 +933,13 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
             </div>
 
-            {/* Photo - White banner removed (#15) */}
+            {/* Photo - Christina Hernandez Smiling (White banner removed) */}
             <div className="lg:col-span-6">
               <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200 aspect-[16/11] bg-slate-100">
                 <img
-                  src={getAssetUrl('patient_elena.jpg')}
-                  alt="Confident, natural smile results achieved at DiU Clinic Malta"
-                  className="w-full h-full object-cover object-top"
+                  src={getAssetUrl('clinic/christina_hernandez_smiling.jpg')}
+                  alt="Christina Hernandez smiling with confident results achieved at DiU Clinic Malta"
+                  className="w-full h-full object-cover object-center"
                 />
               </div>
             </div>
@@ -1105,37 +1105,35 @@ export const HomePage: React.FC<HomePageProps> = ({
               {homeClinicians.map((person) => (
                 <div
                   key={person.id}
-                  className="w-[280px] xl:w-[310px] h-[430px] max-h-[56vh] shrink-0 rounded-3xl bg-[#F8FAFC] border-2 border-slate-200/90 hover:border-[#2BB4A7] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+                  className="w-[280px] xl:w-[305px] h-[450px] shrink-0 rounded-3xl bg-[#F8FAFC] border-2 border-slate-200/90 hover:border-[#2BB4A7] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
                 >
-                  <div>
-                    {/* Centered photo */}
-                    <div className="relative aspect-[4/4] h-40 w-full overflow-hidden bg-slate-200 flex items-center justify-center">
-                      <img
-                        src={getAssetUrl(person.photo)}
-                        alt={person.name}
-                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                    </div>
+                  {/* Full portrait photo without cropping head/forehead */}
+                  <div className="relative h-[255px] xl:h-[265px] w-full overflow-hidden bg-slate-100 flex items-center justify-center">
+                    <img
+                      src={getAssetUrl(person.photo)}
+                      alt={person.name}
+                      className="w-full h-full object-cover object-top group-hover:scale-103 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                  </div>
 
-                    <div className="p-4 text-center">
+                  {/* Snug clinical details & action button without dead white space */}
+                  <div className="p-3.5 text-center flex-1 flex flex-col justify-between">
+                    <div>
                       <h3 className="text-base font-bold text-[#0E2B4C] font-heading group-hover:text-[#2BB4A7] transition-colors leading-snug">
                         {person.name}
                       </h3>
-                      <div className="text-[11px] text-[#2BB4A7] font-bold mt-1 font-heading">
+                      <div className="text-[11px] text-[#2BB4A7] font-bold mt-0.5 font-heading">
                         {person.role}
                       </div>
                       <div className="text-[11px] text-slate-500 font-medium mt-1 leading-snug line-clamp-2">
                         {person.qualifications}
                       </div>
                     </div>
-                  </div>
 
-                  {/* Read bio button */}
-                  <div className="p-4 pt-0">
                     <button
                       onClick={() => setSelectedBio(person)}
-                      className="w-full py-2.5 rounded-full bg-white hover:bg-[#0E2B4C] text-[#0E2B4C] hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 transition-colors cursor-pointer text-center"
+                      className="mt-3 w-full py-2.5 rounded-full bg-white hover:bg-[#0E2B4C] text-[#0E2B4C] hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 transition-colors cursor-pointer text-center shadow-2xs"
                     >
                       Read bio
                     </button>
@@ -1144,7 +1142,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               ))}
 
               {/* Final Team Teaser Card */}
-              <div className="w-[300px] xl:w-[320px] h-[430px] max-h-[56vh] shrink-0 rounded-3xl bg-[#0E2B4C] text-white p-7 flex flex-col justify-between shadow-xl">
+              <div className="w-[280px] xl:w-[305px] h-[450px] shrink-0 rounded-3xl bg-[#0E2B4C] text-white p-7 flex flex-col justify-between shadow-xl">
                 <div>
                   <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-[#2BB4A7] text-[10px] font-bold uppercase tracking-wider mb-4 border border-white/20">
                     OUR TEAM
@@ -1173,17 +1171,17 @@ export const HomePage: React.FC<HomePageProps> = ({
             {homeClinicians.map((person) => (
               <div
                 key={person.id}
-                className="w-[78vw] max-w-[280px] snap-center shrink-0 rounded-3xl bg-[#F8FAFC] border-2 border-slate-200/90 shadow-sm flex flex-col justify-between overflow-hidden"
+                className="w-[78vw] max-w-[280px] h-[440px] snap-center shrink-0 rounded-3xl bg-[#F8FAFC] border-2 border-slate-200/90 shadow-sm flex flex-col justify-between overflow-hidden"
               >
-                <div>
-                  <div className="relative aspect-[4/4] h-36 w-full overflow-hidden bg-slate-200 flex items-center justify-center">
-                    <img
-                      src={getAssetUrl(person.photo)}
-                      alt={person.name}
-                      className="w-full h-full object-cover object-center"
-                    />
-                  </div>
-                  <div className="p-4 text-center">
+                <div className="relative h-[245px] w-full overflow-hidden bg-slate-100 flex items-center justify-center">
+                  <img
+                    src={getAssetUrl(person.photo)}
+                    alt={person.name}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <div className="p-3.5 text-center flex-1 flex flex-col justify-between">
+                  <div>
                     <h3 className="text-sm font-bold text-[#0E2B4C] font-heading">
                       {person.name}
                     </h3>
@@ -1194,11 +1192,9 @@ export const HomePage: React.FC<HomePageProps> = ({
                       {person.qualifications}
                     </div>
                   </div>
-                </div>
-                <div className="p-4 pt-0">
                   <button
                     onClick={() => setSelectedBio(person)}
-                    className="w-full py-2 rounded-full bg-white hover:bg-[#0E2B4C] text-[#0E2B4C] hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 transition-colors cursor-pointer text-center"
+                    className="mt-2.5 w-full py-2 rounded-full bg-white hover:bg-[#0E2B4C] text-[#0E2B4C] hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 transition-colors cursor-pointer text-center"
                   >
                     Read bio
                   </button>
@@ -1288,24 +1284,24 @@ export const HomePage: React.FC<HomePageProps> = ({
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#2BB4A7]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
           {/* Section Header */}
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-500/20 border border-teal-500/30 text-[#2BB4A7] text-xs font-bold uppercase tracking-widest mb-4">
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-teal-500/20 border border-teal-500/30 text-[#2BB4A7] text-xs font-bold uppercase tracking-widest mb-2.5">
               <HelpCircle className="w-3.5 h-3.5 text-[#2BB4A7]" />
               <span>FREQUENTLY ASKED QUESTIONS</span>
             </span>
-            <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white font-heading leading-tight mb-4">
+            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-white font-heading leading-tight mb-2">
               Everything You Need <span className="text-[#2BB4A7]">to Know</span>
             </h2>
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-body">
+            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-body">
               Clear answers regarding our treatments, single-visit ceramics, sedation options, fees, and hospital location.
             </p>
           </div>
 
-          {/* Interactive Accordion List */}
-          <div className="space-y-4 mb-14">
+          {/* Interactive Accordion List - 2 Columns for 1-Screen View */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 mb-8">
             {[
               {
                 q: "Can I get crowns, veneers, or teeth restorations in a single visit?",
@@ -1344,21 +1340,21 @@ export const HomePage: React.FC<HomePageProps> = ({
                 >
                   <button
                     onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                    className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 cursor-pointer focus:outline-none"
+                    className="w-full text-left p-4 sm:p-4.5 flex items-center justify-between gap-3 cursor-pointer focus:outline-none"
                     aria-expanded={isOpen}
                   >
-                    <span className="text-base sm:text-lg font-bold text-white font-heading leading-snug">
+                    <span className="text-sm sm:text-base font-bold text-white font-heading leading-snug">
                       {faq.q}
                     </span>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${
                       isOpen ? 'bg-[#2BB4A7] text-[#0E2B4C] rotate-180' : 'bg-white/10 text-[#2BB4A7]'
                     }`}>
-                      <ChevronDown className="w-4 h-4" />
+                      <ChevronDown className="w-3.5 h-3.5" />
                     </div>
                   </button>
 
                   {isOpen && (
-                    <div className="px-5 sm:px-6 pb-6 pt-1 text-slate-200 text-sm sm:text-base leading-relaxed font-body border-t border-slate-700/50 mt-1">
+                    <div className="px-4 sm:px-4.5 pb-4 pt-1 text-slate-200 text-xs sm:text-sm leading-relaxed font-body border-t border-slate-700/50 mt-1">
                       {faq.a}
                     </div>
                   )}
@@ -1367,28 +1363,20 @@ export const HomePage: React.FC<HomePageProps> = ({
             })}
           </div>
 
-          {/* Quick Consultation & WhatsApp Reassurance Banner inside FAQ */}
-          <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-[#113155] via-[#153a63] to-[#113155] border border-teal-500/30 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+          {/* Quick Consultation Reassurance Banner inside FAQ (Direct booking modal trigger only) */}
+          <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-[#113155] via-[#153a63] to-[#113155] border border-teal-500/30 shadow-xl flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
             <div>
-              <h3 className="text-xl sm:text-2xl font-bold text-white font-heading mb-1.5">
+              <h3 className="text-lg sm:text-xl font-bold text-white font-heading mb-1">
                 Still have questions about your dental care?
               </h3>
               <p className="text-xs sm:text-sm text-slate-300 max-w-lg">
                 Our patient care team at St James Hospital is always available to assist with treatment options, costs, or urgent appointments.
               </p>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
-              <a
-                href="https://wa.me/35699991029?text=Hello%20DiU%20Clinic%2C%20I%20have%20a%20question%20about%20your%20treatments."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md no-underline flex items-center gap-2 hover:scale-105"
-              >
-                <span>Ask on WhatsApp</span>
-              </a>
+            <div className="flex items-center justify-center shrink-0">
               <button
                 onClick={() => onOpenBooking()}
-                className="px-6 py-3.5 rounded-full bg-[#2BB4A7] hover:bg-[#23998e] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer hover:scale-105"
+                className="px-7 py-3 rounded-full bg-[#2BB4A7] hover:bg-[#23998e] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer hover:scale-105"
               >
                 Book Consultation
               </button>
