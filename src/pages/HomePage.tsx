@@ -671,11 +671,11 @@ export const HomePage: React.FC<HomePageProps> = ({
                 
                 {/* BEFORE Image Card */}
                 <div className="bg-white/5 border border-white/15 rounded-2xl p-4 overflow-hidden flex flex-col justify-between shadow-xl">
-                  <div className="relative rounded-xl overflow-hidden aspect-[4/3] max-h-[46vh] mb-3 bg-slate-900 border border-white/10">
+                  <div className="relative rounded-xl overflow-hidden aspect-square max-h-[42vh] mb-3 bg-slate-900 border border-white/10">
                     <img
-                      src={getAssetUrl('dental_case_before.jpg')}
+                      src={getAssetUrl('clinic/dsd_patient_before.jpg')}
                       alt="Before: Patient initial smile presentation"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-top"
                     />
                     <div className="absolute top-2.5 left-2.5 px-3 py-1 rounded-full bg-slate-900/85 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider border border-white/20">
                       Before
@@ -693,11 +693,11 @@ export const HomePage: React.FC<HomePageProps> = ({
 
                 {/* AFTER Image Card */}
                 <div className="bg-gradient-to-br from-amber-500/10 via-white/5 to-[#2BB4A7]/10 border-2 border-amber-400/40 rounded-2xl p-4 overflow-hidden flex flex-col justify-between shadow-2xl">
-                  <div className="relative rounded-xl overflow-hidden aspect-[4/3] max-h-[46vh] mb-3 bg-slate-900 border border-amber-400/30">
+                  <div className="relative rounded-xl overflow-hidden aspect-square max-h-[42vh] mb-3 bg-slate-900 border border-amber-400/30">
                     <img
-                      src={getAssetUrl('dental_case_after.jpg')}
+                      src={getAssetUrl('clinic/dsd_patient_after.jpg')}
                       alt="After: Radiant transformed result via smile design"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-center"
                     />
                     <div className="absolute top-2.5 left-2.5 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-[10px] font-black uppercase tracking-wider shadow">
                       ★ After Result
