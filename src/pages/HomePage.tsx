@@ -74,9 +74,63 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   const heroVideoRef = useRef<HTMLVideoElement>(null);
   const heroSectionRef = useRef<HTMLDivElement>(null);
+  const servicesSectionRef = useRef<HTMLDivElement>(null);
+  const teamSectionRef = useRef<HTMLDivElement>(null);
+  const servicesTrackRef = useRef<HTMLDivElement>(null);
+  const teamTrackRef = useRef<HTMLDivElement>(null);
+
+  const [servicesDistance, setServicesDistance] = useState(1150);
+  const [teamDistance, setTeamDistance] = useState(1400);
 
   // Clinicians for Home: All 9 clinicians (specialists, general, hygienist)
   const homeClinicians = cliniciansList.filter(c => c.category !== 'support');
+
+  useEffect(() => {
+    const updateDistances = () => {
+      if (servicesTrackRef.current) {
+        const parentW = servicesTrackRef.current.parentElement?.clientWidth || window.innerWidth;
+        const totalW = servicesTrackRef.current.scrollWidth;
+        const overflow = Math.max(0, totalW - parentW + 60);
+        setServicesDistance(overflow);
+      }
+      if (teamTrackRef.current) {
+        const parentW = teamTrackRef.current.parentElement?.clientWidth || window.innerWidth;
+        const totalW = teamTrackRef.current.scrollWidth;
+        const overflow = Math.max(0, totalW - parentW + 60);
+        setTeamDistance(overflow);
+      }
+    };
+
+    updateDistances();
+    window.addEventListener('resize', updateDistances);
+    const timer = setTimeout(updateDistances, 400);
+    return () => {
+      window.removeEventListener('resize', updateDistances);
+      clearTimeout(timer);
+    };
+  }, []);
+
+  // 2. Scroll-Driven Horizontal Translation for Clinical Treatments (Track #1)
+  const { scrollYProgress: servicesProgress } = useScroll({
+    target: servicesSectionRef,
+    offset: ["start start", "end end"]
+  });
+  const servicesX = useTransform(servicesProgress, (v) => {
+    if (v <= 0) return 0;
+    if (v >= 0.85) return -servicesDistance;
+    return -(v / 0.85) * servicesDistance;
+  });
+
+  // 3. Scroll-Driven Horizontal Translation for Specialist Doctors & Medical Team (Track #2)
+  const { scrollYProgress: teamProgress } = useScroll({
+    target: teamSectionRef,
+    offset: ["start start", "end end"]
+  });
+  const teamX = useTransform(teamProgress, (v) => {
+    if (v <= 0) return 0;
+    if (v >= 0.85) return -teamDistance;
+    return -(v / 0.85) * teamDistance;
+  });
 
   // 1. Full-Bleed Video Hero Scroll-Driven Transformations
   const { scrollYProgress: heroProgress } = useScroll({
@@ -447,32 +501,32 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 4. OUR DENTAL TREATMENTS (High Contrast Grid) */}
-      <section 
+      {/* 4. OUR DENTAL TREATMENTS (SCROLL-DRIVEN HORIZONTAL TRACK #1 - Worksheet #10, #12) */}
+      <div 
         id="services" 
-        className="py-20 lg:py-28 bg-[#F8FAFC] border-b border-slate-200/80"
+        ref={servicesSectionRef} 
+        className="relative lg:h-[240vh] bg-[#F8FAFC] border-b border-slate-200/80"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="lg:sticky lg:top-0 lg:h-screen w-full overflow-hidden flex flex-col justify-center py-10 lg:py-0 px-4 sm:px-8 lg:px-14">
           
-          <div className="max-w-7xl mx-auto w-full mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          {/* Header */}
+          <div className="max-w-7xl mx-auto w-full mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
-              <span className="inline-block px-4 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-widest mb-3">
+              <span className="inline-block px-4 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-widest mb-2.5">
                 Comprehensive Care
               </span>
               <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0E2B4C] font-heading">
                 Our Dental Treatments
               </h2>
-              {/* Exact Intro Text Worksheet #10 */}
-              <p className="text-slate-600 text-sm sm:text-base mt-2 max-w-xl font-body">
-                Specialist and general dentist working as a team, tailoring each treatment to your needs.
+              <p className="text-slate-600 text-xs sm:text-sm mt-1.5 max-w-xl font-body">
+                Specialist and general dentists working as a team, tailoring each treatment to your needs.
               </p>
             </div>
 
-            {/* Clean View all treatments link (#12) */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 shrink-0">
               <button
                 onClick={() => onNavigate('/treatments')}
-                className="px-6 py-3 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer shadow-md hover:scale-102"
+                className="px-6 py-2.5 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer shadow-md hover:scale-102"
               >
                 <span>View all treatments</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -480,277 +534,331 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
           </div>
 
-          {/* High Contrast 4-Card Grid - All treatments immediately visible */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8">
-            {approvedServices.map((svc) => (
-              <div
-                key={svc.id}
-                className="rounded-3xl bg-white border-2 border-slate-200/90 hover:border-[#2BB4A7] shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1.5"
-              >
-                <div>
-                  {/* High Contrast Gradient Top Accent */}
-                  <div className="h-1.5 w-full bg-gradient-to-r from-[#0E2B4C] via-[#2BB4A7] to-[#0E2B4C]" />
+          {/* Desktop Horizontal Scroll Track */}
+          <div className="hidden lg:block w-full overflow-hidden">
+            <motion.div 
+              ref={servicesTrackRef}
+              style={{ x: servicesX }}
+              className="flex gap-6 xl:gap-8 will-change-transform pr-24"
+            >
+              {approvedServices.map((svc) => (
+                <div
+                  key={svc.id}
+                  className="w-[340px] xl:w-[380px] shrink-0 rounded-3xl bg-white border-2 border-slate-200/90 hover:border-[#2BB4A7] shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+                >
+                  <div>
+                    {/* High Contrast Gradient Top Accent */}
+                    <div className="h-1.5 w-full bg-gradient-to-r from-[#0E2B4C] via-[#2BB4A7] to-[#0E2B4C]" />
 
-                  <div className="relative aspect-[16/11] overflow-hidden bg-slate-100">
-                    <img
-                      src={getAssetUrl(svc.image)}
-                      alt={svc.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
-                    />
-                    <div className="absolute top-3 left-3 px-3.5 py-1.5 rounded-full bg-[#0E2B4C]/95 backdrop-blur-md text-white text-xs font-black uppercase tracking-wider border border-[#2BB4A7]/50 shadow-md">
-                      [ {svc.num} ]
+                    <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                      <img
+                        src={getAssetUrl(svc.image)}
+                        alt={svc.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute top-3 left-3 px-3.5 py-1.5 rounded-full bg-[#0E2B4C]/95 backdrop-blur-md text-white text-xs font-black uppercase tracking-wider border border-[#2BB4A7]/50 shadow-md">
+                        [ {svc.num} ]
+                      </div>
+                    </div>
+
+                    <div className="p-5">
+                      <h3 className="text-lg xl:text-xl font-bold text-[#0E2B4C] mb-2 font-heading group-hover:text-[#2BB4A7] transition-colors leading-snug">
+                        {svc.title}
+                      </h3>
+                      <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-3 font-body line-clamp-3">
+                        {svc.summary}
+                      </p>
                     </div>
                   </div>
 
-                  <div className="p-6">
-                    <h3 className="text-xl sm:text-2xl font-bold text-[#0E2B4C] mb-3 font-heading group-hover:text-[#2BB4A7] transition-colors leading-snug">
+                  <div className="p-5 pt-0 border-t border-slate-100 mt-2">
+                    <button
+                      onClick={() => onOpenBooking({ treatment: svc.title })}
+                      className="w-full py-3 px-4 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white text-xs font-bold uppercase tracking-wider transition-all duration-200 shadow-md flex items-center justify-center gap-2 cursor-pointer hover:scale-102"
+                    >
+                      <Calendar className="w-3.5 h-3.5 text-[#2BB4A7]" />
+                      <span>Book an appointment</span>
+                    </button>
+                  </div>
+
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Mobile / Tablet Horizontal Swipe Carousel with snap */}
+          <div className="lg:hidden w-full overflow-x-auto flex gap-4 pb-4 snap-x snap-mandatory pt-2">
+            {approvedServices.map((svc) => (
+              <div
+                key={svc.id}
+                className="w-[82vw] max-w-[320px] snap-center shrink-0 rounded-3xl bg-white border-2 border-slate-200/90 shadow-md flex flex-col justify-between overflow-hidden"
+              >
+                <div>
+                  <div className="h-1.5 w-full bg-gradient-to-r from-[#0E2B4C] via-[#2BB4A7] to-[#0E2B4C]" />
+                  <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                    <img
+                      src={getAssetUrl(svc.image)}
+                      alt={svc.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute top-2.5 left-2.5 px-3 py-1 rounded-full bg-[#0E2B4C]/95 text-white text-[11px] font-black uppercase">
+                      [ {svc.num} ]
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-base font-bold text-[#0E2B4C] mb-1.5 font-heading">
                       {svc.title}
                     </h3>
-                    <p className="text-slate-700 text-sm sm:text-base leading-relaxed mb-4 font-body">
+                    <p className="text-slate-600 text-xs leading-relaxed line-clamp-2">
                       {svc.summary}
                     </p>
                   </div>
                 </div>
-
-                <div className="p-6 pt-0 flex items-center justify-between border-t border-slate-100 mt-2">
-                  <button
-                    onClick={() => onNavigate('/treatments')}
-                    className="text-xs sm:text-sm font-black text-[#0E2B4C] hover:text-[#2BB4A7] transition-colors flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 uppercase tracking-wider"
-                  >
-                    <span>Learn more →</span>
-                  </button>
+                <div className="p-4 pt-0">
                   <button
                     onClick={() => onOpenBooking({ treatment: svc.title })}
-                    className="px-5 py-2.5 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white text-xs sm:text-sm font-bold transition-all cursor-pointer shadow-sm hover:scale-105"
+                    className="w-full py-2.5 px-3 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-sm"
                   >
-                    Enquire
+                    <Calendar className="w-3.5 h-3.5 text-[#2BB4A7]" />
+                    <span>Book an appointment</span>
                   </button>
                 </div>
-
               </div>
             ))}
           </div>
 
         </div>
-      </section>
+      </div>
 
       {/* 5. DSD SIGNATURE TREATMENT: BEFORE & AFTER (Worksheet #13, #14) */}
-      <section id="dsd-signature" className="py-20 lg:py-28 bg-[#0E2B4C] text-white relative overflow-hidden border-b border-[#07192D]">
+      <section id="dsd-signature" className="min-h-[calc(100vh-80px)] lg:min-h-screen flex flex-col justify-center py-8 sm:py-12 lg:py-14 bg-[#0E2B4C] text-white relative overflow-hidden border-b border-[#07192D]">
         
         {/* Ambient background glows */}
         <div className="absolute top-0 right-10 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-10 left-10 w-96 h-96 bg-[#2BB4A7]/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
           
-          {/* Header & Signature Badge */}
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-500/20 via-amber-400/30 to-amber-500/20 border-2 border-amber-400/60 text-amber-300 text-xs font-black uppercase tracking-widest shadow-lg shadow-amber-950/20 backdrop-blur-md mb-6">
-              <span className="text-amber-300 text-base">★</span>
-              <span>SIGNATURE FEATURE SERVICE · DIGITAL SMILE DESIGN</span>
-              <span className="text-amber-300 text-base">★</span>
-            </div>
+          {/* Top Single-Screen Interactive 2-Column Split View */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-12 sm:mb-16">
+            
+            {/* Left Column: Context, Signature Badge, Tabs, Presets, CTA */}
+            <div className="lg:col-span-5 flex flex-col justify-center">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-amber-400/30 to-amber-500/20 border border-amber-400/60 text-amber-300 text-[11px] font-bold uppercase tracking-widest shadow-md backdrop-blur-md mb-4 w-fit">
+                <span className="text-amber-300">★</span>
+                <span>SIGNATURE FEATURE SERVICE · DSD</span>
+                <span className="text-amber-300">★</span>
+              </div>
 
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6 font-heading leading-tight">
-              Experience the Test Drive <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2BB4A7] via-teal-300 to-amber-300">
-                of Your Future Smile.
-              </span>
-            </h2>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-3 font-heading leading-tight">
+                Experience the Test Drive <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2BB4A7] via-teal-300 to-amber-300">
+                  of Your Future Smile.
+                </span>
+              </h2>
 
-            <p className="text-slate-200 text-base sm:text-lg leading-relaxed font-body">
-              Digital Smile Design (DSD) uses facial 3D scanning and computer modeling to engineer restorations that harmonise with your natural facial proportions. Preview, adjust, and test-drive your new smile before treatment ever begins.
-            </p>
+              <p className="text-slate-200 text-xs sm:text-sm leading-relaxed font-body mb-5 max-w-lg">
+                Digital Smile Design (DSD) uses 3D facial scanning and computer modeling to engineer restorations that harmonise with your natural facial proportions. Preview and test-drive your new smile before treatment ever begins.
+              </p>
 
-            {/* View Mode Switcher */}
-            <div className="inline-flex items-center p-1 rounded-full bg-white/10 border border-white/20 mt-8 backdrop-blur-md">
-              <button
-                onClick={() => setDsdActiveTab('slider')}
-                className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                  dsdActiveTab === 'slider' 
-                    ? 'bg-[#2BB4A7] text-white shadow-md' 
-                    : 'text-slate-300 hover:text-white'
-                }`}
-              >
-                Interactive Wipe Slider
-              </button>
-              <button
-                onClick={() => setDsdActiveTab('book')}
-                className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                  dsdActiveTab === 'book' 
-                    ? 'bg-[#2BB4A7] text-white shadow-md' 
-                    : 'text-slate-300 hover:text-white'
-                }`}
-              >
-                Book-Style Side-by-Side
-              </button>
-            </div>
-          </div>
+              {/* View Mode Switcher */}
+              <div className="inline-flex items-center p-1 rounded-full bg-white/10 border border-white/20 mb-4 backdrop-blur-md w-fit">
+                <button
+                  onClick={() => setDsdActiveTab('slider')}
+                  className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    dsdActiveTab === 'slider' 
+                      ? 'bg-[#2BB4A7] text-white shadow-md' 
+                      : 'text-slate-300 hover:text-white'
+                  }`}
+                >
+                  Wipe Slider
+                </button>
+                <button
+                  onClick={() => setDsdActiveTab('book')}
+                  className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    dsdActiveTab === 'book' 
+                      ? 'bg-[#2BB4A7] text-white shadow-md' 
+                      : 'text-slate-300 hover:text-white'
+                  }`}
+                >
+                  Side-by-Side
+                </button>
+              </div>
 
-          {/* Interactive Before & After Showcase */}
-          <div className="mb-16">
-            {dsdActiveTab === 'slider' ? (
-              <div className="max-w-4xl mx-auto">
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20 aspect-[16/11] sm:aspect-[16/10] bg-slate-950 select-none group">
-                  
-                  {/* AFTER Image */}
-                  <img
-                    src={getAssetUrl('clinic/dsd_after_patient.jpg')}
-                    alt="After: Radiant transformed smile via Digital Smile Design"
-                    className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
-                  />
-                  
-                  {/* BEFORE Image */}
-                  <div 
-                    className="absolute inset-0 overflow-hidden pointer-events-none"
-                    style={{ width: `${dsdSliderPos}%` }}
-                  >
-                    <img
-                      src={getAssetUrl('clinic/dsd_before_patient.jpg')}
-                      alt="Before: Initial presentation prior to Digital Smile Design"
-                      className="absolute inset-0 w-full h-full object-cover object-center max-w-none"
-                      style={{ width: '100%', height: '100%', objectPosition: 'center' }}
-                    />
-                  </div>
-
-                  {/* Divider Line & Handle */}
-                  <div 
-                    className="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_15px_rgba(255,255,255,0.8)] z-10 pointer-events-none"
-                    style={{ left: `${dsdSliderPos}%` }}
-                  >
-                    <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white text-[#0E2B4C] shadow-2xl flex items-center justify-center font-bold text-xs border-2 border-[#2BB4A7]">
-                      ⇄
-                    </div>
-                  </div>
-
-                  {/* Pills overlay */}
-                  <div className="absolute top-4 left-4 z-20 px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-[11px] font-bold uppercase tracking-wider">
-                    Before: Initial Smile
-                  </div>
-                  <div className="absolute top-4 right-4 z-20 px-3.5 py-1.5 rounded-full bg-amber-500/90 backdrop-blur-md border border-white/20 text-slate-950 text-[11px] font-extrabold uppercase tracking-wider">
-                    ★ After: DSD Smile Design
-                  </div>
-
-                  {/* Range Slider for drag / touch */}
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={dsdSliderPos}
-                    onChange={(e) => setDsdSliderPos(Number(e.target.value))}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30"
-                    aria-label="Drag to compare before and after"
-                  />
-                </div>
-
-                {/* Quick Toggle Preset Buttons */}
-                <div className="flex items-center justify-center gap-3 mt-4">
+              {/* Quick Toggle Presets when slider is active */}
+              {dsdActiveTab === 'slider' && (
+                <div className="flex items-center gap-2 mb-6">
                   <button
                     onClick={() => setDsdSliderPos(100)}
-                    className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                    className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
                       dsdSliderPos === 100 
                         ? 'bg-white text-[#0E2B4C] border-white' 
                         : 'bg-white/10 text-slate-300 border-white/20 hover:bg-white/20'
                     }`}
                   >
-                    Show Before
+                    Before
                   </button>
                   <button
                     onClick={() => setDsdSliderPos(50)}
-                    className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                    className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
                       dsdSliderPos === 50 
                         ? 'bg-[#2BB4A7] text-white border-[#2BB4A7]' 
                         : 'bg-white/10 text-slate-300 border-white/20 hover:bg-white/20'
                     }`}
                   >
-                    50 / 50 Comparison
+                    50 / 50
                   </button>
                   <button
                     onClick={() => setDsdSliderPos(0)}
-                    className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer border ${
+                    className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer border ${
                       dsdSliderPos === 0 
                         ? 'bg-amber-400 text-slate-950 border-amber-400 font-extrabold' 
                         : 'bg-white/10 text-slate-300 border-white/20 hover:bg-white/20'
                     }`}
                   >
-                    Show After
+                    After
                   </button>
                 </div>
-              </div>
-            ) : (
-              /* Book-Style Dual Layout */
-              <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="bg-white/5 border border-white/15 rounded-3xl p-6 overflow-hidden flex flex-col justify-between shadow-xl">
-                  <div>
-                    <div className="relative rounded-2xl overflow-hidden aspect-[4/3] mb-4 bg-slate-900 border border-white/10">
+              )}
+
+              {/* Direct Booking CTA Button */}
+              <button
+                onClick={() => onOpenBooking({ treatment: 'Digital Smile Design' })}
+                className="w-fit px-7 py-3.5 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-extrabold text-xs uppercase tracking-wider transition-all duration-200 shadow-lg flex items-center gap-2 cursor-pointer border border-teal-400/30 hover:scale-105 active:scale-95"
+              >
+                <Calendar className="w-4 h-4 text-white" />
+                <span>Book DSD Consultation</span>
+              </button>
+            </div>
+
+            {/* Right Column: Full Face Before & After Comparison Showcase (Fits Entirely in View) */}
+            <div className="lg:col-span-7 flex flex-col justify-center">
+              {dsdActiveTab === 'slider' ? (
+                <div className="w-full">
+                  <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20 aspect-[4/3] max-h-[56vh] sm:max-h-[60vh] bg-slate-950 select-none group w-full mx-auto">
+                    
+                    {/* AFTER Image */}
+                    <img
+                      src={getAssetUrl('clinic/dsd_after_patient.jpg')}
+                      alt="After: Radiant transformed smile via Digital Smile Design"
+                      className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+                    />
+                    
+                    {/* BEFORE Image */}
+                    <div 
+                      className="absolute inset-0 overflow-hidden pointer-events-none"
+                      style={{ width: `${dsdSliderPos}%` }}
+                    >
+                      <img
+                        src={getAssetUrl('clinic/dsd_before_patient.jpg')}
+                        alt="Before: Initial presentation prior to Digital Smile Design"
+                        className="absolute inset-0 w-full h-full object-cover object-center max-w-none"
+                        style={{ width: '100%', height: '100%', objectPosition: 'center' }}
+                      />
+                    </div>
+
+                    {/* Divider Line & Handle */}
+                    <div 
+                      className="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_15px_rgba(255,255,255,0.8)] z-10 pointer-events-none"
+                      style={{ left: `${dsdSliderPos}%` }}
+                    >
+                      <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white text-[#0E2B4C] shadow-2xl flex items-center justify-center font-bold text-xs border-2 border-[#2BB4A7]">
+                        ⇄
+                      </div>
+                    </div>
+
+                    {/* Pills overlay */}
+                    <div className="absolute top-3 left-3 z-20 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold uppercase tracking-wider">
+                      Before: Initial Smile
+                    </div>
+                    <div className="absolute top-3 right-3 z-20 px-3 py-1 rounded-full bg-amber-500/90 backdrop-blur-md border border-white/20 text-slate-950 text-[10px] font-extrabold uppercase tracking-wider">
+                      ★ After: DSD Smile Design
+                    </div>
+
+                    {/* Range Slider for drag / touch */}
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={dsdSliderPos}
+                      onChange={(e) => setDsdSliderPos(Number(e.target.value))}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30"
+                      aria-label="Drag to compare before and after"
+                    />
+                  </div>
+                </div>
+              ) : (
+                /* Book-Style Dual Layout */
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                  <div className="bg-white/5 border border-white/15 rounded-2xl p-4 overflow-hidden flex flex-col justify-between shadow-xl">
+                    <div className="relative rounded-xl overflow-hidden aspect-[4/3] max-h-[46vh] mb-3 bg-slate-900 border border-white/10">
                       <img
                         src={getAssetUrl('clinic/dsd_before_patient.jpg')}
                         alt="Before: Patient initial smile presentation"
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider">
+                      <div className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-slate-900/80 backdrop-blur-md text-white text-[9px] font-bold uppercase tracking-wider">
                         Initial Presentation
                       </div>
                     </div>
-                    <h3 className="text-lg font-bold text-white font-heading mb-1">
+                    <h3 className="text-sm font-bold text-white font-heading">
                       Before: Initial Presentation
                     </h3>
-                    <p className="text-xs text-slate-300 leading-relaxed font-body">
-                      Patient presented with uneven margins, wear, and aesthetic disharmony.
+                    <p className="text-[11px] text-slate-300 leading-snug font-body">
+                      Uneven tooth margins, wear, and aesthetic disharmony.
                     </p>
                   </div>
-                </div>
 
-                <div className="bg-gradient-to-br from-amber-500/10 via-white/5 to-[#2BB4A7]/10 border-2 border-amber-400/40 rounded-3xl p-6 overflow-hidden flex flex-col justify-between shadow-2xl">
-                  <div>
-                    <div className="relative rounded-2xl overflow-hidden aspect-[4/3] mb-4 bg-slate-900 border border-amber-400/30">
+                  <div className="bg-gradient-to-br from-amber-500/10 via-white/5 to-[#2BB4A7]/10 border-2 border-amber-400/40 rounded-2xl p-4 overflow-hidden flex flex-col justify-between shadow-2xl">
+                    <div className="relative rounded-xl overflow-hidden aspect-[4/3] max-h-[46vh] mb-3 bg-slate-900 border border-amber-400/30">
                       <img
                         src={getAssetUrl('clinic/dsd_after_patient.jpg')}
                         alt="After: Radiant result via Digital Smile Design"
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-[10px] font-extrabold uppercase tracking-wider shadow">
+                      <div className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[9px] font-extrabold uppercase tracking-wider shadow">
                         ★ DSD Result
                       </div>
                     </div>
-                    <h3 className="text-lg font-bold text-amber-200 font-heading mb-1">
+                    <h3 className="text-sm font-bold text-amber-200 font-heading">
                       After: Radiant Symmetrical Smile
                     </h3>
-                    <p className="text-xs text-slate-300 leading-relaxed font-body">
-                      Custom ceramic restorations restored natural luminosity, lip support, and harmonious facial balance.
+                    <p className="text-[11px] text-slate-300 leading-snug font-body">
+                      Custom ceramic restorations restored luminosity and harmony.
                     </p>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
+
           </div>
 
           {/* DSD Signature Key Points & Prominent Call to Action */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 sm:p-12 mb-16">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-10 mb-12 sm:mb-16">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
               
               <div className="lg:col-span-8">
                 <span className="text-amber-300 text-xs font-bold uppercase tracking-wider block mb-2 font-mono">
                   ★ Facially Driven Treatment
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-bold text-white font-heading mb-4">
+                <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white font-heading mb-3">
                   Why test-drive your smile before treatment?
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-200">
-                  <div className="flex items-start gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm text-slate-200">
+                  <div className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
                     <span>Designed to your facial symmetry, not a generic template</span>
                   </div>
-                  <div className="flex items-start gap-2.5">
+                  <div className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
                     <span>Physical trial smile mockup worn in your mouth before any permanent work starts</span>
                   </div>
-                  <div className="flex items-start gap-2.5">
+                  <div className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
                     <span>High-precision ceramic restorations matching your natural dynamics</span>
                   </div>
-                  <div className="flex items-start gap-2.5">
+                  <div className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-[#2BB4A7] shrink-0 mt-0.5" />
                     <span>Joint surgical-restorative planning when implants are required</span>
                   </div>
@@ -760,19 +868,15 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="lg:col-span-4 flex flex-col items-start lg:items-end justify-center">
                 <button
                   onClick={() => onOpenBooking({ treatment: 'Digital Smile Design' })}
-                  className="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-[#2BB4A7] to-teal-500 hover:from-[#23998e] hover:to-teal-600 text-white font-extrabold text-xs uppercase tracking-wider transition-all shadow-xl shadow-teal-950/40 cursor-pointer hover:scale-105 active:scale-95 flex items-center justify-center gap-2.5"
+                  className="px-8 py-4 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-extrabold text-xs uppercase tracking-wider transition-all shadow-xl hover:scale-105 active:scale-95 cursor-pointer border border-teal-300/40 flex items-center gap-2"
                 >
-                  <span>Experience the Test Drive of Your Future Smile</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <Calendar className="w-4 h-4" />
+                  <span>Request DSD Appointment</span>
                 </button>
-                <div className="text-[11px] text-slate-400 mt-2 text-center lg:text-right">
-                  Conducted by Dr Susanna Diacono · At St James Hospital
-                </div>
               </div>
 
             </div>
           </div>
-
           {/* 4 Steps Process Cards (Worksheet #14 Exact Texts) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-4">
             {[
@@ -962,31 +1066,32 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 8. OUR DENTISTS AND HYGIENIST (Worksheet #18, #19, #20) */}
-      <section 
+      {/* 8. OUR DENTISTS AND HYGIENIST (SCROLL-DRIVEN HORIZONTAL TRACK #2 - Worksheet #18, #19, #20) */}
+      <div 
         id="our-team" 
-        className="py-20 lg:py-28 bg-white border-b border-slate-200/80"
+        ref={teamSectionRef} 
+        className="relative lg:h-[280vh] bg-white border-b border-slate-200/80"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="lg:sticky lg:top-0 lg:h-screen w-full overflow-hidden flex flex-col justify-center py-10 lg:py-0 px-4 sm:px-8 lg:px-14">
           
-          <div className="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="max-w-7xl mx-auto w-full mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
-              <span className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-3">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-teal-50 border border-teal-200 text-[#2BB4A7] text-xs font-bold uppercase tracking-wider mb-2.5">
                 OUR CLINICIANS
               </span>
               <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-[#0E2B4C] font-heading">
                 Our dentists <span className="text-[#2BB4A7]">&amp; hygienist</span>
               </h2>
-              <p className="text-slate-600 text-sm sm:text-base mt-2 max-w-md font-body">
+              <p className="text-slate-600 text-xs sm:text-sm mt-1.5 max-w-md font-body">
                 Specialists and general dentists working side by side, so every treatment is planned by the right person.
               </p>
             </div>
 
             {/* View Full Team link */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 shrink-0">
               <button
                 onClick={() => onNavigate('/team')}
-                className="px-6 py-3 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer shadow-md hover:scale-102"
+                className="px-6 py-2.5 rounded-full bg-[#0E2B4C] hover:bg-[#2BB4A7] text-white text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer shadow-md hover:scale-102"
               >
                 <span>VIEW FULL TEAM</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -994,74 +1099,120 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
           </div>
 
-          {/* Clean Responsive Grid - All clinicians visible without horizontal scroll lock */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 xl:gap-8">
+          {/* Desktop Horizontal Scroll Track */}
+          <div className="hidden lg:block w-full overflow-hidden">
+            <motion.div 
+              ref={teamTrackRef}
+              style={{ x: teamX }}
+              className="flex gap-6 xl:gap-8 will-change-transform pr-24"
+            >
+              {homeClinicians.map((person) => (
+                <div
+                  key={person.id}
+                  className="w-[280px] xl:w-[310px] h-[430px] max-h-[56vh] shrink-0 rounded-3xl bg-[#F8FAFC] border-2 border-slate-200/90 hover:border-[#2BB4A7] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+                >
+                  <div>
+                    {/* Centered photo */}
+                    <div className="relative aspect-[4/4] h-40 w-full overflow-hidden bg-slate-200 flex items-center justify-center">
+                      <img
+                        src={getAssetUrl(person.photo)}
+                        alt={person.name}
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                    </div>
+
+                    <div className="p-4 text-center">
+                      <h3 className="text-base font-bold text-[#0E2B4C] font-heading group-hover:text-[#2BB4A7] transition-colors leading-snug">
+                        {person.name}
+                      </h3>
+                      <div className="text-[11px] text-[#2BB4A7] font-bold mt-1 font-heading">
+                        {person.role}
+                      </div>
+                      <div className="text-[11px] text-slate-500 font-medium mt-1 leading-snug line-clamp-2">
+                        {person.qualifications}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Read bio button */}
+                  <div className="p-4 pt-0">
+                    <button
+                      onClick={() => setSelectedBio(person)}
+                      className="w-full py-2.5 rounded-full bg-white hover:bg-[#0E2B4C] text-[#0E2B4C] hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 transition-colors cursor-pointer text-center"
+                    >
+                      Read bio
+                    </button>
+                  </div>
+                </div>
+              ))}
+
+              {/* Final Team Teaser Card */}
+              <div className="w-[300px] xl:w-[320px] h-[430px] max-h-[56vh] shrink-0 rounded-3xl bg-[#0E2B4C] text-white p-7 flex flex-col justify-between shadow-xl">
+                <div>
+                  <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-[#2BB4A7] text-[10px] font-bold uppercase tracking-wider mb-4 border border-white/20">
+                    OUR TEAM
+                  </span>
+                  <h3 className="text-2xl font-bold font-heading mb-3 leading-snug">
+                    Meet the People Behind Your Smile
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-body">
+                    Specialists and general dentists working with a fantastic support team.
+                  </p>
+                </div>
+                <button
+                  onClick={() => onNavigate('/team')}
+                  className="w-full py-3.5 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 hover:scale-102"
+                >
+                  <Users className="w-4 h-4" />
+                  <span>VIEW FULL TEAM</span>
+                </button>
+              </div>
+
+            </motion.div>
+          </div>
+
+          {/* Mobile / Tablet Horizontal Swipe Carousel */}
+          <div className="lg:hidden w-full overflow-x-auto flex gap-4 pb-4 snap-x snap-mandatory pt-2">
             {homeClinicians.map((person) => (
               <div
                 key={person.id}
-                className="rounded-3xl bg-[#F8FAFC] border-2 border-slate-200/90 hover:border-[#2BB4A7] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1"
+                className="w-[78vw] max-w-[280px] snap-center shrink-0 rounded-3xl bg-[#F8FAFC] border-2 border-slate-200/90 shadow-sm flex flex-col justify-between overflow-hidden"
               >
                 <div>
-                  {/* Centered photo */}
-                  <div className="relative aspect-[4/4] overflow-hidden bg-slate-200 flex items-center justify-center">
+                  <div className="relative aspect-[4/4] h-36 w-full overflow-hidden bg-slate-200 flex items-center justify-center">
                     <img
                       src={getAssetUrl(person.photo)}
                       alt={person.name}
-                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
+                      className="w-full h-full object-cover object-center"
                     />
                   </div>
-
-                  <div className="p-5">
-                    <h3 className="text-lg font-bold text-[#0E2B4C] font-heading group-hover:text-[#2BB4A7] transition-colors leading-snug">
+                  <div className="p-4 text-center">
+                    <h3 className="text-sm font-bold text-[#0E2B4C] font-heading">
                       {person.name}
                     </h3>
-                    <div className="text-xs text-slate-500 font-medium mt-1 leading-snug line-clamp-2">
-                      {person.qualifications}
-                    </div>
-                    <div className="text-xs font-bold text-[#2BB4A7] mt-2 font-heading">
+                    <div className="text-[11px] text-[#2BB4A7] font-bold mt-0.5">
                       {person.role}
+                    </div>
+                    <div className="text-[10px] text-slate-500 font-medium mt-1 line-clamp-2">
+                      {person.qualifications}
                     </div>
                   </div>
                 </div>
-
-                {/* Read bio button */}
-                <div className="p-5 pt-0">
+                <div className="p-4 pt-0">
                   <button
                     onClick={() => setSelectedBio(person)}
-                    className="w-full py-2.5 rounded-full bg-white hover:bg-[#0E2B4C] text-[#0E2B4C] hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 transition-colors cursor-pointer text-center"
+                    className="w-full py-2 rounded-full bg-white hover:bg-[#0E2B4C] text-[#0E2B4C] hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 transition-colors cursor-pointer text-center"
                   >
                     Read bio
                   </button>
                 </div>
               </div>
             ))}
-
-            {/* Final Team Teaser Card */}
-            <div className="rounded-3xl bg-[#0E2B4C] text-white p-7 flex flex-col justify-between shadow-xl min-h-[360px]">
-              <div>
-                <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-[#2BB4A7] text-[10px] font-bold uppercase tracking-wider mb-4 border border-white/20">
-                  OUR TEAM
-                </span>
-                <h3 className="text-2xl font-bold font-heading mb-3 leading-snug">
-                  Meet the People Behind Your Smile
-                </h3>
-                <p className="text-sm text-slate-300 leading-relaxed font-body">
-                  Specialists and general dentists working with a fantastic support team.
-                </p>
-              </div>
-              <button
-                onClick={() => onNavigate('/team')}
-                className="w-full py-3.5 rounded-full bg-[#2BB4A7] hover:bg-[#22998e] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 hover:scale-102"
-              >
-                <Users className="w-4 h-4" />
-                <span>VIEW FULL TEAM</span>
-              </button>
-            </div>
           </div>
 
         </div>
-      </section>
+      </div>
 
       {/* Individual Clinician Biography Modal on Home */}
       {selectedBio && (
