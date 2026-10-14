@@ -11,6 +11,7 @@ import {
   ChevronDown,
   AlertCircle,
   Navigation,
+  MapPin,
   Check,
   Cpu,
   Heart,
@@ -298,16 +299,11 @@ export const HomePage: React.FC<HomePageProps> = ({
             }}
             className="absolute z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center"
           >
-            {/* Location & DSD Badges */}
-            <div className="flex flex-wrap items-center justify-center gap-2.5 mb-6">
+            {/* Location Badge with MapPin */}
+            <div className="flex items-center justify-center mb-6">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white/60 text-[#0E2B4C] text-[11px] font-bold uppercase tracking-widest shadow-sm">
-                <span className="w-2 h-2 rounded-full bg-[#2BB4A7] animate-pulse" />
+                <MapPin className="w-3.5 h-3.5 text-[#2BB4A7]" />
                 <span>LOCATED @ ST JAMES HOSPITAL, SLIEMA</span>
-              </div>
-
-              <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/25 via-amber-400/30 to-amber-500/25 border border-amber-300/60 text-amber-200 text-[11px] font-bold uppercase tracking-widest shadow-sm backdrop-blur-md">
-                <span className="text-amber-300">★</span>
-                <span>Digital Smile Design Signature Centre</span>
               </div>
             </div>
 
@@ -1442,7 +1438,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             >
               <iframe
                 title="DiU Clinic Location at St James Hospital Sliema"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3238.163456209865!2d14.500222!3d35.912639!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x130e4539655f4621%3A0xd677e1919efec5cf!2sSaint%20James%20Hospital%20Sliema!5e0!3m2!1sen!2smt!4v1710000000000!5m2!1sen!2smt"
+                src="https://maps.google.com/maps?q=Saint+James+Hospital+George+Borg+Olivier+Street+Sliema+Malta&t=&z=16&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -1450,6 +1446,22 @@ export const HomePage: React.FC<HomePageProps> = ({
                 referrerPolicy="no-referrer-when-downgrade"
                 className="w-full h-full pointer-events-none"
               />
+
+              {/* Prominent Map Pin Marker Overlay so it's always clearly visible on the map */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[85%] pointer-events-none flex flex-col items-center z-10 select-none">
+                <div className="px-3.5 py-1.5 rounded-xl bg-[#0E2B4C] text-white text-xs font-bold shadow-2xl border-2 border-[#2BB4A7] flex items-center gap-2 whitespace-nowrap mb-1">
+                  <MapPin className="w-4 h-4 text-[#2BB4A7] fill-[#2BB4A7]" />
+                  <span>DiU Clinic • At St James Hospital</span>
+                </div>
+                <div className="relative flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-[#E53E3E] border-2 border-white shadow-2xl flex items-center justify-center animate-bounce">
+                    <MapPin className="w-5 h-5 text-white fill-white" />
+                  </div>
+                  <div className="absolute -bottom-1 w-2.5 h-2.5 bg-[#E53E3E] rotate-45" />
+                </div>
+                <div className="w-8 h-2 bg-black/40 rounded-full blur-[2px] mt-1" />
+              </div>
+
               <div className="absolute inset-0 bg-transparent group-hover:bg-slate-900/10 transition-colors flex items-end justify-end p-4">
                 <span className="px-4 py-2 rounded-full bg-white/95 backdrop-blur-md text-[#0E2B4C] text-xs font-bold uppercase tracking-wider shadow-md border border-slate-200 group-hover:bg-[#2BB4A7] group-hover:text-white transition-all flex items-center gap-2">
                   <Navigation className="w-3.5 h-3.5" />

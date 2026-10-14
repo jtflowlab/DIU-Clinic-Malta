@@ -15,41 +15,41 @@ export const EmergencyModal: React.FC<EmergencyModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/70 backdrop-blur-md overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-900/70 backdrop-blur-md overflow-y-auto">
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="relative w-full max-w-2xl bg-white border border-rose-200 rounded-3xl shadow-2xl p-5 sm:p-7 text-slate-900 my-4 max-h-[90vh] overflow-y-auto"
+        className="relative w-full max-w-2xl bg-white border border-rose-200 rounded-3xl shadow-2xl p-4 sm:p-6 text-slate-900 my-auto max-h-[96vh] overflow-y-auto"
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer border border-slate-200 transition-colors"
+          className="absolute top-3.5 right-3.5 p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 cursor-pointer border border-slate-200 transition-colors"
           aria-label="Close emergency modal"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Emergency Header */}
-        <div className="mb-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 text-rose-900 text-[11px] font-bold uppercase tracking-wider mb-2.5 border border-rose-200">
+        <div className="mb-3">
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-rose-50 text-rose-900 text-[10px] font-bold uppercase tracking-wider mb-2 border border-rose-200">
             <AlertCircle className="w-3.5 h-3.5 text-rose-600" />
             <span>At St James Hospital • Emergency Dental Care</span>
           </div>
-          <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950 font-heading tracking-tight">
+          <h3 className="text-lg sm:text-2xl font-extrabold text-slate-950 font-heading tracking-tight">
             Toothache, a broken tooth or a lost filling?
           </h3>
-          <p className="text-slate-600 text-xs sm:text-sm mt-1.5 font-body leading-relaxed">
+          <p className="text-slate-600 text-xs sm:text-xs mt-1 font-body leading-relaxed">
             We provide urgent treatment for severe pain, dental infections, knocked-out teeth, and facial trauma inside St James Hospital in Sliema.
           </p>
         </div>
 
         {/* Direct Urgent Contact Channels */}
-        <div className="space-y-3 mb-5">
+        <div className="space-y-2.5 mb-4">
           
           {/* 1. Opening Hours Line */}
-          <div className="p-3.5 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
             <div>
               <div className="text-[10px] font-bold uppercase tracking-wider text-[#2BB4A7] font-heading">
                 During Opening Hours (Reception Desk)
@@ -57,13 +57,13 @@ export const EmergencyModal: React.FC<EmergencyModalProps> = ({
               <div className="text-base sm:text-lg font-extrabold text-[#0E2B4C]">
                 (+356) 2329 1029
               </div>
-              <div className="text-[11px] text-slate-500 mt-0.5">
+              <div className="text-[10px] text-slate-500 mt-0.5">
                 Mon, Tue, Thu 09:00–18:00 · Wed 09:00–17:30 · Fri, Sat 09:00–13:30
               </div>
             </div>
             <a
               href="tel:+35623291029"
-              className="px-5 py-2.5 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-extrabold text-xs uppercase tracking-wider no-underline text-center shrink-0 flex items-center justify-center gap-2 shadow-xs transition-transform hover:scale-102"
+              className="px-4 py-2 rounded-full bg-[#0E2B4C] hover:bg-[#07192d] text-white font-extrabold text-xs uppercase tracking-wider no-underline text-center shrink-0 flex items-center justify-center gap-2 shadow-xs transition-transform hover:scale-102"
             >
               <Phone className="w-3.5 h-3.5 text-[#2BB4A7]" />
               <span>Call 2329 1029</span>
@@ -71,7 +71,7 @@ export const EmergencyModal: React.FC<EmergencyModalProps> = ({
           </div>
 
           {/* 2. Out of Hours Hospital Emergency 24/7 */}
-          <div className="p-3.5 sm:p-4 rounded-2xl bg-rose-50/70 border border-rose-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-rose-50/70 border border-rose-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
             <div>
               <div className="text-[10px] font-black uppercase tracking-wider text-rose-700 font-heading flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-rose-600 animate-ping" />
@@ -80,13 +80,13 @@ export const EmergencyModal: React.FC<EmergencyModalProps> = ({
               <div className="text-base sm:text-lg font-extrabold text-rose-950">
                 (+356) 2329 1000
               </div>
-              <div className="text-[11px] text-rose-800 mt-0.5">
+              <div className="text-[10px] text-rose-800 mt-0.5">
                 St James Hospital 24-hour medical emergency triage admission
               </div>
             </div>
             <a
               href="tel:+35623291000"
-              className="px-5 py-2.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs uppercase tracking-wider no-underline text-center shrink-0 flex items-center justify-center gap-2 shadow-xs transition-transform hover:scale-102"
+              className="px-4 py-2 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs uppercase tracking-wider no-underline text-center shrink-0 flex items-center justify-center gap-2 shadow-xs transition-transform hover:scale-102"
             >
               <Phone className="w-3.5 h-3.5 text-white" />
               <span>Call Hospital 24/7</span>
@@ -94,7 +94,7 @@ export const EmergencyModal: React.FC<EmergencyModalProps> = ({
           </div>
 
           {/* 3. Urgent WhatsApp Mobile */}
-          <div className="p-3.5 sm:p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
             <div>
               <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 font-heading">
                 Urgent WhatsApp Mobile
@@ -102,7 +102,7 @@ export const EmergencyModal: React.FC<EmergencyModalProps> = ({
               <div className="text-base sm:text-lg font-extrabold text-emerald-950">
                 (+356) 9999 1029
               </div>
-              <div className="text-[11px] text-emerald-800 mt-0.5">
+              <div className="text-[10px] text-emerald-800 mt-0.5">
                 Message our team directly with photos or symptom notes
               </div>
             </div>
@@ -110,7 +110,7 @@ export const EmergencyModal: React.FC<EmergencyModalProps> = ({
               href="https://wa.me/35699991029?text=Hello%20DiU%20Clinic,%20I%20have%20an%20urgent%20dental%20emergency."
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-2.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs uppercase tracking-wider no-underline text-center shrink-0 flex items-center justify-center gap-2 shadow-xs transition-transform hover:scale-102"
+              className="px-4 py-2 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-black text-xs uppercase tracking-wider no-underline text-center shrink-0 flex items-center justify-center gap-2 shadow-xs transition-transform hover:scale-102"
             >
               <span>WhatsApp 9999 1029</span>
             </a>
