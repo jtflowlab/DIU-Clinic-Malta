@@ -307,7 +307,7 @@ export const TreatmentsPage: React.FC<TreatmentsPageProps> = ({
             <div className="lg:col-span-6 lg:order-2">
               <div className="relative rounded-3xl overflow-hidden shadow-lg border border-slate-200 aspect-[16/11] bg-slate-100">
                 <img
-                  src={getAssetUrl('clinic/waiting_room_2.jpg')}
+                  src={getAssetUrl('clinic/dr_mark_patient_consultation.jpg')}
                   alt="Gentle Care for Nervous Patients"
                   className="w-full h-full object-cover"
                   loading="lazy"

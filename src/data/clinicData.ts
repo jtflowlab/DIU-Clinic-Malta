@@ -289,7 +289,7 @@ export const approvedServices: ServiceItem[] = [
     id: "ANXIOUS",
     title: "Gentle Care for Nervous Patients",
     tagline: "IV Sedation",
-    image: "clinic/waiting_room_2.jpg",
+    image: "clinic/dr_mark_patient_consultation.jpg",
     bgClass: "bg-white",
     accentColor: "#0E2B4C",
     summary: "Feeling anxious about the dentist is common, and you are not alone. We offer IV sedation given by a consultant anaesthetist, so you can have the treatment you need while feeling calm and cared for.",
